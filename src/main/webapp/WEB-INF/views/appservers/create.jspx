@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:create id="fc_org_seforge_paas_monitor_domain_AppServer" modelAttribute="appServer" path="/appservers" render="${empty dependencies}" z="Wdh3YJxI4Iamg+7gACr7d8fRvy4=">
+        <field:input field="name" id="c_org_seforge_paas_monitor_domain_AppServer_name" z="d7xW6YsHx1nkXxHa0loHIPTyQKo="/>
+        <field:input field="jmxPort" id="c_org_seforge_paas_monitor_domain_AppServer_jmxPort" required="true" validationMessageCode="field_invalid_integer" z="qc8IhcPhUXIu87IxlEpVPrCru2E="/>
+        <field:select field="vim" id="c_org_seforge_paas_monitor_domain_AppServer_vim" itemValue="id" items="${vims}" path="/vims" z="ZE7uNt/WUIh5rO/OqBJF78AYw9I="/>
+        <field:simple field="appInstances" id="c_org_seforge_paas_monitor_domain_AppServer_appInstances" messageCode="entity_reference_not_managed" messageCodeAttribute="App Instance" z="DwIScJXsY5frhehX9JjaDENQErA="/>
+        <field:input field="ip" id="c_org_seforge_paas_monitor_domain_AppServer_ip" max="15" required="true" z="RURgl2mjlrv0a3Ij+qAXXIbz0j0="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_org_seforge_paas_monitor_domain_AppServer" render="${not empty dependencies}" z="KVwj8UklCuXpSmmI455w0DLhSaY="/>
+</div>

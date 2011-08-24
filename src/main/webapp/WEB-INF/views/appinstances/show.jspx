@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_org_seforge_paas_monitor_domain_AppInstance" object="${appinstance}" path="/appinstances" z="NfwG2TwkpsZ6mBPxz33mVGEJ3zE=">
+        <field:display field="name" id="s_org_seforge_paas_monitor_domain_AppInstance_name" object="${appinstance}" z="KiNLY/xP+H/4wHJiA5QKumqRYF4="/>
+        <field:display field="app" id="s_org_seforge_paas_monitor_domain_AppInstance_app" object="${appinstance}" z="BfobfFH93QNnXlJXmBxJAn0jl2U="/>
+        <field:display field="appServer" id="s_org_seforge_paas_monitor_domain_AppInstance_appServer" object="${appinstance}" z="0NDCyNYtDpqp05hta4qj2HOByVQ="/>
+        <field:display field="isMonitee" id="s_org_seforge_paas_monitor_domain_AppInstance_isMonitee" object="${appinstance}" z="ID/nZrPWm+qTMAS2kQm/EV6aDW8="/>
+    </page:show>
+</div>

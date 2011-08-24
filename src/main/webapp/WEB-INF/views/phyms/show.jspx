@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_org_seforge_paas_monitor_domain_Phym" object="${phym}" path="/phyms" z="irIxyGukpBw5074w+f2wQP7qQDw=">
+        <field:display field="name" id="s_org_seforge_paas_monitor_domain_Phym_name" object="${phym}" z="T/5EcC5Y6qOpT1+CVPqlMVuDRFg="/>
+        <field:display field="ip" id="s_org_seforge_paas_monitor_domain_Phym_ip" object="${phym}" z="XqyCLMqZwRFC1KaPFxZzq8Id+rs="/>
+        <field:display field="username" id="s_org_seforge_paas_monitor_domain_Phym_username" object="${phym}" z="VqabedZnAT96/LYD5YzzpeTctR0="/>
+        <field:display field="password" id="s_org_seforge_paas_monitor_domain_Phym_password" object="${phym}" z="SWRhrAEvE6YpGs+eV0BxroXjqME="/>
+    </page:show>
+</div>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_org_seforge_paas_monitor_domain_Vim" object="${vim}" path="/vims" z="GEowaXoPL4h1pzzWGNPhHWT4Stg=">
+        <field:display field="name" id="s_org_seforge_paas_monitor_domain_Vim_name" object="${vim}" z="kLM3ZyVjTCGam/RJHvLLsOQdz5I="/>
+        <field:display field="ip" id="s_org_seforge_paas_monitor_domain_Vim_ip" object="${vim}" z="p2H91ckMbvbhnkOt0N1E8/bvbKc="/>
+        <field:display field="phym" id="s_org_seforge_paas_monitor_domain_Vim_phym" object="${vim}" z="onaTpfIA+87ky3DD3GzGoE53NCc="/>
+        <field:display field="isMonitee" id="s_org_seforge_paas_monitor_domain_Vim_isMonitee" object="${vim}" z="XKIJ4NKLCzOHZLr0RdBkD9+Qd2A="/>
+    </page:show>
+</div>

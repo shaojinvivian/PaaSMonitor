@@ -1,0 +1,43 @@
+<html xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" >  
+	
+	<jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat" />
+	
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />  
+		
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=8" />	
+        <!-- ** CSS ** -->
+        <!-- base library -->
+        <link rel="stylesheet" type="text/css" href="ext-4.0.2a/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="styles/CheckHeader.css" />
+		
+ 	
+        <!-- overrides to base library -->
+ 
+        <!-- ** Javascript ** -->       
+        <!-- ExtJS library: all widgets -->
+        <script type="text/javascript" src="ext-4.0.2a/ext-debug.js"><!-- required for FF3 and Opera --></script>
+ 		
+ 
+        
+        <!-- extensions -->
+
+        <!-- page specific -->
+		
+
+		<!-- Sub-framework JavaScript -->
+		
+
+		
+		<!-- Application JavaScript -->
+    	<script type="text/javascript" src="app.js"><!-- required for FF3 and Opera --></script>
+		
+		<spring:message code="application_name" var="app_name"/>
+		<title id="page-title"><spring:message code="welcome_h3" arguments="${app_name}" /></title>
+	</head>
+	
+  	<body class="tundra spring">
+  		<tiles:insertAttribute name="body"/> 
+	</body>
+</html>

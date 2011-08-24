@@ -1,0 +1,35 @@
+project --topLevelPackage org.seforge.paas.monitor --projectName PaaSMonitor --java 6
+persistence setup --provider HIBERNATE --database HYPERSONIC_IN_MEMORY
+entity --class ~.domain.App --testAutomatically
+entity --class ~.domain.AppInstance --testAutomatically
+entity --class ~.domain.Phym --testAutomatically
+entity --class ~.domain.Vim --testAutomatically
+entity --class ~.domain.AppServer --testAutomatically
+field string --fieldName name --notNull --class ~.domain.App
+field set --fieldName appInstances --type ~.domain.AppInstance --mappedBy app --notNull false --cardinality ONE_TO_MANY
+field string --fieldName name --notNull --class ~.domain.AppInstance
+field boolean --fieldName isMonitee
+field reference --fieldName app --type ~.domain.App
+field reference --fieldName appServer --type ~.domain.AppServer
+field string --fieldName name --class ~.domain.Phym
+field string --fieldName ip --notNull --sizeMax 15 --unique
+field string --fieldName username --notNull
+field string --fieldName password --notNull
+field set --fieldName vims --type ~.domain.Vim --mappedBy phym --notNull false --cardinality ONE_TO_MANY
+field string --fieldName name --class ~.domain.Vim
+field string --fieldName ip --notNull --sizeMax 15 --unique
+field boolean --fieldName isMonitee
+field reference --fieldName phym --type ~.domain.Phym
+field set --fieldName appServers --type ~.domain.AppServer --mappedBy vim --notNull false --cardinality ONE_TO_MANY
+field string --fieldName name --class ~.domain.AppServer
+field string --fieldName ip --notNull --sizeMax 15 --unique
+field number --fieldName jmxPort --type java.lang.Integer --notNull
+field reference --fieldName vim --type ~.domain.Vim
+field set --fieldName appInstances --type ~.domain.AppInstance --mappedBy appServer --notNull false --cardinality ONE_TO_MANY
+finder add --finderName findVimsByPhym --class ~.domain.Vim
+finder add --finderName findVimsByIp 
+web mvc setup
+web mvc all --package ~.web
+logging setup --level INFO
+json all
+perform eclipse

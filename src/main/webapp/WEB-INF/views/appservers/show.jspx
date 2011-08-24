@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_org_seforge_paas_monitor_domain_AppServer" object="${appserver}" path="/appservers" z="3S7pmdrZ1lkoTWbyMNsfLwo2gmI=">
+        <field:display field="name" id="s_org_seforge_paas_monitor_domain_AppServer_name" object="${appserver}" z="ck9rM5pC1MLazGwxV2oIrW4x8f8="/>
+        <field:display field="jmxPort" id="s_org_seforge_paas_monitor_domain_AppServer_jmxPort" object="${appserver}" z="AN2OKrETBqq0kn0bHV4ZurB7AA0="/>
+        <field:display field="vim" id="s_org_seforge_paas_monitor_domain_AppServer_vim" object="${appserver}" z="9n0z6CLSCbBVUzXDzmRU/7mIT+E="/>
+        <field:display field="ip" id="s_org_seforge_paas_monitor_domain_AppServer_ip" object="${appserver}" z="8KFLsmgozOR0yRpW1plS0KWfiKc="/>
+    </page:show>
+</div>

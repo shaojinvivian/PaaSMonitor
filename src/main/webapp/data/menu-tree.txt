@@ -1,0 +1,21 @@
+[{
+    text:'Monitee Management',
+    expanded: true,
+    children:[{
+        text:'Add a new Monitee',
+        expanded: true,
+        children:[{
+        	text: 'Add a new Phym',
+        	id:'add_phym',
+        	leaf:true
+        },{
+        	text: 'Add a new App Server',
+        	id:'add_appserver',
+        	leaf:true
+        }]        	
+    },{
+        text:'View current Monitees',
+        id:'view_monitees',
+        leaf:true
+    }]
+}]

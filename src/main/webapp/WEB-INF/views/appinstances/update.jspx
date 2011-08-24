@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_org_seforge_paas_monitor_domain_AppInstance" modelAttribute="appInstance" path="/appinstances" versionField="Version" z="Q3FVuYBTffC1Il18Yr1VYZxK2jE=">
+        <field:input field="name" id="c_org_seforge_paas_monitor_domain_AppInstance_name" required="true" z="wQmpj/XNZ2k1qXy9k+MjNpwAqYM="/>
+        <field:select field="app" id="c_org_seforge_paas_monitor_domain_AppInstance_app" itemValue="id" items="${apps}" path="/apps" z="xMRWe+Zz5xeUTTHVQlwfw1H3Jnc="/>
+        <field:select field="appServer" id="c_org_seforge_paas_monitor_domain_AppInstance_appServer" itemValue="id" items="${appservers}" path="/appservers" z="+LZ6UdFIjbMBbwCIyLj6EW3Hf6E="/>
+        <field:checkbox field="isMonitee" id="c_org_seforge_paas_monitor_domain_AppInstance_isMonitee" z="Tkq/gWPPIrrCyFl+gOIS+48nZUE="/>
+    </form:update>
+</div>

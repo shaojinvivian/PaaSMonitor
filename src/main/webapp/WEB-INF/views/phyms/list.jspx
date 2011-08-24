@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_org_seforge_paas_monitor_domain_Phym" items="${phyms}" z="bFAtArWTJQcHdJdzaQ/CschhVXE=">
+        <table:table data="${phyms}" id="l_org_seforge_paas_monitor_domain_Phym" path="/phyms" z="v0FIhKERcXfBfds+erf1TDdu62I=">
+            <table:column id="c_org_seforge_paas_monitor_domain_Phym_name" property="name" z="b8lyloJ1rWXxgDRQruLbG0et9bU="/>
+            <table:column id="c_org_seforge_paas_monitor_domain_Phym_ip" property="ip" z="1SirLLHJ0LXr3G+dMBuG2i6Xr+I="/>
+            <table:column id="c_org_seforge_paas_monitor_domain_Phym_username" property="username" z="613mcjlBJwcxvQ2e92iTKfdEZ8g="/>
+            <table:column id="c_org_seforge_paas_monitor_domain_Phym_password" property="password" z="k0Xk0S69+eSbBzYV/6WnNDnL5k0="/>
+            <table:column id="c_org_seforge_paas_monitor_domain_Phym_vims" property="vims" z="VI65Ey0INMLnfvmHIdPi+GiTH+A="/>
+        </table:table>
+    </page:list>
+</div>
