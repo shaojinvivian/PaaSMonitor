@@ -17,15 +17,15 @@ import javax.persistence.Column;
 
 @RooJavaBean
 @RooToString
-@RooEntity
 @RooJson
+@RooEntity(finders = { "findAppServersByIp" })
 public class AppServer {
 
     private String name;
 
     @NotNull
     private Integer jmxPort;
-    
+
     @NotNull
     @Column(unique = true)
     @Size(max = 15)
@@ -35,5 +35,7 @@ public class AppServer {
     private Vim vim;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appServer")
-    private Set<AppInstance> appInstances = new HashSet<AppInstance>();    
+    private Set<AppInstance> appInstances = new HashSet<AppInstance>();
+
+    private Boolean isMonitee;
 }

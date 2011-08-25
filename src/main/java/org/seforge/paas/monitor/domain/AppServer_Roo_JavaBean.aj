@@ -3,6 +3,7 @@
 
 package org.seforge.paas.monitor.domain;
 
+import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
 import java.util.Set;
@@ -49,6 +50,14 @@ privileged aspect AppServer_Roo_JavaBean {
     
     public void AppServer.setAppInstances(Set<AppInstance> appInstances) {
         this.appInstances = appInstances;
+    }
+    
+    public Boolean AppServer.getIsMonitee() {
+        return this.isMonitee;
+    }
+    
+    public void AppServer.setIsMonitee(Boolean isMonitee) {
+        this.isMonitee = isMonitee;
     }
     
 }

@@ -7,5 +7,7 @@
         <field:display field="app" id="s_org_seforge_paas_monitor_domain_AppInstance_app" object="${appinstance}" z="BfobfFH93QNnXlJXmBxJAn0jl2U="/>
         <field:display field="appServer" id="s_org_seforge_paas_monitor_domain_AppInstance_appServer" object="${appinstance}" z="0NDCyNYtDpqp05hta4qj2HOByVQ="/>
         <field:display field="isMonitee" id="s_org_seforge_paas_monitor_domain_AppInstance_isMonitee" object="${appinstance}" z="ID/nZrPWm+qTMAS2kQm/EV6aDW8="/>
+        <field:display field="displayName" id="s_org_seforge_paas_monitor_domain_AppInstance_displayName" object="${appinstance}" z="WH5UMRT1mVNqEHPZBhqjPciho2s="/>
+        <field:display field="docBase" id="s_org_seforge_paas_monitor_domain_AppInstance_docBase" object="${appinstance}" z="3SUl5grCbGwFWqSMhxqGB5uOkWU="/>
     </page:show>
 </div>

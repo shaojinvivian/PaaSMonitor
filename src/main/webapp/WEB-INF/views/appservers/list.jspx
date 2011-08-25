@@ -9,6 +9,7 @@
             <table:column id="c_org_seforge_paas_monitor_domain_AppServer_vim" property="vim" z="bHj4b1D/G9QIt9Q4IVGpY05jYo0="/>
             <table:column id="c_org_seforge_paas_monitor_domain_AppServer_appInstances" property="appInstances" z="ZsDeZRSDgQRfGBsKUhNzC7JIgBQ="/>
             <table:column id="c_org_seforge_paas_monitor_domain_AppServer_ip" property="ip" z="4A3RThb8I6+uV+KueL3d77j9rdI="/>
+            <table:column id="c_org_seforge_paas_monitor_domain_AppServer_isMonitee" property="isMonitee" z="WjtaK4d6TROA7U1oINHwpAC36nM="/>
         </table:table>
     </page:list>
 </div>

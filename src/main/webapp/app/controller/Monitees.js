@@ -7,9 +7,12 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 		'monitee.AddVims',
 		'monitee.ListVimsByPhym', 
 		'monitee.ViewMonitees',
-		'monitee.AddAppServer'
+		'monitee.AddAppServer',
+		'monitee.ChooseAppServer',
+		'monitee.ListAppServers'
 	],
 
+	
 	init : function() {
 		this.control({
 			'addPhym button[action=save]' : {
@@ -20,9 +23,16 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 			},
 			'addVims button' : {
 				click : this.saveVims
+			},
+			'addAppServer' : {
+				activate : this.onAddAppServerRendered
+			},
+			'chooseAppServer button' : {
+				click : this.chooseAppServers
 			}
 		});
 	},
+
 	
 	savePhym : function(button) {
 		var form = button.up('form'), values = form.getValues(), panel = form.up('panel');
@@ -76,5 +86,17 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 		Ext.MessageBox.alert('Success', 'You have successfully added monitees', function() {
 			panel.layout.setActiveItem('start-panel');
 		});
+	},
+	
+	chooseAppServers : function(button){
+		this.getAppServersStore().sync();
+		var panel = button.up('panel').up('panel').up('panel');
+		Ext.MessageBox.alert('Success', 'You have successfully added monitees', function() {
+			panel.layout.setActiveItem('start-panel');
+		});
+	},
+	
+	onAddAppServerRendered: function(){
+		this.getAppServersStore().load();
 	}
 });

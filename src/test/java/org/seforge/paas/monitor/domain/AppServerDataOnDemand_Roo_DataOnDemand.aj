@@ -3,6 +3,7 @@
 
 package org.seforge.paas.monitor.domain;
 
+import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
 import java.security.SecureRandom;
@@ -32,6 +33,7 @@ privileged aspect AppServerDataOnDemand_Roo_DataOnDemand {
     public AppServer AppServerDataOnDemand.getNewTransientAppServer(int index) {
         AppServer obj = new AppServer();
         setIp(obj, index);
+        setIsMonitee(obj, index);
         setJmxPort(obj, index);
         setName(obj, index);
         setVim(obj, index);
@@ -44,6 +46,11 @@ privileged aspect AppServerDataOnDemand_Roo_DataOnDemand {
             ip = new Random().nextInt(10) + ip.substring(1, 15);
         }
         obj.setIp(ip);
+    }
+    
+    public void AppServerDataOnDemand.setIsMonitee(AppServer obj, int index) {
+        Boolean isMonitee = Boolean.TRUE;
+        obj.setIsMonitee(isMonitee);
     }
     
     public void AppServerDataOnDemand.setJmxPort(AppServer obj, int index) {

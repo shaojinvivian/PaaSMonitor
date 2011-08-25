@@ -12,6 +12,7 @@ privileged aspect AppServer_Roo_ToString {
         sb.append("AppInstances: ").append(getAppInstances() == null ? "null" : getAppInstances().size()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("Ip: ").append(getIp()).append(", ");
+        sb.append("IsMonitee: ").append(getIsMonitee()).append(", ");
         sb.append("JmxPort: ").append(getJmxPort()).append(", ");
         sb.append("Name: ").append(getName()).append(", ");
         sb.append("Version: ").append(getVersion()).append(", ");

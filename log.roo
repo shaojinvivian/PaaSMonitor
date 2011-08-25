@@ -32,4 +32,10 @@ web mvc setup
 web mvc all --package ~.web
 logging setup --level INFO
 json all
-perform eclipse
+perform eclipse// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-08-25 10:49:34
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-08-25 10:50:15
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-08-25 13:41:06
+finder add --finderName findAppServersByIp --class ~.domain.AppServer
+field boolean --fieldName isMonitee
+field string --fieldName displayName --class ~.domain.AppInstance
+field string --fieldName docBase

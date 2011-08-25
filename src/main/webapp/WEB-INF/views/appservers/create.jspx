@@ -8,6 +8,7 @@
         <field:select field="vim" id="c_org_seforge_paas_monitor_domain_AppServer_vim" itemValue="id" items="${vims}" path="/vims" z="ZE7uNt/WUIh5rO/OqBJF78AYw9I="/>
         <field:simple field="appInstances" id="c_org_seforge_paas_monitor_domain_AppServer_appInstances" messageCode="entity_reference_not_managed" messageCodeAttribute="App Instance" z="DwIScJXsY5frhehX9JjaDENQErA="/>
         <field:input field="ip" id="c_org_seforge_paas_monitor_domain_AppServer_ip" max="15" required="true" z="RURgl2mjlrv0a3Ij+qAXXIbz0j0="/>
+        <field:checkbox field="isMonitee" id="c_org_seforge_paas_monitor_domain_AppServer_isMonitee" z="PSqU9zZEtY7ZpAZ1fSFDEhazquc="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_seforge_paas_monitor_domain_AppServer" render="${not empty dependencies}" z="KVwj8UklCuXpSmmI455w0DLhSaY="/>
 </div>

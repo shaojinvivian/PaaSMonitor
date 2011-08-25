@@ -8,6 +8,8 @@
             <table:column id="c_org_seforge_paas_monitor_domain_AppInstance_app" property="app" z="IfllNsd0l21R+Dge9gkL4MXgRpk="/>
             <table:column id="c_org_seforge_paas_monitor_domain_AppInstance_appServer" property="appServer" z="HVjqMUvvXXCKJEwI1fVS7xIWNfc="/>
             <table:column id="c_org_seforge_paas_monitor_domain_AppInstance_isMonitee" property="isMonitee" z="NTIHS19q5DJ5DJF9m2XaPL27kCg="/>
+            <table:column id="c_org_seforge_paas_monitor_domain_AppInstance_displayName" property="displayName" z="uzaUC/zAXYsen5wB/NeHeW1Oqww="/>
+            <table:column id="c_org_seforge_paas_monitor_domain_AppInstance_docBase" property="docBase" z="+gl3J9/2GVC0OxsXNtZriTm4fds="/>
         </table:table>
     </page:list>
 </div>

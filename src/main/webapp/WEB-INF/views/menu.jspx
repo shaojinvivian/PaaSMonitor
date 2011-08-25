@@ -18,6 +18,7 @@
         <menu:category id="c_appserver" z="2skIHDSK0enucSZWunLr6gxzhvc=">
             <menu:item id="i_appserver_new" messageCode="global_menu_new" url="/appservers?form" z="jprccS5K7/gUB/EDawFYKpKeXRE="/>
             <menu:item id="i_appserver_list" messageCode="global_menu_list" url="/appservers?page=1&amp;size=${empty param.size ? 10 : param.size}" z="F8XG7/uPrZLatHICTvpXVtH4VEA="/>
+            <menu:item id="fi_appserver_ip" messageCode="global_menu_find" url="/appservers?find=ByIp&amp;form" z="z6NXjo7Von58pQQTVyq/qf/qQX4="/>
         </menu:category>
         <menu:category id="c_vim" z="aNjtXU6v78rZbjy9ROGl33diwMw=">
             <menu:item id="i_vim_new" messageCode="global_menu_new" url="/vims?form" z="bdo23PPTlBHNiHra1U+V9m4N0Uo="/>

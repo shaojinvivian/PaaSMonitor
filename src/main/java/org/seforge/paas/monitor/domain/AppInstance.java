@@ -25,4 +25,8 @@ public class AppInstance {
     private AppServer appServer;
 
     private Boolean isMonitee;
+
+    private String displayName;
+
+    private String docBase;
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 privileged aspect AppServerController_Roo_Controller_Json {
@@ -49,6 +50,14 @@ privileged aspect AppServerController_Roo_Controller_Json {
             }
         }
         return new ResponseEntity<String>(headers, HttpStatus.OK);
+    }
+    
+    @RequestMapping(params = "find=ByIp", method = RequestMethod.GET, headers = "Accept=application/json")
+    @ResponseBody
+    public ResponseEntity<String> AppServerController.jsonFindAppServersByIp(@RequestParam("ip") String ip) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/text; charset=utf-8");
+        return new ResponseEntity<String>(AppServer.toJsonArray(AppServer.findAppServersByIp(ip).getResultList()), headers, HttpStatus.OK);
     }
     
 }

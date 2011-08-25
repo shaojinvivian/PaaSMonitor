@@ -42,4 +42,20 @@ privileged aspect AppInstance_Roo_JavaBean {
         this.isMonitee = isMonitee;
     }
     
+    public String AppInstance.getDisplayName() {
+        return this.displayName;
+    }
+    
+    public void AppInstance.setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+    
+    public String AppInstance.getDocBase() {
+        return this.docBase;
+    }
+    
+    public void AppInstance.setDocBase(String docBase) {
+        this.docBase = docBase;
+    }
+    
 }

@@ -38,6 +38,8 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
         AppInstance obj = new AppInstance();
         setApp(obj, index);
         setAppServer(obj, index);
+        setDisplayName(obj, index);
+        setDocBase(obj, index);
         setIsMonitee(obj, index);
         setName(obj, index);
         return obj;
@@ -51,6 +53,16 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
     public void AppInstanceDataOnDemand.setAppServer(AppInstance obj, int index) {
         AppServer appServer = appServerDataOnDemand.getRandomAppServer();
         obj.setAppServer(appServer);
+    }
+    
+    public void AppInstanceDataOnDemand.setDisplayName(AppInstance obj, int index) {
+        String displayName = "displayName_" + index;
+        obj.setDisplayName(displayName);
+    }
+    
+    public void AppInstanceDataOnDemand.setDocBase(AppInstance obj, int index) {
+        String docBase = "docBase_" + index;
+        obj.setDocBase(docBase);
     }
     
     public void AppInstanceDataOnDemand.setIsMonitee(AppInstance obj, int index) {

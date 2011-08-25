@@ -36,7 +36,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     
     static class org.seforge.paas.monitor.web.ApplicationConversionServiceFactoryBean.AppInstanceConverter implements Converter<AppInstance, String> {
         public String convert(AppInstance appInstance) {
-            return new StringBuilder().append(appInstance.getName()).toString();
+            return new StringBuilder().append(appInstance.getName()).append(" ").append(appInstance.getDisplayName()).append(" ").append(appInstance.getDocBase()).toString();
         }
         
     }

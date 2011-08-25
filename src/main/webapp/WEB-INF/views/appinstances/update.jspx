@@ -7,5 +7,7 @@
         <field:select field="app" id="c_org_seforge_paas_monitor_domain_AppInstance_app" itemValue="id" items="${apps}" path="/apps" z="xMRWe+Zz5xeUTTHVQlwfw1H3Jnc="/>
         <field:select field="appServer" id="c_org_seforge_paas_monitor_domain_AppInstance_appServer" itemValue="id" items="${appservers}" path="/appservers" z="+LZ6UdFIjbMBbwCIyLj6EW3Hf6E="/>
         <field:checkbox field="isMonitee" id="c_org_seforge_paas_monitor_domain_AppInstance_isMonitee" z="Tkq/gWPPIrrCyFl+gOIS+48nZUE="/>
+        <field:input field="displayName" id="c_org_seforge_paas_monitor_domain_AppInstance_displayName" z="C7Zqhr4N/bctbtg7isf0xZvlU6Q="/>
+        <field:input field="docBase" id="c_org_seforge_paas_monitor_domain_AppInstance_docBase" z="2GSpcG0dnH3lRvaAYaGi0RCmDxE="/>
     </form:update>
 </div>

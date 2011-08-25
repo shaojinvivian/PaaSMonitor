@@ -32,6 +32,8 @@ Ext.define('PaaSMonitor.view.monitee.AddAppServer', {
 				handler : this.close
 			}],			
 			
+		},{
+			xtype: 'chooseAppServer'
 		}];
 
 		this.callParent(arguments);

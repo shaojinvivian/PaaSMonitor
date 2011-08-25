@@ -1,7 +1,7 @@
 Ext.define('PaaSMonitor.store.AppServers', {
     extend: 'Ext.data.Store',
     model: 'PaaSMonitor.model.AppServer',
-    autoLoad: true,
+    // autoLoad: true,
     proxy: {
         type: 'rest',
         url: 'appservers',

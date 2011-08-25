@@ -13,4 +13,7 @@
 <definition extends="default" name="appservers/update">
         <put-attribute name="body" value="/WEB-INF/views/appservers/update.jspx"/>
     </definition>
+<definition extends="default" name="appservers/findAppServersByIp">
+        <put-attribute name="body" value="/WEB-INF/views/appservers/findAppServersByIp.jspx"/>
+    </definition>
 </tiles-definitions>

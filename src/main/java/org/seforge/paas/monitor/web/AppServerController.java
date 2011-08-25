@@ -85,20 +85,30 @@ private AppServerService appServerService;
 		JsonObjectResponse response = new JsonObjectResponse();
 		try {
 			AppServer record = AppServer.fromJsonToAppServer(json);
-			record.setId(null);
-			record.setVersion(null);
-			appServerService.addAppInstances(record);
-			List<Vim> vims =  Vim.findVimsByIp(record.getIp()).getResultList();
-			if(vims.size()>0){
-				Vim vim = vims.get(0);
-				record.setVim(vim);
-			}		
-			record.persist();
-            returnStatus = HttpStatus.CREATED;
-			response.setMessage("AppServer created.");
+			List<AppServer> list = AppServer.findAppServersByIp(record.getIp()).getResultList();
+			if(list.size()<=0){
+				record.setId(null);
+				record.setVersion(null);				
+				List<Vim> vims =  Vim.findVimsByIp(record.getIp()).getResultList();
+				if(vims.size()>0){
+					Vim vim = vims.get(0);
+					record.setVim(vim);
+				}		
+				record.persist();
+				returnStatus = HttpStatus.CREATED;
+				response.setMessage("AppServer created.");
+				response.setData(record);
+			}else{
+				AppServer savedRecord = list.get(0);
+				savedRecord.setName(record.getName());
+				savedRecord.setJmxPort(record.getJmxPort());				
+				savedRecord.persist();
+				returnStatus = HttpStatus.OK;
+				response.setMessage("AppServer existed and updated.");	
+				response.setData(savedRecord);
+			}            
 			response.setSuccess(true);
-			response.setTotal(1L);
-			response.setData(record);
+			response.setTotal(1L);			
 		} catch(Exception e) {
 			response.setMessage(e.getMessage());
 			response.setSuccess(false);
@@ -116,6 +126,7 @@ private AppServerService appServerService;
 		try {
 			AppServer record = AppServer.fromJsonToAppServer(json);
 			AppServer mergedRecord = (AppServer)record.merge();
+			appServerService.addAppInstances(mergedRecord);
 	        if (mergedRecord == null) {
 	            returnStatus = HttpStatus.NOT_FOUND;
 				response.setMessage("AppServer update failed.");
@@ -134,7 +145,7 @@ private AppServerService appServerService;
 			response.setTotal(0L);
 		}
 		// return the updated record
-        return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
+        return new ResponseEntity<String>(new JSONSerializer().include("data.appInstances").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
     }
 	
 }

@@ -7,5 +7,6 @@
         <field:display field="jmxPort" id="s_org_seforge_paas_monitor_domain_AppServer_jmxPort" object="${appserver}" z="AN2OKrETBqq0kn0bHV4ZurB7AA0="/>
         <field:display field="vim" id="s_org_seforge_paas_monitor_domain_AppServer_vim" object="${appserver}" z="9n0z6CLSCbBVUzXDzmRU/7mIT+E="/>
         <field:display field="ip" id="s_org_seforge_paas_monitor_domain_AppServer_ip" object="${appserver}" z="8KFLsmgozOR0yRpW1plS0KWfiKc="/>
+        <field:display field="isMonitee" id="s_org_seforge_paas_monitor_domain_AppServer_isMonitee" object="${appserver}" z="K+UJyAacEm90e3T5U7sKZ3n/J3A="/>
     </page:show>
 </div>
