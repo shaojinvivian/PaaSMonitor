@@ -39,3 +39,5 @@ finder add --finderName findAppServersByIp --class ~.domain.AppServer
 field boolean --fieldName isMonitee
 field string --fieldName displayName --class ~.domain.AppInstance
 field string --fieldName docBase
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-08-26 16:00:31
+finder add --finderName findAppInstancesByAppServer --class ~.domain.AppInstance

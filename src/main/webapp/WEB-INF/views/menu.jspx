@@ -14,6 +14,7 @@
         <menu:category id="c_appinstance" z="T+tbTAw6g/1TSc4aX3NBh8fBI+M=">
             <menu:item id="i_appinstance_new" messageCode="global_menu_new" url="/appinstances?form" z="Lm3vIbSm1Efar1AY9u0iM487LnA="/>
             <menu:item id="i_appinstance_list" messageCode="global_menu_list" url="/appinstances?page=1&amp;size=${empty param.size ? 10 : param.size}" z="+gq5IdzS82KX05Nb4dyFSVzKd2Q="/>
+            <menu:item id="fi_appinstance_appserver" messageCode="global_menu_find" url="/appinstances?find=ByAppServer&amp;form" z="8Y5hhNvBXtFZdSH1IEnfMeuMIj4="/>
         </menu:category>
         <menu:category id="c_appserver" z="2skIHDSK0enucSZWunLr6gxzhvc=">
             <menu:item id="i_appserver_new" messageCode="global_menu_new" url="/appservers?form" z="jprccS5K7/gUB/EDawFYKpKeXRE="/>

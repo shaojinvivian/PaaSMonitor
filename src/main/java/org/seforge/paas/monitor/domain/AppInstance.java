@@ -11,8 +11,8 @@ import org.springframework.roo.addon.json.RooJson;
 
 @RooJavaBean
 @RooToString
-@RooEntity
 @RooJson
+@RooEntity(finders = { "findAppInstancesByAppServer" })
 public class AppInstance {
 
     @NotNull

@@ -1,7 +1,7 @@
 Ext.define('PaaSMonitor.controller.Monitees', {
 	extend : 'Ext.app.Controller',
-	stores : ['Phyms', 'Vims', 'MoniteeTree', 'AppServers'],
-	models : ['Phym', 'Vim', 'AppServer'],
+	stores : ['Phyms', 'Vims', 'MoniteeTree', 'AppServers', 'AppInstances'],
+	models : ['Phym', 'Vim', 'AppServer', 'AppInstance'],
 	views : [
 		'monitee.AddPhym',
 		'monitee.AddVims',
@@ -90,10 +90,18 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 	
 	chooseAppServers : function(button){
 		this.getAppServersStore().sync();
+		var store = this.getAppInstancesStore();
+		store.getProxy().extraParams = {
+					findAppInstancs : "ByAppServer",
+					appServerId : phym.internalId
+				};
+				store.load();
+		/*
 		var panel = button.up('panel').up('panel').up('panel');
 		Ext.MessageBox.alert('Success', 'You have successfully added monitees', function() {
 			panel.layout.setActiveItem('start-panel');
 		});
+		*/
 	},
 	
 	onAddAppServerRendered: function(){

@@ -5,7 +5,7 @@ Ext.application({
 	launch : function() {
 		var contentPanel = {
 			id : 'content-panel',
-			region : 'center', // this is what makes this panel into a region within the containing layout
+			region : 'center', 
 			layout : 'card',
 			margins : '2 5 5 0',
 			activeItem : 0,
@@ -15,7 +15,7 @@ Ext.application({
 				title : 'Welcome',
 				layout : 'fit',
 				bodyStyle : 'padding:25px',
-				contentEl : 'start-div'  // pull existing content from the page
+				contentEl : 'start-div'  
 			}, {
 				id : 'add_phym-panel',
 				xtype : 'addPhym'
@@ -79,5 +79,15 @@ Ext.application({
 				 */
 			}, menuTree, contentPanel]
 		});
+		
+		var hideMask = function () {
+            Ext.get('loading').remove();
+            Ext.fly('loading-mask').animate({
+                opacity:0,
+                remove:true                
+            });
+        };
+
+        Ext.defer(hideMask, 200);
 	}
 });

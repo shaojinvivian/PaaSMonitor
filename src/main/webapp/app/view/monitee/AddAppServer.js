@@ -6,7 +6,8 @@ Ext.define('PaaSMonitor.view.monitee.AddAppServer', {
 	store : 'AppServers',
 
 	initComponent : function() {
-		this.items = [{
+		this.items = [
+		/*{
 			xtype : 'form',	
 			bodyPadding: 10,		
 			items : [{
@@ -32,7 +33,8 @@ Ext.define('PaaSMonitor.view.monitee.AddAppServer', {
 				handler : this.close
 			}],			
 			
-		},{
+		},*/
+		{
 			xtype: 'chooseAppServer'
 		}];
 
