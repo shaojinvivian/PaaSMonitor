@@ -17,8 +17,9 @@
  
         <!-- ** Javascript ** -->       
         <!-- ExtJS library: all widgets -->
-        <script type="text/javascript" src="ext-4.0.2a/ext-debug.js"><!-- required for FF3 and Opera --></script>
- 		
+        <script type="text/javascript" src="ext-4.0.2a/ext-debug.js"></script>
+        <script type="text/javascript" src="loader.js"></script>
+ 		<!--  <script type="text/javascript" src="api-debug.js"></script>-->
  
         
         <!-- extensions -->

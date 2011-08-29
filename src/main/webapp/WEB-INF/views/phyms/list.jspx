@@ -9,6 +9,7 @@
             <table:column id="c_org_seforge_paas_monitor_domain_Phym_username" property="username" z="613mcjlBJwcxvQ2e92iTKfdEZ8g="/>
             <table:column id="c_org_seforge_paas_monitor_domain_Phym_password" property="password" z="k0Xk0S69+eSbBzYV/6WnNDnL5k0="/>
             <table:column id="c_org_seforge_paas_monitor_domain_Phym_vims" property="vims" z="VI65Ey0INMLnfvmHIdPi+GiTH+A="/>
+            <table:column id="c_org_seforge_paas_monitor_domain_Phym_isMonitee" property="isMonitee" z="8XTLl/Yt1UTfUWIkUEiOpRPRR7Y="/>
         </table:table>
     </page:list>
 </div>

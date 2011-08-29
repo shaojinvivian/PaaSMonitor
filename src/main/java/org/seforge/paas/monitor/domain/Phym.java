@@ -8,7 +8,6 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 import org.seforge.paas.monitor.domain.Vim;
 import java.util.HashSet;
-
 import javax.persistence.Column;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
@@ -35,4 +34,6 @@ public class Phym {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "phym")
     private Set<Vim> vims = new HashSet<Vim>();
+
+    private Boolean isMonitee;
 }

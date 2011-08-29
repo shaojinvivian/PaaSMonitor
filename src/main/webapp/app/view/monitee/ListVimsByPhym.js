@@ -1,7 +1,3 @@
-Ext.Loader.setConfig({
-	enabled : true
-});
-Ext.Loader.setPath('Ext.ux', 'lib');
 Ext.require(['Ext.ux.CheckColumn']);
 
 // Ext.require(['Ext.selection.CellModel', 'Ext.grid.*', 'Ext.data.*', 'Ext.util.*', 'Ext.state.*', 'Ext.form.*', 'Ext.ux.CheckColumn']);

@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.seforge.paas.monitor.extjs.JsonObjectResponse;
 import org.seforge.paas.monitor.extjs.TreeNode;
+import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.service.PhymService;
@@ -97,6 +98,7 @@ public class PhymController {
 			Phym record = Phym.fromJsonToPhym(json);
 			record.setId(null);
 			record.setVersion(null);
+			record.setIsMonitee(true);
 			phymService.addVims(record);
 			record.persist();
 			returnStatus = HttpStatus.CREATED;
@@ -148,79 +150,5 @@ public class PhymController {
 				.serialize(response), returnStatus);
 	}
 
-	@RequestMapping(params = "node", method = RequestMethod.GET)
-	public ResponseEntity<String> listJsonTree(
-			@RequestParam("node") String nodeId) {
-		HttpStatus returnStatus = HttpStatus.BAD_REQUEST;
-		List<TreeNode> response = null;
-		try {
-			List<Phym> records = Phym.findAllPhyms();
-			// If these is no record now
-			if (records.size() <= 0) {
-				response = new ArrayList<TreeNode>();
-				TreeNode root = new TreeNode("There are no monitee now");
-				root.setLeaf(true);
-				response.add(root);
-				returnStatus = HttpStatus.OK;
-			}
-			// There are phyms in the db
-			else {
-				if (nodeId.equals("root")) {
-					response = new ArrayList<TreeNode>();
-					for (Phym phym : records) {
-						TreeNode phymNode = new TreeNode();
-						phymNode.setText(phym.getName());
-						phymNode.setId("phym" + phym.getId().toString());
-						phymNode.setLeaf(false);
-						phymNode.setExpanded(false);
-						response.add(phymNode);
-					}
-				} else if (nodeId.indexOf("phym") != -1) {
-					Long id = Long.valueOf(nodeId.substring(nodeId
-							.indexOf("phym") + 4));
-					Phym phym = Phym.findPhym(id);
-					Set<Vim> vims = phym.getVims();
-					if (vims.size() > 0) {
-						response = new ArrayList<TreeNode>();
-						for (Vim vim : vims) {
-							TreeNode vimNode = new TreeNode();
-							vimNode.setText(vim.getName());
-							vimNode.setId("vim" + vim.getId().toString());
-							vimNode.setLeaf(true);
-							response.add(vimNode);
-						}
-					} else {
-						response = new ArrayList<TreeNode>();
-						TreeNode vimNode = new TreeNode();
-						vimNode.setText("There is no Virtual Machines");
-						vimNode.setLeaf(true);
-					}
-
-				}
-				returnStatus = HttpStatus.OK;
-
-			}
-
-			/*
-			 * List<Phym> records = Phym.findAllPhyms(); response = new
-			 * ArrayList<TreeNode>(); for(Phym phym : records){ TreeNode
-			 * phymNode = new TreeNode(); phymNode.setText(phym.getName());
-			 * phymNode.setId(phym.getId().toString()); Set<Vim> vims =
-			 * phym.getVims(); if(vims.size()>0){ phymNode.setLeaf(false);
-			 * phymNode.setExpanded(false); List<TreeNode> phymChildren = new
-			 * ArrayList<TreeNode>(); for (Vim vim : vims){ TreeNode vimNode =
-			 * new TreeNode(); vimNode.setText(vim.getName());
-			 * vimNode.setId(vim.getId().toString()); phymChildren.add(vimNode);
-			 * } phymNode.setChildren(phymChildren); } response.add(phymNode); }
-			 * returnStatus = HttpStatus.OK;
-			 */
-		} catch (Exception e) {
-		}
-
-		// Return list of retrieved performance areas
-		return new ResponseEntity<String>(new JSONSerializer()
-				.exclude("*.class")
-				.transform(new DateTransformer("MM/dd/yy"), Date.class)
-				.serialize(response), returnStatus);
-	}
+	
 }

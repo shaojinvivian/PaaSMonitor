@@ -3,6 +3,7 @@
 
 package org.seforge.paas.monitor.domain;
 
+import java.lang.Boolean;
 import java.lang.String;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ privileged aspect PhymDataOnDemand_Roo_DataOnDemand {
     public Phym PhymDataOnDemand.getNewTransientPhym(int index) {
         Phym obj = new Phym();
         setIp(obj, index);
+        setIsMonitee(obj, index);
         setName(obj, index);
         setPassword(obj, index);
         setUsername(obj, index);
@@ -37,6 +39,11 @@ privileged aspect PhymDataOnDemand_Roo_DataOnDemand {
             ip = new Random().nextInt(10) + ip.substring(1, 15);
         }
         obj.setIp(ip);
+    }
+    
+    public void PhymDataOnDemand.setIsMonitee(Phym obj, int index) {
+        Boolean isMonitee = Boolean.TRUE;
+        obj.setIsMonitee(isMonitee);
     }
     
     public void PhymDataOnDemand.setName(Phym obj, int index) {

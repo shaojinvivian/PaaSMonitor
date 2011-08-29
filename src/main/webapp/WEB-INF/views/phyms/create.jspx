@@ -8,6 +8,7 @@
         <field:input field="username" id="c_org_seforge_paas_monitor_domain_Phym_username" required="true" z="K93pdRabouT34Ym7HQ4AVFrAmCM="/>
         <field:input field="password" id="c_org_seforge_paas_monitor_domain_Phym_password" required="true" z="PhChEVB9k3gY2Z3XNq8y5HKZurU="/>
         <field:simple field="vims" id="c_org_seforge_paas_monitor_domain_Phym_vims" messageCode="entity_reference_not_managed" messageCodeAttribute="Vim" z="J0ivDJ3jk/csbSPG50ddX1C00Es="/>
+        <field:checkbox field="isMonitee" id="c_org_seforge_paas_monitor_domain_Phym_isMonitee" z="XLHu7SzJ/h6ZdFTFO8P15/LlZWQ="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_seforge_paas_monitor_domain_Phym" render="${not empty dependencies}" z="YW7aUqkpOypUKgGi/if8K57Oj/o="/>
 </div>

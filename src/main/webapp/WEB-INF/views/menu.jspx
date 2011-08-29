@@ -27,5 +27,8 @@
             <menu:item id="fi_vim_phym" messageCode="global_menu_find" url="/vims?find=ByPhym&amp;form" z="Qc1zd/4j0f6o43d1BDq9/L6JoOo="/>
             <menu:item id="fi_vim_ip" messageCode="global_menu_find" url="/vims?find=ByIp&amp;form" z="dAi5QYFDA/1ETNnWknYfih/Jgt8="/>
         </menu:category>
+        <menu:category id="c_controller" z="nj8Dm3hojIyIEyPkwE1UMDIs+K8=">
+            <menu:item id="i_controller__moniteesindex_id" messageCode="global_generic" url="/monitees/index" z="nnlb5HCnWWdPcODbs4hHsa2T0MM="/>
+        </menu:category>
     </menu:menu>
 </div>

@@ -14,7 +14,7 @@ public class PhymServiceImpl implements PhymService{
 		HashSet set = new HashSet();
 		Vim vim1 = new Vim();
 		vim1.setName("vim1");
-		vim1.setIp("127.0.0.1");
+		vim1.setIp("10.117.4.96");
 		vim1.setPhym(phym);
 		vim1.setIsMonitee(true);
 		

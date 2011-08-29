@@ -3,7 +3,7 @@ Ext.define('PaaSMonitor.store.MoniteeTree', {
 	autoLoad : true,
 	proxy : {
 		type : 'rest',
-		url : 'phyms',
+		url : 'monitees',
 		headers : {
 			'Accept' : 'application/json'
 		}

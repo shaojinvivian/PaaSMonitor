@@ -7,7 +7,6 @@ import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.extjs.JsonObjectResponse;
 import org.seforge.paas.monitor.service.AppServerService;
-import org.seforge.paas.monitor.service.PhymService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,7 +73,7 @@ private AppServerService appServerService;
 		}
 		
 		// Return list of retrieved performance areas
-        return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
+        return new ResponseEntity<String>(new JSONSerializer().include("data.appInstances").include("data.vim").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
 	
 	}
 
@@ -94,6 +93,7 @@ private AppServerService appServerService;
 					Vim vim = vims.get(0);
 					record.setVim(vim);
 				}		
+				appServerService.addAppInstances(record);
 				record.persist();
 				returnStatus = HttpStatus.CREATED;
 				response.setMessage("AppServer created.");
@@ -125,8 +125,7 @@ private AppServerService appServerService;
 		JsonObjectResponse response = new JsonObjectResponse();
 		try {
 			AppServer record = AppServer.fromJsonToAppServer(json);
-			AppServer mergedRecord = (AppServer)record.merge();
-			appServerService.addAppInstances(mergedRecord);
+			AppServer mergedRecord = (AppServer)record.merge();			
 	        if (mergedRecord == null) {
 	            returnStatus = HttpStatus.NOT_FOUND;
 				response.setMessage("AppServer update failed.");
@@ -147,5 +146,8 @@ private AppServerService appServerService;
 		// return the updated record
         return new ResponseEntity<String>(new JSONSerializer().include("data.appInstances").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
     }
+	
+	
+	
 	
 }

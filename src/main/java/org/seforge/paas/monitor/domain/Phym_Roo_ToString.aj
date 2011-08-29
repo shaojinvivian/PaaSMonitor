@@ -11,6 +11,7 @@ privileged aspect Phym_Roo_ToString {
         StringBuilder sb = new StringBuilder();
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("Ip: ").append(getIp()).append(", ");
+        sb.append("IsMonitee: ").append(getIsMonitee()).append(", ");
         sb.append("Name: ").append(getName()).append(", ");
         sb.append("Password: ").append(getPassword()).append(", ");
         sb.append("Username: ").append(getUsername()).append(", ");

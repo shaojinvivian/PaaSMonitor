@@ -1,7 +1,9 @@
 package org.seforge.paas.monitor.web;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.AppServer;
@@ -137,7 +139,7 @@ public class AppInstanceController {
 	}
 	
 	@RequestMapping(params = "findAppInstances=ByAppServer", method = RequestMethod.GET)
-    public ResponseEntity<String> findVimsByPhymJson(@RequestParam("appServerId") Long appServerId) {		
+    public ResponseEntity<String> findAppInstancesByAppServerJson(@RequestParam("appServerId") Long appServerId) {		
 		HttpStatus returnStatus = HttpStatus.BAD_REQUEST;
 		JsonObjectResponse response = new JsonObjectResponse();
 		try {
@@ -154,6 +156,32 @@ public class AppInstanceController {
 			response.setTotal(0L);
 		}
 		
+		// Return list of retrieved performance areas
+        return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
+    }
+	
+	
+	@RequestMapping(params = "findAppInstances=ByAppServers", method = RequestMethod.GET)
+    public ResponseEntity<String> findAppInstancesByAppServersJson(@RequestParam("appServerIdList") List<String> appServerIdList) {		
+		HttpStatus returnStatus = HttpStatus.BAD_REQUEST;
+		JsonObjectResponse response = new JsonObjectResponse();
+		try {
+			List<AppInstance> data = new ArrayList<AppInstance>();
+			for (String appServerId : appServerIdList){
+				AppServer appServer = AppServer.findAppServer(Long.valueOf(appServerId));
+				Set appInstances = appServer.getAppInstances();
+				data.addAll(appInstances);
+			}			
+            returnStatus = HttpStatus.OK;
+			response.setMessage("All App Instances retrieved.");
+			response.setSuccess(true);
+			response.setTotal(data.size());
+			response.setData(data);
+		} catch(Exception e) {
+			response.setMessage(e.getMessage());
+			response.setSuccess(false);
+			response.setTotal(0L);
+		}		
 		// Return list of retrieved performance areas
         return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
     }

@@ -6,36 +6,12 @@ Ext.define('PaaSMonitor.view.monitee.AddAppServer', {
 	store : 'AppServers',
 
 	initComponent : function() {
-		this.items = [
-		/*{
-			xtype : 'form',	
-			bodyPadding: 10,		
-			items : [{
-				xtype : 'textfield',
-				name : 'name',
-				fieldLabel : 'Name'
-			}, {
-				xtype : 'textfield',
-				name : 'ip',
-				fieldLabel : 'IP'
-			}, {
-				xtype : 'textfield',
-				name : 'jmxPort',
-				fieldLabel : 'JMX Port'			
-			}],
-			
-			buttons : [{
-				text : 'Save',
-				action : 'save'
-			}, {
-				text : 'Cancel',
-				scope : this,
-				handler : this.close
-			}],			
-			
-		},*/
-		{
-			xtype: 'chooseAppServer'
+		this.items = [{
+			xtype : 'box',
+			id: 'box',
+			html : 'Hello world!'
+		}, {
+			xtype : 'chooseAppServer'
 		}];
 
 		this.callParent(arguments);

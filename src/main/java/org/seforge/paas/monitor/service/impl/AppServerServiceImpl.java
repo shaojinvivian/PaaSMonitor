@@ -37,6 +37,7 @@ public class AppServerServiceImpl implements AppServerService {
 						"displayName"));
 				appInstance.setDocBase((String) mbsc.getAttribute(name,
 						"docBase"));
+				appInstance.setIsMonitee(false);
 				appInstance.setAppServer(appServer);
 				appInstances.add(appInstance);
 			}			

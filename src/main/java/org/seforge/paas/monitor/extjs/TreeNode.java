@@ -6,7 +6,7 @@ public class TreeNode {
 	private String id;
 	private String text;
 	private Boolean leaf;
-	private Boolean expanded;
+	private Boolean expanded;	
 	private List<TreeNode> children;
 	
 	public TreeNode(){
@@ -47,4 +47,5 @@ public class TreeNode {
 	public void setChildren(List<TreeNode> children) {
 		this.children = children;
 	}
+	
 }

@@ -26,6 +26,9 @@ Ext.application({
 				id : 'add_appserver-panel',
 				xtype : 'addAppServer'
 			}, {
+				id : 'add_appinstance-panel',
+				xtype : 'addAppInstance'
+			}, {
 				id : 'view_monitees-panel',
 				xtype : 'viewMonitees'
 			}]
@@ -53,6 +56,12 @@ Ext.application({
 				'itemclick' : function(view, record) {
 					if(record.get('leaf')) {
 						Ext.getCmp('content-panel').layout.setActiveItem(record.getId() + '-panel');
+						var active = Ext.getCmp(record.getId() + '-panel');
+						var store = active.getStore();
+						if(store){
+							store.load();
+						}
+						
 					}
 				}
 			}

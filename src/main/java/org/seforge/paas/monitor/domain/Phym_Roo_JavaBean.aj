@@ -3,6 +3,7 @@
 
 package org.seforge.paas.monitor.domain;
 
+import java.lang.Boolean;
 import java.lang.String;
 import java.util.Set;
 import org.seforge.paas.monitor.domain.Vim;
@@ -47,6 +48,14 @@ privileged aspect Phym_Roo_JavaBean {
     
     public void Phym.setVims(Set<Vim> vims) {
         this.vims = vims;
+    }
+    
+    public Boolean Phym.getIsMonitee() {
+        return this.isMonitee;
+    }
+    
+    public void Phym.setIsMonitee(Boolean isMonitee) {
+        this.isMonitee = isMonitee;
     }
     
 }
