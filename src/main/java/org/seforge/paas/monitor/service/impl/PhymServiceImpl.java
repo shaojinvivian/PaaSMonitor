@@ -20,7 +20,7 @@ public class PhymServiceImpl implements PhymService{
 		
 		Vim vim2 = new Vim();
 		vim2.setName("vim2");
-		vim2.setIp("127.0.0.2");
+		vim2.setIp("192.168.1.100");
 		vim2.setPhym(phym);
 		vim2.setIsMonitee(false);
 		

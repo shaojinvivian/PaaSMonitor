@@ -28,7 +28,7 @@ Ext.define('PaaSMonitor.view.monitee.AddPhym', {
 			}],
 			
 			buttons : [{
-				text : 'Save',
+				text : 'Next',
 				action : 'save'
 			}, {
 				text : 'Cancel',

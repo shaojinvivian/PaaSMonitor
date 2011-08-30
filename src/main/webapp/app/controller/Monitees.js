@@ -2,7 +2,7 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 	extend : 'Ext.app.Controller',
 	stores : ['Phyms', 'Vims', 'MoniteeTree', 'AppServers', 'AppInstances'],
 	models : ['Phym', 'Vim', 'AppServer', 'AppInstance'],
-	views : ['monitee.AddPhym', 'monitee.AddVims', 'monitee.ListVimsByPhym', 'monitee.ViewMonitees', 'monitee.AddAppServer', 'monitee.ChooseAppServer', 'monitee.ListAppServers', 'monitee.AddAppInstance', 'monitee.ListAppInstances'],
+	views : ['monitee.AddPhym', 'monitee.AddVims', 'monitee.ListVimsByPhym', 'monitee.ViewMonitees', 'monitee.ConfigureAppServer', 'monitee.ListAppServers', 'monitee.AddAppInstance', 'monitee.ListAppInstances'],
 
 	init : function() {
 		this.control({
@@ -15,11 +15,11 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 			'addVims button' : {
 				click : this.saveVims
 			},
-			'addAppServer' : {
-				beforeactivate : this.onAddAppServerActivated				
+			'configureAppServer' : {
+				beforeactivate : this.onConfigureAppServerActivated
 			},
-			'chooseAppServer button' : {
-				click : this.chooseAppServers
+			'configureAppServer button' : {
+				click : this.configureAppServers
 			},
 			'viewMonitees' : {
 				beforeactivate : this.onViewMoniteesActivated
@@ -58,18 +58,7 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 		var treeStore = this.getMoniteeTreeStore();
 		appServer.save({
 			success : function(appServer, operation) {
-				form.getForm().reset();
-				/*
-				 store.getProxy().extraParams = {
-				 findVims : "ByPhym",
-				 phymId : phym.internalId
-				 };
-				 store.load();
-				 Ext.ComponentManager.get('add_vims-panel').setTitle('Phym ' + phym.get('ip'));
-				 uppanel.layout.setActiveItem('add_vims-panel');
-				 store.getProxy().extraParams = {};
-				 treeStore.load();
-				 */
+				form.getForm().reset();				
 			}
 		});
 	},
@@ -80,14 +69,15 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 			panel.layout.setActiveItem('start-panel');
 		});
 	},
-	chooseAppServers : function(button) {
+	configureAppServers : function(button) {
 		var serverStore = this.getAppServersStore();
 		serverStore.sync();
-		serverStore.filter('isMonitee', true);
 		var idList = new Array();
 		var server;
 		serverStore.each(function(record) {
-			idList.push(record.get("id"));
+			if(record.get("isMonitee")) {
+				idList.push(record.get("id"));
+			}
 		});
 		var instanceStore = this.getAppInstancesStore();
 		instanceStore.getProxy().extraParams = {
@@ -98,7 +88,7 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 
 		instanceStore.getProxy().extraParams = {};
 
-		var panel = button.up('panel').up('panel').up('panel');
+		var panel = button.up('panel').up('panel');
 		panel.layout.setActiveItem('add_appinstance-panel');
 	},
 	saveAppInstances : function(button) {
@@ -108,18 +98,24 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 			panel.layout.setActiveItem('start-panel');
 		});
 	},
-	onAddAppServerActivated : function(panel) {
+	onConfigureAppServerActivated : function(panel) {
 		var serverStore = this.getAppServersStore();
-		serverStore.load();
-		if(serverStore.getCount() <= 0) {
-			panel.down('panel').hide();
-			panel.down('#box').show();
+		serverStore.load({
+			callback : function(r, options, success) {
+				if(success) {
+					if(r.length <= 0) {
+						panel.down('panel').hide();
+						panel.down('button').hide();
+						panel.down('#box').show();
 
-		} else {
-			panel.down('panel').show();
-			panel.down('#box').hide();
-
-		}
+					} else {
+						panel.down('panel').show();
+						panel.down('button').show();
+						panel.down('#box').hide();
+					}
+				}
+			}
+		});
 	},
 	onViewMoniteesActivated : function() {
 		this.getMoniteeTreeStore().load();

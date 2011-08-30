@@ -2,7 +2,7 @@ Ext.define('PaaSMonitor.view.monitee.AddAppInstance', {
 	extend : 'Ext.panel.Panel',
 	alias : 'widget.addAppInstance',
 
-	title : 'Choose the Application Servers you want to add as monitees',
+	title : 'Choose the Application Instances you want to add as monitees',
 	store : 'AppInstances',
 
 	initComponent : function() {

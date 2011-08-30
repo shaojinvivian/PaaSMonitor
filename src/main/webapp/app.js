@@ -23,8 +23,8 @@ Ext.application({
 				id : 'add_vims-panel',
 				xtype : 'addVims'
 			}, {
-				id : 'add_appserver-panel',
-				xtype : 'addAppServer'
+				id : 'configure_appserver-panel',
+				xtype : 'configureAppServer'
 			}, {
 				id : 'add_appinstance-panel',
 				xtype : 'addAppInstance'
@@ -56,12 +56,6 @@ Ext.application({
 				'itemclick' : function(view, record) {
 					if(record.get('leaf')) {
 						Ext.getCmp('content-panel').layout.setActiveItem(record.getId() + '-panel');
-						var active = Ext.getCmp(record.getId() + '-panel');
-						var store = active.getStore();
-						if(store){
-							store.load();
-						}
-						
 					}
 				}
 			}
