@@ -87,10 +87,16 @@ public class MoniteeController {
 								response.add(vimNode);								
 							}							
 						}
+						if(response.size()<=0){
+							TreeNode vimNode = new TreeNode();
+							vimNode.setText("There is no Virtual Machine");
+							vimNode.setLeaf(true);
+							response.add(vimNode);
+						}
 					} else {
 						response = new ArrayList<TreeNode>();
 						TreeNode vimNode = new TreeNode();
-						vimNode.setText("There is no Virtual Machines");
+						vimNode.setText("There is no Virtual Machine");
 						vimNode.setLeaf(true);
 						response.add(vimNode);
 					}
@@ -111,10 +117,16 @@ public class MoniteeController {
 								response.add(appServerNode);								
 							}							
 						}
+						if(response.size()<=0){
+							TreeNode appServerNode = new TreeNode();
+							appServerNode.setText("There is no App Server");
+							appServerNode.setLeaf(true);
+							response.add(appServerNode);
+						}
 					} else {
 						response = new ArrayList<TreeNode>();
 						TreeNode appServerNode = new TreeNode();
-						appServerNode.setText("There is no App Servers");
+						appServerNode.setText("There is no App Server");
 						appServerNode.setLeaf(true);
 						response.add(appServerNode);
 					}
@@ -135,10 +147,16 @@ public class MoniteeController {
 								response.add(appInstanceNode);
 							}							
 						}
+						if(response.size()<=0){
+							TreeNode appInstanceNode = new TreeNode();
+							appInstanceNode.setText("There is no App Instance");
+							appInstanceNode.setLeaf(true);
+							response.add(appInstanceNode);
+						}
 					} else {
 						response = new ArrayList<TreeNode>();
 						TreeNode appInstanceNode = new TreeNode();
-						appInstanceNode.setText("There is no App Instances");
+						appInstanceNode.setText("There is no App Instance");
 						appInstanceNode.setLeaf(true);
 						response.add(appInstanceNode);
 					}
@@ -147,6 +165,7 @@ public class MoniteeController {
 				returnStatus = HttpStatus.OK;
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		// Return list of retrieved performance areas

@@ -35,6 +35,8 @@ privileged aspect VimDataOnDemand_Roo_DataOnDemand {
         setIsMonitee(obj, index);
         setName(obj, index);
         setPhym(obj, index);
+        setPowerState(obj, index);
+        setUuid(obj, index);
         return obj;
     }
     
@@ -59,6 +61,16 @@ privileged aspect VimDataOnDemand_Roo_DataOnDemand {
     public void VimDataOnDemand.setPhym(Vim obj, int index) {
         Phym phym = phymDataOnDemand.getRandomPhym();
         obj.setPhym(phym);
+    }
+    
+    public void VimDataOnDemand.setPowerState(Vim obj, int index) {
+        String powerState = "powerState_" + index;
+        obj.setPowerState(powerState);
+    }
+    
+    public void VimDataOnDemand.setUuid(Vim obj, int index) {
+        String uuid = "uuid_" + index;
+        obj.setUuid(uuid);
     }
     
     public Vim VimDataOnDemand.getSpecificVim(int index) {

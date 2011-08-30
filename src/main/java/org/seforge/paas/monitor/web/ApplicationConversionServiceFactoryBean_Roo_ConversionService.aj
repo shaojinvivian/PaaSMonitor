@@ -57,7 +57,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     
     static class org.seforge.paas.monitor.web.ApplicationConversionServiceFactoryBean.VimConverter implements Converter<Vim, String> {
         public String convert(Vim vim) {
-            return new StringBuilder().append(vim.getName()).append(" ").append(vim.getIp()).toString();
+            return new StringBuilder().append(vim.getName()).append(" ").append(vim.getIp()).append(" ").append(vim.getUuid()).append(" ").append(vim.getPowerState()).toString();
         }
         
     }

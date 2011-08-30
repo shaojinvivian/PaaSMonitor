@@ -11,10 +11,6 @@ Ext.define('PaaSMonitor.view.monitee.AddPhym', {
 			bodyPadding: 10,		
 			items : [{
 				xtype : 'textfield',
-				name : 'name',
-				fieldLabel : 'Name'
-			}, {
-				xtype : 'textfield',
 				name : 'ip',
 				fieldLabel : 'IP'
 			}, {

@@ -20,6 +20,9 @@ Ext.application({
 				id : 'add_phym-panel',
 				xtype : 'addPhym'
 			}, {
+				id : 'configure_phyms-panel',
+				xtype : 'configurePhyms'
+			}, {
 				id : 'add_vims-panel',
 				xtype : 'addVims'
 			}, {

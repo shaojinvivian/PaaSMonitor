@@ -51,4 +51,20 @@ privileged aspect Vim_Roo_JavaBean {
         this.isMonitee = isMonitee;
     }
     
+    public String Vim.getUuid() {
+        return this.uuid;
+    }
+    
+    public void Vim.setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+    
+    public String Vim.getPowerState() {
+        return this.powerState;
+    }
+    
+    public void Vim.setPowerState(String powerState) {
+        this.powerState = powerState;
+    }
+    
 }

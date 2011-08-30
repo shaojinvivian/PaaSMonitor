@@ -15,6 +15,8 @@ privileged aspect Vim_Roo_ToString {
         sb.append("IsMonitee: ").append(getIsMonitee()).append(", ");
         sb.append("Name: ").append(getName()).append(", ");
         sb.append("Phym: ").append(getPhym()).append(", ");
+        sb.append("PowerState: ").append(getPowerState()).append(", ");
+        sb.append("Uuid: ").append(getUuid()).append(", ");
         sb.append("Version: ").append(getVersion());
         return sb.toString();
     }

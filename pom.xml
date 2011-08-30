@@ -381,11 +381,46 @@
 			<artifactId>tiles-jsp</artifactId>
 			<version>2.2.1</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>ch.ralscha</groupId>
 			<artifactId>extdirectspring</artifactId>
 			<version>1.0.11</version>
+		</dependency> -->
+		<dependency>
+			<groupId>com.vmware</groupId>
+			<artifactId>vim25</artifactId>
+			<version>4.1</version>
+		</dependency>		
+		<dependency>
+			<groupId>com.vmware</groupId>
+			<artifactId>vim</artifactId>
+			<version>4.1</version>
 		</dependency>
+		<dependency>
+    		<groupId>org.apache.axis</groupId>
+   	 		<artifactId>axis</artifactId>
+    		<version>1.4</version>
+		</dependency>		
+		<dependency>
+			<groupId>com.vmware</groupId>
+			<artifactId>apputils</artifactId>
+			<version>4.1</version>
+		</dependency>
+		<dependency>
+    		<groupId>javax.xml</groupId>
+    		<artifactId>jaxrpc</artifactId>
+    		<version>1.1</version>
+		</dependency>
+		<dependency>
+    		<groupId>commons-discovery</groupId>
+    		<artifactId>commons-discovery</artifactId>
+    		<version>0.2</version>
+		</dependency>
+		<dependency>
+    		<groupId>wsdl4j</groupId>
+    		<artifactId>wsdl4j</artifactId>
+    		<version>1.5.1</version>
+		</dependency>		
 	</dependencies>
 	<build>
 		<plugins>

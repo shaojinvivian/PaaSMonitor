@@ -44,3 +44,7 @@ finder add --finderName findAppInstancesByAppServer --class ~.domain.AppInstance
 // Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-08-29 12:42:58
 web mvc controller --class ~.web.MoniteeController --preferredMapping /monitees
 field boolean --fieldName isMonitee --class ~.domain.Phym
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-08-30 15:57:48
+field string --fieldName uuid --class ~.domain.Vim
+// [failed] field string --fieldName state
+field string --fieldName powerState

@@ -23,7 +23,6 @@ public class Vim {
 
     private String name;
 
-    @NotNull
     @Column(unique = true)
     @Size(max = 15)
     private String ip;
@@ -35,4 +34,8 @@ public class Vim {
     private Set<AppServer> appServers = new HashSet<AppServer>();
 
     private Boolean isMonitee;
+
+    private String uuid;
+
+    private String powerState;
 }

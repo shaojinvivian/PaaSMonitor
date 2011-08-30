@@ -4,9 +4,11 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:update id="fu_org_seforge_paas_monitor_domain_Vim" modelAttribute="vim" path="/vims" versionField="Version" z="PLVZXAwQPMRpmkUxEbqpK6iSxO8=">
         <field:input field="name" id="c_org_seforge_paas_monitor_domain_Vim_name" z="P+SAyFhBi1bWssDTjfJxYHYk0YY="/>
-        <field:input field="ip" id="c_org_seforge_paas_monitor_domain_Vim_ip" max="15" required="true" z="o2MwtFxLGgWPLpx5pzmhaeZWKSI="/>
+        <field:input field="ip" id="c_org_seforge_paas_monitor_domain_Vim_ip" max="15" z="RQRQV+fnZQyY4PQx3MUwb8hN+is="/>
         <field:select field="phym" id="c_org_seforge_paas_monitor_domain_Vim_phym" itemValue="id" items="${phyms}" path="/phyms" z="l4+saUETmrBsg5KnoVk5/uJvmXo="/>
         <field:simple field="appServers" id="c_org_seforge_paas_monitor_domain_Vim_appServers" messageCode="entity_reference_not_managed" messageCodeAttribute="App Server" z="t4dft1/8WCqIKQaKAJi2o9ZbwkE="/>
         <field:checkbox field="isMonitee" id="c_org_seforge_paas_monitor_domain_Vim_isMonitee" z="/5qhw4efHD6jOwnQUzZAWOJHQDE="/>
+        <field:input field="uuid" id="c_org_seforge_paas_monitor_domain_Vim_uuid" z="KPTmEUlSju0d0i2ldjxSRsd47ow="/>
+        <field:input field="powerState" id="c_org_seforge_paas_monitor_domain_Vim_powerState" z="BFW5P4E2JLD/lyJDfnPwcDQuRLo="/>
     </form:update>
 </div>

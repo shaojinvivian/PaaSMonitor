@@ -7,5 +7,7 @@
         <field:display field="ip" id="s_org_seforge_paas_monitor_domain_Vim_ip" object="${vim}" z="p2H91ckMbvbhnkOt0N1E8/bvbKc="/>
         <field:display field="phym" id="s_org_seforge_paas_monitor_domain_Vim_phym" object="${vim}" z="onaTpfIA+87ky3DD3GzGoE53NCc="/>
         <field:display field="isMonitee" id="s_org_seforge_paas_monitor_domain_Vim_isMonitee" object="${vim}" z="XKIJ4NKLCzOHZLr0RdBkD9+Qd2A="/>
+        <field:display field="uuid" id="s_org_seforge_paas_monitor_domain_Vim_uuid" object="${vim}" z="eIJOMZH7Ck1LqsXXEBtoLsxzFcE="/>
+        <field:display field="powerState" id="s_org_seforge_paas_monitor_domain_Vim_powerState" object="${vim}" z="IRo5CiF3/i+/W3wuDK07SZfW8Os="/>
     </page:show>
 </div>
