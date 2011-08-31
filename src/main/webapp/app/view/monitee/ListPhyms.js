@@ -19,10 +19,19 @@ Ext.define('PaaSMonitor.view.monitee.ListPhyms', {
 			dataIndex : 'ip'
 		}, {
 			header : 'Username',
-			dataIndex : 'username'
+			dataIndex : 'username',
+			field:{
+                xtype:'textfield',
+                allowBlank:false
+            }
+
 		}, {
 			header : 'Password',
-			dataIndex : 'password'
+			dataIndex : 'password',
+			field:{
+                xtype:'textfield',
+                allowBlank:false
+            }
 		}, {
 			xtype : 'checkcolumn',
 			header : 'Monitee?',

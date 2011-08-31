@@ -31,13 +31,15 @@ import org.springframework.stereotype.Service;
 
 @Service("appServerService")
 public class AppServerServiceImpl implements AppServerService {
+	
+	private static final int TIMEOUT = 3;
 	public void addAppInstances(AppServer appServer) throws Exception{		
 			Set<AppInstance> appInstances = new HashSet<AppInstance>();			
 			String ip = appServer.getIp();
 			String port = appServer.getJmxPort();
 			JMXServiceURL url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + ip
 					+ ":"+ port +"/jmxrmi");
-			JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
+			JMXConnector jmxc = connectWithTimeout(url, TIMEOUT, TimeUnit.SECONDS);
 			MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();			
 			
 			ObjectName obName = new ObjectName(
@@ -69,7 +71,7 @@ public class AppServerServiceImpl implements AppServerService {
 		String port = appServer.getJmxPort();
 		JMXServiceURL url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + ip
 				+ ":"+ port +"/jmxrmi");
-		JMXConnector jmxc = JMXConnectorFactory.connect(url, null);
+		JMXConnector jmxc = connectWithTimeout(url, TIMEOUT, TimeUnit.SECONDS);
 		MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
 		ObjectName objectName = new ObjectName("Catalina:type=Server");
 		appServer.setName((String)mbsc.getAttribute(objectName, "serverInfo"));	
@@ -84,7 +86,7 @@ public class AppServerServiceImpl implements AppServerService {
 			try {
 				url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + ip
 						+ ":"+ port +"/jmxrmi");				
-				JMXConnector jmxc = connectWithTimeout(url, 3, TimeUnit.SECONDS);
+				JMXConnector jmxc = connectWithTimeout(url, TIMEOUT, TimeUnit.SECONDS);
 				appServer.setStatus("RUNNING");				
 			jmxc.close();	
 			}catch (MalformedURLException e) {

@@ -15,10 +15,23 @@ Ext.define('PaaSMonitor.model.Vim', {
 	}, {
 		name : 'isMonitee',
 		type : 'bool'
-	},{
-		name: 'phym',
-		type: 'Phym'
+	}, {
+		name : 'powerState',
+		type : 'string'	
+	}, {
+		name : 'phymId',
+		type : 'int',
+		mapping: 'phym.id'	
+	}, {
+		name : 'phymName',
+		type : 'string',
+		mapping: 'phym.name'
+	}, {
+		name : 'phymIp',
+		type : 'string',
+		mapping: 'phym.ip'	
 	}],
+	
 	 proxy: {
         type: 'rest',
         url : 'vims',
@@ -28,7 +41,8 @@ Ext.define('PaaSMonitor.model.Vim', {
         reader: {
             type: 'json',
             root: 'data',
-            successProperty: 'success'
+            successProperty: 'success',
+            messageProperty: 'message'
         }
     }
 });

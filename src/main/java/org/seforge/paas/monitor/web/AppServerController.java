@@ -1,5 +1,6 @@
 package org.seforge.paas.monitor.web;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +34,7 @@ private AppServerService appServerService;
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
     public ResponseEntity<String> deleteFromJson(@PathVariable("id") Long id) {
-		HttpStatus returnStatus = HttpStatus.BAD_REQUEST;
+		HttpStatus returnStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 		
 		JsonObjectResponse response = new JsonObjectResponse();
 		try {
@@ -80,7 +81,7 @@ private AppServerService appServerService;
 
 	@RequestMapping(method = RequestMethod.POST, headers = "Accept=application/json")
     public ResponseEntity<String> createFromJson(@RequestBody String json) {
-		HttpStatus returnStatus = HttpStatus.BAD_REQUEST;
+		HttpStatus returnStatus = HttpStatus.OK;
 		
 		JsonObjectResponse response = new JsonObjectResponse();
 		try {
@@ -111,10 +112,14 @@ private AppServerService appServerService;
 			}            
 			response.setSuccess(true);
 			response.setTotal(1L);			
-		} catch(Exception e) {
-			response.setMessage(e.getMessage());
+		} catch(IOException e) {			
+			response.setMessage("The App Server is not available currently.");			
 			response.setSuccess(false);
 			response.setTotal(0L);
+		}catch (Exception e){
+			response.setMessage(e.getMessage());
+			response.setSuccess(false);
+			response.setTotal(0L);			
 		}
 		// return the created record with the new system generated id
         return new ResponseEntity<String>(new JSONSerializer().include("data.appInstances").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
@@ -147,9 +152,5 @@ private AppServerService appServerService;
 		}
 		// return the updated record
         return new ResponseEntity<String>(new JSONSerializer().include("data.appInstances").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
-    }
-	
-	
-	
-	
+    }	
 }

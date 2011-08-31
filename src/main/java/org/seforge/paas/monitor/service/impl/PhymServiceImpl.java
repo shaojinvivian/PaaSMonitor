@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import org.seforge.paas.monitor.service.PhymService;
 
+/*
 import com.vmware.apputils.version.ExtendedAppUtil;
 import com.vmware.vim25.DynamicProperty;
 import com.vmware.vim25.ManagedObjectReference;
@@ -14,23 +15,31 @@ import com.vmware.vim25.ObjectContent;
 import com.vmware.vim25.VirtualMachinePowerState;
 import com.vmware.vim25.VirtualMachineSummary;
 
+*/
 @Service("phymService")
 public class PhymServiceImpl implements PhymService {
 	public void addVims(Phym phym) {
+		
+		  HashSet set = new HashSet(); 
+		  Vim vim1 = new Vim();
+		  vim1.setName("vim1"); 
+		  vim1.setIp(phym.getIp()+"1"); 
+		  vim1.setPhym(phym);
+		  vim1.setIsMonitee(false);
+		  vim1.setPowerState("On");
+		  
+		  Vim vim2 = new Vim(); 
+		  vim2.setName("vim2");
+		  vim2.setIp(phym.getIp()+"2"); 
+		  vim2.setPhym(phym);
+		  vim2.setIsMonitee(false);
+		  vim2.setPowerState("Off");
+		  
+		  set.add(vim1); set.add(vim2);
+		  
+		  phym.setVims(set);
+		 
 		/*
-		 * HashSet set = new HashSet(); Vim vim1 = new Vim();
-		 * vim1.setName("vim1"); vim1.setIp("10.117.4.96"); vim1.setPhym(phym);
-		 * vim1.setIsMonitee(true);
-		 * 
-		 * Vim vim2 = new Vim(); vim2.setName("vim2");
-		 * vim2.setIp("192.168.1.100"); vim2.setPhym(phym);
-		 * vim2.setIsMonitee(false);
-		 * 
-		 * set.add(vim1); set.add(vim2);
-		 * 
-		 * phym.setVims(set);
-		 */
-
 		try {
 			ExtendedAppUtil cb = ExtendedAppUtil.initialize("PhymService",
 					generateArgs(phym));
@@ -80,6 +89,7 @@ public class PhymServiceImpl implements PhymService {
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}
+		*/
 	}
 
 	public String[] generateArgs(Phym phym) {

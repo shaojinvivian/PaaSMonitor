@@ -1,9 +1,12 @@
 package org.seforge.paas.monitor.web;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.extjs.JsonObjectResponse;
@@ -133,6 +136,32 @@ public class VimController {
 			response.setSuccess(true);
 			response.setTotal(vims.size());
 			response.setData(vims);
+		} catch(Exception e) {
+			response.setMessage(e.getMessage());
+			response.setSuccess(false);
+			response.setTotal(0L);
+		}
+		
+		// Return list of retrieved performance areas
+        return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
+    }
+	
+	@RequestMapping(params = "findVims=ByPhyms", method = RequestMethod.GET)
+    public ResponseEntity<String> findVimsByPhymsJson(@RequestParam("phymIdList") List<String> phymIdList) {		
+		HttpStatus returnStatus = HttpStatus.BAD_REQUEST;
+		JsonObjectResponse response = new JsonObjectResponse();
+		try {
+			List<Vim> data = new ArrayList<Vim>();
+			for (String phymId : phymIdList){
+				Phym phym = Phym.findPhym(Long.valueOf(phymId));
+				Set vims = phym.getVims();
+				data.addAll(vims);
+			}			
+            returnStatus = HttpStatus.OK;
+			response.setMessage("All Vims retrieved.");
+			response.setSuccess(true);
+			response.setTotal(data.size());
+			response.setData(data);
 		} catch(Exception e) {
 			response.setMessage(e.getMessage());
 			response.setSuccess(false);

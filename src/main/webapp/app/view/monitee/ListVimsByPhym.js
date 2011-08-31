@@ -8,6 +8,7 @@ Ext.define('PaaSMonitor.view.monitee.ListVimsByPhym', {
 	title : 'Please select the virtual machines you want to monitor:',
 	store : 'Vims',
 	selType: 'cellmodel',
+	
    /* plugins: [
         Ext.create('Ext.grid.plugin.CellEditing', {
             clicksToEdit: 1
@@ -15,11 +16,16 @@ Ext.define('PaaSMonitor.view.monitee.ListVimsByPhym', {
     ],*/
     
 
-	initComponent : function() {
+	initComponent : function() {		
+		var groupingFeature = Ext.create('Ext.grid.feature.Grouping', {
+			groupHeaderTpl : 'Phym:  {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
+		});
+
+
 		var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit : 1
 		});
-		var store = this.store;
+		
 		this.columns = [{
 			header : 'Name',
 			dataIndex : 'name'
@@ -27,11 +33,18 @@ Ext.define('PaaSMonitor.view.monitee.ListVimsByPhym', {
 			header : 'Ip',
 			dataIndex : 'ip'
 		}, {
+			header : 'Phym Name',
+			dataIndex : 'phymName'
+		}, {
+			header : 'Power State',
+			dataIndex : 'powerState'
+		}, {
 			xtype : 'checkcolumn',
 			header : 'Monitee?',
 			dataIndex : 'isMonitee'
 		}];
 		this.plugins = [cellEditing];
+		this.features = [groupingFeature];
 		
 		this.callParent(arguments);
 	}

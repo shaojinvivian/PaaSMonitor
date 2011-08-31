@@ -1,6 +1,7 @@
 Ext.define('PaaSMonitor.store.Vims', {
     extend: 'Ext.data.Store',
-    model: 'PaaSMonitor.model.Vim',    
+    model: 'PaaSMonitor.model.Vim',  
+    groupField: 'phymIp', 
     proxy: {
         type: 'rest',
         url: 'vims',

@@ -22,7 +22,8 @@ Ext.define('PaaSMonitor.model.AppServer', {
 		reader : {
 			type : 'json',
 			root : 'data',
-			successProperty : 'success'
+			successProperty : 'success',
+			messageProperty: 'message'
 		}
 	}
 

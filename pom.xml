@@ -385,7 +385,7 @@
 			<groupId>ch.ralscha</groupId>
 			<artifactId>extdirectspring</artifactId>
 			<version>1.0.11</version>
-		</dependency> -->
+		</dependency> 
 		<dependency>
 			<groupId>com.vmware</groupId>
 			<artifactId>vim25</artifactId>
@@ -420,7 +420,7 @@
     		<groupId>wsdl4j</groupId>
     		<artifactId>wsdl4j</artifactId>
     		<version>1.5.1</version>
-		</dependency>		
+		</dependency>	-->	
 	</dependencies>
 	<build>
 		<plugins>

@@ -7,8 +7,13 @@ Ext.define('PaaSMonitor.model.AppInstance', {
 		name: 'version',
 		type: 'int'	
 	},{
-		name: 'appServer',
-		type: 'AppServer'
+		name: 'appServerName',
+		type: 'string',
+		mapping: 'appServer.name'
+	},{
+		name: 'appServerId',
+		type: 'int',
+		mapping: 'appServer.id'
 	},{
 		name: 'isMonitee',
 		type: 'bool'	
@@ -22,7 +27,8 @@ Ext.define('PaaSMonitor.model.AppInstance', {
 		reader : {
 			type : 'json',
 			root : 'data',
-			successProperty : 'success'
+			successProperty : 'success',
+			messageProperty: 'message'
 		}
 	}
 

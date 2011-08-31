@@ -7,6 +7,7 @@ Ext.define('PaaSMonitor.model.Phym', {
 		name: 'version',
 		type: 'int'
 	},'name', 'ip', 'username', 'password'],
+	
 	proxy : {
 		type : 'rest',
 		url : 'phyms',
@@ -16,7 +17,8 @@ Ext.define('PaaSMonitor.model.Phym', {
 		reader : {
 			type : 'json',
 			root : 'data',
-			successProperty : 'success'
+			successProperty : 'success',
+			messageProperty: 'message'
 		}
 	}
 

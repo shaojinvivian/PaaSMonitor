@@ -80,6 +80,9 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 				instanceStore.load();
 				uppanel.layout.setActiveItem('add_appinstance-panel');
 				instanceStore.getProxy().extraParams = {};	
+			},
+			failure: function(r, operation){
+				Ext.Msg.alert("Error", operation.getError());
 			}
 		});
 	},
@@ -138,9 +141,28 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 			}			
 		});
 	},
-	configurePhyms : function(button){
-		
+	
+	configurePhyms : function(button) {
+		var phymStore = this.getPhymsStore();
+		phymStore.sync();
+		var idList = new Array();
+		phymStore.each(function(record) {
+			if(record.get("isMonitee")) {
+				idList.push(record.get("id"));
+			}
+		});
+		var vimStore = this.getVimsStore();
+		vimStore.getProxy().extraParams = {
+			findVims : "ByPhyms",
+			phymIdList : idList
+		};
+		vimStore.load();
+		// Ext.ComponentManager.get('add_vims-panel').setTitle('Phym ' + phym.get('name'));
+		var panel = button.up('panel').up('panel');
+		panel.layout.setActiveItem('add_vims-panel');
+		vimStore.getProxy().extraParams = {};
 	},
+
 	onConfigurePhymsActivated : function(panel) {
 		var phymStore = this.getPhymsStore();
 		phymStore.load({
