@@ -5,12 +5,12 @@ Ext.define('PaaSMonitor.view.monitee.ConfigurePhyms', {
 	title: 'Configure Phyms',
 
 	initComponent : function() {
-		this.items = [{
+		this.items = [{		
 			xtype : 'box',
-			id: 'box',
+			id: 'noPhymBox',
 			html : '<p>There is no available phyms now!</p>'+
 			'<p>Please add a new phym first</p>'
-		}, {
+		},{
 			xtype : 'listPhyms'
 		}, {
 			xtype : 'button',

@@ -7,7 +7,7 @@ Ext.define('PaaSMonitor.view.monitee.ConfigureAppServer', {
 	initComponent : function() {
 		this.items = [{
 			xtype : 'box',
-			id: 'box',
+			id: 'noAppServerBox',
 			html : '<p>There is no available app servers now!</p>'+
 			'<p>Please add a new app server by starting it with an agent</p>'
 		}, {

@@ -12,10 +12,17 @@ Ext.define('PaaSMonitor.view.monitee.ListPhyms', {
 		});		
 		this.columns = [{
 			header : 'Name',
-			dataIndex : 'name'
+			dataIndex : 'name',
+			flex: 2
 		}, {
 			header : 'Ip',
 			dataIndex : 'ip'
+		}, {
+			header : 'Username',
+			dataIndex : 'username'
+		}, {
+			header : 'Password',
+			dataIndex : 'password'
 		}, {
 			xtype : 'checkcolumn',
 			header : 'Monitee?',

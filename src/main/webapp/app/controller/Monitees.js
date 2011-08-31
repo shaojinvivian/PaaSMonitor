@@ -30,6 +30,12 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 			'configureAppServer button' : {
 				click : this.configureAppServers
 			},
+			'configurePhyms' : {
+				beforeactivate : this.onConfigurePhymsActivated
+			},
+			'configurePhyms button' : {
+				click : this.configurePhyms
+			},
 			'viewMonitees' : {
 				beforeactivate : this.onViewMoniteesActivated
 			},
@@ -115,17 +121,40 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 					if(r.length <= 0) {
 						panel.down('panel').hide();
 						panel.down('button').hide();
-						panel.down('#box').show();
+						panel.down('#noAppServerBox').show();
 
 					} else {
 						panel.down('panel').show();
 						panel.down('button').show();
-						panel.down('#box').hide();
+						panel.down('#noAppServerBox').hide();
 					}
 				}
-			}
+			}			
 		});
 	},
+	configurePhyms : function(button){
+		
+	},
+	onConfigurePhymsActivated : function(panel) {
+		var phymStore = this.getPhymsStore();
+		phymStore.load({
+			callback : function(r, options, success) {
+				if(success) {
+					if(r.length <= 0) {
+						panel.down('panel').hide();
+						panel.down('button').hide();
+						panel.down('#noPhymBox').show();
+
+					} else {
+						panel.down('panel').show();
+						panel.down('button').show();
+						panel.down('#noPhymBox').hide();
+					}
+				}
+			}			
+		});
+	},
+	
 	onViewMoniteesActivated : function() {
 		this.getMoniteeTreeStore().load();
 	}

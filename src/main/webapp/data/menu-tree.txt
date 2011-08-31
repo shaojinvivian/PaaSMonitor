@@ -14,8 +14,16 @@
         	id:'configure_appserver',
         	leaf:true
         },{
-        text:'View current Monitees',
-        id:'view_monitees',
-        leaf:true
+	        text:'View current Monitees',
+	        id:'view_monitees',
+	        leaf:true
+    }]
+},{
+    text:'System Settings',
+    expanded: true,
+    children:[{
+        	text: 'Alert Setting',
+        	id:'set_alerts',
+        	leaf:true        
     }]
 }]
