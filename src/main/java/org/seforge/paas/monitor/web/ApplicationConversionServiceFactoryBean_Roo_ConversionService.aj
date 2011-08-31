@@ -43,7 +43,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     
     static class org.seforge.paas.monitor.web.ApplicationConversionServiceFactoryBean.AppServerConverter implements Converter<AppServer, String> {
         public String convert(AppServer appServer) {
-            return new StringBuilder().append(appServer.getName()).append(" ").append(appServer.getJmxPort()).append(" ").append(appServer.getIp()).toString();
+            return new StringBuilder().append(appServer.getStatus()).append(" ").append(appServer.getName()).append(" ").append(appServer.getJmxPort()).append(" ").append(appServer.getIp()).toString();
         }
         
     }

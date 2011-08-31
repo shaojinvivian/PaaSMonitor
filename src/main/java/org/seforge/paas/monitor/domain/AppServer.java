@@ -24,7 +24,7 @@ public class AppServer {
     private String name;
 
     @NotNull
-    private Integer jmxPort;
+    private String jmxPort;
 
     @NotNull
     @Column(unique = true)
@@ -38,4 +38,15 @@ public class AppServer {
     private Set<AppInstance> appInstances = new HashSet<AppInstance>();
 
     private Boolean isMonitee;
+
+    private transient String status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}    
+    
 }

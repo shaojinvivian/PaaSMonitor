@@ -20,6 +20,9 @@ Ext.application({
 				id : 'add_phym-panel',
 				xtype : 'addPhym'
 			}, {
+				id : 'add_appserver-panel',
+				xtype : 'addAppServer'
+			}, {
 				id : 'configure_phyms-panel',
 				xtype : 'configurePhyms'
 			}, {

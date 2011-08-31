@@ -1,8 +1,7 @@
 package org.seforge.paas.monitor.vmware;
 
-import java.util.HashMap;
+
 import java.util.HashSet;
-import java.util.List;
 
 import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;

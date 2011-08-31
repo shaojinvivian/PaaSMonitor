@@ -4,7 +4,6 @@
 package org.seforge.paas.monitor.domain;
 
 import java.lang.Boolean;
-import java.lang.Integer;
 import java.lang.String;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -36,6 +35,7 @@ privileged aspect AppServerDataOnDemand_Roo_DataOnDemand {
         setIsMonitee(obj, index);
         setJmxPort(obj, index);
         setName(obj, index);
+        setStatus(obj, index);
         setVim(obj, index);
         return obj;
     }
@@ -54,13 +54,18 @@ privileged aspect AppServerDataOnDemand_Roo_DataOnDemand {
     }
     
     public void AppServerDataOnDemand.setJmxPort(AppServer obj, int index) {
-        Integer jmxPort = new Integer(index);
+        String jmxPort = "jmxPort_" + index;
         obj.setJmxPort(jmxPort);
     }
     
     public void AppServerDataOnDemand.setName(AppServer obj, int index) {
         String name = "name_" + index;
         obj.setName(name);
+    }
+    
+    public void AppServerDataOnDemand.setStatus(AppServer obj, int index) {
+        String status = "status_" + index;
+        obj.setStatus(status);
     }
     
     public void AppServerDataOnDemand.setVim(AppServer obj, int index) {

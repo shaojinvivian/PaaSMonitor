@@ -5,6 +5,7 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 	views : ['monitee.AddPhym', 
 			'monitee.ConfigurePhyms',
 			'monitee.ListPhyms',
+			'monitee.AddAppServer', 
 			'monitee.AddVims', 
 			'monitee.ListVimsByPhym', 
 			'monitee.ViewMonitees', 
@@ -48,8 +49,7 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 		var form = button.up('form'), values = form.getValues(), panel = form.up('panel');
 		uppanel = panel.up('panel');
 		var phym = Ext.ModelManager.create(values, 'PaaSMonitor.model.Phym');
-		var store = this.getVimsStore();
-		var treeStore = this.getMoniteeTreeStore();
+		var store = this.getVimsStore();		
 		phym.save({
 			success : function(phym, operation) {
 				form.getForm().reset();
@@ -60,20 +60,26 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 				store.load();
 				Ext.ComponentManager.get('add_vims-panel').setTitle('Phym ' + phym.get('name'));
 				uppanel.layout.setActiveItem('add_vims-panel');
-				store.getProxy().extraParams = {};
-				treeStore.load();
+				store.getProxy().extraParams = {};				
 			}
 		});
 	},
 	saveAppServer : function(button) {
 		var form = button.up('form'), values = form.getValues(), panel = form.up('panel');
-		uppanel = panel.up('panel');
-		var appServer = Ext.ModelManager.create(values, 'PaaSMonitor.model.AppServer');
-		var store = this.getVimsStore();
-		var treeStore = this.getMoniteeTreeStore();
+		var uppanel = panel.up('panel');
+		var appServer = Ext.ModelManager.create(values, 'PaaSMonitor.model.AppServer');			
+		var instanceStore = this.getAppInstancesStore();	
+		appServer.set("isMonitee",true);	
 		appServer.save({
 			success : function(appServer, operation) {
-				form.getForm().reset();
+				form.getForm().reset();				
+				instanceStore.getProxy().extraParams = {
+					findAppInstances : "ByAppServer",
+					appServerId : appServer.internalId
+				};
+				instanceStore.load();
+				uppanel.layout.setActiveItem('add_appinstance-panel');
+				instanceStore.getProxy().extraParams = {};	
 			}
 		});
 	},

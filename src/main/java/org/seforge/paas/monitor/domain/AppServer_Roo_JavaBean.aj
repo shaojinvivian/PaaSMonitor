@@ -4,7 +4,6 @@
 package org.seforge.paas.monitor.domain;
 
 import java.lang.Boolean;
-import java.lang.Integer;
 import java.lang.String;
 import java.util.Set;
 import org.seforge.paas.monitor.domain.AppInstance;
@@ -20,11 +19,11 @@ privileged aspect AppServer_Roo_JavaBean {
         this.name = name;
     }
     
-    public Integer AppServer.getJmxPort() {
+    public String AppServer.getJmxPort() {
         return this.jmxPort;
     }
     
-    public void AppServer.setJmxPort(Integer jmxPort) {
+    public void AppServer.setJmxPort(String jmxPort) {
         this.jmxPort = jmxPort;
     }
     

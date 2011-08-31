@@ -61,6 +61,7 @@ private AppServerService appServerService;
 
 		try {
 			List<AppServer> records = AppServer.findAllAppServers();
+			appServerService.checkState(records);
             returnStatus = HttpStatus.OK;
 			response.setMessage("All AppServers retrieved.");
 			response.setSuccess(true);
@@ -92,8 +93,9 @@ private AppServerService appServerService;
 				if(vims.size()>0){
 					Vim vim = vims.get(0);
 					record.setVim(vim);
-				}		
+				}				
 				appServerService.addAppInstances(record);
+				appServerService.setAppServerName(record);
 				record.persist();
 				returnStatus = HttpStatus.CREATED;
 				response.setMessage("AppServer created.");

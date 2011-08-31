@@ -15,6 +15,7 @@ privileged aspect AppServer_Roo_ToString {
         sb.append("IsMonitee: ").append(getIsMonitee()).append(", ");
         sb.append("JmxPort: ").append(getJmxPort()).append(", ");
         sb.append("Name: ").append(getName()).append(", ");
+        sb.append("Status: ").append(getStatus()).append(", ");
         sb.append("Version: ").append(getVersion()).append(", ");
         sb.append("Vim: ").append(getVim());
         return sb.toString();

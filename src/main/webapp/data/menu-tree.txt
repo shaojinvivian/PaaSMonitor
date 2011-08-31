@@ -5,6 +5,10 @@
         	text: 'Add a new Phym',
         	id:'add_phym',
         	leaf:true
+         },{
+        	text: 'Add a new Application Server',
+        	id:'add_appserver',
+        	leaf:true
         },{
         	text: 'Configure Phyms',
         	id:'configure_phyms',

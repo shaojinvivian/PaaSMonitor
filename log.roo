@@ -48,3 +48,8 @@ field boolean --fieldName isMonitee --class ~.domain.Phym
 field string --fieldName uuid --class ~.domain.Vim
 // [failed] field string --fieldName state
 field string --fieldName powerState
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-08-31 12:53:48
+field string --fieldName status --class ~.domain.AppServer
+field string --fieldName status --transient --class ~.domain.AppServer
+quit
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-08-31 18:06:34

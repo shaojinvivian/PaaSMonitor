@@ -8,14 +8,11 @@ Ext.define('PaaSMonitor.model.AppServer', {
 		type: 'int'
 	},{
 		name: 'jmxPort',
-		type: 'int'
-	},{
-		name: 'vim',
-		type: 'Vim'
+		type: 'string'	
 	},{
 		name: 'isMonitee',
 		type: 'bool'	
-	},'name', 'ip'],
+	},'name', 'ip', 'status'],
 	proxy : {
 		type : 'rest',
 		url : 'appservers',

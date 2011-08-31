@@ -17,6 +17,9 @@ Ext.define('PaaSMonitor.view.monitee.ListAppServers', {
 			header : 'Ip',
 			dataIndex : 'ip'
 		}, {
+			header : 'Status',
+			dataIndex : 'status'
+		}, {
 			xtype : 'checkcolumn',
 			header : 'Monitee?',
 			dataIndex : 'isMonitee'
