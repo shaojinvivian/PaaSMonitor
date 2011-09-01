@@ -30,7 +30,7 @@ import flexjson.transformer.DateTransformer;
 @RequestMapping("/monitees/**")
 @Controller
 public class MoniteeController {
-private AppServerService appServerService;
+	private AppServerService appServerService;
 	
 	@Autowired
 	public void setAppServerService(AppServerService appServerService){
@@ -144,13 +144,15 @@ private AppServerService appServerService;
 					Long id = Long.valueOf(nodeId.substring(nodeId
 							.indexOf("appServer") + 9));
 					AppServer appServer = AppServer.findAppServer(id);
-					List<AppInstance> appInstances = AppInstance.findAppInstancesByAppServer(appServer).getResultList();
-					if (appInstances.size() > 0) {
+					appServerService.checkState(appServer);
+					Set<AppInstance> appInstances = appServer.getAppInstances();
+					if (appServer.getStatus().equals("RUNNING") && appInstances.size() > 0) {
 						response = new ArrayList<TreeNode>();
+						appServerService.checkInstancesState(appServer);
 						for (AppInstance appInstance : appInstances) {
 							if(appInstance.getIsMonitee()){
 								TreeNode appInstanceNode = new TreeNode();
-								appInstanceNode.setText(appInstance.getName());
+								appInstanceNode.setText(appInstance.getName()+":"+appInstance.getStatus());
 								appInstanceNode.setId("appInstance" + appInstance.getId().toString());
 								appInstanceNode.setLeaf(true);							
 								response.add(appInstanceNode);

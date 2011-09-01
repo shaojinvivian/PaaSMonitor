@@ -52,7 +52,12 @@ public class AppServerServiceImpl implements AppServerService {
 				appInstance.setDocBase((String) mbsc.getAttribute(name,
 						"docBase"));
 				try{
-					appInstance.setName((String) mbsc.getAttribute(name, "name"));
+					String appInstanceName = (String) mbsc.getAttribute(name, "name");
+					if(appInstanceName.equals("")){
+						appInstance.setName("/");
+					}else{
+						appInstance.setName(appInstanceName);
+					}					
 					appInstance.setDisplayName((String) mbsc.getAttribute(name,
 							"displayName"));
 				}catch(AttributeNotFoundException e){
@@ -97,6 +102,50 @@ public class AppServerServiceImpl implements AppServerService {
 				appServer.setStatus("STOPPED");
 			}				
 		}
+	}
+	
+	public void checkState(AppServer appServer) throws Exception{
+		String ip = appServer.getIp();
+		String port = appServer.getJmxPort();
+		JMXServiceURL url;
+		try {
+			url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + ip
+					+ ":"+ port +"/jmxrmi");				
+			JMXConnector jmxc = connectWithTimeout(url, TIMEOUT, TimeUnit.SECONDS);
+			appServer.setStatus("RUNNING");				
+		jmxc.close();	
+		}catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			appServer.setStatus("STOPPED");
+		}			
+	}
+	
+	public void checkInstancesState(AppServer appServer) throws Exception {
+		String ip = appServer.getIp();
+		String port = appServer.getJmxPort();
+		JMXServiceURL url;
+		try {
+			url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + ip + ":"
+					+ port + "/jmxrmi");
+			JMXConnector jmxc = connectWithTimeout(url, TIMEOUT,
+					TimeUnit.SECONDS);
+			appServer.setStatus("RUNNING");
+			MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
+			Set<AppInstance> appInstances = appServer.getAppInstances();
+			for(AppInstance appInstance: appInstances){
+				ObjectName objectName = new ObjectName("Catalina:j2eeType=WebModule,name=//localhost"+ appInstance.getName() +",J2EEApplication=none,J2EEServer=none");
+				appInstance.setStatus((String)mbsc.getAttribute(objectName, "stateName"));	
+			}
+			jmxc.close();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			appServer.setStatus("STOPPED");
+		}
+
 	}
 	
 	public static JMXConnector connectWithTimeout(

@@ -53,3 +53,7 @@ field string --fieldName status --class ~.domain.AppServer
 field string --fieldName status --transient --class ~.domain.AppServer
 quit
 // Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-08-31 18:06:34
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-09-01 19:40:21
+field string --fieldName status --class ~.domain.AppInstance
+quit
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-09-01 21:13:59

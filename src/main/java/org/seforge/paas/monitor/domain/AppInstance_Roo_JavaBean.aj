@@ -58,4 +58,12 @@ privileged aspect AppInstance_Roo_JavaBean {
         this.docBase = docBase;
     }
     
+    public String AppInstance.getStatus() {
+        return this.status;
+    }
+    
+    public void AppInstance.setStatus(String status) {
+        this.status = status;
+    }
+    
 }

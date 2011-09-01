@@ -36,7 +36,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     
     static class org.seforge.paas.monitor.web.ApplicationConversionServiceFactoryBean.AppInstanceConverter implements Converter<AppInstance, String> {
         public String convert(AppInstance appInstance) {
-            return new StringBuilder().append(appInstance.getName()).append(" ").append(appInstance.getDisplayName()).append(" ").append(appInstance.getDocBase()).toString();
+            return new StringBuilder().append(appInstance.getName()).append(" ").append(appInstance.getDisplayName()).append(" ").append(appInstance.getDocBase()).append(" ").append(appInstance.getStatus()).toString();
         }
         
     }
@@ -57,7 +57,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     
     static class org.seforge.paas.monitor.web.ApplicationConversionServiceFactoryBean.VimConverter implements Converter<Vim, String> {
         public String convert(Vim vim) {
-            return new StringBuilder().append(vim.getName()).append(" ").append(vim.getIp()).append(" ").append(vim.getUuid()).append(" ").append(vim.getPowerState()).toString();
+            return new StringBuilder().append(vim.getPowerState()).append(" ").append(vim.getName()).append(" ").append(vim.getIp()).append(" ").append(vim.getUuid()).toString();
         }
         
     }

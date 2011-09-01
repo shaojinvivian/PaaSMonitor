@@ -59,12 +59,4 @@ privileged aspect Vim_Roo_JavaBean {
         this.uuid = uuid;
     }
     
-    public String Vim.getPowerState() {
-        return this.powerState;
-    }
-    
-    public void Vim.setPowerState(String powerState) {
-        this.powerState = powerState;
-    }
-    
 }

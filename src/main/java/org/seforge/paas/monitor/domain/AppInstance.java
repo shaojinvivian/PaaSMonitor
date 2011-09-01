@@ -29,4 +29,6 @@ public class AppInstance {
     private String displayName;
 
     private String docBase;
+
+    private String status;
 }

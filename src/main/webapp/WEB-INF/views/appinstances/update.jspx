@@ -9,5 +9,6 @@
         <field:checkbox field="isMonitee" id="c_org_seforge_paas_monitor_domain_AppInstance_isMonitee" z="Tkq/gWPPIrrCyFl+gOIS+48nZUE="/>
         <field:input field="displayName" id="c_org_seforge_paas_monitor_domain_AppInstance_displayName" z="C7Zqhr4N/bctbtg7isf0xZvlU6Q="/>
         <field:input field="docBase" id="c_org_seforge_paas_monitor_domain_AppInstance_docBase" z="2GSpcG0dnH3lRvaAYaGi0RCmDxE="/>
+        <field:input field="status" id="c_org_seforge_paas_monitor_domain_AppInstance_status" z="mERupuVJZ6jBNvV0MFZN6/zAkdQ="/>
     </form:update>
 </div>

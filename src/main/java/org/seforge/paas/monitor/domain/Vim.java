@@ -37,5 +37,14 @@ public class Vim {
 
     private String uuid;
 
-    private String powerState;
+    private transient String powerState;
+
+	public String getPowerState() {
+		return powerState;
+	}
+
+	public void setPowerState(String powerState) {
+		this.powerState = powerState;
+	}    
+    
 }
