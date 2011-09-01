@@ -15,6 +15,9 @@ Ext.define('PaaSMonitor.model.AppInstance', {
 		type: 'int',
 		mapping: 'appServer.id'
 	},{
+		name: 'appServer',
+		type: 'AppServer'		
+	},{
 		name: 'isMonitee',
 		type: 'bool'	
 	},'name', 'docBase', 'displayName'],

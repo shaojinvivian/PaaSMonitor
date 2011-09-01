@@ -11,7 +11,7 @@ Ext.define('PaaSMonitor.view.monitee.ListAppInstances', {
 
 	initComponent : function() {
 		  var groupingFeature = Ext.create('Ext.grid.feature.Grouping',{
-        groupHeaderTpl: 'AppServer: {name.name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
+        groupHeaderTpl: 'AppServer: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
     });
 		
 		var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {

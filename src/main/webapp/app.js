@@ -70,13 +70,14 @@ Ext.application({
 		Ext.create('Ext.container.Viewport', {
 			layout : 'border',
 			renderTo : Ext.getBody(),
-			items : [{
+			items : [
+			/*{
 				region : 'north',
 				contentEl : 'north-header',
 				autoHeight : true,
 				border : false,
 				margins : '0 0 5 0'
-				/*
+				
 				 }, {
 				 region : 'south',
 				 title : 'South Panel',
@@ -85,8 +86,8 @@ Ext.application({
 				 split : true,
 				 height : 100,
 				 minHeight : 100
-				 */
-			}, menuTree, contentPanel]
+				 
+			},*/ menuTree, contentPanel]
 		});
 		
 		var hideMask = function () {

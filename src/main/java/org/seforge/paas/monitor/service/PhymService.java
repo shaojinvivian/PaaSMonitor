@@ -4,5 +4,6 @@ import org.seforge.paas.monitor.domain.Phym;
 
 public interface PhymService {
 	public void addVims(Phym phym);
+	public void chechPowerState(Phym phym);
 
 }

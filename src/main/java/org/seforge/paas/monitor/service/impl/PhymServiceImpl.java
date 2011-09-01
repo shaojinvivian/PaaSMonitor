@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import org.seforge.paas.monitor.service.PhymService;
 
-/*
+
 import com.vmware.apputils.version.ExtendedAppUtil;
 import com.vmware.vim25.DynamicProperty;
 import com.vmware.vim25.ManagedObjectReference;
@@ -15,11 +15,11 @@ import com.vmware.vim25.ObjectContent;
 import com.vmware.vim25.VirtualMachinePowerState;
 import com.vmware.vim25.VirtualMachineSummary;
 
-*/
+
 @Service("phymService")
 public class PhymServiceImpl implements PhymService {
 	public void addVims(Phym phym) {
-		
+		/*
 		  HashSet set = new HashSet(); 
 		  Vim vim1 = new Vim();
 		  vim1.setName("vim1"); 
@@ -38,8 +38,9 @@ public class PhymServiceImpl implements PhymService {
 		  set.add(vim1); set.add(vim2);
 		  
 		  phym.setVims(set);
+		  */
 		 
-		/*
+		
 		try {
 			ExtendedAppUtil cb = ExtendedAppUtil.initialize("PhymService",
 					generateArgs(phym));
@@ -89,7 +90,7 @@ public class PhymServiceImpl implements PhymService {
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}
-		*/
+		
 	}
 
 	public String[] generateArgs(Phym phym) {
@@ -97,6 +98,10 @@ public class PhymServiceImpl implements PhymService {
 				"http://" + phym.getIp() + "/sdk", "--username",
 				phym.getUsername(), "--password", phym.getPassword() };
 		return args;
+	}
+	
+	public void chechPowerState(Phym phym){
+		
 	}
 
 }

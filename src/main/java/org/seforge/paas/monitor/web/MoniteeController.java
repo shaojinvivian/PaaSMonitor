@@ -13,6 +13,8 @@ import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.extjs.TreeNode;
+import org.seforge.paas.monitor.service.AppServerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,12 @@ import flexjson.transformer.DateTransformer;
 @RequestMapping("/monitees/**")
 @Controller
 public class MoniteeController {
+private AppServerService appServerService;
+	
+	@Autowired
+	public void setAppServerService(AppServerService appServerService){
+		this.appServerService = appServerService;
+	}
 
     @RequestMapping
     public void get(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
@@ -106,12 +114,13 @@ public class MoniteeController {
 							.indexOf("vim") + 3));
 					Vim vim = Vim.findVim(id);
 					List<AppServer> appServers = AppServer.findAppServersByIp(vim.getIp()).getResultList();
+					appServerService.checkState(appServers);
 					if (appServers.size() > 0) {
 						response = new ArrayList<TreeNode>();
 						for (AppServer appServer : appServers) {
 							if(appServer.getIsMonitee()){
 								TreeNode appServerNode = new TreeNode();
-								appServerNode.setText(appServer.getName());
+								appServerNode.setText(appServer.getName() + ":" + appServer.getStatus());
 								appServerNode.setId("appServer" + appServer.getId().toString());
 								appServerNode.setLeaf(false);
 								response.add(appServerNode);								

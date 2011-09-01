@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -78,7 +79,7 @@ public class AppServerServiceImpl implements AppServerService {
 		jmxc.close();	
 	}
 	
-	public void checkState(List<AppServer> appServers){
+	public void checkState(Collection<AppServer> appServers){
 		for(AppServer appServer : appServers){
 			String ip = appServer.getIp();
 			String port = appServer.getJmxPort();

@@ -30,6 +30,9 @@ Ext.define('PaaSMonitor.model.Vim', {
 		name : 'phymIp',
 		type : 'string',
 		mapping: 'phym.ip'	
+	}, {
+		name : 'phym',
+		type : 'Phym',		
 	}],
 	
 	 proxy: {
