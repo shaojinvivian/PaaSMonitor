@@ -23,14 +23,14 @@ public class PhymServiceImpl implements PhymService {
 		  HashSet set = new HashSet(); 
 		  Vim vim1 = new Vim();
 		  vim1.setName("vim1"); 
-		  vim1.setIp("192.168.1.100"); 
+		  vim1.setIp("192.168.1.103"); 
 		  vim1.setPhym(phym);
 		  vim1.setIsMonitee(false);
 		  vim1.setPowerState("On");
 		  
 		  Vim vim2 = new Vim(); 
 		  vim2.setName("vim2");
-		  vim2.setIp(phym.getIp()+"2"); 
+		  vim2.setIp("192.168.233.1"); 
 		  vim2.setPhym(phym);
 		  vim2.setIsMonitee(false);
 		  vim2.setPowerState("Off");

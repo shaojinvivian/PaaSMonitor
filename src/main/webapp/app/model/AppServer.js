@@ -10,6 +10,9 @@ Ext.define('PaaSMonitor.model.AppServer', {
 		name: 'jmxPort',
 		type: 'string'	
 	},{
+		name: 'vim',
+		type: 'Vim'	
+	},{
 		name: 'isMonitee',
 		type: 'bool'	
 	},'name', 'ip', 'status'],

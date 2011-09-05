@@ -2,12 +2,16 @@ package org.seforge.paas.monitor.web;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.exception.VelocityException;
 import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.Phym;
@@ -19,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.ui.velocity.VelocityEngineUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,14 +36,39 @@ import flexjson.transformer.DateTransformer;
 @Controller
 public class MoniteeController {
 	private AppServerService appServerService;
+	private VelocityEngine velocityEngine;
 	
 	@Autowired
 	public void setAppServerService(AppServerService appServerService){
 		this.appServerService = appServerService;
 	}
+	
+	@Autowired
+	public void setVelocityEngine(VelocityEngine velocityEngine) {
+		this.velocityEngine = velocityEngine;
+	}
 
-    @RequestMapping
+    @RequestMapping(method = RequestMethod.GET)
     public void get(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
+    	String result;
+    	String templateName = "report.vm";
+    	List<Phym> phyms = Phym.findAllPhyms();    		
+    	for(Vim vim : phyms.get(0).getVims()){
+    		vim.setPowerState("on");
+    		System.out.println(vim.getAppServers().size());
+    	}
+    	  	
+    	Map<String, Object> model = new HashMap<String, Object>();    	
+    	model.put("phyms", phyms);
+    	try {
+			result = VelocityEngineUtils.mergeTemplateIntoString(
+					velocityEngine, templateName, model);
+			response.getWriter().write(result);
+		} catch (Exception e) {
+			e.printStackTrace();			
+		}
+    	
+    	
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "{id}")
@@ -113,7 +143,9 @@ public class MoniteeController {
 					Long id = Long.valueOf(nodeId.substring(nodeId
 							.indexOf("vim") + 3));
 					Vim vim = Vim.findVim(id);
-					List<AppServer> appServers = AppServer.findAppServersByIp(vim.getIp()).getResultList();
+//					List<AppServer> appServers = AppServer.findAppServersByIp(vim.getIp()).getResultList();
+					Set<AppServer> appServers = vim.getAppServers();
+
 					appServerService.checkState(appServers);
 					if (appServers.size() > 0) {
 						response = new ArrayList<TreeNode>();

@@ -89,14 +89,14 @@ private AppServerService appServerService;
 			List<AppServer> list = AppServer.findAppServersByIp(record.getIp()).getResultList();
 			if(list.size()<=0){
 				record.setId(null);
-				record.setVersion(null);				
+				record.setVersion(null);			
+				appServerService.addAppInstances(record);
+				appServerService.setAppServerName(record);
 				List<Vim> vims =  Vim.findVimsByIp(record.getIp()).getResultList();
 				if(vims.size()>0){
 					Vim vim = vims.get(0);
-					record.setVim(vim);
-				}				
-				appServerService.addAppInstances(record);
-				appServerService.setAppServerName(record);
+					record.setVim(vim);					
+				}								
 				record.persist();
 				returnStatus = HttpStatus.CREATED;
 				response.setMessage("AppServer created.");

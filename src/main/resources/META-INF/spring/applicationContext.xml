@@ -67,4 +67,71 @@
         <property name="persistenceUnitName" value="persistenceUnit"/>
         <property name="dataSource" ref="dataSource"/>
     </bean>
+    
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="velocityProperties">
+            <props>
+                <prop key="resource.loader">class</prop>
+                <prop key="class.resource.loader.class">
+                    org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+                </prop>
+                <prop key="velocimacro.library"></prop>
+            </props>
+        </property>
+    </bean>
+    
+    <!--  
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${mail.host}"/>
+        <property name="defaultEncoding" value="UTF-8"/> 
+       
+        <property name="username" value="${mail.username}"/>
+        <property name="password" value="${mail.password}"/>
+        <property name="javaMailProperties">
+            <value>
+                mail.smtp.auth=true
+            </value>
+        </property>
+    </bean>
+     <bean id="mailEngine" class="org.seforge.sase.service.MailEngine">
+        <property name="mailSender" ref="mailSender"/>
+        <property name="velocityEngine" ref="velocityEngine"/>
+        <property name="from" value="${mail.default.from}"/>
+		<property name="to" value="${mail.default.to}"/>
+    </bean>
+     
+    <bean id="mailMessage" class="org.springframework.mail.SimpleMailMessage" scope="prototype">
+        <property name="from" value="${mail.default.from}"/>
+		<property name="to" value="${mail.default.to}"/>
+    </bean>
+    <bean id="reportTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+       
+        <property name="targetObject">
+            <ref bean="reporter"/>
+        </property>
+		<property name="targetMethod">
+            <value>report</value>
+        </property>
+    </bean>
+    
+    <bean id="reportTimer" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="reportTask"/>
+        </property>
+       
+        <property name="cronExpression">           
+		    <value>0 0 0 * * ?</value>			
+        </property>
+    </bean>
+   
+    <bean id="startReportQuartz" lazy-init="false" autowire="no"
+     class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="reportTimer"/>
+            </list>
+        </property>
+    </bean>
+    -->
+    
 </beans>

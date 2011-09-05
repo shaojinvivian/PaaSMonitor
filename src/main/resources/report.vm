@@ -1,0 +1,133 @@
+<h1>Status of Monitees</h1>
+
+<table cellpadding="2" cellspacing="1" border="1" style="empty-cells:show">
+	<tr style="font-weight:bold">
+		<td align="center" colspan="2">Phym</td>
+		<td align="center" colspan="3">Vim</td>   		
+		<td align="center" colspan="2">AppServer</td>
+		<td align="center" colspan="2">AppInstance</td>				
+	</tr>
+	<tr style="font-weight:bold">
+		<td align="center">Ip</td>
+		<td align="center">Name</td>
+		<td align="center">Ip</td>
+		<td align="center">Name</td>
+		<td align="center">Power</td>
+		<td align="center">Name</td>
+		<td align="center">Status</td>
+		<td align="center">Name</td>
+		<td align="center">Status</td>					
+	</tr>
+	#if ($phyms.size() > 0)		
+		#foreach ( $phym in $phyms )
+			#set ( $vimFirst = 1 )
+			#set ( $vims = $phym.vims)						
+			#if ($vims.size()>0)			
+				#set ($phymRowCount = 0)
+				#set ($phymFirst = 1)
+				#foreach ($vim in $vims)
+					#if($vim.appServers.size()>0)
+						#foreach ($appServer in $vim.appServers)
+							#if($appServer.appInstances.size()>0)
+								#set ($phymRowCount = $phymRowCount + $appServer.appInstances.size() )	
+							#else
+								#set ($phymRowCount = $phymRowCount + 1)
+							#end
+						#end
+					#else
+						#set ($phymRowCount = $phymRowCount + 1)
+					#end					
+				#end			
+				#foreach ($vim in $vims)					
+					#set ( $appServers = $vim.appServers)					
+					#if($appServers.size()>0)
+						#set ($vimRowCount = 0)
+						#set ( $vimFirst = 1)
+						#foreach ($appServer in $appServers)
+							#set ($vimRowCount = $vimRowCount + $appServer.appInstances.size())
+						#end
+						#foreach ($appServer in $appServers)
+							#set ($appInstances = $appServer.appInstances)
+							#set ($appServerRowCount = $appInstances.size())							
+							#set ($appServerFirst = 1)
+							#if ( $appServerRowCount >0)
+								#foreach ($appInstance in $appInstances)
+									<tr>
+									#if($phymFirst == 1)
+										<td rowspan="$phymRowCount">$phym.ip</td>
+										<td rowspan="$phymRowCount">$phym.name</td>
+										#set ($phymFirst = 0)
+									#end
+									
+									#if($vimFirst == 1)
+										<td rowspan="$vimRowCount">$vim.ip</td>
+										<td rowspan="$vimRowCount">$vim.name</td>
+										<td rowspan="$vimRowCount">$vim.powerState</td>
+										#set ($vimFirst = 0)
+									#end
+									
+									#if($appServerFirst == 1)
+										<td rowspan="$appServerRowCount">$appServer.name</td>
+										<td rowspan="$appServerRowCount">$appServer.status</td>							
+										#set ($appServerFirst = 0)
+									#end													
+										<td>$appInstance.name</td>
+										<td>$appInstance.status</td>					
+									</tr>	
+								#end
+							#else
+								<tr>
+									#if($phymFirst == 1)
+										<td rowspan="$phymRowCount">$phym.ip</td>
+										<td rowspan="$phymRowCount">$phym.name</td>
+										#set ($phymFirst = 0)
+									#end
+									
+									#if($vimFirst == 1)
+										<td rowspan="$vimRowCount">$vim.ip</td>
+										<td rowspan="$vimRowCount">$vim.name</td>
+										<td rowspan="$vimRowCount">$vim.powerState</td>
+										#set ($vimFirst = 0)
+									#end
+										<td>$appServer.name</td>
+										<td>$appServer.status</td>																							
+										<td colspan="2">No appInstances</td>														
+								</tr>
+							#end								
+						#end	
+					#else
+						<tr>
+							#if($phymFirst == 1)								
+								<td rowspan="$phymRowCount">$phym.ip</td>
+								<td rowspan="$phymRowCount">$phym.name</td>								
+								#set ($phymFirst = 0)
+							#end															
+								<td>$vim.ip</td>
+								<td>$vim.name</td>
+								<td>$vim.powerState</td>
+								<td colspan="4">No appservers.</td>
+						</tr>
+					#end									
+				#end											
+			#else
+			<tr>
+				<td>$phym.ip</td>
+				<td>$phym.name</td>
+				<td colspan="7">No vims now.</td>
+			</tr>
+			#end						
+		#end
+	#else
+		<tr>
+			<td colspan="9">There is no monitee now.</td>
+		</tr>
+	#end		
+</table>
+
+
+
+
+	
+   
+  
+   
