@@ -73,12 +73,12 @@ public class PhymServiceImpl implements PhymService {
 						vim.setUuid(sum.getConfig().getUuid());
 						if (sum.getRuntime().getPowerState() == VirtualMachinePowerState.poweredOn) {
 							vim.setIp(sum.getGuest().getIpAddress());
-							vim.setPowerState("on");							
+							vim.setPowerState("ON");							
 						} else if (sum.getRuntime().getPowerState() == VirtualMachinePowerState.poweredOff) {
-							vim.setPowerState("off");
+							vim.setPowerState("OFF");
 						}
 						else
-							vim.setPowerState("suspended");
+							vim.setPowerState("SUSPENDED");
 					}
 				}
 				vim.setIsMonitee(false);
@@ -101,7 +101,10 @@ public class PhymServiceImpl implements PhymService {
 		return args;
 	}
 	
-	public void chechPowerState(Phym phym){
+	public void checkPowerState(Phym phym){
+		for(Vim vim : phym.getVims()){
+			vim.setPowerState("ON");
+		}
 		
 	}
 

@@ -30,5 +30,13 @@ public class AppInstance {
 
     private String docBase;
 
-    private String status;
+    private transient String status;
+    
+    public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}  
 }

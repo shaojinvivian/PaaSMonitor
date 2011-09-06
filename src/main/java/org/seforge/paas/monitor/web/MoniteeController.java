@@ -18,6 +18,7 @@ import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.extjs.TreeNode;
 import org.seforge.paas.monitor.service.AppServerService;
+import org.seforge.paas.monitor.service.PhymService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,11 +37,17 @@ import flexjson.transformer.DateTransformer;
 @Controller
 public class MoniteeController {
 	private AppServerService appServerService;
+	private PhymService phymService;
 	private VelocityEngine velocityEngine;
 	
 	@Autowired
 	public void setAppServerService(AppServerService appServerService){
 		this.appServerService = appServerService;
+	}
+	
+	@Autowired
+	public void setPhymService(PhymService phymService){
+		this.phymService = phymService;
 	}
 	
 	@Autowired
@@ -52,11 +59,33 @@ public class MoniteeController {
     public void get(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
     	String result;
     	String templateName = "report.vm";
-    	List<Phym> phyms = Phym.findAllPhyms();    		
-    	for(Vim vim : phyms.get(0).getVims()){
-    		vim.setPowerState("on");
-    		System.out.println(vim.getAppServers().size());
-    	}
+    	List<Phym> phyms = Phym.findAllPhyms();
+    	for(Phym phym : phyms){
+    		phymService.checkPowerState(phym);
+    		for(Vim vim: phym.getVims()){
+    			if(vim.getPowerState().equals("ON")){
+    				for(AppServer appServer : vim.getAppServers()){
+        				try {
+							appServerService.checkInstancesState(appServer);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							appServer.setStatus("STOPPED");
+	        				for(AppInstance appInstance: appServer.getAppInstances()){
+	        					appInstance.setStatus("STOPPED");
+	        				}
+							e.printStackTrace();
+						}
+        			}
+    			}else{
+    				for(AppServer appServer : vim.getAppServers()){
+        				appServer.setStatus("STOPPED");
+        				for(AppInstance appInstance: appServer.getAppInstances()){
+        					appInstance.setStatus("STOPPED");
+        				}
+        			}    				
+    			}    			
+    		}
+    	}    	
     	  	
     	Map<String, Object> model = new HashMap<String, Object>();    	
     	model.put("phyms", phyms);
