@@ -5,6 +5,9 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import org.seforge.paas.monitor.domain.Vim;
 import java.util.HashSet;
@@ -36,4 +39,14 @@ public class Phym {
     private Set<Vim> vims = new HashSet<Vim>();
 
     private Boolean isMonitee;
+    
+    
+    public List<Vim> getActiveVims(){
+		List<Vim> list = new ArrayList();		
+		for(Vim vim : this.getVims()){
+			if(vim.getIsMonitee())
+				list.add(vim);
+		}
+		return list;
+	}
 }

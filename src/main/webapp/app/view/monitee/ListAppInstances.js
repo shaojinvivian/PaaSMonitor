@@ -7,6 +7,7 @@ Ext.define('PaaSMonitor.view.monitee.ListAppInstances', {
 	
 	store : 'AppInstances',
 	selType: 'cellmodel', 
+	
     
 
 	initComponent : function() {
@@ -33,7 +34,8 @@ Ext.define('PaaSMonitor.view.monitee.ListAppInstances', {
 			dataIndex : 'isMonitee'
 		}];
 		this.plugins = [cellEditing];
-		this.features = [groupingFeature];
+		this.features = [groupingFeature];		
+		this.autoScroll = true;
 		
 		this.callParent(arguments);
 	}

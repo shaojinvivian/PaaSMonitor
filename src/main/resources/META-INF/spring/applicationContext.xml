@@ -99,13 +99,9 @@
     </bean>
     
     
-    <!--  
-    
-      <bean id="mailMessage" class="org.springframework.mail.SimpleMailMessage" scope="prototype">
-        <property name="from" value="${mail.default.from}"/>
-		<property name="to" value="${mail.default.to}"/>
-    </bean>
    
+    
+      
     <bean id="reportTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
        
         <property name="targetObject">
@@ -133,7 +129,6 @@
                 <ref bean="reportTimer"/>
             </list>
         </property>
-    </bean>
-    -->
+    </bean>    
     
 </beans>

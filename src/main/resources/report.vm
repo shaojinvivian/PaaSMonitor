@@ -21,7 +21,7 @@
 	#if ($phyms.size() > 0)		
 		#foreach ( $phym in $phyms )
 			#set ( $vimFirst = 1 )
-			#set ( $vims = $phym.vims)						
+			#set ( $vims = $phym.getActiveVims())						
 			#if ($vims.size()>0)			
 				#set ($phymRowCount = 0)
 				#set ($phymFirst = 1)

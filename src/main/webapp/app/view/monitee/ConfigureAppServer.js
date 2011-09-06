@@ -16,6 +16,7 @@ Ext.define('PaaSMonitor.view.monitee.ConfigureAppServer', {
 			xtype : 'button',
 			text : 'Next'
 		}];
+		this.height = 500;
 		this.callParent(arguments);
 	}
 });
