@@ -5,8 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.seforge.paas.monitor.domain.AppInstance;
-import org.seforge.paas.monitor.domain.AppServer;
+import org.seforge.paas.monitor.reference.MoniteeState;
 import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.extjs.JsonObjectResponse;

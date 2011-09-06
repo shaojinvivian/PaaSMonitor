@@ -17,8 +17,10 @@ import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.extjs.TreeNode;
+import org.seforge.paas.monitor.reference.MoniteeState;
 import org.seforge.paas.monitor.service.AppServerService;
 import org.seforge.paas.monitor.service.PhymService;
+import org.seforge.paas.monitor.service.Reporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +41,7 @@ public class MoniteeController {
 	private AppServerService appServerService;
 	private PhymService phymService;
 	private VelocityEngine velocityEngine;
+	private Reporter reporter;
 	
 	@Autowired
 	public void setAppServerService(AppServerService appServerService){
@@ -54,50 +57,15 @@ public class MoniteeController {
 	public void setVelocityEngine(VelocityEngine velocityEngine) {
 		this.velocityEngine = velocityEngine;
 	}
+	
+	@Autowired
+	public void setReporter(Reporter reporter){
+		this.reporter = reporter;
+	}
 
     @RequestMapping(method = RequestMethod.GET)
     public void get(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
-    	String result;
-    	String templateName = "report.vm";
-    	List<Phym> phyms = Phym.findAllPhyms();
-    	for(Phym phym : phyms){
-    		phymService.checkPowerState(phym);
-    		for(Vim vim: phym.getVims()){
-    			if(vim.getPowerState().equals("ON")){
-    				for(AppServer appServer : vim.getAppServers()){
-        				try {
-							appServerService.checkInstancesState(appServer);
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							appServer.setStatus("STOPPED");
-	        				for(AppInstance appInstance: appServer.getAppInstances()){
-	        					appInstance.setStatus("STOPPED");
-	        				}
-							e.printStackTrace();
-						}
-        			}
-    			}else{
-    				for(AppServer appServer : vim.getAppServers()){
-        				appServer.setStatus("STOPPED");
-        				for(AppInstance appInstance: appServer.getAppInstances()){
-        					appInstance.setStatus("STOPPED");
-        				}
-        			}    				
-    			}    			
-    		}
-    	}    	
-    	  	
-    	Map<String, Object> model = new HashMap<String, Object>();    	
-    	model.put("phyms", phyms);
-    	try {
-			result = VelocityEngineUtils.mergeTemplateIntoString(
-					velocityEngine, templateName, model);
-			response.getWriter().write(result);
-		} catch (Exception e) {
-			e.printStackTrace();			
-		}
-    	
-    	
+    	reporter.report();    	
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "{id}")
@@ -172,7 +140,6 @@ public class MoniteeController {
 					Long id = Long.valueOf(nodeId.substring(nodeId
 							.indexOf("vim") + 3));
 					Vim vim = Vim.findVim(id);
-//					List<AppServer> appServers = AppServer.findAppServersByIp(vim.getIp()).getResultList();
 					Set<AppServer> appServers = vim.getAppServers();
 
 					appServerService.checkState(appServers);
@@ -207,7 +174,7 @@ public class MoniteeController {
 					AppServer appServer = AppServer.findAppServer(id);
 					appServerService.checkState(appServer);
 					Set<AppInstance> appInstances = appServer.getAppInstances();
-					if (appServer.getStatus().equals("RUNNING") && appInstances.size() > 0) {
+					if (appServer.getStatus().equals(MoniteeState.STARTED) && appInstances.size() > 0) {
 						response = new ArrayList<TreeNode>();
 						appServerService.checkInstancesState(appServer);
 						for (AppInstance appInstance : appInstances) {

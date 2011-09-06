@@ -7,8 +7,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.seforge.paas.monitor.domain.Vim;
 import javax.persistence.ManyToOne;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.reference.MoniteeState;
+
 import java.util.HashSet;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
@@ -48,5 +53,14 @@ public class AppServer {
 	public void setStatus(String status) {
 		this.status = status;
 	}    
+	
+	public List<AppInstance> getActiveAppInstances(){
+		List<AppInstance> list = new ArrayList();		
+		for(AppInstance appInstance : this.getAppInstances()){
+			if(appInstance.getIsMonitee())
+				list.add(appInstance);
+		}
+		return list;
+	}
     
 }

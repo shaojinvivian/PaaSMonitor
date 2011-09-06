@@ -27,6 +27,7 @@ import javax.management.remote.JMXServiceURL;
 
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.reference.MoniteeState;
 import org.seforge.paas.monitor.service.AppServerService;
 import org.springframework.stereotype.Service;
 
@@ -65,7 +66,7 @@ public class AppServerServiceImpl implements AppServerService {
 					appInstance.setDisplayName(appInstance.getDocBase());
 				}								
 				appInstance.setIsMonitee(false);
-				appInstance.setAppServer(appServer);
+				appInstance.setAppServer(appServer);				
 				appInstances.add(appInstance);
 			}			
 			appServer.setAppInstances(appInstances);
@@ -93,13 +94,13 @@ public class AppServerServiceImpl implements AppServerService {
 				url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + ip
 						+ ":"+ port +"/jmxrmi");				
 				JMXConnector jmxc = connectWithTimeout(url, TIMEOUT, TimeUnit.SECONDS);
-				appServer.setStatus("RUNNING");				
+				appServer.setStatus(MoniteeState.STARTED);				
 			jmxc.close();	
 			}catch (MalformedURLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				appServer.setStatus("STOPPED");
+				appServer.setStatus(MoniteeState.STOPPED);
 			}				
 		}
 	}
@@ -112,13 +113,13 @@ public class AppServerServiceImpl implements AppServerService {
 			url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + ip
 					+ ":"+ port +"/jmxrmi");				
 			JMXConnector jmxc = connectWithTimeout(url, TIMEOUT, TimeUnit.SECONDS);
-			appServer.setStatus("RUNNING");				
+			appServer.setStatus(MoniteeState.STARTED);				
 		jmxc.close();	
 		}catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			appServer.setStatus("STOPPED");
+			appServer.setStatus(MoniteeState.STOPPED);
 		}			
 	}
 	
@@ -131,19 +132,24 @@ public class AppServerServiceImpl implements AppServerService {
 					+ port + "/jmxrmi");
 			JMXConnector jmxc = connectWithTimeout(url, TIMEOUT,
 					TimeUnit.SECONDS);
-			appServer.setStatus("RUNNING");
+			appServer.setStatus(MoniteeState.STARTED);
 			MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
 			Set<AppInstance> appInstances = appServer.getAppInstances();
 			for(AppInstance appInstance: appInstances){
-				ObjectName objectName = new ObjectName("Catalina:j2eeType=WebModule,name=//localhost"+ appInstance.getName() +",J2EEApplication=none,J2EEServer=none");
-				appInstance.setStatus((String)mbsc.getAttribute(objectName, "stateName"));	
+				if(!appInstance.getName().substring(0,1).equals("/"))
+					appInstance.setName("/" +appInstance.getName());
+				if(appInstance.getIsMonitee()){
+					ObjectName objectName = new ObjectName("Catalina:j2eeType=WebModule,name=//localhost"+ appInstance.getName() +",J2EEApplication=none,J2EEServer=none");
+					appInstance.setStatus(MoniteeState.convertFromInt((Integer)mbsc.getAttribute(objectName, "state")));	
+				}
+				
 			}
 			jmxc.close();
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			appServer.setStatus("STOPPED");
+			appServer.setStatus(MoniteeState.STOPPED);
 		}
 
 	}

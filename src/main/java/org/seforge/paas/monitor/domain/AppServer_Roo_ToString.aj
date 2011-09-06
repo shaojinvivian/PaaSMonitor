@@ -9,6 +9,7 @@ privileged aspect AppServer_Roo_ToString {
     
     public String AppServer.toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("ActiveAppInstances: ").append(getActiveAppInstances() == null ? "null" : getActiveAppInstances().size()).append(", ");
         sb.append("AppInstances: ").append(getAppInstances() == null ? "null" : getAppInstances().size()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("Ip: ").append(getIp()).append(", ");

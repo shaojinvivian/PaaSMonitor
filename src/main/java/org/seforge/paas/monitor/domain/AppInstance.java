@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import org.seforge.paas.monitor.domain.App;
 import javax.persistence.ManyToOne;
 import org.seforge.paas.monitor.domain.AppServer;
+import org.seforge.paas.monitor.reference.MoniteeState;
 import org.springframework.roo.addon.json.RooJson;
 
 @RooJavaBean

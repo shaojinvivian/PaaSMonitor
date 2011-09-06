@@ -5,6 +5,7 @@ import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;
 import org.springframework.stereotype.Service;
 
+import org.seforge.paas.monitor.reference.MoniteeState;
 import org.seforge.paas.monitor.service.PhymService;
 
 
@@ -20,6 +21,7 @@ import com.vmware.vim25.VirtualMachineSummary;
 public class PhymServiceImpl implements PhymService {
 	public void addVims(Phym phym) {
 		
+		/*
 		  HashSet set = new HashSet(); 
 		  Vim vim1 = new Vim();
 		  vim1.setName("vim1"); 
@@ -38,9 +40,9 @@ public class PhymServiceImpl implements PhymService {
 		  set.add(vim1); set.add(vim2);
 		  
 		  phym.setVims(set);
-		  
+		  */
 		 
-		/*
+		
 		try {
 			ExtendedAppUtil cb = ExtendedAppUtil.initialize("PhymService",
 					generateArgs(phym));
@@ -73,12 +75,12 @@ public class PhymServiceImpl implements PhymService {
 						vim.setUuid(sum.getConfig().getUuid());
 						if (sum.getRuntime().getPowerState() == VirtualMachinePowerState.poweredOn) {
 							vim.setIp(sum.getGuest().getIpAddress());
-							vim.setPowerState("ON");							
+							vim.setPowerState(MoniteeState.POWEREDON);							
 						} else if (sum.getRuntime().getPowerState() == VirtualMachinePowerState.poweredOff) {
-							vim.setPowerState("OFF");
+							vim.setPowerState(MoniteeState.POWEREDOFF);
 						}
 						else
-							vim.setPowerState("SUSPENDED");
+							vim.setPowerState(MoniteeState.SUSPENDED);
 					}
 				}
 				vim.setIsMonitee(false);
@@ -90,7 +92,7 @@ public class PhymServiceImpl implements PhymService {
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}
-		*/
+		
 		
 	}
 
@@ -103,7 +105,7 @@ public class PhymServiceImpl implements PhymService {
 	
 	public void checkPowerState(Phym phym){
 		for(Vim vim : phym.getVims()){
-			vim.setPowerState("ON");
+			vim.setPowerState(MoniteeState.POWEREDON);
 		}
 		
 	}

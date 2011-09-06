@@ -89,7 +89,8 @@ private AppServerService appServerService;
 			List<AppServer> list = AppServer.findAppServersByIp(record.getIp()).getResultList();
 			if(list.size()<=0){
 				record.setId(null);
-				record.setVersion(null);			
+				record.setVersion(null);	
+				record.setStatus(null);
 				appServerService.addAppInstances(record);
 				appServerService.setAppServerName(record);
 				List<Vim> vims =  Vim.findVimsByIp(record.getIp()).getResultList();

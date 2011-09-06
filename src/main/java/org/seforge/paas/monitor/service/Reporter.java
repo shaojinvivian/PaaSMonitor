@@ -1,96 +1,77 @@
 package org.seforge.paas.monitor.service;
 
-import java.util.ArrayList;
-import java.util.Calendar;
+
 import java.util.HashMap;
 import java.util.List;
-import java.util.Date;
 import java.util.Map;
-import java.util.Set;
-
 import javax.mail.MessagingException;
-import org.springframework.mail.SimpleMailMessage;
+import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.domain.AppServer;
+import org.seforge.paas.monitor.domain.Phym;
+import org.seforge.paas.monitor.domain.Vim;
+import org.seforge.paas.monitor.reference.MoniteeState;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service("reporter")
 public class Reporter {
-	/*
-	private MailEngine mailEngine;
-	private JMXMonitor jmxMonitor;	
-	private String templateName;
+	
+	private MailEngine mailEngine;	
+	private AppServerService appServerService;
+	private PhymService phymService;	
+	
+	@Autowired
+	public void setAppServerService(AppServerService appServerService){
+		this.appServerService = appServerService;
+	}
+	
+	@Autowired
+	public void setPhymService(PhymService phymService){
+		this.phymService = phymService;
+	}
 
 	public MailEngine getMailEngine() {
 		return mailEngine;
 	}
-
+	
+	@Autowired
 	public void setMailEngine(MailEngine mailEngine) {
 		this.mailEngine = mailEngine;
-	}
-
-	public JMXMonitor getJmxMonitor() {
-		return jmxMonitor;
-	}
-
-	public void setJmxMonitor(JMXMonitor jmxMonitor) {
-		this.jmxMonitor = jmxMonitor;
-	}
-
-	public String getTemplateName() {
-		return templateName;
-	}
-
-	public void setTemplateName(String templateName) {
-		this.templateName = templateName;
-	}
-	
+	}	
 
 	public void report() {
-		HttpMonitor httpMonitor = new HttpMonitor();
+		String templateName = "report.vm";
+    	List<Phym> phyms = Phym.findAllPhyms();
+    	for(Phym phym : phyms){
+    		phymService.checkPowerState(phym);
+    		for(Vim vim: phym.getVims()){
+    			if(vim.getPowerState().equals(MoniteeState.POWEREDON)){
+    				for(AppServer appServer : vim.getAppServers()){    			
+        				try {
+							appServerService.checkInstancesState(appServer);							
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							appServer.setStatus(MoniteeState.STOPPED);
+	        				for(AppInstance appInstance: appServer.getAppInstances()){
+	        					appInstance.setStatus(MoniteeState.STOPPED);
+	        				}
+							e.printStackTrace();
+						}
+        			}
+    			}else{
+    				for(AppServer appServer : vim.getAppServers()){
+        				appServer.setStatus(MoniteeState.STOPPED);
+        				for(AppInstance appInstance: appServer.getAppInstances()){
+        					appInstance.setStatus(MoniteeState.STOPPED);
+        				}
+        			}    				
+    			}    			
+    		}
+    	}    	
+    	  	
+    	Map<String, Object> model = new HashMap<String, Object>();    	
+    	model.put("phyms", phyms);
 
-		// Put servers in jmxMonitor and its serverSnap into a map called
-		// serviceSnapMap
-		Map<Server, ServerSnap> serverSnapMap = new HashMap<Server, ServerSnap>();
-		List<Server> servers = jmxMonitor.getServers();
-		for (Server server : servers) {			
-				ServerSnap snap = jmxMonitor.getServerSnap(server);
-				if(snap!=null){
-				snap.formatUptime();				
-				serverSnapMap.put(server, snap);
-			} else {
-				snap = new ServerSnap();
-				snap.setServer(server);
-				snap.setFormattedUptime("Unavailable");
-				serverSnapMap.put(server, snap);
-			}
-		}
-
-		// Put services in jmxMonitor and its serviceInstanceSnap into a map
-		// called serviceSnapMap
-		
-		Map<Service, List<ServiceInstanceSnap>> serviceSnapMap = new HashMap<Service, List<ServiceInstanceSnap>>();
-		Map<Service, Boolean> externalServiceSnapMap = new HashMap<Service, Boolean>();
-
-
-		List<Service> services = jmxMonitor.getServices();
-		for(Service service: services){
-			if(service instanceof InternalService){
-				List<ServiceInstance> instances = ((InternalService)service).getServiceInstances();
-				List<ServiceInstanceSnap> instanceSnaps = new ArrayList<ServiceInstanceSnap>();
-				for(ServiceInstance instance:instances){
-					instanceSnaps.add(jmxMonitor.getServiceInstanceSnap(instance));
-				}
-				serviceSnapMap.put(service, instanceSnaps);		
-			}
-			else if(service instanceof ExternalService){
-				Boolean avail = httpMonitor.isUrlAvailable(service.getUrl());
-				externalServiceSnapMap.put(service, avail);				
-			}				
-		}
-		
-		
-		//Put model
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("serverSnapMap", serverSnapMap);
-		model.put("serviceSnapMap", serviceSnapMap);
-		model.put("externalServiceSnapMap", externalServiceSnapMap);
 		try {
 			mailEngine.sendMessage(null, "SASE Daily Report", templateName,
 					model);
@@ -99,7 +80,6 @@ public class Reporter {
 			e.printStackTrace();
 		}
 		
-	}
-	*/
+	}	
 
 }

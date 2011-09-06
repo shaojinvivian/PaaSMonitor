@@ -9,6 +9,8 @@ import org.seforge.paas.monitor.domain.Phym;
 import javax.persistence.ManyToOne;
 import java.util.Set;
 import org.seforge.paas.monitor.domain.AppServer;
+import org.seforge.paas.monitor.reference.MoniteeState;
+
 import java.util.HashSet;
 import javax.persistence.Column;
 import javax.persistence.OneToMany;

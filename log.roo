@@ -58,3 +58,10 @@ field string --fieldName status --class ~.domain.AppInstance
 quit
 // Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-09-01 21:13:59
 // Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-09-06 10:12:11
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-09-06 15:34:55
+enum type --class ~.reference.MoniteeState
+enum constant --name STARTED
+enum constant --name STOPPED
+// [failed] enum constant --name ON
+enum constant --name POWEREDON
+enum constant --name POWEREDOFF

@@ -79,8 +79,6 @@
             </props>
         </property>
     </bean>
-    
-    <!--  
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="${mail.host}"/>
         <property name="defaultEncoding" value="UTF-8"/> 
@@ -93,17 +91,21 @@
             </value>
         </property>
     </bean>
-     <bean id="mailEngine" class="org.seforge.sase.service.MailEngine">
+     <bean id="mailEngine" class="org.seforge.paas.monitor.service.MailEngine">
         <property name="mailSender" ref="mailSender"/>
         <property name="velocityEngine" ref="velocityEngine"/>
         <property name="from" value="${mail.default.from}"/>
 		<property name="to" value="${mail.default.to}"/>
     </bean>
-     
-    <bean id="mailMessage" class="org.springframework.mail.SimpleMailMessage" scope="prototype">
+    
+    
+    <!--  
+    
+      <bean id="mailMessage" class="org.springframework.mail.SimpleMailMessage" scope="prototype">
         <property name="from" value="${mail.default.from}"/>
 		<property name="to" value="${mail.default.to}"/>
     </bean>
+   
     <bean id="reportTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
        
         <property name="targetObject">

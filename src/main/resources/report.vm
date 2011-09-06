@@ -28,8 +28,8 @@
 				#foreach ($vim in $vims)
 					#if($vim.appServers.size()>0)
 						#foreach ($appServer in $vim.appServers)
-							#if($appServer.appInstances.size()>0)
-								#set ($phymRowCount = $phymRowCount + $appServer.appInstances.size() )	
+							#if($appServer.getActiveAppInstances().size()>0)
+								#set ($phymRowCount = $phymRowCount + $appServer.getActiveAppInstances().size() )	
 							#else
 								#set ($phymRowCount = $phymRowCount + 1)
 							#end
@@ -44,10 +44,10 @@
 						#set ($vimRowCount = 0)
 						#set ( $vimFirst = 1)
 						#foreach ($appServer in $appServers)
-							#set ($vimRowCount = $vimRowCount + $appServer.appInstances.size())
+							#set ($vimRowCount = $vimRowCount + $appServer.getActiveAppInstances().size())
 						#end
 						#foreach ($appServer in $appServers)
-							#set ($appInstances = $appServer.appInstances)
+							#set ($appInstances = $appServer.getActiveAppInstances())
 							#set ($appServerRowCount = $appInstances.size())							
 							#set ($appServerFirst = 1)
 							#if ( $appServerRowCount >0)

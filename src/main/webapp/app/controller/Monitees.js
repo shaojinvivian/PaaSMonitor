@@ -69,7 +69,9 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 		var uppanel = panel.up('panel');
 		var appServer = Ext.ModelManager.create(values, 'PaaSMonitor.model.AppServer');			
 		var instanceStore = this.getAppInstancesStore();	
-		appServer.set("isMonitee",true);	
+		appServer.set("isMonitee",true);
+		appServer.set("vim", null);	
+		appServer.set("status", null);	
 		appServer.save({
 			success : function(appServer, operation) {
 				form.getForm().reset();				

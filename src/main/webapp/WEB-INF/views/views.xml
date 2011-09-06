@@ -5,11 +5,11 @@
 
 <tiles-definitions>
 
-  <definition name="index" extends="default">
+  <definition name="index_old" extends="default">
     <put-attribute name="body" value="/WEB-INF/views/index.jspx" />
   </definition>
   
-  <definition name="index_extjs" extends="extjs">
+  <definition name="index" extends="extjs">
     <put-attribute name="body" value="/WEB-INF/views/index_extjs.jspx" />
   </definition>
 
