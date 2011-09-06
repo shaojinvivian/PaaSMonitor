@@ -9,6 +9,7 @@ privileged aspect Phym_Roo_ToString {
     
     public String Phym.toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("ActiveVims: ").append(getActiveVims() == null ? "null" : getActiveVims().size()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("Ip: ").append(getIp()).append(", ");
         sb.append("IsMonitee: ").append(getIsMonitee()).append(", ");
