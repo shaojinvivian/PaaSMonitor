@@ -6,6 +6,9 @@ Ext.define('PaaSMonitor.model.Phym', {
 	},{
 		name: 'version',
 		type: 'int'
+	}, {
+		name : 'isMonitee',
+		type : 'bool'
 	},'name', 'ip', 'username', 'password'],
 	
 	proxy : {

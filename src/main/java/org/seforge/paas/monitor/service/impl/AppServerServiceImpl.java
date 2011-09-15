@@ -140,7 +140,8 @@ public class AppServerServiceImpl implements AppServerService {
 					appInstance.setName("/" +appInstance.getName());
 				if(appInstance.getIsMonitee()){
 					ObjectName objectName = new ObjectName("Catalina:j2eeType=WebModule,name=//localhost"+ appInstance.getName() +",J2EEApplication=none,J2EEServer=none");
-					appInstance.setStatus(MoniteeState.convertFromInt((Integer)mbsc.getAttribute(objectName, "state")));	
+//					appInstance.setStatus(MoniteeState.convertFromInt((Integer)mbsc.getAttribute(objectName, "state")));
+					appInstance.setStatus((String)mbsc.getAttribute(objectName, "stateName"));
 				}
 				
 			}

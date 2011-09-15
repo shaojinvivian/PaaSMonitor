@@ -21,28 +21,28 @@ import com.vmware.vim25.VirtualMachineSummary;
 public class PhymServiceImpl implements PhymService {
 	public void addVims(Phym phym) {
 		
-		/*
+		
 		  HashSet set = new HashSet(); 
 		  Vim vim1 = new Vim();
 		  vim1.setName("vim1"); 
-		  vim1.setIp("192.168.1.103"); 
+		  vim1.setIp("192.168.233.1"); 
 		  vim1.setPhym(phym);
 		  vim1.setIsMonitee(false);
-		  vim1.setPowerState("On");
+		  vim1.setPowerState(MoniteeState.POWEREDON);
 		  
 		  Vim vim2 = new Vim(); 
 		  vim2.setName("vim2");
-		  vim2.setIp("192.168.233.1"); 
+		  vim2.setIp("115.27.234.64"); 
 		  vim2.setPhym(phym);
 		  vim2.setIsMonitee(false);
-		  vim2.setPowerState("Off");
+		  vim2.setPowerState(MoniteeState.POWEREDON);
 		  
 		  set.add(vim1); set.add(vim2);
 		  
 		  phym.setVims(set);
-		  */
 		 
-		
+		 
+		/*
 		try {
 			ExtendedAppUtil cb = ExtendedAppUtil.initialize("PhymService",
 					generateArgs(phym));
@@ -93,9 +93,9 @@ public class PhymServiceImpl implements PhymService {
 			e.printStackTrace();
 		}
 		
-		
+		*/
 	}
-
+	
 	public String[] generateArgs(Phym phym) {
 		String[] args = new String[] { "--url",
 				"http://" + phym.getIp() + "/sdk", "--username",

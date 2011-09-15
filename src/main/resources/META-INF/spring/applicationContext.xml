@@ -101,7 +101,7 @@
     
    
     
-      
+     <!-- 
     <bean id="reportTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
        
         <property name="targetObject">
@@ -118,7 +118,7 @@
         </property>
        
         <property name="cronExpression">           
-		    <value>0 0 0 * * ?</value>			
+		    <value>0 0/5 * * * ?</value>			
         </property>
     </bean>
    
@@ -130,5 +130,5 @@
             </list>
         </property>
     </bean>    
-    
+     -->
 </beans>

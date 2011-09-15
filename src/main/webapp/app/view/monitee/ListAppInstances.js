@@ -1,20 +1,18 @@
 Ext.require(['Ext.ux.CheckColumn']);
 
-
 Ext.define('PaaSMonitor.view.monitee.ListAppInstances', {
 	extend : 'Ext.grid.Panel',
 	alias : 'widget.listAppInstances',
-	
 	store : 'AppInstances',
-	selType: 'cellmodel', 
+	selType : 'cellmodel',
+	height : 100,
+	width : '100%',
 	
-    
-
 	initComponent : function() {
-		  var groupingFeature = Ext.create('Ext.grid.feature.Grouping',{
-        groupHeaderTpl: 'AppServer: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
-    });
-		
+		var groupingFeature = Ext.create('Ext.grid.feature.Grouping', {
+			groupHeaderTpl : 'AppServer: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
+		});
+
 		var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
 			clicksToEdit : 1
 		});
@@ -34,9 +32,9 @@ Ext.define('PaaSMonitor.view.monitee.ListAppInstances', {
 			dataIndex : 'isMonitee'
 		}];
 		this.plugins = [cellEditing];
-		this.features = [groupingFeature];		
+		this.features = [groupingFeature];
 		this.autoScroll = true;
-		
+
 		this.callParent(arguments);
 	}
 });
