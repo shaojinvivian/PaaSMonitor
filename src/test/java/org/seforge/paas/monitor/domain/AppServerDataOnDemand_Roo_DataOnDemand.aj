@@ -43,7 +43,7 @@ privileged aspect AppServerDataOnDemand_Roo_DataOnDemand {
     public void AppServerDataOnDemand.setIp(AppServer obj, int index) {
         String ip = "ip_" + index;
         if (ip.length() > 15) {
-            ip = new Random().nextInt(10) + ip.substring(1, 15);
+            ip = ip.substring(0, 15);
         }
         obj.setIp(ip);
     }
