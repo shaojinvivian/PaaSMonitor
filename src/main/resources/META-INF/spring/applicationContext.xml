@@ -96,12 +96,8 @@
         <property name="velocityEngine" ref="velocityEngine"/>
         <property name="from" value="${mail.default.from}"/>
 		<property name="to" value="${mail.default.to}"/>
-    </bean>
-    
-    
-   
-    
-     <!-- 
+    </bean>   
+     
     <bean id="reportTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
        
         <property name="targetObject">
@@ -118,7 +114,7 @@
         </property>
        
         <property name="cronExpression">           
-		    <value>0 0/5 * * * ?</value>			
+		    <value>0 0 8 * * ?</value>			
         </property>
     </bean>
    
@@ -130,5 +126,5 @@
             </list>
         </property>
     </bean>    
-     -->
+     
 </beans>

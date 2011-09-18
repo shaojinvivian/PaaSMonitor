@@ -12,9 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import org.seforge.paas.monitor.domain.AppInstance;
-import org.seforge.paas.monitor.reference.MoniteeState;
+
 
 import java.util.HashSet;
+
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 import org.springframework.roo.addon.json.RooJson;
@@ -31,15 +33,14 @@ public class AppServer {
     @NotNull
     private String jmxPort;
 
-    @NotNull
-    @Column(unique = true)
+    @NotNull    
     @Size(max = 15)
     private String ip;
 
     @ManyToOne
     private Vim vim;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "appServer")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "appServer", fetch=FetchType.EAGER )
     private Set<AppInstance> appInstances = new HashSet<AppInstance>();
 
     private Boolean isMonitee;

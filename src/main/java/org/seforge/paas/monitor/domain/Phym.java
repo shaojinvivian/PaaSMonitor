@@ -12,6 +12,7 @@ import java.util.Set;
 import org.seforge.paas.monitor.domain.Vim;
 import java.util.HashSet;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 import org.springframework.roo.addon.json.RooJson;
@@ -35,7 +36,7 @@ public class Phym {
     @NotNull
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "phym")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "phym", fetch=FetchType.EAGER )
     private Set<Vim> vims = new HashSet<Vim>();
 
     private Boolean isMonitee;

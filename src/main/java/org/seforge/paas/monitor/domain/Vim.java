@@ -13,6 +13,7 @@ import org.seforge.paas.monitor.reference.MoniteeState;
 
 import java.util.HashSet;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 import org.springframework.roo.addon.json.RooJson;
@@ -32,7 +33,7 @@ public class Vim {
     @ManyToOne
     private Phym phym;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vim")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vim", fetch=FetchType.EAGER )
     private Set<AppServer> appServers = new HashSet<AppServer>();
 
     private Boolean isMonitee;

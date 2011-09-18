@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.mail.MessagingException;
+
+import org.hibernate.Hibernate;
 import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.Phym;
@@ -44,14 +46,17 @@ public class Reporter {
     	List<Phym> phyms = Phym.findAllPhyms();
     	for(Phym phym : phyms){
     		phymService.checkPowerState(phym);
+    		Hibernate.initialize(phym.getVims());
     		for(Vim vim: phym.getVims()){
     			if(vim.getPowerState().equals(MoniteeState.POWEREDON)){
+    				Hibernate.initialize(vim.getAppServers());
     				for(AppServer appServer : vim.getAppServers()){    			
         				try {
 							appServerService.checkInstancesState(appServer);							
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							appServer.setStatus(MoniteeState.STOPPED);
+							Hibernate.initialize(appServer.getAppInstances());
 	        				for(AppInstance appInstance: appServer.getAppInstances()){
 	        					appInstance.setStatus(MoniteeState.STOPPED);
 	        				}
@@ -61,6 +66,7 @@ public class Reporter {
     			}else{
     				for(AppServer appServer : vim.getAppServers()){
         				appServer.setStatus(MoniteeState.STOPPED);
+        				Hibernate.initialize(appServer.getAppInstances());
         				for(AppInstance appInstance: appServer.getAppInstances()){
         					appInstance.setStatus(MoniteeState.STOPPED);
         				}

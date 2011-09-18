@@ -5,7 +5,7 @@ Ext.define('PaaSMonitor.view.monitee.ListAppInstances', {
 	alias : 'widget.listAppInstances',
 	store : 'AppInstances',
 	selType : 'cellmodel',
-	height : 100,
+	height : 400,
 	width : '100%',
 	
 	initComponent : function() {

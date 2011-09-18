@@ -9,7 +9,7 @@ Ext.define('PaaSMonitor.model.AppInstance', {
 	},{
 		name: 'appServerName',
 		type: 'string',
-		mapping: 'appServer.name'
+		mapping: 'appServer.name'	
 	},{
 		name: 'appServerId',
 		type: 'int',

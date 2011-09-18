@@ -21,7 +21,7 @@ import com.vmware.vim25.VirtualMachineSummary;
 public class PhymServiceImpl implements PhymService {
 	public void addVims(Phym phym) {
 		
-		
+		/*
 		  HashSet set = new HashSet(); 
 		  Vim vim1 = new Vim();
 		  vim1.setName("vim1"); 
@@ -40,9 +40,9 @@ public class PhymServiceImpl implements PhymService {
 		  set.add(vim1); set.add(vim2);
 		  
 		  phym.setVims(set);
+		 */
 		 
-		 
-		/*
+		
 		try {
 			ExtendedAppUtil cb = ExtendedAppUtil.initialize("PhymService",
 					generateArgs(phym));
@@ -93,7 +93,7 @@ public class PhymServiceImpl implements PhymService {
 			e.printStackTrace();
 		}
 		
-		*/
+		
 	}
 	
 	public String[] generateArgs(Phym phym) {

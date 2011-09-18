@@ -85,9 +85,12 @@ private AppServerService appServerService;
 		
 		JsonObjectResponse response = new JsonObjectResponse();
 		try {
+			
 			AppServer record = AppServer.fromJsonToAppServer(json);
+			/*
 			List<AppServer> list = AppServer.findAppServersByIp(record.getIp()).getResultList();
 			if(list.size()<=0){
+			*/
 				record.setId(null);
 				record.setVersion(null);	
 				record.setStatus(null);
@@ -102,7 +105,7 @@ private AppServerService appServerService;
 				returnStatus = HttpStatus.CREATED;
 				response.setMessage("AppServer created.");
 				response.setData(record);
-			}else{
+			/*}else{
 				AppServer savedRecord = list.get(0);
 				savedRecord.setName(record.getName());
 				savedRecord.setJmxPort(record.getJmxPort());				
@@ -110,7 +113,7 @@ private AppServerService appServerService;
 				returnStatus = HttpStatus.OK;
 				response.setMessage("AppServer existed and updated.");	
 				response.setData(savedRecord);
-			}            
+			}      */      
 			response.setSuccess(true);
 			response.setTotal(1L);			
 		} catch(IOException e) {			

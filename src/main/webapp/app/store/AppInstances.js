@@ -1,7 +1,7 @@
 Ext.define('PaaSMonitor.store.AppInstances', {
     extend: 'Ext.data.Store',
     model: 'PaaSMonitor.model.AppInstance',
-    groupField: 'appServerName',
+    groupField: 'appServerId',
     // autoLoad: true,
     proxy: {
         type: 'rest',
