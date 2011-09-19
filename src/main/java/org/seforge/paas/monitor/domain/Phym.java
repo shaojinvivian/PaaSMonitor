@@ -36,7 +36,7 @@ public class Phym {
     @NotNull
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "phym", fetch=FetchType.EAGER )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "phym")
     private Set<Vim> vims = new HashSet<Vim>();
 
     private Boolean isMonitee;

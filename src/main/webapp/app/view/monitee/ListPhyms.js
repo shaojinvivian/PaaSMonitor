@@ -50,8 +50,8 @@ Ext.define('PaaSMonitor.view.monitee.ListPhyms', {
 						buttons : Ext.Msg.YESNOCANCEL,
 						fn : function(e) {
 							if(e == "yes") {
-								record.destroy();
-								grid.getStore().load();
+								grid.getStore().remove(record);
+								grid.getStore().sync();
 							}
 						},
 						icon : Ext.window.MessageBox.QUESTION

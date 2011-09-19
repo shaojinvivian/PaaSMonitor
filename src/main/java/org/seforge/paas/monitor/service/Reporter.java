@@ -1,10 +1,11 @@
 package org.seforge.paas.monitor.service;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.mail.MessagingException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 import org.hibernate.Hibernate;
 import org.seforge.paas.monitor.domain.AppInstance;
@@ -17,75 +18,70 @@ import org.springframework.stereotype.Service;
 
 @Service("reporter")
 public class Reporter {
-	
-	private MailEngine mailEngine;	
-	private AppServerService appServerService;
-	private PhymService phymService;	
-	
-	@Autowired
-	public void setAppServerService(AppServerService appServerService){
-		this.appServerService = appServerService;
-	}
-	
-	@Autowired
-	public void setPhymService(PhymService phymService){
-		this.phymService = phymService;
-	}
 
-	public MailEngine getMailEngine() {
-		return mailEngine;
-	}
-	
 	@Autowired
-	public void setMailEngine(MailEngine mailEngine) {
-		this.mailEngine = mailEngine;
-	}	
+	private MailEngine mailEngine;
+
+	@Autowired
+	private AppServerService appServerService;
+
+	@Autowired
+	private PhymService phymService;
+
+	@Autowired
+	private EntityManagerFactory entityManagerFactory;
+
+	private EntityManager entityManager;
 
 	public void report() {
 		String templateName = "report.vm";
-    	List<Phym> phyms = Phym.findAllPhyms();
-    	for(Phym phym : phyms){
-    		phymService.checkPowerState(phym);
-    		Hibernate.initialize(phym.getVims());
-    		for(Vim vim: phym.getVims()){
-    			if(vim.getPowerState().equals(MoniteeState.POWEREDON)){
-    				Hibernate.initialize(vim.getAppServers());
-    				for(AppServer appServer : vim.getAppServers()){    			
-        				try {
-							appServerService.checkInstancesState(appServer);							
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							appServer.setStatus(MoniteeState.STOPPED);
-							Hibernate.initialize(appServer.getAppInstances());
-	        				for(AppInstance appInstance: appServer.getAppInstances()){
-	        					appInstance.setStatus(MoniteeState.STOPPED);
-	        				}
-							e.printStackTrace();
-						}
-        			}
-    			}else{
-    				for(AppServer appServer : vim.getAppServers()){
-        				appServer.setStatus(MoniteeState.STOPPED);
-        				Hibernate.initialize(appServer.getAppInstances());
-        				for(AppInstance appInstance: appServer.getAppInstances()){
-        					appInstance.setStatus(MoniteeState.STOPPED);
-        				}
-        			}    				
-    			}    			
-    		}
-    	}    	
-    	  	
-    	Map<String, Object> model = new HashMap<String, Object>();    	
-    	model.put("phyms", phyms);
-
+		entityManager = entityManagerFactory.createEntityManager();
 		try {
-			mailEngine.sendMessage(null, "SASE Daily Report", templateName,
-					model);
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}	
+			entityManager.getTransaction().begin();
+			List<Phym> phyms = entityManager.createQuery(
+					"SELECT o FROM Phym o", Phym.class).getResultList();
+			for (Phym phym : phyms) {
+				phymService.checkPowerState(phym);
+				for (Vim vim : phym.getVims()) {
+					if (vim.getPowerState().equals(MoniteeState.POWEREDON)) {
+						for (AppServer appServer : vim.getAppServers()) {
+							try {
+								appServerService.checkInstancesState(appServer);
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								appServer.setStatus(MoniteeState.STOPPED);
+								for (AppInstance appInstance : appServer
+										.getAppInstances()) {
+									appInstance.setStatus(MoniteeState.STOPPED);
+								}
+								e.printStackTrace();
+							}
+						}
+					} else {
+						for (AppServer appServer : vim.getAppServers()) {
+							appServer.setStatus(MoniteeState.STOPPED);
+							for (AppInstance appInstance : appServer
+									.getAppInstances()) {
+								appInstance.setStatus(MoniteeState.STOPPED);
+							}
+						}
+					}
+				}
+			}
 
+			Map<String, Object> model = new HashMap<String, Object>();
+			model.put("phyms", phyms);
+
+			try {
+				mailEngine.sendMessage(null, "SASE Daily Report", templateName,
+						model);
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		} finally {
+			entityManager.close();
+		}
+	}
 }

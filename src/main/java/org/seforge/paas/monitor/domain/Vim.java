@@ -33,7 +33,7 @@ public class Vim {
     @ManyToOne
     private Phym phym;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vim", fetch=FetchType.EAGER )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vim")
     private Set<AppServer> appServers = new HashSet<AppServer>();
 
     private Boolean isMonitee;

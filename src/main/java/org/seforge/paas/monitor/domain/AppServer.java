@@ -40,7 +40,7 @@ public class AppServer {
     @ManyToOne
     private Vim vim;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "appServer", fetch=FetchType.EAGER )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "appServer")
     private Set<AppInstance> appInstances = new HashSet<AppInstance>();
 
     private Boolean isMonitee;
