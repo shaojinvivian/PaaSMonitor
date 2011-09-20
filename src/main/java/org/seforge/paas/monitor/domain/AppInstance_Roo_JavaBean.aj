@@ -58,4 +58,12 @@ privileged aspect AppInstance_Roo_JavaBean {
         this.docBase = docBase;
     }
     
+    public String AppInstance.getObjectName() {
+        return this.objectName;
+    }
+    
+    public void AppInstance.setObjectName(String objectName) {
+        this.objectName = objectName;
+    }
+    
 }

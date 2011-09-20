@@ -111,8 +111,7 @@
     <bean id="reportTimer" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail">
             <ref bean="reportTask"/>
-        </property>
-       
+        </property>       
         <property name="cronExpression">           
 		    <value>0 0 8 * * ?</value>			
         </property>
@@ -126,5 +125,10 @@
             </list>
         </property>
     </bean>    
-     
+    
+    <bean id="modelTransformer" class="org.seforge.paas.monitor.monitor.ModelTransformer" scope="singleton" init-method="initialize">
+    	<property name="ruleFile">
+    		<value>MonitorModel.xml</value>
+    	</property>
+    </bean>     
 </beans>

@@ -30,6 +30,8 @@ public class AppInstance {
     private String displayName;
 
     private String docBase;
+    
+    private String objectName;
 
     private transient String status;
     

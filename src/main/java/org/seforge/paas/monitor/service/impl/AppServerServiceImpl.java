@@ -6,7 +6,6 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -15,62 +14,48 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-import javax.management.AttributeNotFoundException;
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanException;
+
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
-import javax.management.ReflectionException;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.monitor.JmxUtil;
+import org.seforge.paas.monitor.monitor.AppInstanceModelTransformer;
+import org.seforge.paas.monitor.monitor.ModelTransformer;
 import org.seforge.paas.monitor.reference.MoniteeState;
 import org.seforge.paas.monitor.service.AppServerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("appServerService")
 public class AppServerServiceImpl implements AppServerService {
 	
+	@Autowired
+	private ModelTransformer modelTransformer;	
 	private static final int TIMEOUT = 3;
 	public void addAppInstances(AppServer appServer) throws Exception{		
 			Set<AppInstance> appInstances = new HashSet<AppInstance>();			
 			String ip = appServer.getIp();
-			String port = appServer.getJmxPort();
-			JMXServiceURL url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + ip
-					+ ":"+ port +"/jmxrmi");
-			JMXConnector jmxc = connectWithTimeout(url, TIMEOUT, TimeUnit.SECONDS);
-			MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();			
-			
+			String port = appServer.getJmxPort();			
+			JmxUtil jmxUtil = new JmxUtil(ip, port, TIMEOUT);
+			jmxUtil.connect();			
 			ObjectName obName = new ObjectName(
-					"Catalina:j2eeType=WebModule,name=*,J2EEApplication=none,J2EEServer=none");
-			
-			Set<ObjectName> set = mbsc.queryNames(obName, null);			
-			for (ObjectName name : set) {
+					"Catalina:j2eeType=WebModule,name=*,J2EEApplication=none,J2EEServer=none");			
+			Set<ObjectName> set = jmxUtil.queryNames(obName);
+			modelTransformer.setJmxUtil(jmxUtil);
+			for(ObjectName name : set){
 				AppInstance appInstance = new AppInstance();
-				appInstance.setDocBase((String) mbsc.getAttribute(name,
-						"docBase"));
-				try{
-					String appInstanceName = (String) mbsc.getAttribute(name, "name");
-					if(appInstanceName.equals("")){
-						appInstance.setName("/");
-					}else{
-						appInstance.setName(appInstanceName);
-					}					
-					appInstance.setDisplayName((String) mbsc.getAttribute(name,
-							"displayName"));
-				}catch(AttributeNotFoundException e){
-					appInstance.setName(appInstance.getDocBase());
-					appInstance.setDisplayName(appInstance.getDocBase());
-				}								
-				appInstance.setIsMonitee(false);
-				appInstance.setAppServer(appServer);				
+				appInstance.setObjectName((String)jmxUtil.getAttribute(name, "objectName"));
+				modelTransformer.transform(appInstance);
 				appInstances.add(appInstance);
+				appInstance.setAppServer(appServer);
 			}			
 			appServer.setAppInstances(appInstances);
-			jmxc.close();		
+			jmxUtil.disconnect();				
 	}
 	
 	public void setAppServerName(AppServer appServer) throws Exception{

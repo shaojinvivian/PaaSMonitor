@@ -42,6 +42,7 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
         setDocBase(obj, index);
         setIsMonitee(obj, index);
         setName(obj, index);
+        setObjectName(obj, index);
         setStatus(obj, index);
         return obj;
     }
@@ -74,6 +75,11 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
     public void AppInstanceDataOnDemand.setName(AppInstance obj, int index) {
         String name = "name_" + index;
         obj.setName(name);
+    }
+    
+    public void AppInstanceDataOnDemand.setObjectName(AppInstance obj, int index) {
+        String objectName = "objectName_" + index;
+        obj.setObjectName(objectName);
     }
     
     public void AppInstanceDataOnDemand.setStatus(AppInstance obj, int index) {

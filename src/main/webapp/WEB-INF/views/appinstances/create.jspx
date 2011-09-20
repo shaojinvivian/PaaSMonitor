@@ -10,6 +10,7 @@
         <field:input field="displayName" id="c_org_seforge_paas_monitor_domain_AppInstance_displayName" z="C7Zqhr4N/bctbtg7isf0xZvlU6Q="/>
         <field:input field="docBase" id="c_org_seforge_paas_monitor_domain_AppInstance_docBase" z="2GSpcG0dnH3lRvaAYaGi0RCmDxE="/>
         <field:input field="status" id="c_org_seforge_paas_monitor_domain_AppInstance_status" z="mERupuVJZ6jBNvV0MFZN6/zAkdQ="/>
+        <field:input field="objectName" id="c_org_seforge_paas_monitor_domain_AppInstance_objectName" z="JZk4vEFUWXnT3tqcJHjOwMQRCYg="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_seforge_paas_monitor_domain_AppInstance" render="${not empty dependencies}" z="TqsS7te/VyR1aQHRRjs/dyFCr/g="/>
 </div>

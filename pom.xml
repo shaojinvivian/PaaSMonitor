@@ -13,13 +13,13 @@
 		<aspectj.version>1.6.11</aspectj.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>		 
-		<database.url>jdbc:mysql://192.168.4.191:3306/paasmonitor</database.url>
-		<database.driverClassName>com.mysql.jdbc.Driver</database.driverClassName>
-		<database.username>paasmonitor</database.username>
-		<database.password>paasmonitor</database.password>
-		<hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
-		<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
-		<mail.default.to>mass@sei.pku.edu.cn</mail.default.to>
+		<database.url>jdbc:hsqldb:/tmp/PaaSMonitor;shutdown=true</database.url>
+				<database.driverClassName>org.hsqldb.jdbcDriver</database.driverClassName>
+				<database.username>sa</database.username>
+				<database.password></database.password>
+				<hibernate.dialect>org.hibernate.dialect.HSQLDialect</hibernate.dialect>
+				<hibernate.hbm2ddl.auto>create</hibernate.hbm2ddl.auto>
+				<mail.default.to>shaojinvivian@gmail.com</mail.default.to>
 		
 	</properties>
 	<profiles>
@@ -473,7 +473,12 @@
 			<groupId>quartz</groupId>
 			<artifactId>quartz</artifactId>
 			<version>1.5.2</version>
-		</dependency>		
+		</dependency>
+		<dependency>
+    <groupId>jaxen</groupId>
+    <artifactId>jaxen</artifactId>
+    <version>1.1.1</version>
+</dependency>		
 	</dependencies>
 	<build>
 		<resources>

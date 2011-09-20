@@ -1,0 +1,72 @@
+<MonitoringModels>
+	<Model class="org.seforge.paas.monitor.domain.AppInstance">
+		<!--
+		<Conditions>
+			<Condition id="serverInfo">
+				<Option name="Tomcat">
+					<ObjectName>Catalina:type=Server</ObjectName>
+					<Attribute>serverInfo</Attribute>
+				</Option>
+				<Option name="Jetty">
+					<ObjectName>Catalina:type=Server</ObjectName>
+					<Attribute>serverInfo</Attribute>
+				</Option>				
+			</Condition>
+		</Conditions>		
+		-->		
+		<Attribute name="status" type="java.lang.String">			
+			<RuntimeModels>
+				<Model>
+					<ConditionValue>Apache Tomcat/7</ConditionValue>
+					<AttributeName>stateName</AttributeName>
+					<AttributeType>java.lang.String</AttributeType>
+				</Model>
+				<Model>
+					<ConditionValue>Apache Tomcat/6</ConditionValue>
+					<AttributeName>state</AttributeName>
+					<AttributeType>int</AttributeType>
+					<Mappings>
+						<Mapping>
+							<From>1</From>
+							<To>STARTED</To>
+						</Mapping>
+						<Mapping>
+							<From>2</From>
+							<To>STOPPED</To>
+						</Mapping>						
+					</Mappings>
+				</Model>				
+			</RuntimeModels>
+		</Attribute>
+		
+		<Attribute name="displayName" type="java.lang.String">			
+			<RuntimeModels>
+				<Model>
+					<ConditionValue>Apache Tomcat/7</ConditionValue>
+					<AttributeName>displayName</AttributeName>
+					<AttributeType>java.lang.String</AttributeType>
+				</Model>
+				<Model>
+					<ConditionValue>Apache Tomcat/6</ConditionValue>
+					<AttributeName>path</AttributeName>
+					<AttributeType>java.lang.String</AttributeType>
+					<Operation>substring(1,-1)</Operation>
+				</Model>				
+			</RuntimeModels>
+		</Attribute>
+		<Attribute name="name" type="java.lang.String">			
+			<RuntimeModels>
+				<Model>
+					<ConditionValue>Apache Tomcat/7</ConditionValue>
+					<AttributeName>path</AttributeName>
+					<AttributeType>java.lang.String</AttributeType>
+				</Model>
+				<Model>
+					<ConditionValue>Apache Tomcat/6</ConditionValue>
+					<AttributeName>path</AttributeName>
+					<AttributeType>java.lang.String</AttributeType>					
+				</Model>				
+			</RuntimeModels>
+		</Attribute>				
+	</Model>
+</MonitoringModels>
