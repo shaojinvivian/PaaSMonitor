@@ -1,6 +1,7 @@
 package org.seforge.paas.monitor.monitor;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -39,6 +40,10 @@ public class ModelTransformer {
 		
 	}
 	
+	public void setTransformRule(Map rule){
+		this.transformRule = rule;
+	}
+	
 	public void initialize(){
 		this.transformRule = parseTranformRule(ruleFile);
 	}
@@ -50,13 +55,27 @@ public class ModelTransformer {
 			String className = object.getClass().getName();
 			Map<String, Map> attributeMap = (Map)transformRule.get(className);			
 			for(String attributeName: attributeMap.keySet()){
+				/* Get the type of attributeName of object */
+				Field field = object.getClass().getDeclaredField(attributeName);
+				String fieldType = field.getType().getName();				
 				Map<String, RuntimeModel> conditionMap = attributeMap.get(attributeName);
 				RuntimeModel model = conditionMap.get(conditionValue);
+				String attributeType = model.getAttributeType();
 				Method m1 = object.getClass().getDeclaredMethod("getObjectName"); 
 				String objectName = (String)m1.invoke(object);
-				String value = (String)jmxUtil.getAttribute(new ObjectName(objectName), model.getAttributeName());
-				Method setter = object.getClass().getDeclaredMethod("set" + attributeName.substring(0,1).toUpperCase() + attributeName.substring(1), String.class); 
-				setter.invoke(object, value);				
+				if(fieldType.equals(attributeType)){					
+					Object value = jmxUtil.getAttribute(new ObjectName(objectName), model.getAttributeName());
+					Method setter = object.getClass().getDeclaredMethod("set" + attributeName.substring(0,1).toUpperCase() + attributeName.substring(1), Class.forName(fieldType)); 
+					setter.invoke(object, value);	
+				}else{
+					if(attributeType.equals("int") && fieldType.equals("java.lang.String")){
+						String value = ((Integer)jmxUtil.getAttribute(new ObjectName(objectName), model.getAttributeName())).toString();
+						String mappedValue = (String)model.getMapping().get(value);
+						Method setter = object.getClass().getDeclaredMethod("set" + attributeName.substring(0,1).toUpperCase() + attributeName.substring(1), Class.forName(fieldType)); 
+						setter.invoke(object, mappedValue);
+					}					
+				}
+							
 			}			
 			return true;
 		}else
@@ -86,7 +105,18 @@ public class ModelTransformer {
 	            		 Element runtimeModel = (Element) conditionIterator.next();
 	            		 RuntimeModel rm = new RuntimeModel();
 	            		 rm.setAttributeName(runtimeModel.elementText("AttributeName"));
-	            		 rm.setAttributeType(runtimeModel.elementText("AttributeType"));
+	            		 rm.setAttributeType(runtimeModel.elementText("AttributeType"));		
+	            		 
+	            		 /* If there is mapping definition in the xml */
+	            		 if(runtimeModel.element("Mappings")!=null){
+	            			 Map mapping = new HashMap();
+	            			 Iterator mappingIterator = runtimeModel.element("Mappings").elements("Mapping").iterator();
+		            		 while(mappingIterator.hasNext()){
+		            			 Element mappingElement = (Element)mappingIterator.next();
+		            			 mapping.put(mappingElement.elementText("From"), mappingElement.elementText("To"));
+		            		 }
+		            		 rm.setMapping(mapping);
+	            		 }	            		
 	            		 conditionMap.put(runtimeModel.elementText("ConditionValue"), rm);      		 
 	            	 }            	 
 	            	 attributeMap.put(attributeName, conditionMap);            	 
@@ -94,9 +124,7 @@ public class ModelTransformer {
 	            rule.put(className, attributeMap);
 	         }	         
 	         return rule;	
-		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			
+		} catch (DocumentException e) {			
 			e.printStackTrace();
 			return null;
 		}		

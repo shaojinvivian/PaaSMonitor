@@ -41,7 +41,7 @@ public class AppServerServiceImpl implements AppServerService {
 			Set<AppInstance> appInstances = new HashSet<AppInstance>();			
 			String ip = appServer.getIp();
 			String port = appServer.getJmxPort();			
-			JmxUtil jmxUtil = new JmxUtil(ip, port, TIMEOUT);
+			JmxUtil jmxUtil = new JmxUtil(ip, port);
 			jmxUtil.connect();			
 			ObjectName obName = new ObjectName(
 					"Catalina:j2eeType=WebModule,name=*,J2EEApplication=none,J2EEServer=none");			
@@ -58,54 +58,33 @@ public class AppServerServiceImpl implements AppServerService {
 			jmxUtil.disconnect();				
 	}
 	
-	public void setAppServerName(AppServer appServer) throws Exception{
+	public void setAppServerName(AppServer appServer) throws Exception{		
 		String ip = appServer.getIp();
 		String port = appServer.getJmxPort();
-		JMXServiceURL url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + ip
-				+ ":"+ port +"/jmxrmi");
-		JMXConnector jmxc = connectWithTimeout(url, TIMEOUT, TimeUnit.SECONDS);
-		MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
+		JmxUtil jmxUtil = new JmxUtil(ip, port);
+		jmxUtil.connect();	
 		ObjectName objectName = new ObjectName("Catalina:type=Server");
-		appServer.setName((String)mbsc.getAttribute(objectName, "serverInfo"));	
-		jmxc.close();	
+		appServer.setName((String)jmxUtil.getAttribute(objectName, "serverInfo"));	
+		jmxUtil.disconnect();	
 	}
 	
 	public void checkState(Collection<AppServer> appServers){
 		for(AppServer appServer : appServers){
-			String ip = appServer.getIp();
-			String port = appServer.getJmxPort();
-			JMXServiceURL url;
-			try {
-				url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + ip
-						+ ":"+ port +"/jmxrmi");				
-				JMXConnector jmxc = connectWithTimeout(url, TIMEOUT, TimeUnit.SECONDS);
-				appServer.setStatus(MoniteeState.STARTED);				
-			jmxc.close();	
-			}catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				appServer.setStatus(MoniteeState.STOPPED);
-			}				
+			checkState(appServer);
 		}
 	}
 	
-	public void checkState(AppServer appServer) throws Exception{
+	public void checkState(AppServer appServer){
 		String ip = appServer.getIp();
 		String port = appServer.getJmxPort();
-		JMXServiceURL url;
-		try {
-			url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://" + ip
-					+ ":"+ port +"/jmxrmi");				
-			JMXConnector jmxc = connectWithTimeout(url, TIMEOUT, TimeUnit.SECONDS);
-			appServer.setStatus(MoniteeState.STARTED);				
-		jmxc.close();	
-		}catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
+		JmxUtil jmxUtil = new JmxUtil(ip, port);
+		jmxUtil.connect();	
+		if(jmxUtil.connected()){
+			appServer.setStatus(MoniteeState.STARTED);	
+		}else{
 			appServer.setStatus(MoniteeState.STOPPED);
-		}			
+		}
+		jmxUtil.disconnect();
 	}
 	
 	public void checkInstancesState(AppServer appServer) throws Exception {

@@ -31,7 +31,7 @@
 							<To>STARTED</To>
 						</Mapping>
 						<Mapping>
-							<From>2</From>
+							<From>0</From>
 							<To>STOPPED</To>
 						</Mapping>						
 					</Mappings>

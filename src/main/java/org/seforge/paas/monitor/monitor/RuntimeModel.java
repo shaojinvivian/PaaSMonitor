@@ -7,6 +7,7 @@ public class RuntimeModel {
 	private String attributeName;
 	private String attributeType;
 	private Map mapping;
+	
 	public String getObjectName() {
 		return objectName;
 	}
