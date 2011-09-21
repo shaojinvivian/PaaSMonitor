@@ -1,22 +1,22 @@
 <MonitoringModels>
-	<Model class="org.seforge.paas.monitor.domain.AppInstance">
-		<!--
-		<Conditions>
-			<Condition id="serverInfo">
-				<Option name="Tomcat">
-					<ObjectName>Catalina:type=Server</ObjectName>
-					<Attribute>serverInfo</Attribute>
-				</Option>
-				<Option name="Jetty">
-					<ObjectName>Catalina:type=Server</ObjectName>
-					<Attribute>serverInfo</Attribute>
-				</Option>				
-			</Condition>
-		</Conditions>		
-		-->		
-		<Attribute name="status" type="java.lang.String">			
+	<ConditionEvaluators>
+		<Evaluator id="serverInfo">				
+				<ObjectName>Catalina:type=Server</ObjectName>
+				<AttributeName>serverInfo</AttributeName>
+				<AttributeType>java.lang.String</AttributeType>
+				<Operation>
+					<Method>substring</Method>
+					<Parameters>
+						<Parameter type="int">0</Parameter>
+						<Parameter type="int">15</Parameter>
+					</Parameters>					
+				</Operation>								
+		</Evaluator>
+	</ConditionEvaluators>	
+	<Model class="org.seforge.paas.monitor.domain.AppInstance">				
+		<Attribute name="status" type="java.lang.String" evaluatorId="serverInfo">			
 			<RuntimeModels>
-				<Model>
+				<Model>					
 					<ConditionValue>Apache Tomcat/7</ConditionValue>
 					<AttributeName>stateName</AttributeName>
 					<AttributeType>java.lang.String</AttributeType>
