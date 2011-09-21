@@ -1,4 +1,4 @@
-package org.seforge.paas.monitor.monitor;
+package org.seforge.paas.monitor.transformation;
 
 public class ConditionEvaluator {
 	private String objectName;

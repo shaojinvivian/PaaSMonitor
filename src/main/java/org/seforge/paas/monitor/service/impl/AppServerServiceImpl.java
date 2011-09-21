@@ -24,7 +24,6 @@ import javax.management.remote.JMXServiceURL;
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.monitor.JmxUtil;
-import org.seforge.paas.monitor.monitor.AppInstanceModelTransformer;
 import org.seforge.paas.monitor.monitor.ModelTransformer;
 import org.seforge.paas.monitor.reference.MoniteeState;
 import org.seforge.paas.monitor.service.AppServerService;
@@ -45,8 +44,8 @@ public class AppServerServiceImpl implements AppServerService {
 			jmxUtil.connect();			
 			ObjectName obName = new ObjectName(
 					"Catalina:j2eeType=WebModule,name=*,J2EEApplication=none,J2EEServer=none");			
-			Set<ObjectName> set = jmxUtil.queryNames(obName);
-			modelTransformer.setJmxUtil(jmxUtil);
+			Set<ObjectName> set = jmxUtil.queryNames(obName);			
+			modelTransformer.prepare(jmxUtil);
 			for(ObjectName name : set){
 				AppInstance appInstance = new AppInstance();
 				appInstance.setObjectName((String)jmxUtil.getAttribute(name, "objectName"));

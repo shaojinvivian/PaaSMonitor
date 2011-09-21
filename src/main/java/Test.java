@@ -10,11 +10,9 @@ import org.seforge.paas.monitor.monitor.ModelTransformer;
 
 
 public class Test {
-
-	public static void main(String[] args) throws Exception{
-		
+	public static void main(String[] args) throws Exception{		
 		AppServer appServer = new AppServer();
-		appServer.setIp("192.168.4.165");
+		appServer.setIp("127.0.0.1");
 		appServer.setJmxPort("8999");
 		Set<AppInstance> appInstances = new HashSet<AppInstance>();			
 		String ip = appServer.getIp();
@@ -25,10 +23,9 @@ public class Test {
 			ObjectName obName = new ObjectName(
 					"Catalina:j2eeType=WebModule,name=*,J2EEApplication=none,J2EEServer=none");			
 			Set<ObjectName> set = util.queryNames(obName);
-			ModelTransformer transformer = new ModelTransformer("MonitorModel.xml");
-			transformer.setJmxUtil(util);
+			ModelTransformer transformer = new ModelTransformer("MonitorModel.xml");			
 			transformer.setTransformRule(transformer.parseTranformRule("MonitorModel.xml"));
-			
+			transformer.prepare(util);			
 			for(ObjectName name : set){
 				AppInstance appInstance = new AppInstance();
 				appInstance.setObjectName((String)util.getAttribute(name, "objectName"));
@@ -36,10 +33,7 @@ public class Test {
 				appInstances.add(appInstance);
 			}			
 			appServer.setAppInstances(appInstances);
-		}
-		
-		util.disconnect();
-		
-		
+		}		
+		util.disconnect();		
 	}
 }

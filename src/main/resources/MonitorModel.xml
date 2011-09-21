@@ -1,6 +1,6 @@
 <MonitoringModels>
 	<ConditionEvaluators>
-		<Evaluator id="serverInfo">				
+		<Evaluator id="serverVersion">				
 				<ObjectName>Catalina:type=Server</ObjectName>
 				<AttributeName>serverInfo</AttributeName>
 				<AttributeType>java.lang.String</AttributeType>
@@ -12,61 +12,74 @@
 					</Parameters>					
 				</Operation>								
 		</Evaluator>
+		<Evaluator id="serverType">				
+				<ObjectName>Catalina:type=Server</ObjectName>
+				<AttributeName>serverInfo</AttributeName>
+				<AttributeType>java.lang.String</AttributeType>
+				<Operation>
+					<Method>substring</Method>
+					<Parameters>
+						<Parameter type="int">0</Parameter>
+						<Parameter type="int">13</Parameter>
+					</Parameters>					
+				</Operation>								
+		</Evaluator>		
 	</ConditionEvaluators>	
-	<Model class="org.seforge.paas.monitor.domain.AppInstance">				
-		<Attribute name="status" type="java.lang.String" evaluatorId="serverInfo">			
+	<MonitoringModel class="org.seforge.paas.monitor.domain.AppInstance">				
+		<Attribute name="status" type="java.lang.String">			
 			<RuntimeModels>
-				<Model>					
-					<ConditionValue>Apache Tomcat/7</ConditionValue>
-					<AttributeName>stateName</AttributeName>
-					<AttributeType>java.lang.String</AttributeType>
-				</Model>
-				<Model>
-					<ConditionValue>Apache Tomcat/6</ConditionValue>
-					<AttributeName>state</AttributeName>
-					<AttributeType>int</AttributeType>
-					<Mappings>
-						<Mapping>
-							<From>1</From>
-							<To>STARTED</To>
-						</Mapping>
-						<Mapping>
-							<From>0</From>
-							<To>STOPPED</To>
-						</Mapping>						
-					</Mappings>
-				</Model>				
+				<ConditionGroup evaluator="serverVersion">
+					<RuntimeModel>									
+						<ConditionValue>Apache Tomcat/7</ConditionValue>
+						<AttributeName>stateName</AttributeName>
+						<AttributeType>java.lang.String</AttributeType>
+					</RuntimeModel>
+					<RuntimeModel>					
+						<ConditionValue>Apache Tomcat/6</ConditionValue>
+						<AttributeName>state</AttributeName>
+						<AttributeType>int</AttributeType>
+						<Mappings>
+							<Mapping>
+								<From>1</From>
+								<To>STARTED</To>
+							</Mapping>
+							<Mapping>
+								<From>0</From>
+								<To>STOPPED</To>
+							</Mapping>						
+						</Mappings>
+					</RuntimeModel>	
+				</ConditionGroup>							
 			</RuntimeModels>
 		</Attribute>
 		
-		<Attribute name="displayName" type="java.lang.String">			
+		<Attribute name="displayName"  type="java.lang.String">			
 			<RuntimeModels>
-				<Model>
-					<ConditionValue>Apache Tomcat/7</ConditionValue>
-					<AttributeName>displayName</AttributeName>
-					<AttributeType>java.lang.String</AttributeType>
-				</Model>
-				<Model>
-					<ConditionValue>Apache Tomcat/6</ConditionValue>
-					<AttributeName>path</AttributeName>
-					<AttributeType>java.lang.String</AttributeType>
-					<Operation>substring(1,-1)</Operation>
-				</Model>				
+				<ConditionGroup evaluator="serverVersion">					
+					<RuntimeModel>						
+						<ConditionValue>Apache Tomcat/7</ConditionValue>
+						<AttributeName>displayName</AttributeName>
+						<AttributeType>java.lang.String</AttributeType>
+					</RuntimeModel>
+					<RuntimeModel>						
+						<ConditionValue>Apache Tomcat/6</ConditionValue>
+						<AttributeName>path</AttributeName>
+						<AttributeType>java.lang.String</AttributeType>
+						<Operation>substring(1,-1)</Operation>
+					</RuntimeModel>	
+				</ConditionGroup>			
 			</RuntimeModels>
 		</Attribute>
-		<Attribute name="name" type="java.lang.String">			
+		<Attribute name="name"  type="java.lang.String">			
 			<RuntimeModels>
-				<Model>
-					<ConditionValue>Apache Tomcat/7</ConditionValue>
-					<AttributeName>path</AttributeName>
-					<AttributeType>java.lang.String</AttributeType>
-				</Model>
-				<Model>
-					<ConditionValue>Apache Tomcat/6</ConditionValue>
-					<AttributeName>path</AttributeName>
-					<AttributeType>java.lang.String</AttributeType>					
-				</Model>				
+				<ConditionGroup evaluator="serverType">		
+					<RuntimeModel>
+						<ConditionValue>Apache Tomcat</ConditionValue>
+						<AttributeName>path</AttributeName>
+						<AttributeType>java.lang.String</AttributeType>
+					</RuntimeModel>					
+				</ConditionGroup>				
 			</RuntimeModels>
 		</Attribute>				
-	</Model>
+	</MonitoringModel>
 </MonitoringModels>
