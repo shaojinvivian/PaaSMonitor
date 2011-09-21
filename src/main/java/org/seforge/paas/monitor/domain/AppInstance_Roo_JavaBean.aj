@@ -10,12 +10,12 @@ import org.seforge.paas.monitor.domain.AppServer;
 
 privileged aspect AppInstance_Roo_JavaBean {
     
-    public String AppInstance.getName() {
-        return this.name;
+    public String AppInstance.getPath() {
+        return this.path;
     }
     
-    public void AppInstance.setName(String name) {
-        this.name = name;
+    public void AppInstance.setPath(String path) {
+        this.path = path;
     }
     
     public App AppInstance.getApp() {

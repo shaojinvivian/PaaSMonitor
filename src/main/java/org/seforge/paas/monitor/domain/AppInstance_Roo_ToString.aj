@@ -15,8 +15,8 @@ privileged aspect AppInstance_Roo_ToString {
         sb.append("DocBase: ").append(getDocBase()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("IsMonitee: ").append(getIsMonitee()).append(", ");
-        sb.append("Name: ").append(getName()).append(", ");
         sb.append("ObjectName: ").append(getObjectName()).append(", ");
+        sb.append("Path: ").append(getPath()).append(", ");
         sb.append("Status: ").append(getStatus()).append(", ");
         sb.append("Version: ").append(getVersion());
         return sb.toString();

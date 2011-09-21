@@ -4,12 +4,12 @@
     <jsp:output omit-xml-declaration="yes"/>
     <page:list id="pl_org_seforge_paas_monitor_domain_AppInstance" items="${appinstances}" z="YBt84SzlQJGyg6eioTvWvie5x+w=">
         <table:table data="${appinstances}" id="l_org_seforge_paas_monitor_domain_AppInstance" path="/appinstances" z="7gzlx25quW6tk8Lcy7lMWFsBhPQ=">
-            <table:column id="c_org_seforge_paas_monitor_domain_AppInstance_name" property="name" z="GGLd5XQRJLdnJ1atjaFKgvjjHVA="/>
             <table:column id="c_org_seforge_paas_monitor_domain_AppInstance_app" property="app" z="IfllNsd0l21R+Dge9gkL4MXgRpk="/>
             <table:column id="c_org_seforge_paas_monitor_domain_AppInstance_appServer" property="appServer" z="HVjqMUvvXXCKJEwI1fVS7xIWNfc="/>
             <table:column id="c_org_seforge_paas_monitor_domain_AppInstance_isMonitee" property="isMonitee" z="NTIHS19q5DJ5DJF9m2XaPL27kCg="/>
             <table:column id="c_org_seforge_paas_monitor_domain_AppInstance_displayName" property="displayName" z="uzaUC/zAXYsen5wB/NeHeW1Oqww="/>
             <table:column id="c_org_seforge_paas_monitor_domain_AppInstance_status" property="status" z="3MQovlgzug4FQZdSeTOuHZjVSG8="/>
+            <table:column id="c_org_seforge_paas_monitor_domain_AppInstance_path" property="path" z="Bmjdm+Nkg3iFvlShb4cRey/EAhw="/>
         </table:table>
     </page:list>
 </div>

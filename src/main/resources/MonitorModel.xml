@@ -65,17 +65,36 @@
 						<ConditionValue>Apache Tomcat/6</ConditionValue>
 						<AttributeName>path</AttributeName>
 						<AttributeType>java.lang.String</AttributeType>
-						<Operation>substring(1,-1)</Operation>
+						<!--
+						<Operation>
+							<Method>substring</Method>
+							<Parameters>
+								<Parameter type="int">1</Parameter>
+								<Parameter type="int">-1</Parameter>
+							</Parameters>					
+						</Operation>
+						-->
 					</RuntimeModel>	
 				</ConditionGroup>			
 			</RuntimeModels>
 		</Attribute>
-		<Attribute name="name"  type="java.lang.String">			
+		<Attribute name="path"  type="java.lang.String">			
+			<RuntimeModels>
+				<ConditionGroup evaluator="serverType">					
+					<RuntimeModel>						
+						<ConditionValue>Apache Tomcat</ConditionValue>
+						<AttributeName>path</AttributeName>
+						<AttributeType>java.lang.String</AttributeType>
+					</RuntimeModel>					
+				</ConditionGroup>							
+			</RuntimeModels>
+		</Attribute>
+		<Attribute name="docBase"  type="java.lang.String">			
 			<RuntimeModels>
 				<ConditionGroup evaluator="serverType">		
 					<RuntimeModel>
 						<ConditionValue>Apache Tomcat</ConditionValue>
-						<AttributeName>path</AttributeName>
+						<AttributeName>docBase</AttributeName>
 						<AttributeType>java.lang.String</AttributeType>
 					</RuntimeModel>					
 				</ConditionGroup>				

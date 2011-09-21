@@ -15,12 +15,16 @@ Ext.define('PaaSMonitor.model.AppInstance', {
 		type: 'int',
 		mapping: 'appServer.id'
 	},{
+		name: 'appServerIp',
+		type: 'string',
+		mapping: 'appServer.ip'
+	},{
 		name: 'appServer',
 		type: 'AppServer'		
 	},{
 		name: 'isMonitee',
 		type: 'bool'	
-	},'name', 'docBase', 'displayName'],
+	},'path', 'docBase', 'displayName', 'objectName'],
 	proxy : {
 		type : 'rest',
 		url : 'appintances',

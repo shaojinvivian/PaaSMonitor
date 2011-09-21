@@ -17,7 +17,7 @@ import org.springframework.roo.addon.json.RooJson;
 public class AppInstance {
 
     @NotNull
-    private String name;
+    private String path;
 
     @ManyToOne
     private App app;

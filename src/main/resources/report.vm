@@ -15,7 +15,7 @@
 		<td align="center">Power</td>
 		<td align="center">Name</td>
 		<td align="center">Status</td>
-		<td align="center">Name</td>
+		<td align="center">Path</td>
 		<td align="center">Status</td>					
 	</tr>
 	#if ($phyms.size() > 0)		
@@ -71,7 +71,7 @@
 										<td rowspan="$appServerRowCount">$appServer.status</td>							
 										#set ($appServerFirst = 0)
 									#end													
-										<td>$appInstance.name</td>
+										<td>$appInstance.path</td>
 										<td>$appInstance.status</td>					
 									</tr>	
 								#end

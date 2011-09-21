@@ -84,38 +84,24 @@ private AppServerService appServerService;
 		HttpStatus returnStatus = HttpStatus.OK;
 		
 		JsonObjectResponse response = new JsonObjectResponse();
-		try {
-			
+		try {			
 			AppServer record = AppServer.fromJsonToAppServer(json);
-			/*
-			List<AppServer> list = AppServer.findAppServersByIp(record.getIp()).getResultList();
-			if(list.size()<=0){
-			*/
-				record.setId(null);
-				record.setVersion(null);	
-				record.setStatus(null);
-				appServerService.addAppInstances(record);
-				appServerService.setAppServerName(record);
-				List<Vim> vims =  Vim.findVimsByIp(record.getIp()).getResultList();
-				if(vims.size()>0){
-					Vim vim = vims.get(0);
-					record.setVim(vim);					
-				}								
-				record.persist();
-				returnStatus = HttpStatus.CREATED;
-				response.setMessage("AppServer created.");
-				response.setData(record);
-			/*}else{
-				AppServer savedRecord = list.get(0);
-				savedRecord.setName(record.getName());
-				savedRecord.setJmxPort(record.getJmxPort());				
-				savedRecord.persist();
-				returnStatus = HttpStatus.OK;
-				response.setMessage("AppServer existed and updated.");	
-				response.setData(savedRecord);
-			}      */      
+			record.setId(null);
+			record.setVersion(null);
+			record.setStatus(null);
+			appServerService.addAppInstances(record);
+			appServerService.setAppServerName(record);
+			List<Vim> vims = Vim.findVimsByIp(record.getIp()).getResultList();
+			if (vims.size() > 0) {
+				Vim vim = vims.get(0);
+				record.setVim(vim);
+			}
+			record.persist();
+			returnStatus = HttpStatus.CREATED;
+			response.setMessage("AppServer created.");
+			response.setData(record);
 			response.setSuccess(true);
-			response.setTotal(1L);			
+			response.setTotal(1L);
 		} catch(IOException e) {			
 			response.setMessage("The App Server is not available currently.");			
 			response.setSuccess(false);
