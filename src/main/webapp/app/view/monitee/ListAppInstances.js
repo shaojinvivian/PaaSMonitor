@@ -18,11 +18,12 @@ Ext.define('PaaSMonitor.view.monitee.ListAppInstances', {
 		});
 		var store = this.store;
 		this.columns = [{
-			header : 'Path',
-			dataIndex : 'path'
+			header : 'Context Name',
+			dataIndex : 'contextName'
 		}, {
 			header : 'docBase',
-			dataIndex : 'docBase'
+			dataIndex : 'docBase',
+			width : 300
 		}, {
 			header : 'Display Name',
 			dataIndex : 'displayName',

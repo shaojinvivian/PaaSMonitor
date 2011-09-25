@@ -10,6 +10,8 @@
         <field:display field="docBase" id="s_org_seforge_paas_monitor_domain_AppInstance_docBase" object="${appinstance}" z="3SUl5grCbGwFWqSMhxqGB5uOkWU="/>
         <field:display field="status" id="s_org_seforge_paas_monitor_domain_AppInstance_status" object="${appinstance}" z="AAHHN5U4jMXwOgyrLKQvCxOOvYk="/>
         <field:display field="objectName" id="s_org_seforge_paas_monitor_domain_AppInstance_objectName" object="${appinstance}" z="8ety1u+MFswkeYPeERPnxmsUZHo="/>
-        <field:display field="path" id="s_org_seforge_paas_monitor_domain_AppInstance_path" object="${appinstance}" z="StIhdDNqPaLKpAPSqiqd+qgE9lA="/>
+        <field:display field="contextName" id="s_org_seforge_paas_monitor_domain_AppInstance_contextName" object="${appinstance}" z="aY0u31F+1+IvxAtCwjbVTi/Oepg="/>
+        <field:display field="errorLogDir" id="s_org_seforge_paas_monitor_domain_AppInstance_errorLogDir" object="${appinstance}" z="tI+K32bS5PPpcupNrcVvdFFzCqo="/>
+        <field:display field="errorCount" id="s_org_seforge_paas_monitor_domain_AppInstance_errorCount" object="${appinstance}" z="C37kg5FD0metkM9JoDCsgh/zD/g="/>
     </page:show>
 </div>

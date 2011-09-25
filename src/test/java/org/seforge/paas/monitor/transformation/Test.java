@@ -23,14 +23,14 @@ public class Test {
 		util.connect();	
 		if(util.connected()){
 			ObjectName obName = new ObjectName(
-					"Catalina:j2eeType=WebModule,name=*,J2EEApplication=none,J2EEServer=none");			
+					"PaaSMonitor:type=Context,name=*");			
 			Set<ObjectName> set = util.queryNames(obName);
 			ModelTransformer transformer = new ModelTransformer("MonitorModel.xml");			
 			transformer.setTransformRule(transformer.parseTranformRule("MonitorModel.xml"));
 			transformer.prepare(util);			
 			for(ObjectName name : set){
 				AppInstance appInstance = new AppInstance();
-				appInstance.setObjectName((String)util.getAttribute(name, "objectName"));
+				appInstance.setObjectName(name.toString());
 				transformer.transform(appInstance);
 				appInstances.add(appInstance);
 			}			

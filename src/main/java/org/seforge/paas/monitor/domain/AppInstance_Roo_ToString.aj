@@ -11,12 +11,14 @@ privileged aspect AppInstance_Roo_ToString {
         StringBuilder sb = new StringBuilder();
         sb.append("App: ").append(getApp()).append(", ");
         sb.append("AppServer: ").append(getAppServer()).append(", ");
+        sb.append("ContextName: ").append(getContextName()).append(", ");
         sb.append("DisplayName: ").append(getDisplayName()).append(", ");
         sb.append("DocBase: ").append(getDocBase()).append(", ");
+        sb.append("ErrorCount: ").append(getErrorCount()).append(", ");
+        sb.append("ErrorLogDir: ").append(getErrorLogDir()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("IsMonitee: ").append(getIsMonitee()).append(", ");
         sb.append("ObjectName: ").append(getObjectName()).append(", ");
-        sb.append("Path: ").append(getPath()).append(", ");
         sb.append("Status: ").append(getStatus()).append(", ");
         sb.append("Version: ").append(getVersion());
         return sb.toString();

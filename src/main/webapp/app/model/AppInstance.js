@@ -24,7 +24,7 @@ Ext.define('PaaSMonitor.model.AppInstance', {
 	},{
 		name: 'isMonitee',
 		type: 'bool'	
-	},'path', 'docBase', 'displayName', 'objectName'],
+	},'contextName', 'docBase', 'displayName', 'objectName'],
 	proxy : {
 		type : 'rest',
 		url : 'appintances',

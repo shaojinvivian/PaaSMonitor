@@ -38,11 +38,13 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
         AppInstance obj = new AppInstance();
         setApp(obj, index);
         setAppServer(obj, index);
+        setContextName(obj, index);
         setDisplayName(obj, index);
         setDocBase(obj, index);
+        setErrorCount(obj, index);
+        setErrorLogDir(obj, index);
         setIsMonitee(obj, index);
         setObjectName(obj, index);
-        setPath(obj, index);
         setStatus(obj, index);
         return obj;
     }
@@ -57,6 +59,11 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
         obj.setAppServer(appServer);
     }
     
+    public void AppInstanceDataOnDemand.setContextName(AppInstance obj, int index) {
+        String contextName = "contextName_" + index;
+        obj.setContextName(contextName);
+    }
+    
     public void AppInstanceDataOnDemand.setDisplayName(AppInstance obj, int index) {
         String displayName = "displayName_" + index;
         obj.setDisplayName(displayName);
@@ -67,6 +74,16 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
         obj.setDocBase(docBase);
     }
     
+    public void AppInstanceDataOnDemand.setErrorCount(AppInstance obj, int index) {
+        int errorCount = index;
+        obj.setErrorCount(errorCount);
+    }
+    
+    public void AppInstanceDataOnDemand.setErrorLogDir(AppInstance obj, int index) {
+        String errorLogDir = "errorLogDir_" + index;
+        obj.setErrorLogDir(errorLogDir);
+    }
+    
     public void AppInstanceDataOnDemand.setIsMonitee(AppInstance obj, int index) {
         Boolean isMonitee = Boolean.TRUE;
         obj.setIsMonitee(isMonitee);
@@ -75,11 +92,6 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
     public void AppInstanceDataOnDemand.setObjectName(AppInstance obj, int index) {
         String objectName = "objectName_" + index;
         obj.setObjectName(objectName);
-    }
-    
-    public void AppInstanceDataOnDemand.setPath(AppInstance obj, int index) {
-        String path = "path_" + index;
-        obj.setPath(path);
     }
     
     public void AppInstanceDataOnDemand.setStatus(AppInstance obj, int index) {

@@ -26,17 +26,13 @@
 		</Evaluator>		
 	</ConditionEvaluators>	
 	<MonitoringModel class="org.seforge.paas.monitor.domain.AppInstance">				
+		
 		<Attribute name="status" type="java.lang.String">			
 			<RuntimeModels>
-				<ConditionGroup evaluator="serverVersion">
-					<RuntimeModel>									
-						<ConditionValue>Apache Tomcat/7</ConditionValue>
-						<AttributeName>stateName</AttributeName>
-						<AttributeType>java.lang.String</AttributeType>
-					</RuntimeModel>
+				<ConditionGroup evaluator="serverType">					
 					<RuntimeModel>					
-						<ConditionValue>Apache Tomcat/6</ConditionValue>
-						<AttributeName>state</AttributeName>
+						<ConditionValue>Apache Tomcat</ConditionValue>
+						<AttributeName>Available</AttributeName>
 						<AttributeType>int</AttributeType>
 						<Mappings>
 							<Mapping>
@@ -55,35 +51,21 @@
 		
 		<Attribute name="displayName"  type="java.lang.String">			
 			<RuntimeModels>
-				<ConditionGroup evaluator="serverVersion">					
+				<ConditionGroup evaluator="serverType">					
 					<RuntimeModel>						
-						<ConditionValue>Apache Tomcat/7</ConditionValue>
-						<AttributeName>displayName</AttributeName>
+						<ConditionValue>Apache Tomcat</ConditionValue>
+						<AttributeName>DisplayName</AttributeName>
 						<AttributeType>java.lang.String</AttributeType>
-					</RuntimeModel>
-					<RuntimeModel>						
-						<ConditionValue>Apache Tomcat/6</ConditionValue>
-						<AttributeName>path</AttributeName>
-						<AttributeType>java.lang.String</AttributeType>
-						<!--
-						<Operation>
-							<Method>substring</Method>
-							<Parameters>
-								<Parameter type="int">1</Parameter>
-								<Parameter type="int">-1</Parameter>
-							</Parameters>					
-						</Operation>
-						-->
-					</RuntimeModel>	
+					</RuntimeModel>					
 				</ConditionGroup>			
 			</RuntimeModels>
 		</Attribute>
-		<Attribute name="path"  type="java.lang.String">			
+		<Attribute name="contextName"  type="java.lang.String">			
 			<RuntimeModels>
 				<ConditionGroup evaluator="serverType">					
 					<RuntimeModel>						
 						<ConditionValue>Apache Tomcat</ConditionValue>
-						<AttributeName>path</AttributeName>
+						<AttributeName>ContextName</AttributeName>
 						<AttributeType>java.lang.String</AttributeType>
 					</RuntimeModel>					
 				</ConditionGroup>							
@@ -94,11 +76,33 @@
 				<ConditionGroup evaluator="serverType">		
 					<RuntimeModel>
 						<ConditionValue>Apache Tomcat</ConditionValue>
-						<AttributeName>docBase</AttributeName>
+						<AttributeName>DocBase</AttributeName>
 						<AttributeType>java.lang.String</AttributeType>
 					</RuntimeModel>					
 				</ConditionGroup>				
 			</RuntimeModels>
-		</Attribute>				
+		</Attribute>
+		<Attribute name="errorCount"  type="int">			
+			<RuntimeModels>
+				<ConditionGroup evaluator="serverType">		
+					<RuntimeModel>
+						<ConditionValue>Apache Tomcat</ConditionValue>
+						<AttributeName>ErrorCount</AttributeName>
+						<AttributeType>int</AttributeType>
+					</RuntimeModel>					
+				</ConditionGroup>				
+			</RuntimeModels>
+		</Attribute>
+		<Attribute name="errorLogDir"  type="java.lang.String">			
+			<RuntimeModels>
+				<ConditionGroup evaluator="serverType">		
+					<RuntimeModel>
+						<ConditionValue>Apache Tomcat</ConditionValue>
+						<AttributeName>ErrorLogDir</AttributeName>
+						<AttributeType>java.lang.String</AttributeType>
+					</RuntimeModel>					
+				</ConditionGroup>				
+			</RuntimeModels>
+		</Attribute>							
 	</MonitoringModel>
 </MonitoringModels>

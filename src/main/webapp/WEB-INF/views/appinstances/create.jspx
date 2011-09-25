@@ -10,7 +10,9 @@
         <field:input field="docBase" id="c_org_seforge_paas_monitor_domain_AppInstance_docBase" z="2GSpcG0dnH3lRvaAYaGi0RCmDxE="/>
         <field:input field="status" id="c_org_seforge_paas_monitor_domain_AppInstance_status" z="mERupuVJZ6jBNvV0MFZN6/zAkdQ="/>
         <field:input field="objectName" id="c_org_seforge_paas_monitor_domain_AppInstance_objectName" z="JZk4vEFUWXnT3tqcJHjOwMQRCYg="/>
-        <field:input field="path" id="c_org_seforge_paas_monitor_domain_AppInstance_path" required="true" z="ng7Kb5Q13tD6mof5YA31cAXoeXY="/>
+        <field:input field="contextName" id="c_org_seforge_paas_monitor_domain_AppInstance_contextName" required="true" z="aS7wQ0jhtrM7G/0WyR4ELibR5ds="/>
+        <field:input field="errorLogDir" id="c_org_seforge_paas_monitor_domain_AppInstance_errorLogDir" z="rPZKt7RZiXt2B1ozg7OCsFtec58="/>
+        <field:input field="errorCount" id="c_org_seforge_paas_monitor_domain_AppInstance_errorCount" z="A8+K8rwVSliqN2x/OIvydQElv0Y="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_seforge_paas_monitor_domain_AppInstance" render="${not empty dependencies}" z="TqsS7te/VyR1aQHRRjs/dyFCr/g="/>
 </div>

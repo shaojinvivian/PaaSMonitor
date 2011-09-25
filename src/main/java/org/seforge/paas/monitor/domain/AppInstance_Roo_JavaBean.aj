@@ -10,12 +10,12 @@ import org.seforge.paas.monitor.domain.AppServer;
 
 privileged aspect AppInstance_Roo_JavaBean {
     
-    public String AppInstance.getPath() {
-        return this.path;
+    public String AppInstance.getContextName() {
+        return this.contextName;
     }
     
-    public void AppInstance.setPath(String path) {
-        this.path = path;
+    public void AppInstance.setContextName(String contextName) {
+        this.contextName = contextName;
     }
     
     public App AppInstance.getApp() {
@@ -64,6 +64,14 @@ privileged aspect AppInstance_Roo_JavaBean {
     
     public void AppInstance.setObjectName(String objectName) {
         this.objectName = objectName;
+    }
+    
+    public String AppInstance.getErrorLogDir() {
+        return this.errorLogDir;
+    }
+    
+    public void AppInstance.setErrorLogDir(String errorLogDir) {
+        this.errorLogDir = errorLogDir;
     }
     
 }

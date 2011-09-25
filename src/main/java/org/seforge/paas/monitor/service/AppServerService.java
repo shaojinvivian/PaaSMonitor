@@ -43,12 +43,14 @@ public class AppServerService{
 			JmxUtil jmxUtil = new JmxUtil(ip, port);
 			jmxUtil.connect();			
 			ObjectName obName = new ObjectName(
-					"Catalina:j2eeType=WebModule,name=*,J2EEApplication=none,J2EEServer=none");			
+					"PaaSMonitor:type=Context,name=*");			
 			Set<ObjectName> set = jmxUtil.queryNames(obName);			
 			modelTransformer.prepare(jmxUtil);
 			for(ObjectName name : set){
 				AppInstance appInstance = new AppInstance();
-				appInstance.setObjectName((String)jmxUtil.getAttribute(name, "objectName"));
+				
+//				appInstance.setObjectName((String)jmxUtil.getAttribute(name, "objectName"));
+				appInstance.setObjectName(name.toString());
 				modelTransformer.transform(appInstance);
 				appInstance.setAppServer(appServer);
 				appInstance.setIsMonitee(false);
@@ -88,7 +90,7 @@ public class AppServerService{
 		jmxUtil.disconnect();
 	}
 	
-	public void checkInstancesState(AppServer appServer) throws Exception {
+	public void checkInstancesState(AppServer appServer) throws Exception{
 		String ip = appServer.getIp();
 		String port = appServer.getJmxPort();
 		JmxUtil jmxUtil = new JmxUtil(ip, port);
@@ -105,6 +107,10 @@ public class AppServerService{
 			}
 		}else{
 			appServer.setStatus(MoniteeState.STOPPED);
+			Set<AppInstance> appInstances = appServer.getAppInstances();
+			for(AppInstance appInstance: appInstances){	
+				appInstance.setStatus(MoniteeState.STOPPED);
+			}
 		}
 		jmxUtil.disconnect();		
 	}

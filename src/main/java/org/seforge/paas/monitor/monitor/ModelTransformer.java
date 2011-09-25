@@ -68,7 +68,7 @@ public class ModelTransformer {
 				Class[] paraClasses = new Class[co.getParameters().size()];
 				for (int i = 0; i < co.getParameters().size(); i++) {
 					ConditionParameter cp = co.getParameters().get(i);
-					paraClasses[i] = cp.getTypeClass();
+					paraClasses[i] = TypeConverter.getTypeClass(cp.getType());
 					paraValues[i] = cp.getParameter();
 				}
 				Method operator = value.getClass().getDeclaredMethod(
@@ -93,8 +93,7 @@ public class ModelTransformer {
 				String fieldType = field.getType().getName();
 				Map<String, Map> groupMap = attributeMap.get(mma);
 				String belongedGroup = null;
-				Object conditionValue;
-				
+				Object conditionValue;				
 				
 				for (String group : groupMap.keySet()) {					
 					if (conditionEvaluators.get(group) != null) {
@@ -118,7 +117,7 @@ public class ModelTransformer {
 					Method setter = object.getClass().getDeclaredMethod(
 							"set" + mma.getName().substring(0, 1).toUpperCase()
 									+ mma.getName().substring(1),
-							Class.forName(fieldType));
+							TypeConverter.getTypeClass(fieldType));
 					setter.invoke(object, value);
 				} else {
 					if (attributeType.equals("int")
@@ -134,7 +133,7 @@ public class ModelTransformer {
 										+ mma.getName().substring(0, 1)
 												.toUpperCase()
 										+ mma.getName().substring(1),
-								Class.forName(fieldType));
+										TypeConverter.getTypeClass(fieldType));
 						setter.invoke(object, mappedValue);
 					}
 				}

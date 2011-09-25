@@ -5,7 +5,7 @@
 		<td align="center" colspan="2">Phym</td>
 		<td align="center" colspan="3">Vim</td>   		
 		<td align="center" colspan="2">AppServer</td>
-		<td align="center" colspan="2">AppInstance</td>				
+		<td align="center" colspan="4">AppInstance</td>				
 	</tr>
 	<tr style="font-weight:bold">
 		<td align="center">Ip</td>
@@ -15,8 +15,10 @@
 		<td align="center">Power</td>
 		<td align="center">Name</td>
 		<td align="center">Status</td>
-		<td align="center">Path</td>
-		<td align="center">Status</td>					
+		<td align="center">Context Name</td>
+		<td align="center">Status</td>
+		<td align="center">Error Count</td>
+		<td align="center">Error Log Dir</td>					
 	</tr>
 	#if ($phyms.size() > 0)		
 		#foreach ( $phym in $phyms )
@@ -67,12 +69,26 @@
 									#end
 									
 									#if($appServerFirst == 1)
-										<td rowspan="$appServerRowCount">$appServer.name</td>
-										<td rowspan="$appServerRowCount">$appServer.status</td>							
+										#if($appServer.status == "STOPPED")
+											<td rowspan="$appServerRowCount" style="color:red">$appServer.name</td>
+											<td rowspan="$appServerRowCount" style="color:red">$appServer.status</td>										
+										#else
+											<td rowspan="$appServerRowCount">$appServer.name</td>
+											<td rowspan="$appServerRowCount">$appServer.status</td>	
+										#end																
 										#set ($appServerFirst = 0)
-									#end													
-										<td>$appInstance.path</td>
-										<td>$appInstance.status</td>					
+									#end
+										#if($appInstance.status == "STOPPED")
+											<td style="color:red">$appInstance.contextName</td>
+											<td style="color:red">$appInstance.status</td>
+											<td style="color:red">$appInstance.errorCount</td>
+											<td style="color:red">$appInstance.errorLogDir</td>	
+										#else
+											<td>$appInstance.contextName</td>
+											<td>$appInstance.status</td>
+											<td>$appInstance.errorCount</td>
+											<td>$appInstance.errorLogDir</td>
+										#end				
 									</tr>	
 								#end
 							#else
@@ -105,7 +121,7 @@
 								<td>$vim.ip</td>
 								<td>$vim.name</td>
 								<td>$vim.powerState</td>
-								<td colspan="4">No appservers.</td>
+								<td colspan="6">No appservers.</td>
 						</tr>
 					#end									
 				#end											
