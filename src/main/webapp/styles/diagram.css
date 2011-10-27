@@ -1,0 +1,8 @@
+#graphContainer {
+	overflow: hidden;
+	width: 800px;
+	height: 500px;
+/*	background: url("mxgraph/examples/editors/images/grid.gif");*/
+	background: url('../mxgraph/examples/editors/images/grid.gif');
+	cursor: default;
+}

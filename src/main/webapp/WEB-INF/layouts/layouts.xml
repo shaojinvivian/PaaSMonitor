@@ -18,5 +18,8 @@
   
   <definition name="extjs" template="/WEB-INF/layouts/extjs.jspx">
   </definition>
+  
+  <definition name="mx" template="/WEB-INF/layouts/mx.jspx">
+  </definition>
 
 </tiles-definitions>

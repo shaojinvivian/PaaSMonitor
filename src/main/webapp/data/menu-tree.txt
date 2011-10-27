@@ -20,7 +20,15 @@
         },{
 	        text:'View current Monitees',
 	        id:'view_monitees',
-	        leaf:true
+	        leaf:true	   
+    }]
+},{
+    text:'Monitoring Model',
+    expanded: true,
+    children:[{
+        	text:'Model Diagram',
+	        id:'model_diagram',
+	        leaf:true       
     }]
 },{
     text:'System Settings',

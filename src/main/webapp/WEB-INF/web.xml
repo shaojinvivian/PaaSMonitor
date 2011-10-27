@@ -91,4 +91,15 @@
         <error-code>404</error-code>
         <location>/resourceNotFound</location>
     </error-page>
+    
+    <mime-mapping>
+	    <extension>properties</extension>
+	    <mime-type>text/plain</mime-type>
+	</mime-mapping>
+
+	<mime-mapping>
+	    <extension>xml</extension>
+	    <mime-type>text/plain</mime-type>
+	</mime-mapping>
+    
 </web-app>

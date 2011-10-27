@@ -1,7 +1,7 @@
 Ext.application({
 	name : 'PaaSMonitor',
 	appFolder : 'app',
-	controllers : ['Monitees'],
+	controllers : ['Monitees','Model'],
 	launch : function() {
 		var contentPanel = {
 			id : 'content-panel',
@@ -37,6 +37,9 @@ Ext.application({
 			}, {
 				id : 'view_monitees-panel',
 				xtype : 'viewMonitees'
+			}, {
+				id : 'model_diagram-panel',
+				xtype : 'modelDiagram'
 			}]
 		};
 

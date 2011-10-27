@@ -9,17 +9,22 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=8" />	
         
         <link rel="stylesheet" type="text/css" href="ext-4.0.2a/resources/css/ext-all.css" />
-        <link rel="stylesheet" type="text/css" href="styles/CheckHeader.css" />
-		
- 	
+        <link rel="stylesheet" type="text/css" href="styles/CheckHeader.css" />	
+        <link rel="stylesheet" type="text/css" href="styles/diagram.css" />	
+        
        
         <script type="text/javascript" src="ext-4.0.2a/ext-debug.js"><!-- required for FF3 and Opera --></script>
-        
-        
- 
-      
-    	<script type="text/javascript" src="app.js"><!-- required for FF3 and Opera --></script>
+        <!-- Sets the basepath for the library if not in same directory -->
+		<script type="text/javascript">
+			mxBasePath = 'mxgraph/src';
+		</script>
+
+		<!-- Loads and initializes the library -->
+		<script type="text/javascript" src="mxgraph/mxclient-ff.js"><!-- required for FF3 and Opera --></script>
+	   	<script type="text/javascript" src="app.js"><!-- required for FF3 and Opera --></script>
 		<script type="text/javascript" src="loader.js"><!-- required for FF3 and Opera --></script>
+				<script type="text/javascript" src="mxgraph/mxApplication.js"><!-- required for FF3 and Opera --></script>
+		
 		<spring:message code="application_name" var="app_name"/>
 		<title id="page-title"><spring:message code="welcome_h3" arguments="${app_name}" /></title>
 	</head>
