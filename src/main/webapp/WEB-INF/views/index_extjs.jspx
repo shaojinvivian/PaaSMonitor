@@ -1,114 +1,105 @@
-<div xmlns:spring="http://www.springframework.org/tags" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
-  <jsp:directive.page contentType="text/html;charset=UTF-8" />
-  <jsp:output omit-xml-declaration="yes" />
-  <spring:url var="banner" value="/images/banner-graphic.png" />
-  <spring:url var="home" value="/" />
-  <spring:message code="button_home" var="home_label" />
-  
-  <div id="loading-mask" style=""></div>
-    <div id="loading">
-        <div class="loading-indicator">
-            <img src="images/extanim32.gif" width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/>PaaSMonitor - <a href="http://www.seforge.org">seforge.org</a>
-            <br /><span id="loading-msg">Loading...Please wait...</span>
-        </div>
-    </div>
+<div xmlns:spring="http://www.springframework.org/tags"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<spring:url var="banner" value="/images/banner-graphic.png" />
+	<spring:url var="home" value="/" />
+	<spring:message code="button_home" var="home_label" />
 
-    <div id="north-header" class="x-hide-display"> 
-	  <center><a href="${home}" name="${fn:escapeXml(home_label)}" title="${fn:escapeXml(home_label)}">
-		<img src="${banner}" />
-	  </a></center>
+	<div id="loading-mask" style=""></div>
+	<div id="loading">
+		<div class="loading-indicator">
+			<img src="images/extanim32.gif" width="32" height="32"
+				style="margin-right: 8px; float: left; vertical-align: top;" />PaaSMonitor
+			- <a href="http://www.seforge.org">seforge.org</a> <br /> <span
+				id="loading-msg">Loading...Please wait...</span>
+		</div>
 	</div>
 
-    <div id="west-menu" class="x-hide-display"></div>
+	<div id="north-header" class="x-hide-display">
+		<center>
+			<a href="${home}" name="${fn:escapeXml(home_label)}"
+				title="${fn:escapeXml(home_label)}"> <img src="${banner}" />
+			</a>
+		</center>
+	</div>
 
-    <div id="center" class="x-hide-display"></div>	
-	
+	<div id="west-menu" class="x-hide-display"></div>
+
+	<div id="center" class="x-hide-display"></div>
+
 
 	<div id="south-footer" class="x-hide-display">
-	  <spring:url value="/" var="home"/>
-	  <span>
-		<a href="${home}">
-		  <spring:message code="button_home"/>
+		<spring:url value="/" var="home" />
+		<span> <a href="${home}"> <spring:message
+					code="button_home" />
 		</a>
-	  </span>
-	  <c:if test="${pageContext['request'].userPrincipal != null}">
-		<c:out value=" | "/>
-		<span>
-		  <spring:url value="/j_spring_security_logout" var="logout"/>
-		  <a href="${logout}">
-			<spring:message code="security_logout"/>
-		  </a>
 		</span>
-	  </c:if>
+		<c:if test="${pageContext['request'].userPrincipal != null}">
+			<c:out value=" | " />
+			<span> <spring:url value="/j_spring_security_logout"
+					var="logout" /> <a href="${logout}"> <spring:message
+						code="security_logout" />
+			</a>
+			</span>
+		</c:if>
 
-	  <span id="language">
-		<c:out value=" | "/>
-		<spring:message code="global_language"/>
-		<c:out value=": "/>
-	  <util:language label="English" locale="en"/>		
+		<span id="language"> <c:out value=" | " /> <spring:message
+				code="global_language" /> <c:out value=": " /> <util:language
+				label="English" locale="en" />
 		</span>
-	  <util:theme/>
+		<util:theme />
 
-	  <spring:url value="/images/springsource-logo.png" var="logo"/>
-	  <spring:message code="global_sponsored" var="sponsored"/>
-	  <span>
-		<a href="http://springsource.com" title="${fn:escapeXml(sponsored)}">
-		  <img align="right" alt="${fn:escapeXml(sponsored)}" src="${logo}"/>
+		<spring:url value="/images/springsource-logo.png" var="logo" />
+		<spring:message code="global_sponsored" var="sponsored" />
+		<span> <a href="http://springsource.com"
+			title="${fn:escapeXml(sponsored)}"> <img align="right"
+				alt="${fn:escapeXml(sponsored)}" src="${logo}" />
 		</a>
-	  </span>
+		</span>
 	</div>
-  <spring:message var="app_name" code="application_name" />
-  <spring:message var="title" code="welcome_titlepane" arguments="${app_name}" />
+	<spring:message var="app_name" code="application_name" />
+	<spring:message var="title" code="welcome_titlepane"
+		arguments="${app_name}" />
 	<div id="start-div">
-    	<h3>
-      	<spring:message code="welcome_h3" arguments="${app_name}" />
-    	</h3>
-    	<p>
-      	<spring:message code="welcome_text" />
-    	</p>
-	</div>
-	
-	<div id="page">
-		<div id="header">
-			<div id="headerimg" style="overflow:hidden;">
-				<h1 id="title">mxDraw</h1>
-			</div>
-		</div>
-		<div id="mainActions"
-			style="width:100%;padding-top:8px;padding-left:24px;padding-bottom:8px;">
-		</div>
-		<div id="selectActions" style="width:100%;padding-left:54px;padding-bottom:4px;">
-		</div>
-		<table border="0" width="730px">
-			<tr>
-				<td id="toolbar" style="width:16px;padding-left:20px;" valign="top">
-					<!-- Toolbar Here -->				
-				</td>
-				<td valign="top" style="border-width:1px;border-style:solid;border-color:black;">
-					<div id="graph" style="position:relative;height:480px;width:684px;overflow:hidden;cursor:default;">
-						<!-- Graph Here -->
-						<center id="splash" style="padding-top:230px;">
-							<img src="images/loading.gif"></img>
-						</center>
-					</div>
-					<textarea id="xml" style="height:480;width:684px;display:none;border-style:none;"></textarea>
-				</td>
-			</tr>
-		</table>
-		<span style="float:right;padding-right:36px;">
-			<input id="source" type="checkbox"/>Source
-		</span>
-		<div id="zoomActions" style="width:100%;padding-left:54px;padding-top:4px;">
-		</div>
-		<div id="footer">
-			<p id="status">
-				<!-- Status Here -->Loading...
-			</p>
-			<br/>
-		</div>
+		<h3>
+			<spring:message code="welcome_h3" arguments="${app_name}" />
+		</h3>
+		<p>
+			<spring:message code="welcome_text" />
+		</p>
 	</div>
 	
 	
+	<!-- Creates a container for the splash screen -->
+	<div id="splash">
+		<center id="splash" style="padding-top: 230px;">
+			<img src="images/loading.gif"></img>
+		</center>
+	</div>
+
+	<!-- Creates a container for the sidebar -->
+	<div id="toolbarContainer" ></div>
+	
+	<!-- Creates a container for the toolboox -->
+	<div id="sidebarContainer" ></div>
+
+	<!-- Creates a container for the graph -->
+	<div id="graphContainer" ></div>
+	
+
+	<!-- Creates a container for the outline -->
+	<div id="outlineContainer" ></div>
+
+	<!-- Creates a container for the sidebar -->
+	<div id="statusContainer" >
+		<div style="font-size: 10pt; float: left;">
+			Created with <a href="http://www.jgraph.com" target="_blank">mxGraph</a>
+		</div>
+	</div>
 	
 	
 </div>
