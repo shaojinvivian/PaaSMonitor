@@ -297,8 +297,8 @@
 							label += '<img src="images/spacer.gif" width="16" height="1">&nbsp;';
 						}
 
-						return label + mxUtils.htmlEntities(cell.value.name, false) + ': ' +
-							mxUtils.htmlEntities(cell.value.type, false);
+						return label + mxUtils.htmlEntities(cell.value.name, false) + ' = ' +
+							mxUtils.htmlEntities(cell.value.value, false) + '&nbsp;<span style="color:#B0B0B0; font-style: italic">' + mxUtils.htmlEntities(cell.value.type, false) + '</span>';
 					}
 					
 					return mxGraph.prototype.getLabel.apply(this, arguments); // "supercall"
@@ -347,11 +347,24 @@
 				*/
 				
 				var appServerObject = new AppServer('APPSERVER');
-				var appServer = new mxCell(appServerObject, new mxGeometry(0, 0, 200, 28), 'appServer');
-				
+				var appServer = new mxCell(appServerObject, new mxGeometry(0, 0, 200, 28), 'appServer');				
 				appServer.setVertex(true);
 				addSidebarIcon(graph, sidebar, 	appServer, 'images/icons48/appserver.png');
 				
+				var attributeObject = new Attribute('ATTRIBUTENAME');
+				var attribute = new mxCell(attributeObject, new mxGeometry(0, 0, 0, 26));				
+				attribute.setVertex(true);
+				attribute.setConnectable(false);
+				
+				var ipAttribute = attribute.clone();				
+				ipAttribute.value.name = 'ip';
+				ipAttribute.value.type = 'String';			
+				appServer.insert(ipAttribute);
+				
+				var jmxPortAttribute = attribute.clone();				
+				jmxPortAttribute.value.name = 'jmxPort';
+				jmxPortAttribute.value.type = 'int';			
+				appServer.insert(jmxPortAttribute);
 				
 				/*
 				// Adds sidebar icon for the column object
@@ -469,6 +482,22 @@
 						showProperties(graph, cell);
 					}
 				});
+				
+				editor.addAction('add', function(editor, cell)
+				{
+					/*
+					if (cell == null)
+					{
+						cell = graph.getSelectionCell();
+					}
+					*/
+					// if (graph.isHtmlLabel(cell))
+					// {
+						addAttribute(graph, cell);
+					// }
+				});
+				
+				
 
 				addToolbarButton(editor, toolbar, 'delete', 'Delete', 'images/delete2.png');
 
@@ -733,14 +762,12 @@
 				
 				if (ip != null && jmxPort !=null)
 				{
-					var v1 = model.cloneCell(prototype);
-					
+					var v1 = model.cloneCell(prototype);					
 					model.beginUpdate();
 					try
 					{
 						v1.value.name = ip;
-						// v1.prototype.ip = ip;
-						// v1.prototype.jmxPort = jmxPort;
+						
 						v1.geometry.x = pt.x;
 						v1.geometry.y = pt.y;
 						
@@ -749,7 +776,10 @@
 						// if (isTable)
 						// {
 							v1.geometry.alternateBounds = new mxRectangle(0, 0, v1.geometry.width, v1.geometry.height);
-							v1.children[0].value.name = name + '_ID';
+							v1.children[0].value.value = ip;
+							v1.children[1].value.value = jmxPort;
+
+							
 						// }
 					}
 					finally
@@ -858,6 +888,13 @@
 			
 					menu.addSeparator();
 				}
+				
+				menu.addItem('Add Attribute', 'images/plus.png', function()
+				{
+					editor.execute('add', cell);
+				});
+			
+				menu.addSeparator();
 
 				menu.addItem('Delete', 'images/delete2.png', function()
 				{
@@ -885,6 +922,48 @@
 				editor.execute('showSql', cell);
 			});	
 		};
+		
+		
+		function addAttribute(graph, cell)
+		{
+			// Creates a form for the user object inside
+			// the cell
+			var form = new mxForm('addAttribute');
+
+			// Adds a field for the columnname
+			var nameField = form.addText('Name', '');
+			var typeField = form.addText('Type', '');
+			var valueField = form.addText('Value', '');
+			var wnd = null;
+
+			// Defines the function to be executed when the
+			// OK button is pressed in the dialog
+			var okFunction = function()
+			{				
+				var attribute = cell.children[0].clone();				
+				attribute.value.name = nameField.value;
+				attribute.value.type = typeField.value;		
+				attribute.value.value = valueField.value;				
+				
+				graph.model.beginUpdate();
+				try {
+					graph.addCell(attribute, cell);
+				} finally {
+					graph.model.endUpdate();
+				}		
+				wnd.destroy();
+			}
+			// Defines the function to be executed when the
+			// Cancel button is pressed in the dialog
+			var cancelFunction = function()
+			{
+				wnd.destroy();
+			}
+			form.addButtons(okFunction, cancelFunction);
+			wnd = showModalWindow('Add an attribute', form.table, 240, 240);
+		};
+		
+		
 		
 		function showProperties(graph, cell)
 		{
@@ -1053,6 +1132,19 @@
 			if (!google.gears) {
 			  google.gears = {factory: factory};
 			}
+		};
+		
+		
+		function Attribute(name){
+			this.name = name;
+		}
+		
+		Attribute.prototype.type = 'String';
+		Attribute.prototype.value = null;
+		
+		Attribute.prototype.clone = function()
+		{
+			return mxUtils.clone(this);
 		};
 		
 		// Defines the column user object
