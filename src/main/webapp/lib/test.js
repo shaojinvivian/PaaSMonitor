@@ -1,29 +1,3 @@
-Ext.define('PaaSMonitor.controller.Model', {
-	extend : 'Ext.app.Controller',
-	// stores : ['Phyms', 'Vims', 'MoniteeTree', 'AppServers', 'AppInstances'],
-	// models : ['Phym', 'Vim', 'AppServer', 'AppInstance'],
-	views : ['model.Diagram'],
-
-	init : function() {
-		this.control({			
-			'modelDiagram' : {
-				beforeactivate : this.draw
-			}			
-		});
-	},
-	
-	
-	draw : function() {
-		main(document.getElementById('graphContainer'),
-			document.getElementById('outlineContainer'),
-		 	document.getElementById('toolbarContainer'),
-			document.getElementById('sidebarContainer'),
-			document.getElementById('statusContainer'));
-	}
-	
-	
-});
-
 
 // Program starts here. Creates a sample graph in the
 		// DOM node with the specified ID. This function is invoked
@@ -765,18 +739,18 @@ Ext.define('PaaSMonitor.controller.Model', {
 					try
 					{
 						v1.value.name = ip;
-						v1.prototype.ip = ip;
-						v1.prototype.jmxPort = jmxPort;
+						// v1.prototype.ip = ip;
+						// v1.prototype.jmxPort = jmxPort;
 						v1.geometry.x = pt.x;
 						v1.geometry.y = pt.y;
 						
 						graph.addCell(v1, parent);
 						
-						if (isTable)
-						{
+						// if (isTable)
+						// {
 							v1.geometry.alternateBounds = new mxRectangle(0, 0, v1.geometry.width, v1.geometry.height);
 							v1.children[0].value.name = name + '_ID';
-						}
+						// }
 					}
 					finally
 					{
@@ -857,11 +831,11 @@ Ext.define('PaaSMonitor.controller.Model', {
 			style[mxConstants.STYLE_VERTICAL_ALIGN] = 'middle';
 			style[mxConstants.STYLE_FONTSIZE] = '12';
 			style[mxConstants.STYLE_FONTSTYLE] = 1;
-			style[mxConstants.STYLE_IMAGE] = 'images/icons48/table.png';
+			style[mxConstants.STYLE_IMAGE] = 'images/icons48/appserver.png';
 			// Looks better without opacity if shadow is enabled
 			//style[mxConstants.STYLE_OPACITY] = '80';
 			style[mxConstants.STYLE_SHADOW] = 1;
-			graph.getStylesheet().putCellStyle('table', style);
+			graph.getStylesheet().putCellStyle('appServer', style);
 
 			style = graph.stylesheet.getDefaultEdgeStyle();
 			style[mxConstants.STYLE_LABEL_BACKGROUNDCOLOR] = '#FFFFFF';
@@ -1131,4 +1105,3 @@ Ext.define('PaaSMonitor.controller.Model', {
 		AppServer.prototype.clone = function(){
 			return mxUtils.clone(this);
 		}
-	

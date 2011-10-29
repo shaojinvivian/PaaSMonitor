@@ -17,18 +17,17 @@ Ext.define('PaaSMonitor.view.model.Diagram', {
 				border : false,
 				margins : '0 0 5 0'				
 				 }, {
-				 region : 'south',
-				 title : 'South Panel',				
+				 region : 'south',						
 				 contentEl : 'statusContainer',
 				 split : true,
 				 height : 100,
 				 minHeight : 100
 				  }, {
 				 region : 'west',
-				 title : 'Table',				
-				 contentEl : 'sidebarContainer',				
-				 height : 100,
-				 minHeight : 100
+				 title : 'Monitee',				
+				 contentEl : 'sidebarContainer',
+				 width : 50	
+				
 				  }, {
 				 region : 'center',
 				 title : 'Diagram',				 
@@ -40,9 +39,9 @@ Ext.define('PaaSMonitor.view.model.Diagram', {
 				 region : 'east',
 				 title : 'Outline',				 
 				 contentEl : 'outlineContainer',
-				 split : true,
-				 height : 100,
-				 minHeight : 100
+				 split : true,				
+				 width : 200
+				 
 				 
 			}			];
 			

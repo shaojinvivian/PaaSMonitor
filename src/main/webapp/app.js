@@ -52,6 +52,7 @@ Ext.application({
 			width : 200,
 			rootVisible : false,
 			autoScroll : true,
+			collapsible : true,
 			store : Ext.create('Ext.data.TreeStore', {
 				proxy : {
 					type : 'ajax',
