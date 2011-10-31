@@ -492,6 +492,16 @@
 		    <groupId>jaxen</groupId>
 		    <artifactId>jaxen</artifactId>
 		    <version>1.1.1</version>
+		    <exclusions>				
+				<exclusion>
+					<groupId>xerces</groupId>
+					<artifactId>xerces</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>xerces</groupId>
+					<artifactId>xercesImpl</artifactId>
+				</exclusion>				
+			</exclusions>
 		</dependency>
 	</dependencies>
 	<build>

@@ -95,11 +95,7 @@
 	<div id="outlineContainer" ></div>
 
 	<!-- Creates a container for the sidebar -->
-	<div id="statusContainer" >
-		<div style="font-size: 10pt; float: left;">
-			Created with <a href="http://www.jgraph.com" target="_blank">mxGraph</a>
-		</div>
-	</div>
+	<div id="statusContainer" ></div>
 	
 	
 </div>

@@ -26,6 +26,10 @@
     text:'Monitoring Model',
     expanded: true,
     children:[{
+        	text:'Model Definition',
+	        id:'model_definition',
+	        leaf:true       
+    },{
         	text:'Model Diagram',
 	        id:'model_diagram',
 	        leaf:true       

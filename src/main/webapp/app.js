@@ -38,6 +38,9 @@ Ext.application({
 				id : 'view_monitees-panel',
 				xtype : 'viewMonitees'
 			}, {
+				id : 'model_definition-panel',
+				xtype : 'modelDefinition'
+			}, {
 				id : 'model_diagram-panel',
 				xtype : 'modelDiagram'
 			}]

@@ -23,6 +23,7 @@
 		<script type="text/javascript" src="mxgraph/mxclient-ff.js"><!-- required for FF3 and Opera --></script>
 	   	<script type="text/javascript" src="app.js"><!-- required for FF3 and Opera --></script>
 		<script type="text/javascript" src="loader.js"><!-- required for FF3 and Opera --></script>
+		<script type="text/javascript" src="lib/definition.js"><!-- required for FF3 and Opera --></script>
 		
 		<spring:message code="application_name" var="app_name"/>
 		<title id="page-title"><spring:message code="welcome_h3" arguments="${app_name}" /></title>
