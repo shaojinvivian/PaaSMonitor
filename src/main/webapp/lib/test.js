@@ -1,5 +1,4 @@
-
-// Program starts here. Creates a sample graph in the
+		// Program starts here. Creates a sample graph in the
 		// DOM node with the specified ID. This function is invoked
 		// from the onLoad event handler of the document (see below).
 		function main(container, outline, toolbar, sidebar, status)
@@ -273,32 +272,22 @@
 				{
 					if (this.isHtmlLabel(cell))
 					{
-						var label = '';
-						
-						if (cell.value.primaryKey)
+						var label = '';	
+						if (cell.value.category == 'Config')
 						{
-							label += '<img title="Primary Key" src="images/key.png" width="16" height="16" align="top">&nbsp;';
-						}
-						else
+							label += '<img title="Config" src="images/icons48/settings.png" width="16" height="16" align="top">&nbsp;';
+						}	
+						if(cell.value.category == 'Monitor')
 						{
-							label += '<img src="images/spacer.gif" width="16" height="1">&nbsp;';
+							label += '<img title="View" src="images/icons48/view.png" width="16" height="16" align="top">&nbsp;';
 						}
-												
-						if (cell.value.autoIncrement)
+						if(cell.value.category == 'Control')
 						{
-							label += '<img title="Auto Increment" src="images/plus.png" width="16" height="16" align="top">&nbsp;';
+							label += '<img title="View" src="images/icons48/edit.png" width="16" height="16" align="top">&nbsp;';
 						}
-						else if (cell.value.unique)
-						{
-							label += '<img title="Unique" src="images/check.png" width="16" height="16" align="top">&nbsp;';
-						}
-						else
-						{
-							label += '<img src="images/spacer.gif" width="16" height="1">&nbsp;';
-						}
+										
 
-						return label + mxUtils.htmlEntities(cell.value.name, false) + ' = ' +
-							mxUtils.htmlEntities(cell.value.value, false) + '&nbsp;<span style="color:#B0B0B0; font-style: italic">' + mxUtils.htmlEntities(cell.value.type, false) + '</span>';
+						return label + mxUtils.htmlEntities(cell.value.name, false) + '&nbsp;<span style="color:#B0B0B0; font-style: italic">' + mxUtils.htmlEntities(cell.value.type, false) + '</span>';
 					}
 					
 					return mxGraph.prototype.getLabel.apply(this, arguments); // "supercall"
@@ -345,50 +334,60 @@
 				table.setVertex(true);
 				addSidebarIcon(graph, sidebar, 	table, 'images/icons48/tomcatserver.png');
 				*/
-				
-				var appServerObject = new AppServer('APPSERVER');
-				var appServer = new mxCell(appServerObject, new mxGeometry(0, 0, 200, 28), 'appServer');				
-				appServer.setVertex(true);
-				addSidebarIcon(graph, sidebar, 	appServer, 'images/icons48/appserver.png');
+				/*
+				var moniteeObject = new Monitee('MONITEENAME');
+				var monitee = new mxCell(moniteeObject, new mxGeometry(0, 0, 200, 28), 'monitee');				
+				monitee.setVertex(true);
+				addSidebarIcon(graph, sidebar, 	monitee, 'images/icons48/rectangle.gif');
+				*/
 				
 				var attributeObject = new Attribute('ATTRIBUTENAME');
 				var attribute = new mxCell(attributeObject, new mxGeometry(0, 0, 0, 26));				
 				attribute.setVertex(true);
 				attribute.setConnectable(false);
 				
-				var ipAttribute = attribute.clone();				
-				ipAttribute.value.name = 'ip';
-				ipAttribute.value.type = 'String';			
-				appServer.insert(ipAttribute);
 				
+				var appServerObject = new AppServer('AppServer');
+				var appServer = new mxCell(appServerObject, new mxGeometry(0, 0, 200, 28), 'appServer');				
+				appServer.setVertex(true);
+				addSidebarIcon(graph, sidebar, 	appServer, 'images/icons48/appserver.png');	
+				
+				addConfigs(appServerObject, appServer, attribute);
+				
+				
+				var vimObject = new Vim('Vim');
+				var vim = new mxCell(vimObject, new mxGeometry(0, 0, 200, 28), 'vim');				
+				vim.setVertex(true);
+				addSidebarIcon(graph, sidebar, 	vim, 'images/icons48/vim.png');	
+				
+				addConfigs(vimObject, vim, attribute);
+				var phymObject = new Phym('Phym');
+				var phym = new mxCell(phymObject, new mxGeometry(0, 0, 200, 28), 'phym');				
+				phym.setVertex(true);
+				addSidebarIcon(graph, sidebar, 	phym, 'images/icons48/phym.png');	
+				addConfigs(phymObject, phym, attribute);
+				
+				/*
+				var relationObject = new Relation('Relation');
+				var relation = new mxCell(relationObject, new mxGeometry(0, 0, 200, 28), '');				
+				relation.setEdge(true);
+				addSidebarIcon(graph, sidebar, 	relation, 'images/icons48/connect.gif');		
+				*/
+				
+				
+				sidebar.appendChild(createEdgeTemplate(graph, 'libStraight', 'images/straight.gif', 'edgeStyle=none', 100, 100));
+				
+				sidebar.appendChild(createEdgeTemplate(graph, 'libEntityRel', 'images/entity.gif', 'edgeStyle=entityRelationEdgeStyle', 100, 100));
+				
+				
+				/*
 				var jmxPortAttribute = attribute.clone();				
 				jmxPortAttribute.value.name = 'jmxPort';
 				jmxPortAttribute.value.type = 'int';			
-				appServer.insert(jmxPortAttribute);
+				monitee.insert(jmxPortAttribute);	
+				*/		
 				
 				/*
-				// Adds sidebar icon for the column object
-				var columnObject = new Column('COLUMNNAME');
-				var column = new mxCell(columnObject, new mxGeometry(0, 0, 0, 26));
-				
-				column.setVertex(true);
-				column.setConnectable(false);
-
-				addSidebarIcon(graph, sidebar, 	column, 'images/icons48/jettyserver.png');
-				*/
-				
-				// Adds primary key field into table
-				/*
-				var firstColumn = column.clone();
-				
-				firstColumn.value.name = 'TABLENAME_ID';
-				firstColumn.value.type = 'INTEGER';
-				firstColumn.value.primaryKey = true;
-				firstColumn.value.autoIncrement = true;
-				
-				table.insert(firstColumn);
-				*/
-
 				// Adds child columns for new connections between tables
 				graph.addEdge = function(edge, parent, source, target, index)
 				{
@@ -433,33 +432,6 @@
 					
 					return null;
 				};
-				/*
-
-				// Displays useful hints in a small semi-transparent box.
-				var hints = document.createElement('div');
-				hints.style.position = 'absolute';
-				hints.style.overflow = 'hidden';
-				hints.style.width = '230px';
-				hints.style.bottom = '56px';
-				hints.style.height = '86px';
-				hints.style.right = '20px';
-				
-				hints.style.background = 'black';
-				hints.style.color = 'white';
-				hints.style.fontFamily = 'Arial';
-				hints.style.fontSize = '10px';
-				hints.style.padding = '4px';
-				
-				
-				mxUtils.setOpacity(hints, 50);
-				
-				mxUtils.writeln(hints, '- Drag an image from the sidebar to the graph');
-				mxUtils.writeln(hints, '- Doubleclick on a table or column to edit');
-				mxUtils.writeln(hints, '- Shift- or Rightclick and drag for panning');
-				mxUtils.writeln(hints, '- Move the mouse over a cell to see a tooltip');
-				mxUtils.writeln(hints, '- Click and drag a table to move and connect');
-				mxUtils.writeln(hints, '- Shift- or Rightclick to show a popup menu');
-				document.body.appendChild(hints);
 				*/
 				// Creates a new DIV that is used as a toolbar and adds
 				// toolbar buttons.
@@ -511,83 +483,7 @@
 				addToolbarButton(editor, toolbar, 'show', 'Show', 'images/camera.png');
 				addToolbarButton(editor, toolbar, 'print', 'Print', 'images/printer.png');
 				
-				toolbar.appendChild(spacer.cloneNode(true));
-
-				// Defines a create SQK action
-				editor.addAction('showSql', function(editor, cell)
-				{
-					var sql = createSql(graph);
-					
-					if (sql.length > 0)
-					{
-						var textarea = document.createElement('textarea');
-						textarea.style.width = '400px';
-						textarea.style.height = '400px';
-						
-						textarea.value = sql;
-						showModalWindow('SQL', textarea, 410, 440);
-					}
-					else
-					{
-						mxUtils.alert('Schema is empty');
-					}
-				});
-
-				// Defines a new export action
-				editor.addAction('createGears', function(editor, cell)
-				{
-					var sql = createSql(graph);
-					
-					if (sql.length > 0)
-					{
-						loadGoogleGears();
-	
-						try
-						{					
-							var db = google.gears.factory.create('beta.database', '1.0');
-							var name = mxUtils.prompt('Enter name of new database', 'MyDatabase');
-							
-							if (name != null)
-							{						
-								db.open(name);
-		
-								// Checks if database is empty
-								var rs = db.execute('SELECT * FROM sqlite_master');
-								
-								if (rs.isValidRow())
-								{
-									if (mxUtils.confirm(name+' exists. Do you want to continue? This will replace existing tables.') == 0)
-									{
-										return;
-									}
-								}
-	
-								try
-								{
-									db.execute(sql);
-									mxUtils.alert(name+' successfully created');
-								}
-								catch (e)
-								{
-									mxUtils.alert('SQL Error: '+e.message);
-								}
-							}
-						}
-						catch (e)
-						{
-							mxUtils.alert('Google Gears is not available: '+e.message);
-						}
-					}
-					else
-					{
-						mxUtils.alert('Schema is empty');
-					}
-				});
-
-				addToolbarButton(editor, toolbar, 'showSql', 'Show SQL', 'images/export1.png');
-				addToolbarButton(editor, toolbar, 'createGears', 'Create in Google Gears', 'images/export1.png');
-
-				toolbar.appendChild(spacer.cloneNode(true));
+				toolbar.appendChild(spacer.cloneNode(true));				
 
 				// Defines export XML action
 				editor.addAction('export', function(editor, cell)
@@ -755,19 +651,16 @@
 					}
 					*/
 					
-					graph.model.getChildCount(parent)+1;
-					var ip = mxUtils.prompt('Enter ip for app server', '192.168.*.*');
-					var jmxPort = mxUtils.prompt('Enter jmxPort for app server', '8999');
+					graph.model.getChildCount(parent)+1;				
 				}
 				
-				if (ip != null && jmxPort !=null)
-				{
+				
 					var v1 = model.cloneCell(prototype);					
 					model.beginUpdate();
 					try
 					{
-						v1.value.name = ip;
-						
+						// v1.value.name = name;		
+						value = v1.value;				
 						v1.geometry.x = pt.x;
 						v1.geometry.y = pt.y;
 						
@@ -776,8 +669,8 @@
 						// if (isTable)
 						// {
 							v1.geometry.alternateBounds = new mxRectangle(0, 0, v1.geometry.width, v1.geometry.height);
-							v1.children[0].value.value = ip;
-							v1.children[1].value.value = jmxPort;
+							// v1.children[0].value.value = ip;
+							// v1.children[1].value.value = jmxPort;
 
 							
 						// }
@@ -788,7 +681,7 @@
 					}
 					
 					graph.setSelectionCell(v1);
-				}
+				
 			}
 			
 			// Creates the image which is used as the sidebar icon (drag source)
@@ -866,12 +759,56 @@
 			//style[mxConstants.STYLE_OPACITY] = '80';
 			style[mxConstants.STYLE_SHADOW] = 1;
 			graph.getStylesheet().putCellStyle('appServer', style);
-
+			
+			
+			style = new Object();
+			style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_SWIMLANE;
+			style[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
+			style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_CENTER;
+			style[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_TOP;
+			style[mxConstants.STYLE_GRADIENTCOLOR] = '#41B9F5';
+			style[mxConstants.STYLE_FILLCOLOR] = '#8CCDF5';
+			style[mxConstants.STYLE_STROKECOLOR] = '#1B78C8';
+			style[mxConstants.STYLE_FONTCOLOR] = '#000000';
+			style[mxConstants.STYLE_STROKEWIDTH] = '2';
+			style[mxConstants.STYLE_STARTSIZE] = '28';
+			style[mxConstants.STYLE_VERTICAL_ALIGN] = 'middle';
+			style[mxConstants.STYLE_FONTSIZE] = '12';
+			style[mxConstants.STYLE_FONTSTYLE] = 1;
+			style[mxConstants.STYLE_IMAGE] = 'images/icons48/vim.png';
+			// Looks better without opacity if shadow is enabled
+			//style[mxConstants.STYLE_OPACITY] = '80';
+			style[mxConstants.STYLE_SHADOW] = 1;
+			graph.getStylesheet().putCellStyle('vim', style);	
+			
+			
+			style = new Object();
+			style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_SWIMLANE;
+			style[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
+			style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_CENTER;
+			style[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_TOP;
+			style[mxConstants.STYLE_GRADIENTCOLOR] = '#41B9F5';
+			style[mxConstants.STYLE_FILLCOLOR] = '#8CCDF5';
+			style[mxConstants.STYLE_STROKECOLOR] = '#1B78C8';
+			style[mxConstants.STYLE_FONTCOLOR] = '#000000';
+			style[mxConstants.STYLE_STROKEWIDTH] = '2';
+			style[mxConstants.STYLE_STARTSIZE] = '28';
+			style[mxConstants.STYLE_VERTICAL_ALIGN] = 'middle';
+			style[mxConstants.STYLE_FONTSIZE] = '12';
+			style[mxConstants.STYLE_FONTSTYLE] = 1;
+			style[mxConstants.STYLE_IMAGE] = 'images/icons48/phym.png';
+			// Looks better without opacity if shadow is enabled
+			//style[mxConstants.STYLE_OPACITY] = '80';
+			style[mxConstants.STYLE_SHADOW] = 1;
+			graph.getStylesheet().putCellStyle('phym', style);	
+			
+/*
 			style = graph.stylesheet.getDefaultEdgeStyle();
 			style[mxConstants.STYLE_LABEL_BACKGROUNDCOLOR] = '#FFFFFF';
 			style[mxConstants.STYLE_STROKEWIDTH] = '2';
 			style[mxConstants.STYLE_ROUNDED] = true;
 			style[mxConstants.STYLE_EDGE] = mxEdgeStyle.EntityRelation;
+			*/
 		};
 		
 		// Function to create the entries in the popupmenu
@@ -884,17 +821,24 @@
 					menu.addItem('Properties', 'images/properties.gif', function()
 					{
 						editor.execute('properties', cell);
+					});					
+					if(cell.value.category == 'Monitor'){
+						menu.addItem('Mapping', 'images/properties.gif', function()
+					{
+						editor.execute('mapping', cell);
 					});
+					}	
 			
 					menu.addSeparator();
-				}
-				
-				menu.addItem('Add Attribute', 'images/plus.png', function()
+					
+				}else{
+					menu.addItem('Add Attribute', 'images/plus.png', function()
 				{
 					editor.execute('add', cell);
 				});
 			
 				menu.addSeparator();
+				}			
 
 				menu.addItem('Delete', 'images/delete2.png', function()
 				{
@@ -912,15 +856,7 @@
 			menu.addItem('Redo', 'images/redo.png', function()
 			{
 				editor.execute('redo', cell);
-			});
-			
-			menu.addSeparator();
-			
-			
-			menu.addItem('Show SQL', 'images/export1.png', function()
-			{
-				editor.execute('showSql', cell);
-			});	
+			});		
 		};
 		
 		
@@ -929,11 +865,17 @@
 			// Creates a form for the user object inside
 			// the cell
 			var form = new mxForm('addAttribute');
-
 			// Adds a field for the columnname
 			var nameField = form.addText('Name', '');
-			var typeField = form.addText('Type', '');
-			var valueField = form.addText('Value', '');
+			var typeField = form.addCombo('Type', false, 1);
+			form.addOption(	typeField, 'String','String', false);
+			form.addOption(	typeField, 'int','int', false);	
+			
+			var categoryField = form.addCombo('Category', false, 1);	
+			form.addOption(	categoryField, 'Config','Config', false);
+			form.addOption(	categoryField, 'Monitor','Monitor', false);	
+			form.addOption(	categoryField, 'Control','Control', false);		
+	
 			var wnd = null;
 
 			// Defines the function to be executed when the
@@ -943,7 +885,8 @@
 				var attribute = cell.children[0].clone();				
 				attribute.value.name = nameField.value;
 				attribute.value.type = typeField.value;		
-				attribute.value.value = valueField.value;				
+				attribute.value.category = categoryField.value;
+				// attribute.value.value = valueField.value;				
 				
 				graph.model.beginUpdate();
 				try {
@@ -962,8 +905,6 @@
 			form.addButtons(okFunction, cancelFunction);
 			wnd = showModalWindow('Add an attribute', form.table, 240, 240);
 		};
-		
-		
 		
 		function showProperties(graph, cell)
 		{
@@ -1026,113 +967,97 @@
 			wnd = showModalWindow(name, form.table, 240, 240);
 		};
 		
-		function createSql(graph)
+		
+		function createEdgeTemplate(graph, name, icon, style, width, height, value)
+	{
+		var cells = [new mxCell((value != null) ? value : '', new mxGeometry(0, 0, width, height), style)];
+		cells[0].geometry.setTerminalPoint(new mxPoint(0, height), true);
+		cells[0].geometry.setTerminalPoint(new mxPoint(width, 0), false);
+		cells[0].edge = true;
+		
+		var funct = function(graph, evt, target)
 		{
-			var sql = [];
-			var parent = graph.getDefaultParent();
-			var childCount = graph.model.getChildCount(parent);
-
-			for (var i=0; i<childCount; i++)
+			cells = graph.getImportableCells(cells);
+			
+			if (cells.length > 0)
 			{
-				var child = graph.model.getChildAt(parent, i);
+				var validDropTarget = (target != null) ?
+					graph.isValidDropTarget(target, cells, evt) : false;
+				var select = null;
 				
-				if (!graph.model.isEdge(child))
+				if (target != null &&
+					!validDropTarget)
 				{
-					sql.push('CREATE TABLE IF NOT EXISTS '+child.value.name+' (');
-					
-					var columnCount = graph.model.getChildCount(child);
-
-					if (columnCount > 0)
-					{
-						for (var j=0; j<columnCount; j++)
-						{
-							var column = graph.model.getChildAt(child, j).value;
-							
-							sql.push('\n    '+column.name+' '+column.type);
-							
-							if (column.notNull)
-							{
-								sql.push(' NOT NULL');
-							}
-													
-							if (column.primaryKey)
-							{
-								sql.push(' PRIMARY KEY');
-							}
-							
-							if (column.autoIncrement)
-							{
-								sql.push(' AUTOINCREMENT');
-							}
-							
-							if (column.unique)
-							{
-								sql.push(' UNIQUE');
-							}
-	
-							if (column.defaultValue != null)
-							{
-								sql.push(' DEFAULT '+column.defaultValue);
-							}
-							
-							sql.push(',');
-						}
-						
-						sql.splice(sql.length-1, 1);
-						sql.push('\n);');
-					}
-					
-					sql.push('\n');
+					target = null;
 				}
-			}
+				
+				var pt = graph.getPointForEvent(evt);
+				var scale = graph.view.scale;
+				
+				pt.x -= graph.snap(width / 2);
+				pt.y -= graph.snap(height / 2);
+				
+				select = graph.importCells(cells, pt.x, pt.y, target);
 
-			return sql.join('');
+				graph.scrollCellToVisible(select[0]);
+				graph.setSelectionCells(select);
+			}
 		};
 		
-		function loadGoogleGears()
+		var node = createImg(name, icon);
+		
+		// Installs a click handler to set the edge template
+		mxEvent.addListener(node, 'mousedown', function(evt)
 		{
-			// We are already defined. Hooray!
-			if (window.google && google.gears) {
-			  return;
-			}
+			edgeTemplate = cells[0];
+		});
+
+		// Creates the element that is being shown while the drag is in progress
+		var dragPreview = document.createElement('div');
+		dragPreview.style.border = 'dashed black 1px';
+		dragPreview.style.width = width+'px';
+		dragPreview.style.height = height+'px';
+		
+		mxUtils.makeDraggable(node, graph, funct, dragPreview, -width / 2, -height / 2,
+				graph.autoscroll, true, false);
+		
+		return node;
+	};
+		
+		function createImg(name, icon)
+	{
+		var node = mxUtils.createImage(icon);
+		node.setAttribute('title', mxResources.get(name) || name);
+		
+		if (node.nodeName == 'IMG')
+		{
+			node.setAttribute('alt', mxResources.get(name) || name);
 			
-			var factory = null;
-			
-			// Firefox
-			if (typeof GearsFactory != 'undefined') {
-			  factory = new GearsFactory();
-			} else {
-			  // IE
-			  try {
-			    factory = new ActiveXObject('Gears.Factory');
-			  } catch (e) {
-			    // Safari
-			    if (navigator.mimeTypes["application/x-googlegears"]) {
-			      factory = document.createElement("object");
-			      factory.style.display = "none";
-			      factory.width = 0;
-			      factory.height = 0;
-			      factory.type = "application/x-googlegears";
-			      document.documentElement.appendChild(factory);
-			    }
-			  }
+			if (mxClient.IS_TOUCH)
+			{
+				node.setAttribute('width', '36');
+				node.setAttribute('height', '36');
 			}
-			
-		 	// *Do not* define any objects if Gears is not installed. This mimics the
-			// behavior of Gears defining the objects in the future.
-			if (!factory) {
-			  return;
+			else
+			{
+				node.setAttribute('width', '26');
+				node.setAttribute('height', '26');
 			}
-			
-			// Now set up the objects, being careful not to overwrite anything.
-			if (!window.google) {
-			  window.google = {};
-			}
-			
-			if (!google.gears) {
-			  google.gears = {factory: factory};
-			}
-		};
+
+			node.setAttribute('hspace', '5');
+			node.setAttribute('vspace', '5');
+		}
+		else
+		{
+			node.style.width = '26px';
+			node.style.height = '26px';
+			node.style.margin = '5px';
+			node.style.display = 'inline';
+		}
+		
+		return node;
+	};
+	
 		
 		
 		function Attribute(name){
@@ -1140,60 +1065,76 @@
 		}
 		
 		Attribute.prototype.type = 'String';
-		Attribute.prototype.value = null;
-		
+		Attribute.prototype.category = '';		
 		Attribute.prototype.clone = function()
 		{
 			return mxUtils.clone(this);
-		};
+		};	
 		
-		// Defines the column user object
-		function Column(name)
-		{
+		
+		function Monitee(name){
 			this.name = name;
-		};
-
-		Column.prototype.type = 'TEXT';
+		}	
 		
-		Column.prototype.defaultValue = null;
 		
-		Column.prototype.primaryKey = false;
-		
-		Column.prototype.autoIncrement = false;
-		
-		Column.prototype.notNull = false;
-		
-		Column.prototype.unique = false;
-		
-		Column.prototype.clone = function()
-		{
+		Monitee.prototype.clone = function(){
 			return mxUtils.clone(this);
-		};
-		
-		// Defines the table user object
-		function Table(name)
-		{
-			this.name = name;
-		};
-		
-		Table.prototype.clone = function()
-		{
-			return mxUtils.clone(this);
-		};
-		
+		}
 		
 		function AppServer(name){
 			this.name = name;
-		}
+		}	
 		
-		
-		AppServer.prototype.type = 'TEXT';
-		
-		AppServer.prototype.ip = null;
-		
+		AppServer.prototype.ip = null;		
 		AppServer.prototype.jmxPort = null;		
 		
 		
 		AppServer.prototype.clone = function(){
 			return mxUtils.clone(this);
 		}
+		
+		function Vim(name){
+			this.name = name;
+		}	
+		
+		Vim.prototype.ip = null;		
+			
+		
+		
+		Vim.prototype.clone = function(){
+			return mxUtils.clone(this);
+		}
+		
+		
+		function Phym(name){
+			this.name = name;
+		}	
+		
+		Phym.prototype.ip = null;		
+			
+		
+		
+		Phym.prototype.clone = function(){
+			return mxUtils.clone(this);
+		}
+		
+		
+		function addConfigs(object, cell, config) {
+					for(attri in object) {
+						if(attri != 'name' && attri != 'clone') {
+							var temp = config.clone();
+							temp.value.name = attri;
+							temp.value.category = 'Config';
+							cell.insert(temp);
+						}
+					}
+				}
+		
+		
+	
+		
+		
+		
+		
+		
+		
