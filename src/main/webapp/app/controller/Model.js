@@ -7,7 +7,7 @@ Ext.define('PaaSMonitor.controller.Model', {
 	init : function() {
 		this.control({			
 			'modelDefinition' : {
-				beforeactivate : this.draw
+				beforerender : this.draw
 			}			
 		});
 	},

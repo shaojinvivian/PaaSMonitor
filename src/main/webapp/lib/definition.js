@@ -4,7 +4,6 @@
 
 var mappingWin;
 
-
 function main(container, outline, toolbar, sidebar, status) {
 	// Checks if the browser is supported
 	if(!mxClient.isBrowserSupported()) {
@@ -267,63 +266,49 @@ function main(container, outline, toolbar, sidebar, status) {
 		};
 		// Adds all required styles to the graph (see below)
 		configureStylesheet(graph);
-
-		// Adds sidebar icon for the table object
-		/*
-		 var tableObject = new Table('TABLENAME');
-		 var table = new mxCell(tableObject, new mxGeometry(0, 0, 200, 28), 'table');
-
-		 table.setVertex(true);
-		 addSidebarIcon(graph, sidebar, 	table, 'images/icons48/tomcatserver.png');
-		 */
-		/*
-		 var moniteeObject = new Monitee('MONITEENAME');
-		 var monitee = new mxCell(moniteeObject, new mxGeometry(0, 0, 200, 28), 'monitee');
-		 monitee.setVertex(true);
-		 addSidebarIcon(graph, sidebar, 	monitee, 'images/icons48/rectangle.gif');
-		 */
-
+				
+		
+		// Adds sidebar icon for each object
 		var attributeObject = new Attribute('ATTRIBUTENAME');
 		var attribute = new mxCell(attributeObject, new mxGeometry(0, 0, 0, 26));
 		attribute.setVertex(true);
 		attribute.setConnectable(false);
-
-		var appServerObject = new AppServer('AppServer');
-		var appServer = new mxCell(appServerObject, new mxGeometry(0, 0, 200, 28), 'appServer');
-		appServer.setVertex(true);
-		addSidebarIcon(graph, sidebar, appServer, 'images/icons48/appserver.png');
-
-		addConfigs(appServerObject, appServer, attribute);
-
-		var vimObject = new Vim('Vim');
-		var vim = new mxCell(vimObject, new mxGeometry(0, 0, 200, 28), 'vim');
-		vim.setVertex(true);
-		addSidebarIcon(graph, sidebar, vim, 'images/icons48/vim.png');
-
-		addConfigs(vimObject, vim, attribute);
+		
 		var phymObject = new Phym('Phym');
 		var phym = new mxCell(phymObject, new mxGeometry(0, 0, 200, 28), 'phym');
 		phym.setVertex(true);
 		addSidebarIcon(graph, sidebar, phym, 'images/icons48/phym.png');
 		addConfigs(phymObject, phym, attribute);
-
-		/*
-		 var relationObject = new Relation('Relation');
-		 var relation = new mxCell(relationObject, new mxGeometry(0, 0, 200, 28), '');
-		 relation.setEdge(true);
-		 addSidebarIcon(graph, sidebar, 	relation, 'images/icons48/connect.gif');
-		 */
-
+		
+		var vimObject = new Vim('Vim');
+		var vim = new mxCell(vimObject, new mxGeometry(0, 0, 200, 28), 'vim');
+		vim.setVertex(true);
+		addSidebarIcon(graph, sidebar, vim, 'images/icons48/vim.png');
+		addConfigs(vimObject, vim, attribute);
+		
+		var appServerObject = new AppServer('AppServer');
+		var appServer = new mxCell(appServerObject, new mxGeometry(0, 0, 200, 28), 'appServer');
+		appServer.setVertex(true);
+		addSidebarIcon(graph, sidebar, appServer, 'images/icons48/appServer.png');
+		addConfigs(appServerObject, appServer, attribute);
+		
+		var appObject = new App('App');
+		var app = new mxCell(appObject, new mxGeometry(0, 0, 200, 28), 'app');
+		app.setVertex(true);
+		addSidebarIcon(graph, sidebar, app, 'images/icons48/app.png');
+		addConfigs(appObject, app, attribute);
+		
+		var appInstanceObject = new AppInstance('AppInstance');
+		var appInstance = new mxCell(appInstanceObject, new mxGeometry(0, 0, 200, 28), 'appInstance');
+		appInstance.setVertex(true);
+		addSidebarIcon(graph, sidebar, appInstance, 'images/icons48/appInstance.png');
+		addConfigs(appInstanceObject, appInstance, attribute);
+		
 		sidebar.appendChild(createEdgeTemplate(graph, 'libStraight', 'images/straight.gif', 'edgeStyle=none', 100, 100));
 
 		sidebar.appendChild(createEdgeTemplate(graph, 'libEntityRel', 'images/entity.gif', 'edgeStyle=entityRelationEdgeStyle', 100, 100));
 
-		/*
-		var jmxPortAttribute = attribute.clone();
-		jmxPortAttribute.value.name = 'jmxPort';
-		jmxPortAttribute.value.type = 'int';
-		monitee.insert(jmxPortAttribute);
-		*/
+	
 
 		/*
 		// Adds child columns for new connections between tables
@@ -604,11 +589,15 @@ function addSidebarIcon(graph, sidebar, prototype, image) {
 		graph.setSelectionCell(v1);
 
 	}
+	
+	
+	
 	// Creates the image which is used as the sidebar icon (drag source)
 	var img = document.createElement('img');
 	img.setAttribute('src', image);
 	img.style.width = '48px';
 	img.style.height = '48px';
+	img.style.margin = '5px';
 	img.title = 'Drag this to the diagram to create a new vertex';
 	sidebar.appendChild(img);
 
@@ -637,6 +626,31 @@ function addSidebarIcon(graph, sidebar, prototype, image) {
 	};
 };
 
+
+function createMoniteeStyleObject(image){
+	style = new Object();
+	style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_SWIMLANE;
+	style[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
+	style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_CENTER;
+	style[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_TOP;
+	style[mxConstants.STYLE_GRADIENTCOLOR] = '#41B9F5';
+	style[mxConstants.STYLE_FILLCOLOR] = '#8CCDF5';
+	style[mxConstants.STYLE_STROKECOLOR] = '#1B78C8';
+	style[mxConstants.STYLE_FONTCOLOR] = '#000000';
+	style[mxConstants.STYLE_STROKEWIDTH] = '2';
+	style[mxConstants.STYLE_STARTSIZE] = '28';
+	style[mxConstants.STYLE_VERTICAL_ALIGN] = 'middle';
+	style[mxConstants.STYLE_FONTSIZE] = '12';
+	style[mxConstants.STYLE_FONTSTYLE] = 1;
+	style[mxConstants.STYLE_IMAGE] = image;
+	// Looks better without opacity if shadow is enabled
+	//style[mxConstants.STYLE_OPACITY] = '80';
+	style[mxConstants.STYLE_SHADOW] = 1;
+	return style;
+}
+
+
+
 function configureStylesheet(graph) {
 	var style = new Object();
 	style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_RECTANGLE;
@@ -650,63 +664,22 @@ function configureStylesheet(graph) {
 	style[mxConstants.STYLE_IMAGE_WIDTH] = '48';
 	style[mxConstants.STYLE_IMAGE_HEIGHT] = '48';
 	graph.getStylesheet().putDefaultVertexStyle(style);
-	style = new Object();
-	style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_SWIMLANE;
-	style[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
-	style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_CENTER;
-	style[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_TOP;
-	style[mxConstants.STYLE_GRADIENTCOLOR] = '#41B9F5';
-	style[mxConstants.STYLE_FILLCOLOR] = '#8CCDF5';
-	style[mxConstants.STYLE_STROKECOLOR] = '#1B78C8';
-	style[mxConstants.STYLE_FONTCOLOR] = '#000000';
-	style[mxConstants.STYLE_STROKEWIDTH] = '2';
-	style[mxConstants.STYLE_STARTSIZE] = '28';
-	style[mxConstants.STYLE_VERTICAL_ALIGN] = 'middle';
-	style[mxConstants.STYLE_FONTSIZE] = '12';
-	style[mxConstants.STYLE_FONTSTYLE] = 1;
-	style[mxConstants.STYLE_IMAGE] = 'images/icons48/appserver.png';
-	// Looks better without opacity if shadow is enabled
-	//style[mxConstants.STYLE_OPACITY] = '80';
-	style[mxConstants.STYLE_SHADOW] = 1;
-	graph.getStylesheet().putCellStyle('appServer', style);
-	style = new Object();
-	style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_SWIMLANE;
-	style[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
-	style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_CENTER;
-	style[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_TOP;
-	style[mxConstants.STYLE_GRADIENTCOLOR] = '#41B9F5';
-	style[mxConstants.STYLE_FILLCOLOR] = '#8CCDF5';
-	style[mxConstants.STYLE_STROKECOLOR] = '#1B78C8';
-	style[mxConstants.STYLE_FONTCOLOR] = '#000000';
-	style[mxConstants.STYLE_STROKEWIDTH] = '2';
-	style[mxConstants.STYLE_STARTSIZE] = '28';
-	style[mxConstants.STYLE_VERTICAL_ALIGN] = 'middle';
-	style[mxConstants.STYLE_FONTSIZE] = '12';
-	style[mxConstants.STYLE_FONTSTYLE] = 1;
-	style[mxConstants.STYLE_IMAGE] = 'images/icons48/vim.png';
-	// Looks better without opacity if shadow is enabled
-	//style[mxConstants.STYLE_OPACITY] = '80';
-	style[mxConstants.STYLE_SHADOW] = 1;
-	graph.getStylesheet().putCellStyle('vim', style);
-	style = new Object();
-	style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_SWIMLANE;
-	style[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
-	style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_CENTER;
-	style[mxConstants.STYLE_VERTICAL_ALIGN] = mxConstants.ALIGN_TOP;
-	style[mxConstants.STYLE_GRADIENTCOLOR] = '#41B9F5';
-	style[mxConstants.STYLE_FILLCOLOR] = '#8CCDF5';
-	style[mxConstants.STYLE_STROKECOLOR] = '#1B78C8';
-	style[mxConstants.STYLE_FONTCOLOR] = '#000000';
-	style[mxConstants.STYLE_STROKEWIDTH] = '2';
-	style[mxConstants.STYLE_STARTSIZE] = '28';
-	style[mxConstants.STYLE_VERTICAL_ALIGN] = 'middle';
-	style[mxConstants.STYLE_FONTSIZE] = '12';
-	style[mxConstants.STYLE_FONTSTYLE] = 1;
-	style[mxConstants.STYLE_IMAGE] = 'images/icons48/phym.png';
-	// Looks better without opacity if shadow is enabled
-	//style[mxConstants.STYLE_OPACITY] = '80';
-	style[mxConstants.STYLE_SHADOW] = 1;
-	graph.getStylesheet().putCellStyle('phym', style);
+	
+	
+	phymStyle = createMoniteeStyleObject('images/icons48/phym.png');
+	graph.getStylesheet().putCellStyle('phym', phymStyle);
+	
+	vimStyle = createMoniteeStyleObject('images/icons48/vim.png');
+	graph.getStylesheet().putCellStyle('vim', vimStyle);
+	
+	appServerStyle = createMoniteeStyleObject('images/icons48/appServer.png');
+	graph.getStylesheet().putCellStyle('appServer', appServerStyle);
+	
+	appStyle = createMoniteeStyleObject('images/icons48/app.png');
+	graph.getStylesheet().putCellStyle('app', appStyle);	
+	
+	appInstanceStyle = createMoniteeStyleObject('images/icons48/appInstance.png');
+	graph.getStylesheet().putCellStyle('appInstance', appInstanceStyle);
 
 	/*
 	 style = graph.stylesheet.getDefaultEdgeStyle();
@@ -969,6 +942,29 @@ Phym.prototype.ip = null;
 Phym.prototype.clone = function() {
 	return mxUtils.clone(this);
 }
+
+function App(name) {
+	this.name = name;
+}
+
+App.prototype.type = null;
+
+App.prototype.clone = function() {
+	return mxUtils.clone(this);
+}
+
+
+function AppInstance(name) {
+	this.name = name;
+}
+
+AppInstance.prototype.type = null;
+
+AppInstance.prototype.clone = function() {
+	return mxUtils.clone(this);
+}
+
+
 function addConfigs(object, cell, config) {
 	for(attri in object) {
 		if(attri != 'name' && attri != 'clone') {

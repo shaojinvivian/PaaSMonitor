@@ -8,6 +8,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=8" />	
         
+        <link rel="shortcut icon" href="favicon.ico" />
         <link rel="stylesheet" type="text/css" href="ext-4.0.2a/resources/css/ext-all.css" />
         <link rel="stylesheet" type="text/css" href="styles/CheckHeader.css" />	
         <link rel="stylesheet" type="text/css" href="styles/diagram.css" />	

@@ -20,7 +20,7 @@ Ext.define('PaaSMonitor.view.model.Definition', {
 			region : 'west',
 			title : 'Monitee',
 			contentEl : 'sidebarContainer',
-			width : 50
+			width : 60
 		}, {
 			region : 'center',
 			title : 'Diagram',
