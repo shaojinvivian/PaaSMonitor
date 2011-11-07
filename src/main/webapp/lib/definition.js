@@ -15,6 +15,8 @@ function main(container, outline, toolbar, sidebar, status) {
 		mxConstants.SHADOWCOLOR = '#C0C0C0';
 		mxConstants.SHADOW_OFFSET_X = 5;
 		mxConstants.SHADOW_OFFSET_Y = 6;
+		
+
 		mxConstants.SVG_SHADOWTRANSFORM = 'translate(' + mxConstants.SHADOW_OFFSET_X + ' ' + mxConstants.SHADOW_OFFSET_Y + ')';
 
 		// Table icon dimensions and position
@@ -182,6 +184,7 @@ function main(container, outline, toolbar, sidebar, status) {
 			return layout;
 		};
 		// Text label changes will go into the name field of the user object
+		/*
 		graph.model.valueForCellChanged = function(cell, value) {
 			if(value.name != null) {
 				return mxGraphModel.prototype.valueForCellChanged.apply(this, arguments);
@@ -191,14 +194,18 @@ function main(container, outline, toolbar, sidebar, status) {
 				return old;
 			}
 		};
+		*/
 		// Columns are dynamically created HTML labels
 		graph.isHtmlLabel = function(cell) {
 			return !this.isSwimlane(cell) && !this.model.isEdge(cell);
 		};
+		
 		// Edges are not editable
+		/*
 		graph.isCellEditable = function(cell) {
 			return !this.model.isEdge(cell);
 		};
+		*/
 		// Returns the name field of the user object for the label
 		graph.convertValueToString = function(cell) {
 			if(cell.value != null && cell.value.name != null) {
@@ -243,6 +250,7 @@ function main(container, outline, toolbar, sidebar, status) {
 			// "supercall"
 		};
 		// Removes the source vertex if edges are removed
+		/*
 		graph.addListener(mxEvent.REMOVE_CELLS, function(sender, evt) {
 			var cells = evt.getProperty('cells');
 
@@ -256,6 +264,7 @@ function main(container, outline, toolbar, sidebar, status) {
 				}
 			}
 		});
+		*/
 		// Disables drag-and-drop into non-swimlanes.
 		graph.isValidDropTarget = function(cell, cells, evt) {
 			return this.isSwimlane(cell);
@@ -681,13 +690,15 @@ function configureStylesheet(graph) {
 	appInstanceStyle = createMoniteeStyleObject('images/icons48/appInstance.png');
 	graph.getStylesheet().putCellStyle('appInstance', appInstanceStyle);
 
-	/*
+	
 	 style = graph.stylesheet.getDefaultEdgeStyle();
 	 style[mxConstants.STYLE_LABEL_BACKGROUNDCOLOR] = '#FFFFFF';
 	 style[mxConstants.STYLE_STROKEWIDTH] = '2';
-	 style[mxConstants.STYLE_ROUNDED] = true;
-	 style[mxConstants.STYLE_EDGE] = mxEdgeStyle.EntityRelation;
-	 */
+	 style[mxConstants.STYLE_ROUNDED] = true;	
+	 style[mxConstants.STYLE_ENDARROW] = mxConstants.ARROW_DIAMOND;
+
+	 // style[mxConstants.STYLE_EDGE] = mxEdgeStyle.EntityRelation;
+	 
 };
 
 // Function to create the entries in the popupmenu
@@ -938,6 +949,9 @@ function Phym(name) {
 }
 
 Phym.prototype.ip = null;
+Phym.prototype.username = null;
+Phym.prototype.password = null;
+
 
 Phym.prototype.clone = function() {
 	return mxUtils.clone(this);
