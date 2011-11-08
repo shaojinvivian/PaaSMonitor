@@ -292,13 +292,13 @@ function main(container, outline, toolbar, sidebar, status) {
 		var vimObject = new Vim('Vim');
 		var vim = new mxCell(vimObject, new mxGeometry(0, 0, 200, 28), 'vim');
 		vim.setVertex(true);
-		addSidebarIcon(graph, sidebar, vim, 'images/icons48/vim.png');
+		addSidebarIcon(graph, sidebar, vim, 'images/icons48/bigvim.png');
 		addConfigs(vimObject, vim, attribute);
 		
 		var appServerObject = new AppServer('AppServer');
 		var appServer = new mxCell(appServerObject, new mxGeometry(0, 0, 200, 28), 'appServer');
 		appServer.setVertex(true);
-		addSidebarIcon(graph, sidebar, appServer, 'images/icons48/appServer.png');
+		addSidebarIcon(graph, sidebar, appServer, 'images/icons48/tomcatserver.png');
 		addConfigs(appServerObject, appServer, attribute);
 		
 		var appObject = new App('App');
@@ -678,10 +678,10 @@ function configureStylesheet(graph) {
 	phymStyle = createMoniteeStyleObject('images/icons48/phym.png');
 	graph.getStylesheet().putCellStyle('phym', phymStyle);
 	
-	vimStyle = createMoniteeStyleObject('images/icons48/vim.png');
+	vimStyle = createMoniteeStyleObject('images/icons48/bigvim.png');
 	graph.getStylesheet().putCellStyle('vim', vimStyle);
 	
-	appServerStyle = createMoniteeStyleObject('images/icons48/appServer.png');
+	appServerStyle = createMoniteeStyleObject('images/icons48/tomcatserver.png');
 	graph.getStylesheet().putCellStyle('appServer', appServerStyle);
 	
 	appStyle = createMoniteeStyleObject('images/icons48/app.png');
