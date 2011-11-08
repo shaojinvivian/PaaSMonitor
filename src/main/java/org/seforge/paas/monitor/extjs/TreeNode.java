@@ -1,5 +1,5 @@
 package org.seforge.paas.monitor.extjs;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class TreeNode {
@@ -7,7 +7,7 @@ public class TreeNode {
 	private String text;
 	private Boolean leaf;
 	private Boolean expanded;	
-	private List<TreeNode> children;
+	private List<TreeNode> children = new ArrayList<TreeNode>();
 	
 	public TreeNode(){
 		
@@ -46,6 +46,10 @@ public class TreeNode {
 	}
 	public void setChildren(List<TreeNode> children) {
 		this.children = children;
+	}
+	
+	public void addChild(TreeNode node){
+		this.children.add(node);
 	}
 	
 }
