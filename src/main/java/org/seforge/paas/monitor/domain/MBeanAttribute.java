@@ -14,12 +14,13 @@ public class MBeanAttribute {
 
     @NotNull
     private String name;
-
-    @NotNull
+   
     private String type;
+    
+    private String description;
 
     @ManyToOne
     private MBean mBean;
 
-    private String description;
+    
 }

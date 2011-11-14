@@ -24,20 +24,20 @@ privileged aspect MBeanAttribute_Roo_JavaBean {
         this.type = type;
     }
     
-    public MBean MBeanAttribute.getMBean() {
-        return this.mBean;
-    }
-    
-    public void MBeanAttribute.setMBean(MBean mBean) {
-        this.mBean = mBean;
-    }
-    
     public String MBeanAttribute.getDescription() {
         return this.description;
     }
     
     public void MBeanAttribute.setDescription(String description) {
         this.description = description;
+    }
+    
+    public MBean MBeanAttribute.getMBean() {
+        return this.mBean;
+    }
+    
+    public void MBeanAttribute.setMBean(MBean mBean) {
+        this.mBean = mBean;
     }
     
 }

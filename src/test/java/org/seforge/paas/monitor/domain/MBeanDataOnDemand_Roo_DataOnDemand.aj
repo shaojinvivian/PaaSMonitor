@@ -12,6 +12,7 @@ import java.util.Random;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import org.seforge.paas.monitor.domain.MBean;
+import org.seforge.paas.monitor.domain.MBeanServer;
 import org.springframework.stereotype.Component;
 
 privileged aspect MBeanDataOnDemand_Roo_DataOnDemand {
@@ -24,8 +25,14 @@ privileged aspect MBeanDataOnDemand_Roo_DataOnDemand {
     
     public MBean MBeanDataOnDemand.getNewTransientMBean(int index) {
         MBean obj = new MBean();
+        setMBeanServer(obj, index);
         setName(obj, index);
         return obj;
+    }
+    
+    public void MBeanDataOnDemand.setMBeanServer(MBean obj, int index) {
+        MBeanServer mBeanServer = null;
+        obj.setMBeanServer(mBeanServer);
     }
     
     public void MBeanDataOnDemand.setName(MBean obj, int index) {

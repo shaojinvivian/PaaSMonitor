@@ -6,6 +6,7 @@ package org.seforge.paas.monitor.domain;
 import java.lang.String;
 import java.util.Set;
 import org.seforge.paas.monitor.domain.MBeanAttribute;
+import org.seforge.paas.monitor.domain.MBeanServer;
 
 privileged aspect MBean_Roo_JavaBean {
     
@@ -23,6 +24,14 @@ privileged aspect MBean_Roo_JavaBean {
     
     public void MBean.setAttributes(Set<MBeanAttribute> attributes) {
         this.attributes = attributes;
+    }
+    
+    public MBeanServer MBean.getMBeanServer() {
+        return this.mBeanServer;
+    }
+    
+    public void MBean.setMBeanServer(MBeanServer mBeanServer) {
+        this.mBeanServer = mBeanServer;
     }
     
 }

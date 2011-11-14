@@ -24,6 +24,7 @@ import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.MBean;
 import org.seforge.paas.monitor.domain.MBeanAttribute;
+import org.seforge.paas.monitor.domain.MBeanServer;
 import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.extjs.TreeNode;
@@ -85,21 +86,27 @@ public class MoniteeController {
 					+ ip + ":" + port + "/jmxrmi");
 			JMXConnector jmxc = JMXConnectorFactory.connect(url);
 			MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
+			MBeanServer mbs = new MBeanServer();
+			mbs.setName("Apache Tomcat/7");
+			mbs.persist();
 			Set<ObjectName> newSet = null;
 			newSet = mbsc.queryNames(null, null);
 			for(ObjectName name : newSet){
 				MBean mb = new MBean();
 				mb.setName(name.getCanonicalName());
+				mb.setMBeanServer(mbs);
 				mb.persist();
 				MBeanInfo info = mbsc.getMBeanInfo(name);
-				MBeanAttributeInfo[] attributes = info.getAttributes();
-				System.out.println(attributes.length); 
+				MBeanAttributeInfo[] attributes = info.getAttributes();				
 				for (MBeanAttributeInfo attr : attributes) {
 					MBeanAttribute attribute = new MBeanAttribute();
 					attribute.setName(attr.getName());
 					attribute.setType(attr.getType());
 					attribute.setDescription(attr.getDescription());
 					attribute.setMBean(mb);
+					System.out.println(attribute.getName());
+					System.out.println(attribute.getType());
+					System.out.println(attribute.getDescription());
 					attribute.persist();
 				}			
 			}		

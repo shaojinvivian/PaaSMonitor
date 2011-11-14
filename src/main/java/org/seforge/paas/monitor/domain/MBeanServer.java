@@ -5,24 +5,19 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
-import org.seforge.paas.monitor.domain.MBeanAttribute;
+import org.seforge.paas.monitor.domain.MBean;
 import java.util.HashSet;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
-import org.seforge.paas.monitor.domain.MBeanServer;
-import javax.persistence.ManyToOne;
 
 @RooJavaBean
 @RooToString
 @RooEntity
-public class MBean {
+public class MBeanServer {
 
     @NotNull
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "mBean")
-    private Set<MBeanAttribute> attributes = new HashSet<MBeanAttribute>();
-
-    @ManyToOne
-    private MBeanServer mBeanServer;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "mBeanServer")
+    private Set<MBean> mBeans = new HashSet<MBean>();
 }

@@ -92,3 +92,10 @@ field set --fieldName attributes --type ~.domain.MBeanAttribute --mappedBy mbean
 field string description --class ~.domain.MBeanAttribute
 quit
 // Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-11-14 13:16:53
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-11-14 16:02:39
+entity --class ~.domain.MBeanServer
+field string --fieldName name --notNull
+field reference --fieldName mBeanServer --type ~.domain.MBeanServer --class ~.domain.MBean
+field set --fieldName mBeans --type ~.domain.MBean --mappedBy mBeanServer --notNull false --cardinality ONE_TO_MANY --class ~.domain.MBeanServer
+quit
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-11-14 20:54:52
