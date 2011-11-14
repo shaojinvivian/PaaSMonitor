@@ -81,3 +81,14 @@ quit
 // Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-10-28 11:07:33
 quit
 // Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-10-28 11:09:37
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log opened at 2011-11-14 11:13:18
+entity --class ~.domain.MBean --testAutomatically 
+field string --fieldName name --notNull
+entity --class ~.domain.MBeanAttribute --testAutomatically
+field string --fieldName name --notNull
+field string --fieldName type --notNull
+field reference --fieldName mbean --type ~.domain.MBean
+field set --fieldName attributes --type ~.domain.MBeanAttribute --mappedBy mbean --notNull false --cardinality ONE_TO_MANY --class ~.domain.MBean
+field string description --class ~.domain.MBeanAttribute
+quit
+// Spring Roo 1.1.5.RELEASE [rev d3a68c3] log closed at 2011-11-14 13:16:53

@@ -13,12 +13,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
+import javax.management.MBeanAttributeInfo;
+import javax.management.MBeanInfo;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 
+import org.seforge.paas.monitor.domain.MBean;
+import org.seforge.paas.monitor.domain.MBeanAttribute;
 import org.seforge.paas.monitor.extjs.TreeNode;
 
 import flexjson.JSONSerializer;
@@ -26,10 +30,11 @@ import flexjson.JSONSerializer;
 public class JMXBrowser {
 	private static final int TIMEOUT = 3;
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) throws Exception {
+		JMXBrowser.propogateDB();
+	}
+	
+	public static void propogateDB() throws Exception {
 		String ip = "localhost";
 		String port = "8999";
 		Map map = new HashMap<String, List>();
@@ -37,29 +42,36 @@ public class JMXBrowser {
 				+ ip + ":" + port + "/jmxrmi");
 		JMXConnector jmxc = JMXConnectorFactory.connect(url);
 		MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
-		/*
-		 * String[] domains = mbsc.getDomains(); for(String domain: domains){
-		 * List list = new ArrayList(); ObjectName query = new ObjectName(domain
-		 * + ":*"); Set<ObjectName> names = mbsc.queryNames(query, null);
-		 * for(ObjectName name : names){
-		 * System.out.println(name.getCanonicalName());
-		 * System.out.println(name.getKeyPropertyListString()); MBeanInfo info =
-		 * mbsc.getMBeanInfo(name); list.add(info); } map.put(domain, list); }
-		 * 
-		 * ObjectName objectName = new ObjectName(
-		 * "Catalina:j2eeType=WebModule,name=//localhost/manager,J2EEApplication=none,J2EEServer=none"
-		 * ); MBeanInfo info = mbsc.getMBeanInfo(objectName);
-		 * MBeanAttributeInfo[] attributes = info.getAttributes();
-		 * System.out.println(attributes.length); /* for (MBeanAttributeInfo
-		 * attr : attributes) {
-		 * 
-		 * System.out.print(attr.getName()+"\t" );
-		 * System.out.print(attr.getType() +"\t");
-		 * System.out.print(attr.getDescription() );
-		 * if(attr.getType().equals("java.lang.String")) System.out.println("\t"
-		 * + (String)mbsc.getAttribute(objectName, attr.getName()) ); else
-		 * System.out.print("\n"); }
-		 */
+		Set<ObjectName> newSet = null;
+		newSet = mbsc.queryNames(null, null);
+		for(ObjectName name : newSet){
+			MBean mb = new MBean();
+			mb.setName(name.getCanonicalName());
+			mb.persist();
+			MBeanInfo info = mbsc.getMBeanInfo(name);
+			MBeanAttributeInfo[] attributes = info.getAttributes();
+			System.out.println(attributes.length); 
+			for (MBeanAttributeInfo attr : attributes) {
+				MBeanAttribute attribute = new MBeanAttribute();
+				attribute.setName(attr.getName());
+				attribute.setType(attr.getType());
+				attribute.setDescription(attr.getDescription());
+				attribute.setMBean(mb);
+				attribute.persist();
+			}			
+		}		
+		jmxc.close();
+	}
+	
+	
+	public void buildTree() throws Exception {
+		String ip = "localhost";
+		String port = "8999";
+		Map map = new HashMap<String, List>();
+		JMXServiceURL url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://"
+				+ ip + ":" + port + "/jmxrmi");
+		JMXConnector jmxc = JMXConnectorFactory.connect(url);
+		MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();		
 		Set<ObjectName> newSet = null;
 		newSet = mbsc.queryNames(null, null);
 		Tree tree = new Tree();
@@ -74,7 +86,6 @@ public class JMXBrowser {
 
 		System.out.println(s);
 		jmxc.close();
-
 	}
 
 	public static JMXConnector connectWithTimeout(final JMXServiceURL url,

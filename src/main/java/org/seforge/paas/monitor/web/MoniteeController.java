@@ -1,5 +1,6 @@
 package org.seforge.paas.monitor.web;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,6 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.management.MBeanAttributeInfo;
+import javax.management.MBeanInfo;
+import javax.management.MBeanServerConnection;
+import javax.management.ObjectName;
+import javax.management.remote.JMXConnector;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,6 +22,8 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.VelocityException;
 import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.AppServer;
+import org.seforge.paas.monitor.domain.MBean;
+import org.seforge.paas.monitor.domain.MBeanAttribute;
 import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.extjs.TreeNode;
@@ -65,7 +75,40 @@ public class MoniteeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public void get(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
-    	reporter.report();    	
+//    	reporter.report();    
+    	String ip = "localhost";
+		String port = "8999";
+		Map map = new HashMap<String, List>();
+		JMXServiceURL url;
+		try {
+			url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://"
+					+ ip + ":" + port + "/jmxrmi");
+			JMXConnector jmxc = JMXConnectorFactory.connect(url);
+			MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
+			Set<ObjectName> newSet = null;
+			newSet = mbsc.queryNames(null, null);
+			for(ObjectName name : newSet){
+				MBean mb = new MBean();
+				mb.setName(name.getCanonicalName());
+				mb.persist();
+				MBeanInfo info = mbsc.getMBeanInfo(name);
+				MBeanAttributeInfo[] attributes = info.getAttributes();
+				System.out.println(attributes.length); 
+				for (MBeanAttributeInfo attr : attributes) {
+					MBeanAttribute attribute = new MBeanAttribute();
+					attribute.setName(attr.getName());
+					attribute.setType(attr.getType());
+					attribute.setDescription(attr.getDescription());
+					attribute.setMBean(mb);
+					attribute.persist();
+				}			
+			}		
+			jmxc.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "{id}")

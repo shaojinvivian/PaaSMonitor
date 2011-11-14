@@ -1055,12 +1055,14 @@ function mapping() {
 			//animateTarget: this,
 			width : 600,
 			height : 350,
-			layout : 'border',
+			layout : 'column',
 			bodyStyle : 'padding: 5px;',
-			items : [{
-				region : 'center',
+			items : [{				
 				xtype : 'tabpanel',
 				items : [tomcat6Tree, tomcat7Tree, jettyTree]
+			},{				
+				xtype : 'panel',
+				id : 'treeDetail'		
 			}]
 		});
 	}	

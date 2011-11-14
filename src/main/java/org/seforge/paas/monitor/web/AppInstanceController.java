@@ -7,8 +7,6 @@ import java.util.Set;
 
 import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.AppServer;
-import org.seforge.paas.monitor.domain.Phym;
-import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.extjs.JsonObjectResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
