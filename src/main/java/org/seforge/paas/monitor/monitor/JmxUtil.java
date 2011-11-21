@@ -73,7 +73,7 @@ public class JmxUtil {
 	
 	public Set<ObjectName> queryNames(ObjectName objectName){
 		try {
-			return mbsc.queryNames(objectName, null);
+			return mbsc.queryNames(objectName,null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
