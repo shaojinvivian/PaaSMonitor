@@ -75,30 +75,31 @@ public class MoniteeController {
     @RequestMapping(method = RequestMethod.GET)
     public void get(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
 //    	reporter.report();    
-    	System.out.println("hello");
-    
 		Map map = new HashMap<String, List>();
 		JMXServiceURL url;
 		try {
 			JmxUtil util = new JmxUtil("127.0.0.1", "8999");
 			util.connect();			
 			Set<ObjectName> newSet = null;
-			newSet = util.queryNames();
+			newSet = util.queryNames();	
 			System.out.println(newSet.size());
 			
 			for(ObjectName name : newSet){
+				String currentVersion = "jetty8";
+				System.out.println(name.toString());
 				
 				//persist domain
 				String domainName = name.getDomain();
+				
 				MBeanDomain mbd;
-				List<MBeanDomain> existedDomains = MBeanDomain.findMBeanDomainsByNameEquals(domainName).getResultList();
+				List<MBeanDomain> existedDomains = MBeanDomain.findUniqueMBeanDomain(domainName, currentVersion).getResultList();
 				if(existedDomains.size()>0){
 					mbd = existedDomains.get(0);
 				}else{
 					mbd = new MBeanDomain();
 					mbd.setName(name.getDomain());
-					mbd.persist();
-					System.out.println(mbd.getName());
+					mbd.setVersion(currentVersion);
+					mbd.persist();					
 				}
 				
 				//persit type
@@ -107,16 +108,40 @@ public class MoniteeController {
 				if(typeName == null){
 					typeName = name.getKeyProperty("j2eeType");
 				}
+				if(typeName == null){
+					typeName = "none";
+				}
 				List<MBeanType> existedTypes = MBeanType.findDuplicateMBeanTypes(typeName, mbd).getResultList();
 				if(existedTypes.size()>0){
 					type = existedTypes.get(0);
 					Set<MBeanQueryParam> params = type.getMBeanQueryParams();
-					for(MBeanQueryParam param : params){
-						String newValue = name.getKeyProperty(param.getName());
-						if(!param.getSuggestedValues().contains(newValue))
-							param.getSuggestedValues().add(newValue);						
+					//if all params have been added to the MBeanType
+					if(params.size()>=name.getKeyPropertyList().size()-1){
+						for(MBeanQueryParam param : params){
+							String newValue = name.getKeyProperty(param.getName());
+							if(!param.getSuggestedValues().contains(newValue))
+								param.getSuggestedValues().add(newValue);						
+						}
+					}else{
+						for(String key : name.getKeyPropertyList().keySet()){
+							boolean isExisted = false;
+							for(MBeanQueryParam param : params){
+								if(key.equals(param.getName())){
+									isExisted = true;
+								}
+							}
+							if(!isExisted){
+								MBeanQueryParam param = new MBeanQueryParam();
+								param.setName(key);
+								param.getSuggestedValues().add(name.getKeyPropertyList().get(key));
+								param.setMBeanType(type);
+								type.getMBeanQueryParams().add(param);
+								type.persist();
+							}
+							
+						}
 					}
-//					type.persist();
+					
 				}else{
 					type = new MBeanType();
 					type.setMBeanDomain(mbd);
@@ -124,11 +149,15 @@ public class MoniteeController {
 						type.setName(name.getKeyProperty("type"));
 						type.setTag("type");
 					}
-					else{
+					else if(name.getKeyProperty("j2eeType")!=null){
 						type.setName(name.getKeyProperty("j2eeType"));
 						type.setTag("j2eeType");
 					}
-//					type.persist();
+					else{
+						type.setName("none");
+						type.setTag("none");
+					}
+						
 					mbd.getMBeanTypes().add(type);
 					
 					
@@ -139,7 +168,6 @@ public class MoniteeController {
 							param.setName(key);	
 							param.getSuggestedValues().add(keyMap.get(key));
 							param.setMBeanType(type);
-//							param.persist();
 							type.getMBeanQueryParams().add(param);
 							
 						}
@@ -152,7 +180,6 @@ public class MoniteeController {
 						attribute.setType(ainfo.getType());
 						attribute.setInfo(ainfo.getDescription());
 						attribute.setMBeanType(type);
-//						attribute.persist();
 						type.getMBeanAttributes().add(attribute);
 					}
 					mbd.persist();
@@ -164,7 +191,7 @@ public class MoniteeController {
 			List<MBeanDomain> domains = MBeanDomain.findAllMBeanDomains();
 			for(MBeanDomain domain: domains){
 				Set<MBeanType> types = domain.getMBeanTypes();
-				System.out.println(domain.getName()+":"+types.size());
+				System.out.println("Domain name: " + domain.getName()+":"+types.size() + " version: " + domain.getVersion());
 				for(MBeanType type: types){
 					System.out.println(type.getName());
 					System.out.println("num of params:" + type.getMBeanQueryParams().size());

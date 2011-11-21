@@ -42,35 +42,6 @@ public class JMXBrowser {
 		Set<ObjectName> newSet = null;
 		newSet = mbsc.queryNames(null, null);
 		System.out.println(newSet.size());
-		
-		for(ObjectName name : newSet){
-			String domainName = name.getDomain();		
-			MBeanDomain mbd = MBeanDomain.findMBeanDomainsByNameEquals(domainName).getResultList().get(0);
-			if(mbd==null){
-				mbd = new MBeanDomain();
-				mbd.setName(name.getDomain());
-				mbd.persist();
-			}
-			
-			/*
-			Map<String,String> keyMap = name.getKeyPropertyList();
-			for(String o: keyMap.keySet()){
-				
-			}
-			
-			MBeanInfo info = mbsc.getMBeanInfo(name);
-			MBeanAttributeInfo[] attributes = info.getAttributes();
-			System.out.println(attributes.length); 
-			for (MBeanAttributeInfo attr : attributes) {
-				MBeanAttribute attribute = new MBeanAttribute();
-				attribute.setName(attr.getName());
-				attribute.setType(attr.getType());
-				attribute.setDescription(attr.getDescription());
-				attribute.setMBean(mb);
-				attribute.persist();
-			}	
-			*/		
-		}	
 			
 		jmxc.close();
 	}
