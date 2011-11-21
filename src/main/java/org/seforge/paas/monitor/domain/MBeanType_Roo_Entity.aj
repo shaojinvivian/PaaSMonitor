@@ -7,72 +7,72 @@ import java.lang.Long;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.seforge.paas.monitor.domain.Phym;
+import org.seforge.paas.monitor.domain.MBeanType;
 import org.springframework.transaction.annotation.Transactional;
 
-privileged aspect Phym_Roo_Entity {
+privileged aspect MBeanType_Roo_Entity {
     
     @PersistenceContext
-    transient EntityManager Phym.entityManager;
+    transient EntityManager MBeanType.entityManager;
     
     @Transactional
-    public void Phym.persist() {
+    public void MBeanType.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);
     }
     
     @Transactional
-    public void Phym.remove() {
+    public void MBeanType.remove() {
         if (this.entityManager == null) this.entityManager = entityManager();
         if (this.entityManager.contains(this)) {
             this.entityManager.remove(this);
         } else {
-            Phym attached = Phym.findPhym(this.id);
+            MBeanType attached = MBeanType.findMBeanType(this.id);
             this.entityManager.remove(attached);
         }
     }
     
     @Transactional
-    public void Phym.flush() {
+    public void MBeanType.flush() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.flush();
     }
     
     @Transactional
-    public void Phym.clear() {
+    public void MBeanType.clear() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.clear();
     }
     
     @Transactional
-    public Phym Phym.merge() {
+    public MBeanType MBeanType.merge() {
         if (this.entityManager == null) this.entityManager = entityManager();
-        Phym merged = this.entityManager.merge(this);
+        MBeanType merged = this.entityManager.merge(this);
         this.entityManager.flush();
         return merged;
     }
     
-    public static final EntityManager Phym.entityManager() {
-        EntityManager em = new Phym().entityManager;
+    public static final EntityManager MBeanType.entityManager() {
+        EntityManager em = new MBeanType().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
     
-    public static long Phym.countPhyms() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM Phym o", Long.class).getSingleResult();
+    public static long MBeanType.countMBeanTypes() {
+        return entityManager().createQuery("SELECT COUNT(o) FROM MBeanType o", Long.class).getSingleResult();
     }
     
-    public static List<Phym> Phym.findAllPhyms() {
-        return entityManager().createQuery("SELECT o FROM Phym o", Phym.class).getResultList();
+    public static List<MBeanType> MBeanType.findAllMBeanTypes() {
+        return entityManager().createQuery("SELECT o FROM MBeanType o", MBeanType.class).getResultList();
     }
     
-    public static Phym Phym.findPhym(Long id) {
+    public static MBeanType MBeanType.findMBeanType(Long id) {
         if (id == null) return null;
-        return entityManager().find(Phym.class, id);
+        return entityManager().find(MBeanType.class, id);
     }
     
-    public static List<Phym> Phym.findPhymEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("SELECT o FROM Phym o", Phym.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    public static List<MBeanType> MBeanType.findMBeanTypeEntries(int firstResult, int maxResults) {
+        return entityManager().createQuery("SELECT o FROM MBeanType o", MBeanType.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
 }

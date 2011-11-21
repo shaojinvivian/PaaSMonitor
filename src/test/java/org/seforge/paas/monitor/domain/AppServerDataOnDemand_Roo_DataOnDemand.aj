@@ -78,13 +78,15 @@ privileged aspect AppServerDataOnDemand_Roo_DataOnDemand {
         if (index < 0) index = 0;
         if (index > (data.size() - 1)) index = data.size() - 1;
         AppServer obj = data.get(index);
-        return AppServer.findAppServer(obj.getId());
+        java.lang.Long id = obj.getId();
+        return AppServer.findAppServer(id);
     }
     
     public AppServer AppServerDataOnDemand.getRandomAppServer() {
         init();
         AppServer obj = data.get(rnd.nextInt(data.size()));
-        return AppServer.findAppServer(obj.getId());
+        java.lang.Long id = obj.getId();
+        return AppServer.findAppServer(id);
     }
     
     public boolean AppServerDataOnDemand.modifyAppServer(AppServer obj) {
@@ -92,7 +94,9 @@ privileged aspect AppServerDataOnDemand_Roo_DataOnDemand {
     }
     
     public void AppServerDataOnDemand.init() {
-        data = AppServer.findAppServerEntries(0, 10);
+        int from = 0;
+        int to = 10;
+        data = AppServer.findAppServerEntries(from, to);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'AppServer' illegally returned null");
         if (!data.isEmpty()) {
             return;

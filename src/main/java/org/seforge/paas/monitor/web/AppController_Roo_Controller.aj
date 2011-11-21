@@ -52,7 +52,8 @@ privileged aspect AppController_Roo_Controller {
     public String AppController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
-            uiModel.addAttribute("apps", App.findAppEntries(page == null ? 0 : (page.intValue() - 1) * sizeNo, sizeNo));
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("apps", App.findAppEntries(firstResult, sizeNo));
             float nrOfPages = (float) App.countApps() / sizeNo;
             uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
         } else {
@@ -80,7 +81,8 @@ privileged aspect AppController_Roo_Controller {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String AppController.delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-        App.findApp(id).remove();
+        App app = App.findApp(id);
+        app.remove();
         uiModel.asMap().clear();
         uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
         uiModel.addAttribute("size", (size == null) ? "10" : size.toString());

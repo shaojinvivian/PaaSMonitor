@@ -4,7 +4,7 @@
 package org.seforge.paas.monitor.domain;
 
 import java.lang.String;
-import org.seforge.paas.monitor.domain.MBean;
+import org.seforge.paas.monitor.domain.MBeanType;
 
 privileged aspect MBeanAttribute_Roo_JavaBean {
     
@@ -24,20 +24,20 @@ privileged aspect MBeanAttribute_Roo_JavaBean {
         this.type = type;
     }
     
-    public String MBeanAttribute.getDescription() {
-        return this.description;
+    public String MBeanAttribute.getInfo() {
+        return this.info;
     }
     
-    public void MBeanAttribute.setDescription(String description) {
-        this.description = description;
+    public void MBeanAttribute.setInfo(String info) {
+        this.info = info;
     }
     
-    public MBean MBeanAttribute.getMBean() {
-        return this.mBean;
+    public MBeanType MBeanAttribute.getMBeanType() {
+        return this.mBeanType;
     }
     
-    public void MBeanAttribute.setMBean(MBean mBean) {
-        this.mBean = mBean;
+    public void MBeanAttribute.setMBeanType(MBeanType mBeanType) {
+        this.mBeanType = mBeanType;
     }
     
 }

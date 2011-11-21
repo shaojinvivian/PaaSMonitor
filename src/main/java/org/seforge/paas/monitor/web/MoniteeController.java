@@ -1,6 +1,6 @@
 package org.seforge.paas.monitor.web;
 
-import java.net.MalformedURLException;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,24 +10,22 @@ import java.util.Set;
 
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanInfo;
-import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.exception.VelocityException;
 import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.AppServer;
-import org.seforge.paas.monitor.domain.MBean;
 import org.seforge.paas.monitor.domain.MBeanAttribute;
-import org.seforge.paas.monitor.domain.MBeanServer;
+import org.seforge.paas.monitor.domain.MBeanDomain;
+import org.seforge.paas.monitor.domain.MBeanQueryParam;
+import org.seforge.paas.monitor.domain.MBeanType;
 import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.extjs.TreeNode;
+import org.seforge.paas.monitor.monitor.JmxUtil;
 import org.seforge.paas.monitor.reference.MoniteeState;
 import org.seforge.paas.monitor.service.AppServerService;
 import org.seforge.paas.monitor.service.PhymService;
@@ -37,7 +35,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.ui.velocity.VelocityEngineUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -74,49 +71,117 @@ public class MoniteeController {
 		this.reporter = reporter;
 	}
 
+	
     @RequestMapping(method = RequestMethod.GET)
     public void get(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
 //    	reporter.report();    
-    	String ip = "localhost";
-		String port = "8999";
+    	System.out.println("hello");
+    
 		Map map = new HashMap<String, List>();
 		JMXServiceURL url;
 		try {
-			url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://"
-					+ ip + ":" + port + "/jmxrmi");
-			JMXConnector jmxc = JMXConnectorFactory.connect(url);
-			MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
-			MBeanServer mbs = new MBeanServer();
-			mbs.setName("Apache Tomcat/7");
-			mbs.persist();
+			JmxUtil util = new JmxUtil("127.0.0.1", "8999");
+			util.connect();			
 			Set<ObjectName> newSet = null;
-			newSet = mbsc.queryNames(null, null);
+			newSet = util.queryNames();
+			System.out.println(newSet.size());
+			
 			for(ObjectName name : newSet){
-				MBean mb = new MBean();
-				mb.setName(name.getCanonicalName());
-				mb.setMBeanServer(mbs);
-				mb.persist();
-				MBeanInfo info = mbsc.getMBeanInfo(name);
-				MBeanAttributeInfo[] attributes = info.getAttributes();				
-				for (MBeanAttributeInfo attr : attributes) {
-					MBeanAttribute attribute = new MBeanAttribute();
-					attribute.setName(attr.getName());
-					attribute.setType(attr.getType());
-					attribute.setDescription(attr.getDescription());
-					attribute.setMBean(mb);
-					System.out.println(attribute.getName());
-					System.out.println(attribute.getType());
-					System.out.println(attribute.getDescription());
-					attribute.persist();
-				}			
-			}		
-			jmxc.close();
+				
+				//persist domain
+				String domainName = name.getDomain();
+				MBeanDomain mbd;
+				List<MBeanDomain> existedDomains = MBeanDomain.findMBeanDomainsByNameEquals(domainName).getResultList();
+				if(existedDomains.size()>0){
+					mbd = existedDomains.get(0);
+				}else{
+					mbd = new MBeanDomain();
+					mbd.setName(name.getDomain());
+					mbd.persist();
+					System.out.println(mbd.getName());
+				}
+				
+				//persit type
+				MBeanType type;				
+				String typeName = name.getKeyProperty("type");
+				if(typeName == null){
+					typeName = name.getKeyProperty("j2eeType");
+				}
+				List<MBeanType> existedTypes = MBeanType.findDuplicateMBeanTypes(typeName, mbd).getResultList();
+				if(existedTypes.size()>0){
+					type = existedTypes.get(0);
+					Set<MBeanQueryParam> params = type.getMBeanQueryParams();
+					for(MBeanQueryParam param : params){
+						String newValue = name.getKeyProperty(param.getName());
+						if(!param.getSuggestedValues().contains(newValue))
+							param.getSuggestedValues().add(newValue);						
+					}
+//					type.persist();
+				}else{
+					type = new MBeanType();
+					type.setMBeanDomain(mbd);
+					if(name.getKeyProperty("type")!=null){
+						type.setName(name.getKeyProperty("type"));
+						type.setTag("type");
+					}
+					else{
+						type.setName(name.getKeyProperty("j2eeType"));
+						type.setTag("j2eeType");
+					}
+//					type.persist();
+					mbd.getMBeanTypes().add(type);
+					
+					
+					Map<String,String> keyMap  = name.getKeyPropertyList();
+					for(String key: keyMap.keySet()){
+						if(!key.equals("type")&&!key.equals("j2eeType")){
+							MBeanQueryParam param = new MBeanQueryParam();
+							param.setName(key);	
+							param.getSuggestedValues().add(keyMap.get(key));
+							param.setMBeanType(type);
+//							param.persist();
+							type.getMBeanQueryParams().add(param);
+							
+						}
+					}				
+					MBeanInfo info = util.getMBeanInfo(name);
+					MBeanAttributeInfo[] attributes = info.getAttributes();
+					for(MBeanAttributeInfo ainfo : attributes){
+						MBeanAttribute attribute  = new MBeanAttribute();
+						attribute.setName(ainfo.getName());
+						attribute.setType(ainfo.getType());
+						attribute.setInfo(ainfo.getDescription());
+						attribute.setMBeanType(type);
+//						attribute.persist();
+						type.getMBeanAttributes().add(attribute);
+					}
+					mbd.persist();
+				}
+			}
+			util.disconnect();
+			
+			//Check the result
+			List<MBeanDomain> domains = MBeanDomain.findAllMBeanDomains();
+			for(MBeanDomain domain: domains){
+				Set<MBeanType> types = domain.getMBeanTypes();
+				System.out.println(domain.getName()+":"+types.size());
+				for(MBeanType type: types){
+					System.out.println(type.getName());
+					System.out.println("num of params:" + type.getMBeanQueryParams().size());
+					System.out.println("num of attributes:" + type.getMBeanAttributes().size());
+
+				}
+			}
+			
+			
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
     }
+    
 
     @RequestMapping(method = RequestMethod.POST, value = "{id}")
     public void post(@PathVariable Long id, ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {

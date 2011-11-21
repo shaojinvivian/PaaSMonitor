@@ -14,18 +14,14 @@
         <menu:category id="c_appinstance" z="T+tbTAw6g/1TSc4aX3NBh8fBI+M=">
             <menu:item id="i_appinstance_new" messageCode="global_menu_new" url="/appinstances?form" z="Lm3vIbSm1Efar1AY9u0iM487LnA="/>
             <menu:item id="i_appinstance_list" messageCode="global_menu_list" url="/appinstances?page=1&amp;size=${empty param.size ? 10 : param.size}" z="+gq5IdzS82KX05Nb4dyFSVzKd2Q="/>
-            <menu:item id="fi_appinstance_appserver" messageCode="global_menu_find" url="/appinstances?find=ByAppServer&amp;form" z="8Y5hhNvBXtFZdSH1IEnfMeuMIj4="/>
         </menu:category>
         <menu:category id="c_appserver" z="2skIHDSK0enucSZWunLr6gxzhvc=">
             <menu:item id="i_appserver_new" messageCode="global_menu_new" url="/appservers?form" z="jprccS5K7/gUB/EDawFYKpKeXRE="/>
             <menu:item id="i_appserver_list" messageCode="global_menu_list" url="/appservers?page=1&amp;size=${empty param.size ? 10 : param.size}" z="F8XG7/uPrZLatHICTvpXVtH4VEA="/>
-            <menu:item id="fi_appserver_ip" messageCode="global_menu_find" url="/appservers?find=ByIp&amp;form" z="z6NXjo7Von58pQQTVyq/qf/qQX4="/>
         </menu:category>
         <menu:category id="c_vim" z="aNjtXU6v78rZbjy9ROGl33diwMw=">
             <menu:item id="i_vim_new" messageCode="global_menu_new" url="/vims?form" z="bdo23PPTlBHNiHra1U+V9m4N0Uo="/>
             <menu:item id="i_vim_list" messageCode="global_menu_list" url="/vims?page=1&amp;size=${empty param.size ? 10 : param.size}" z="g9QyQ6L2pgVAL4//LdPAoq2n2tk="/>
-            <menu:item id="fi_vim_phym" messageCode="global_menu_find" url="/vims?find=ByPhym&amp;form" z="Qc1zd/4j0f6o43d1BDq9/L6JoOo="/>
-            <menu:item id="fi_vim_ip" messageCode="global_menu_find" url="/vims?find=ByIp&amp;form" z="dAi5QYFDA/1ETNnWknYfih/Jgt8="/>
         </menu:category>
         <menu:category id="c_controller" z="nj8Dm3hojIyIEyPkwE1UMDIs+K8=">
             <menu:item id="i_controller__moniteesindex_id" messageCode="global_generic" url="/monitees/index" z="nnlb5HCnWWdPcODbs4hHsa2T0MM="/>

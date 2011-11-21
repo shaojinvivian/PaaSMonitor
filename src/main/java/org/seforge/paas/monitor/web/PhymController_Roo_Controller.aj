@@ -52,7 +52,8 @@ privileged aspect PhymController_Roo_Controller {
     public String PhymController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
-            uiModel.addAttribute("phyms", Phym.findPhymEntries(page == null ? 0 : (page.intValue() - 1) * sizeNo, sizeNo));
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("phyms", Phym.findPhymEntries(firstResult, sizeNo));
             float nrOfPages = (float) Phym.countPhyms() / sizeNo;
             uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
         } else {
@@ -80,7 +81,8 @@ privileged aspect PhymController_Roo_Controller {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String PhymController.delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-        Phym.findPhym(id).remove();
+        Phym phym = Phym.findPhym(id);
+        phym.remove();
         uiModel.asMap().clear();
         uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
         uiModel.addAttribute("size", (size == null) ? "10" : size.toString());

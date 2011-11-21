@@ -7,72 +7,72 @@ import java.lang.Long;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.seforge.paas.monitor.domain.Phym;
+import org.seforge.paas.monitor.domain.MBeanDomain;
 import org.springframework.transaction.annotation.Transactional;
 
-privileged aspect Phym_Roo_Entity {
+privileged aspect MBeanDomain_Roo_Entity {
     
     @PersistenceContext
-    transient EntityManager Phym.entityManager;
+    transient EntityManager MBeanDomain.entityManager;
     
     @Transactional
-    public void Phym.persist() {
+    public void MBeanDomain.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);
     }
     
     @Transactional
-    public void Phym.remove() {
+    public void MBeanDomain.remove() {
         if (this.entityManager == null) this.entityManager = entityManager();
         if (this.entityManager.contains(this)) {
             this.entityManager.remove(this);
         } else {
-            Phym attached = Phym.findPhym(this.id);
+            MBeanDomain attached = MBeanDomain.findMBeanDomain(this.id);
             this.entityManager.remove(attached);
         }
     }
     
     @Transactional
-    public void Phym.flush() {
+    public void MBeanDomain.flush() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.flush();
     }
     
     @Transactional
-    public void Phym.clear() {
+    public void MBeanDomain.clear() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.clear();
     }
     
     @Transactional
-    public Phym Phym.merge() {
+    public MBeanDomain MBeanDomain.merge() {
         if (this.entityManager == null) this.entityManager = entityManager();
-        Phym merged = this.entityManager.merge(this);
+        MBeanDomain merged = this.entityManager.merge(this);
         this.entityManager.flush();
         return merged;
     }
     
-    public static final EntityManager Phym.entityManager() {
-        EntityManager em = new Phym().entityManager;
+    public static final EntityManager MBeanDomain.entityManager() {
+        EntityManager em = new MBeanDomain().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
     
-    public static long Phym.countPhyms() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM Phym o", Long.class).getSingleResult();
+    public static long MBeanDomain.countMBeanDomains() {
+        return entityManager().createQuery("SELECT COUNT(o) FROM MBeanDomain o", Long.class).getSingleResult();
     }
     
-    public static List<Phym> Phym.findAllPhyms() {
-        return entityManager().createQuery("SELECT o FROM Phym o", Phym.class).getResultList();
+    public static List<MBeanDomain> MBeanDomain.findAllMBeanDomains() {
+        return entityManager().createQuery("SELECT o FROM MBeanDomain o", MBeanDomain.class).getResultList();
     }
     
-    public static Phym Phym.findPhym(Long id) {
+    public static MBeanDomain MBeanDomain.findMBeanDomain(Long id) {
         if (id == null) return null;
-        return entityManager().find(Phym.class, id);
+        return entityManager().find(MBeanDomain.class, id);
     }
     
-    public static List<Phym> Phym.findPhymEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("SELECT o FROM Phym o", Phym.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    public static List<MBeanDomain> MBeanDomain.findMBeanDomainEntries(int firstResult, int maxResults) {
+        return entityManager().createQuery("SELECT o FROM MBeanDomain o", MBeanDomain.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
 }

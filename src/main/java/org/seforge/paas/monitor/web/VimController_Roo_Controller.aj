@@ -53,7 +53,8 @@ privileged aspect VimController_Roo_Controller {
     public String VimController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
-            uiModel.addAttribute("vims", Vim.findVimEntries(page == null ? 0 : (page.intValue() - 1) * sizeNo, sizeNo));
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("vims", Vim.findVimEntries(firstResult, sizeNo));
             float nrOfPages = (float) Vim.countVims() / sizeNo;
             uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
         } else {
@@ -81,7 +82,8 @@ privileged aspect VimController_Roo_Controller {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String VimController.delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-        Vim.findVim(id).remove();
+        Vim vim = Vim.findVim(id);
+        vim.remove();
         uiModel.asMap().clear();
         uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
         uiModel.addAttribute("size", (size == null) ? "10" : size.toString());

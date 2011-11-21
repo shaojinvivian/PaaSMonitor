@@ -104,13 +104,15 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
         if (index < 0) index = 0;
         if (index > (data.size() - 1)) index = data.size() - 1;
         AppInstance obj = data.get(index);
-        return AppInstance.findAppInstance(obj.getId());
+        java.lang.Long id = obj.getId();
+        return AppInstance.findAppInstance(id);
     }
     
     public AppInstance AppInstanceDataOnDemand.getRandomAppInstance() {
         init();
         AppInstance obj = data.get(rnd.nextInt(data.size()));
-        return AppInstance.findAppInstance(obj.getId());
+        java.lang.Long id = obj.getId();
+        return AppInstance.findAppInstance(id);
     }
     
     public boolean AppInstanceDataOnDemand.modifyAppInstance(AppInstance obj) {
@@ -118,7 +120,9 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
     }
     
     public void AppInstanceDataOnDemand.init() {
-        data = AppInstance.findAppInstanceEntries(0, 10);
+        int from = 0;
+        int to = 10;
+        data = AppInstance.findAppInstanceEntries(from, to);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'AppInstance' illegally returned null");
         if (!data.isEmpty()) {
             return;

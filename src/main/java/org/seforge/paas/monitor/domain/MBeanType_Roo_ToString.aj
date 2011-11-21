@@ -5,15 +5,16 @@ package org.seforge.paas.monitor.domain;
 
 import java.lang.String;
 
-privileged aspect MBeanAttribute_Roo_ToString {
+privileged aspect MBeanType_Roo_ToString {
     
-    public String MBeanAttribute.toString() {
+    public String MBeanType.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Id: ").append(getId()).append(", ");
-        sb.append("Info: ").append(getInfo()).append(", ");
-        sb.append("MBeanType: ").append(getMBeanType()).append(", ");
+        sb.append("MBeanAttributes: ").append(getMBeanAttributes() == null ? "null" : getMBeanAttributes().size()).append(", ");
+        sb.append("MBeanDomain: ").append(getMBeanDomain()).append(", ");
+        sb.append("MBeanQueryParams: ").append(getMBeanQueryParams() == null ? "null" : getMBeanQueryParams().size()).append(", ");
         sb.append("Name: ").append(getName()).append(", ");
-        sb.append("Type: ").append(getType()).append(", ");
+        sb.append("Tag: ").append(getTag()).append(", ");
         sb.append("Version: ").append(getVersion());
         return sb.toString();
     }

@@ -12,8 +12,12 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 
+import javax.management.InstanceNotFoundException;
+import javax.management.IntrospectionException;
+import javax.management.MBeanInfo;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
+import javax.management.ReflectionException;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
@@ -48,7 +52,8 @@ public class JmxUtil {
 			jmxc = connectWithTimeout(url, timeout, TimeUnit.SECONDS);
 			mbsc = jmxc.getMBeanServerConnection();	
 			connected = true;
-		} catch (Exception e) {			
+		} catch (Exception e) {	
+			e.printStackTrace();
 			errorMessage = e.getMessage();
 			connected = false;
 		} 			
@@ -76,6 +81,26 @@ public class JmxUtil {
 		}
 	}
 	
+	public Set<ObjectName> queryNames(){
+		try {
+			return mbsc.queryNames(null, null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	public MBeanInfo getMBeanInfo(ObjectName objectName){
+		try {
+			return mbsc.getMBeanInfo(objectName);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} 
+	}
 	
 	public void disconnect(){
 		if(jmxc!=null){

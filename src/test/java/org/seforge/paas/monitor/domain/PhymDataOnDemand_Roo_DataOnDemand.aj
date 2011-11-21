@@ -66,13 +66,15 @@ privileged aspect PhymDataOnDemand_Roo_DataOnDemand {
         if (index < 0) index = 0;
         if (index > (data.size() - 1)) index = data.size() - 1;
         Phym obj = data.get(index);
-        return Phym.findPhym(obj.getId());
+        java.lang.Long id = obj.getId();
+        return Phym.findPhym(id);
     }
     
     public Phym PhymDataOnDemand.getRandomPhym() {
         init();
         Phym obj = data.get(rnd.nextInt(data.size()));
-        return Phym.findPhym(obj.getId());
+        java.lang.Long id = obj.getId();
+        return Phym.findPhym(id);
     }
     
     public boolean PhymDataOnDemand.modifyPhym(Phym obj) {
@@ -80,7 +82,9 @@ privileged aspect PhymDataOnDemand_Roo_DataOnDemand {
     }
     
     public void PhymDataOnDemand.init() {
-        data = Phym.findPhymEntries(0, 10);
+        int from = 0;
+        int to = 10;
+        data = Phym.findPhymEntries(from, to);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'Phym' illegally returned null");
         if (!data.isEmpty()) {
             return;

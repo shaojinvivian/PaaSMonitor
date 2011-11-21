@@ -38,13 +38,15 @@ privileged aspect AppDataOnDemand_Roo_DataOnDemand {
         if (index < 0) index = 0;
         if (index > (data.size() - 1)) index = data.size() - 1;
         App obj = data.get(index);
-        return App.findApp(obj.getId());
+        java.lang.Long id = obj.getId();
+        return App.findApp(id);
     }
     
     public App AppDataOnDemand.getRandomApp() {
         init();
         App obj = data.get(rnd.nextInt(data.size()));
-        return App.findApp(obj.getId());
+        java.lang.Long id = obj.getId();
+        return App.findApp(id);
     }
     
     public boolean AppDataOnDemand.modifyApp(App obj) {
@@ -52,7 +54,9 @@ privileged aspect AppDataOnDemand_Roo_DataOnDemand {
     }
     
     public void AppDataOnDemand.init() {
-        data = App.findAppEntries(0, 10);
+        int from = 0;
+        int to = 10;
+        data = App.findAppEntries(from, to);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'App' illegally returned null");
         if (!data.isEmpty()) {
             return;

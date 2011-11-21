@@ -3,51 +3,17 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.Integer;
 import java.lang.Long;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Version;
 import org.seforge.paas.monitor.domain.App;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect App_Roo_Entity {
     
-    declare @type: App: @Entity;
-    
     @PersistenceContext
     transient EntityManager App.entityManager;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long App.id;
-    
-    @Version
-    @Column(name = "version")
-    private Integer App.version;
-    
-    public Long App.getId() {
-        return this.id;
-    }
-    
-    public void App.setId(Long id) {
-        this.id = id;
-    }
-    
-    public Integer App.getVersion() {
-        return this.version;
-    }
-    
-    public void App.setVersion(Integer version) {
-        this.version = version;
-    }
     
     @Transactional
     public void App.persist() {

@@ -3,10 +3,12 @@
 
 package org.seforge.paas.monitor.domain;
 
-import org.springframework.beans.factory.annotation.Configurable;
+import java.io.Serializable;
 
-privileged aspect MBean_Roo_Configurable {
+privileged aspect MBeanAttribute_Roo_Serializable {
     
-    declare @type: MBean: @Configurable;
+    declare parents: MBeanAttribute implements Serializable;
+    
+    private static final long MBeanAttribute.serialVersionUID = 1L;
     
 }

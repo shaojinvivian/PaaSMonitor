@@ -7,7 +7,6 @@
             <table:column id="c_org_seforge_paas_monitor_domain_AppServer_name" property="name" z="4wQmIzXXfqSm8/1532+m6KN1d9o="/>
             <table:column id="c_org_seforge_paas_monitor_domain_AppServer_jmxPort" property="jmxPort" z="PB7PZTkgCd5NWUEQKhO58S+HDT0="/>
             <table:column id="c_org_seforge_paas_monitor_domain_AppServer_vim" property="vim" z="bHj4b1D/G9QIt9Q4IVGpY05jYo0="/>
-            <table:column id="c_org_seforge_paas_monitor_domain_AppServer_appInstances" property="appInstances" z="ZsDeZRSDgQRfGBsKUhNzC7JIgBQ="/>
             <table:column id="c_org_seforge_paas_monitor_domain_AppServer_ip" property="ip" z="4A3RThb8I6+uV+KueL3d77j9rdI="/>
             <table:column id="c_org_seforge_paas_monitor_domain_AppServer_status" property="status" z="r9u1iMcB54fA2TQaWRJLop8kYkM="/>
         </table:table>

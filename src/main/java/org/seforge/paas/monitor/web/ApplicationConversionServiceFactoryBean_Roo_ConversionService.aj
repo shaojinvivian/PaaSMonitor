@@ -3,63 +3,162 @@
 
 package org.seforge.paas.monitor.web;
 
+import java.lang.Long;
 import java.lang.String;
 import org.seforge.paas.monitor.domain.App;
 import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 
 privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService {
     
+    declare @type: ApplicationConversionServiceFactoryBean: @Configurable;
+    
+    public Converter<App, String> ApplicationConversionServiceFactoryBean.getAppToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<org.seforge.paas.monitor.domain.App, java.lang.String>() {
+            public String convert(App app) {
+                return new StringBuilder().append(app.getName()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, App> ApplicationConversionServiceFactoryBean.getIdToAppConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, org.seforge.paas.monitor.domain.App>() {
+            public org.seforge.paas.monitor.domain.App convert(java.lang.Long id) {
+                return App.findApp(id);
+            }
+        };
+    }
+    
+    public Converter<String, App> ApplicationConversionServiceFactoryBean.getStringToAppConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, org.seforge.paas.monitor.domain.App>() {
+            public org.seforge.paas.monitor.domain.App convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), App.class);
+            }
+        };
+    }
+    
+    public Converter<AppInstance, String> ApplicationConversionServiceFactoryBean.getAppInstanceToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<org.seforge.paas.monitor.domain.AppInstance, java.lang.String>() {
+            public String convert(AppInstance appInstance) {
+                return new StringBuilder().append(appInstance.getStatus()).append(" ").append(appInstance.getErrorCount()).append(" ").append(appInstance.getContextName()).append(" ").append(appInstance.getDisplayName()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, AppInstance> ApplicationConversionServiceFactoryBean.getIdToAppInstanceConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, org.seforge.paas.monitor.domain.AppInstance>() {
+            public org.seforge.paas.monitor.domain.AppInstance convert(java.lang.Long id) {
+                return AppInstance.findAppInstance(id);
+            }
+        };
+    }
+    
+    public Converter<String, AppInstance> ApplicationConversionServiceFactoryBean.getStringToAppInstanceConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, org.seforge.paas.monitor.domain.AppInstance>() {
+            public org.seforge.paas.monitor.domain.AppInstance convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), AppInstance.class);
+            }
+        };
+    }
+    
+    public Converter<AppServer, String> ApplicationConversionServiceFactoryBean.getAppServerToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<org.seforge.paas.monitor.domain.AppServer, java.lang.String>() {
+            public String convert(AppServer appServer) {
+                return new StringBuilder().append(appServer.getStatus()).append(" ").append(appServer.getName()).append(" ").append(appServer.getJmxPort()).append(" ").append(appServer.getIp()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, AppServer> ApplicationConversionServiceFactoryBean.getIdToAppServerConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, org.seforge.paas.monitor.domain.AppServer>() {
+            public org.seforge.paas.monitor.domain.AppServer convert(java.lang.Long id) {
+                return AppServer.findAppServer(id);
+            }
+        };
+    }
+    
+    public Converter<String, AppServer> ApplicationConversionServiceFactoryBean.getStringToAppServerConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, org.seforge.paas.monitor.domain.AppServer>() {
+            public org.seforge.paas.monitor.domain.AppServer convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), AppServer.class);
+            }
+        };
+    }
+    
+    public Converter<Phym, String> ApplicationConversionServiceFactoryBean.getPhymToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<org.seforge.paas.monitor.domain.Phym, java.lang.String>() {
+            public String convert(Phym phym) {
+                return new StringBuilder().append(phym.getName()).append(" ").append(phym.getIp()).append(" ").append(phym.getUsername()).append(" ").append(phym.getPassword()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, Phym> ApplicationConversionServiceFactoryBean.getIdToPhymConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, org.seforge.paas.monitor.domain.Phym>() {
+            public org.seforge.paas.monitor.domain.Phym convert(java.lang.Long id) {
+                return Phym.findPhym(id);
+            }
+        };
+    }
+    
+    public Converter<String, Phym> ApplicationConversionServiceFactoryBean.getStringToPhymConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, org.seforge.paas.monitor.domain.Phym>() {
+            public org.seforge.paas.monitor.domain.Phym convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Phym.class);
+            }
+        };
+    }
+    
+    public Converter<Vim, String> ApplicationConversionServiceFactoryBean.getVimToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<org.seforge.paas.monitor.domain.Vim, java.lang.String>() {
+            public String convert(Vim vim) {
+                return new StringBuilder().append(vim.getPowerState()).append(" ").append(vim.getName()).append(" ").append(vim.getIp()).append(" ").append(vim.getUuid()).toString();
+            }
+        };
+    }
+    
+    public Converter<Long, Vim> ApplicationConversionServiceFactoryBean.getIdToVimConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, org.seforge.paas.monitor.domain.Vim>() {
+            public org.seforge.paas.monitor.domain.Vim convert(java.lang.Long id) {
+                return Vim.findVim(id);
+            }
+        };
+    }
+    
+    public Converter<String, Vim> ApplicationConversionServiceFactoryBean.getStringToVimConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, org.seforge.paas.monitor.domain.Vim>() {
+            public org.seforge.paas.monitor.domain.Vim convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Vim.class);
+            }
+        };
+    }
+    
     public void ApplicationConversionServiceFactoryBean.installLabelConverters(FormatterRegistry registry) {
-        registry.addConverter(new AppConverter());
-        registry.addConverter(new AppInstanceConverter());
-        registry.addConverter(new AppServerConverter());
-        registry.addConverter(new PhymConverter());
-        registry.addConverter(new VimConverter());
+        registry.addConverter(getAppToStringConverter());
+        registry.addConverter(getIdToAppConverter());
+        registry.addConverter(getStringToAppConverter());
+        registry.addConverter(getAppInstanceToStringConverter());
+        registry.addConverter(getIdToAppInstanceConverter());
+        registry.addConverter(getStringToAppInstanceConverter());
+        registry.addConverter(getAppServerToStringConverter());
+        registry.addConverter(getIdToAppServerConverter());
+        registry.addConverter(getStringToAppServerConverter());
+        registry.addConverter(getPhymToStringConverter());
+        registry.addConverter(getIdToPhymConverter());
+        registry.addConverter(getStringToPhymConverter());
+        registry.addConverter(getVimToStringConverter());
+        registry.addConverter(getIdToVimConverter());
+        registry.addConverter(getStringToVimConverter());
     }
     
     public void ApplicationConversionServiceFactoryBean.afterPropertiesSet() {
         super.afterPropertiesSet();
         installLabelConverters(getObject());
-    }
-    
-    static class org.seforge.paas.monitor.web.ApplicationConversionServiceFactoryBean.AppConverter implements Converter<App, String> {
-        public String convert(App app) {
-            return new StringBuilder().append(app.getName()).toString();
-        }
-        
-    }
-    
-    static class org.seforge.paas.monitor.web.ApplicationConversionServiceFactoryBean.AppInstanceConverter implements Converter<AppInstance, String> {
-        public String convert(AppInstance appInstance) {
-            return new StringBuilder().append(appInstance.getStatus()).append(" ").append(appInstance.getErrorCount()).append(" ").append(appInstance.getContextName()).append(" ").append(appInstance.getDisplayName()).toString();
-        }
-        
-    }
-    
-    static class org.seforge.paas.monitor.web.ApplicationConversionServiceFactoryBean.AppServerConverter implements Converter<AppServer, String> {
-        public String convert(AppServer appServer) {
-            return new StringBuilder().append(appServer.getStatus()).append(" ").append(appServer.getName()).append(" ").append(appServer.getJmxPort()).append(" ").append(appServer.getIp()).toString();
-        }
-        
-    }
-    
-    static class org.seforge.paas.monitor.web.ApplicationConversionServiceFactoryBean.PhymConverter implements Converter<Phym, String> {
-        public String convert(Phym phym) {
-            return new StringBuilder().append(phym.getName()).append(" ").append(phym.getIp()).append(" ").append(phym.getUsername()).append(" ").append(phym.getPassword()).toString();
-        }
-        
-    }
-    
-    static class org.seforge.paas.monitor.web.ApplicationConversionServiceFactoryBean.VimConverter implements Converter<Vim, String> {
-        public String convert(Vim vim) {
-            return new StringBuilder().append(vim.getPowerState()).append(" ").append(vim.getName()).append(" ").append(vim.getIp()).append(" ").append(vim.getUuid()).toString();
-        }
-        
     }
     
 }

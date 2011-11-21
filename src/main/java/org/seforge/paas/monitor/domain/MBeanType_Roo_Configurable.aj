@@ -5,8 +5,8 @@ package org.seforge.paas.monitor.domain;
 
 import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect MBeanDataOnDemand_Roo_Configurable {
+privileged aspect MBeanType_Roo_Configurable {
     
-    declare @type: MBeanDataOnDemand: @Configurable;
+    declare @type: MBeanType: @Configurable;
     
 }

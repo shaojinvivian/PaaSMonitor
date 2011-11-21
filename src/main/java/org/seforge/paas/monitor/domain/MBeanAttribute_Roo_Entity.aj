@@ -3,51 +3,17 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.Integer;
 import java.lang.Long;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Version;
 import org.seforge.paas.monitor.domain.MBeanAttribute;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect MBeanAttribute_Roo_Entity {
     
-    declare @type: MBeanAttribute: @Entity;
-    
     @PersistenceContext
     transient EntityManager MBeanAttribute.entityManager;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long MBeanAttribute.id;
-    
-    @Version
-    @Column(name = "version")
-    private Integer MBeanAttribute.version;
-    
-    public Long MBeanAttribute.getId() {
-        return this.id;
-    }
-    
-    public void MBeanAttribute.setId(Long id) {
-        this.id = id;
-    }
-    
-    public Integer MBeanAttribute.getVersion() {
-        return this.version;
-    }
-    
-    public void MBeanAttribute.setVersion(Integer version) {
-        this.version = version;
-    }
     
     @Transactional
     public void MBeanAttribute.persist() {

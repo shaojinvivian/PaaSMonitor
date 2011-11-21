@@ -78,13 +78,15 @@ privileged aspect VimDataOnDemand_Roo_DataOnDemand {
         if (index < 0) index = 0;
         if (index > (data.size() - 1)) index = data.size() - 1;
         Vim obj = data.get(index);
-        return Vim.findVim(obj.getId());
+        java.lang.Long id = obj.getId();
+        return Vim.findVim(id);
     }
     
     public Vim VimDataOnDemand.getRandomVim() {
         init();
         Vim obj = data.get(rnd.nextInt(data.size()));
-        return Vim.findVim(obj.getId());
+        java.lang.Long id = obj.getId();
+        return Vim.findVim(id);
     }
     
     public boolean VimDataOnDemand.modifyVim(Vim obj) {
@@ -92,7 +94,9 @@ privileged aspect VimDataOnDemand_Roo_DataOnDemand {
     }
     
     public void VimDataOnDemand.init() {
-        data = Vim.findVimEntries(0, 10);
+        int from = 0;
+        int to = 10;
+        data = Vim.findVimEntries(from, to);
         if (data == null) throw new IllegalStateException("Find entries implementation for 'Vim' illegally returned null");
         if (!data.isEmpty()) {
             return;

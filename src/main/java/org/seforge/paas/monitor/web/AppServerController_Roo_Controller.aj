@@ -53,7 +53,8 @@ privileged aspect AppServerController_Roo_Controller {
     public String AppServerController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
-            uiModel.addAttribute("appservers", AppServer.findAppServerEntries(page == null ? 0 : (page.intValue() - 1) * sizeNo, sizeNo));
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("appservers", AppServer.findAppServerEntries(firstResult, sizeNo));
             float nrOfPages = (float) AppServer.countAppServers() / sizeNo;
             uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
         } else {
@@ -81,7 +82,8 @@ privileged aspect AppServerController_Roo_Controller {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String AppServerController.delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-        AppServer.findAppServer(id).remove();
+        AppServer appServer = AppServer.findAppServer(id);
+        appServer.remove();
         uiModel.asMap().clear();
         uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
         uiModel.addAttribute("size", (size == null) ? "10" : size.toString());

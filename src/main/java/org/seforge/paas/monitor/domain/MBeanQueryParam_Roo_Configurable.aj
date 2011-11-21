@@ -5,8 +5,8 @@ package org.seforge.paas.monitor.domain;
 
 import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect MBeanServer_Roo_Configurable {
+privileged aspect MBeanQueryParam_Roo_Configurable {
     
-    declare @type: MBeanServer: @Configurable;
+    declare @type: MBeanQueryParam: @Configurable;
     
 }

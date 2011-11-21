@@ -13,16 +13,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanInfo;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 
-import org.seforge.paas.monitor.domain.MBean;
-import org.seforge.paas.monitor.domain.MBeanAttribute;
+import org.seforge.paas.monitor.domain.MBeanDomain;
 import org.seforge.paas.monitor.extjs.TreeNode;
 
 import flexjson.JSONSerializer;
@@ -44,10 +41,23 @@ public class JMXBrowser {
 		MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
 		Set<ObjectName> newSet = null;
 		newSet = mbsc.queryNames(null, null);
+		System.out.println(newSet.size());
+		
 		for(ObjectName name : newSet){
-			MBean mb = new MBean();
-			mb.setName(name.getCanonicalName());
-			mb.persist();
+			String domainName = name.getDomain();		
+			MBeanDomain mbd = MBeanDomain.findMBeanDomainsByNameEquals(domainName).getResultList().get(0);
+			if(mbd==null){
+				mbd = new MBeanDomain();
+				mbd.setName(name.getDomain());
+				mbd.persist();
+			}
+			
+			/*
+			Map<String,String> keyMap = name.getKeyPropertyList();
+			for(String o: keyMap.keySet()){
+				
+			}
+			
 			MBeanInfo info = mbsc.getMBeanInfo(name);
 			MBeanAttributeInfo[] attributes = info.getAttributes();
 			System.out.println(attributes.length); 
@@ -58,8 +68,10 @@ public class JMXBrowser {
 				attribute.setDescription(attr.getDescription());
 				attribute.setMBean(mb);
 				attribute.persist();
-			}			
-		}		
+			}	
+			*/		
+		}	
+			
 		jmxc.close();
 	}
 	

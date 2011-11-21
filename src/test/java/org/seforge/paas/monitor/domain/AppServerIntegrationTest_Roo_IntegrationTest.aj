@@ -3,6 +3,10 @@
 
 package org.seforge.paas.monitor.domain;
 
+import java.lang.Integer;
+import java.lang.Long;
+import java.util.List;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seforge.paas.monitor.domain.AppServerDataOnDemand;
@@ -15,7 +19,7 @@ privileged aspect AppServerIntegrationTest_Roo_IntegrationTest {
     
     declare @type: AppServerIntegrationTest: @RunWith(SpringJUnit4ClassRunner.class);
     
-    declare @type: AppServerIntegrationTest: @ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext.xml");
+    declare @type: AppServerIntegrationTest: @ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext*.xml");
     
     declare @type: AppServerIntegrationTest: @Transactional;
     
@@ -24,92 +28,94 @@ privileged aspect AppServerIntegrationTest_Roo_IntegrationTest {
     
     @Test
     public void AppServerIntegrationTest.testCountAppServers() {
-        org.junit.Assert.assertNotNull("Data on demand for 'AppServer' failed to initialize correctly", dod.getRandomAppServer());
-        long count = org.seforge.paas.monitor.domain.AppServer.countAppServers();
-        org.junit.Assert.assertTrue("Counter for 'AppServer' incorrectly reported there were no entries", count > 0);
+        Assert.assertNotNull("Data on demand for 'AppServer' failed to initialize correctly", dod.getRandomAppServer());
+        long count = AppServer.countAppServers();
+        Assert.assertTrue("Counter for 'AppServer' incorrectly reported there were no entries", count > 0);
     }
     
     @Test
     public void AppServerIntegrationTest.testFindAppServer() {
-        org.seforge.paas.monitor.domain.AppServer obj = dod.getRandomAppServer();
-        org.junit.Assert.assertNotNull("Data on demand for 'AppServer' failed to initialize correctly", obj);
-        java.lang.Long id = obj.getId();
-        org.junit.Assert.assertNotNull("Data on demand for 'AppServer' failed to provide an identifier", id);
-        obj = org.seforge.paas.monitor.domain.AppServer.findAppServer(id);
-        org.junit.Assert.assertNotNull("Find method for 'AppServer' illegally returned null for id '" + id + "'", obj);
-        org.junit.Assert.assertEquals("Find method for 'AppServer' returned the incorrect identifier", id, obj.getId());
+        AppServer obj = dod.getRandomAppServer();
+        Assert.assertNotNull("Data on demand for 'AppServer' failed to initialize correctly", obj);
+        Long id = obj.getId();
+        Assert.assertNotNull("Data on demand for 'AppServer' failed to provide an identifier", id);
+        obj = AppServer.findAppServer(id);
+        Assert.assertNotNull("Find method for 'AppServer' illegally returned null for id '" + id + "'", obj);
+        Assert.assertEquals("Find method for 'AppServer' returned the incorrect identifier", id, obj.getId());
     }
     
     @Test
     public void AppServerIntegrationTest.testFindAllAppServers() {
-        org.junit.Assert.assertNotNull("Data on demand for 'AppServer' failed to initialize correctly", dod.getRandomAppServer());
-        long count = org.seforge.paas.monitor.domain.AppServer.countAppServers();
-        org.junit.Assert.assertTrue("Too expensive to perform a find all test for 'AppServer', as there are " + count + " entries; set the findAllMaximum to exceed this value or set findAll=false on the integration test annotation to disable the test", count < 250);
-        java.util.List<org.seforge.paas.monitor.domain.AppServer> result = org.seforge.paas.monitor.domain.AppServer.findAllAppServers();
-        org.junit.Assert.assertNotNull("Find all method for 'AppServer' illegally returned null", result);
-        org.junit.Assert.assertTrue("Find all method for 'AppServer' failed to return any data", result.size() > 0);
+        Assert.assertNotNull("Data on demand for 'AppServer' failed to initialize correctly", dod.getRandomAppServer());
+        long count = AppServer.countAppServers();
+        Assert.assertTrue("Too expensive to perform a find all test for 'AppServer', as there are " + count + " entries; set the findAllMaximum to exceed this value or set findAll=false on the integration test annotation to disable the test", count < 250);
+        List<AppServer> result = AppServer.findAllAppServers();
+        Assert.assertNotNull("Find all method for 'AppServer' illegally returned null", result);
+        Assert.assertTrue("Find all method for 'AppServer' failed to return any data", result.size() > 0);
     }
     
     @Test
     public void AppServerIntegrationTest.testFindAppServerEntries() {
-        org.junit.Assert.assertNotNull("Data on demand for 'AppServer' failed to initialize correctly", dod.getRandomAppServer());
-        long count = org.seforge.paas.monitor.domain.AppServer.countAppServers();
+        Assert.assertNotNull("Data on demand for 'AppServer' failed to initialize correctly", dod.getRandomAppServer());
+        long count = AppServer.countAppServers();
         if (count > 20) count = 20;
-        java.util.List<org.seforge.paas.monitor.domain.AppServer> result = org.seforge.paas.monitor.domain.AppServer.findAppServerEntries(0, (int) count);
-        org.junit.Assert.assertNotNull("Find entries method for 'AppServer' illegally returned null", result);
-        org.junit.Assert.assertEquals("Find entries method for 'AppServer' returned an incorrect number of entries", count, result.size());
+        int firstResult = 0;
+        int maxResults = (int) count;
+        List<AppServer> result = AppServer.findAppServerEntries(firstResult, maxResults);
+        Assert.assertNotNull("Find entries method for 'AppServer' illegally returned null", result);
+        Assert.assertEquals("Find entries method for 'AppServer' returned an incorrect number of entries", count, result.size());
     }
     
     @Test
     public void AppServerIntegrationTest.testFlush() {
-        org.seforge.paas.monitor.domain.AppServer obj = dod.getRandomAppServer();
-        org.junit.Assert.assertNotNull("Data on demand for 'AppServer' failed to initialize correctly", obj);
-        java.lang.Long id = obj.getId();
-        org.junit.Assert.assertNotNull("Data on demand for 'AppServer' failed to provide an identifier", id);
-        obj = org.seforge.paas.monitor.domain.AppServer.findAppServer(id);
-        org.junit.Assert.assertNotNull("Find method for 'AppServer' illegally returned null for id '" + id + "'", obj);
+        AppServer obj = dod.getRandomAppServer();
+        Assert.assertNotNull("Data on demand for 'AppServer' failed to initialize correctly", obj);
+        Long id = obj.getId();
+        Assert.assertNotNull("Data on demand for 'AppServer' failed to provide an identifier", id);
+        obj = AppServer.findAppServer(id);
+        Assert.assertNotNull("Find method for 'AppServer' illegally returned null for id '" + id + "'", obj);
         boolean modified =  dod.modifyAppServer(obj);
-        java.lang.Integer currentVersion = obj.getVersion();
+        Integer currentVersion = obj.getVersion();
         obj.flush();
-        org.junit.Assert.assertTrue("Version for 'AppServer' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
+        Assert.assertTrue("Version for 'AppServer' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
-    public void AppServerIntegrationTest.testMerge() {
-        org.seforge.paas.monitor.domain.AppServer obj = dod.getRandomAppServer();
-        org.junit.Assert.assertNotNull("Data on demand for 'AppServer' failed to initialize correctly", obj);
-        java.lang.Long id = obj.getId();
-        org.junit.Assert.assertNotNull("Data on demand for 'AppServer' failed to provide an identifier", id);
-        obj = org.seforge.paas.monitor.domain.AppServer.findAppServer(id);
+    public void AppServerIntegrationTest.testMergeUpdate() {
+        AppServer obj = dod.getRandomAppServer();
+        Assert.assertNotNull("Data on demand for 'AppServer' failed to initialize correctly", obj);
+        Long id = obj.getId();
+        Assert.assertNotNull("Data on demand for 'AppServer' failed to provide an identifier", id);
+        obj = AppServer.findAppServer(id);
         boolean modified =  dod.modifyAppServer(obj);
-        java.lang.Integer currentVersion = obj.getVersion();
-        org.seforge.paas.monitor.domain.AppServer merged =  obj.merge();
+        Integer currentVersion = obj.getVersion();
+        AppServer merged = obj.merge();
         obj.flush();
-        org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
-        org.junit.Assert.assertTrue("Version for 'AppServer' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
+        Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
+        Assert.assertTrue("Version for 'AppServer' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
     public void AppServerIntegrationTest.testPersist() {
-        org.junit.Assert.assertNotNull("Data on demand for 'AppServer' failed to initialize correctly", dod.getRandomAppServer());
-        org.seforge.paas.monitor.domain.AppServer obj = dod.getNewTransientAppServer(Integer.MAX_VALUE);
-        org.junit.Assert.assertNotNull("Data on demand for 'AppServer' failed to provide a new transient entity", obj);
-        org.junit.Assert.assertNull("Expected 'AppServer' identifier to be null", obj.getId());
+        Assert.assertNotNull("Data on demand for 'AppServer' failed to initialize correctly", dod.getRandomAppServer());
+        AppServer obj = dod.getNewTransientAppServer(Integer.MAX_VALUE);
+        Assert.assertNotNull("Data on demand for 'AppServer' failed to provide a new transient entity", obj);
+        Assert.assertNull("Expected 'AppServer' identifier to be null", obj.getId());
         obj.persist();
         obj.flush();
-        org.junit.Assert.assertNotNull("Expected 'AppServer' identifier to no longer be null", obj.getId());
+        Assert.assertNotNull("Expected 'AppServer' identifier to no longer be null", obj.getId());
     }
     
     @Test
     public void AppServerIntegrationTest.testRemove() {
-        org.seforge.paas.monitor.domain.AppServer obj = dod.getRandomAppServer();
-        org.junit.Assert.assertNotNull("Data on demand for 'AppServer' failed to initialize correctly", obj);
-        java.lang.Long id = obj.getId();
-        org.junit.Assert.assertNotNull("Data on demand for 'AppServer' failed to provide an identifier", id);
-        obj = org.seforge.paas.monitor.domain.AppServer.findAppServer(id);
+        AppServer obj = dod.getRandomAppServer();
+        Assert.assertNotNull("Data on demand for 'AppServer' failed to initialize correctly", obj);
+        Long id = obj.getId();
+        Assert.assertNotNull("Data on demand for 'AppServer' failed to provide an identifier", id);
+        obj = AppServer.findAppServer(id);
         obj.remove();
         obj.flush();
-        org.junit.Assert.assertNull("Failed to remove 'AppServer' with identifier '" + id + "'", org.seforge.paas.monitor.domain.AppServer.findAppServer(id));
+        Assert.assertNull("Failed to remove 'AppServer' with identifier '" + id + "'", AppServer.findAppServer(id));
     }
     
 }
