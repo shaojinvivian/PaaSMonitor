@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import flexjson.JSONSerializer;
+
 @RequestMapping("/jmx")
 @Controller
 public class JmxController {
@@ -36,10 +38,10 @@ public class JmxController {
 			JmxUtil util = new JmxUtil(ip, port);
 			util.connect();
 			Set<ObjectName> newSet = null;
-			if(dnName.equals("none")){
+			if (dnName.equals("none")) {
 				newSet = util.queryNames();
-			}else
-				newSet = util.queryNames(new ObjectName(dnName+":*"));			
+			} else
+				newSet = util.queryNames(new ObjectName(dnName + ":*"));
 
 			for (ObjectName name : newSet) {
 				// persist domain
@@ -145,21 +147,19 @@ public class JmxController {
 
 			// Check the result
 			/*
-			List<MBeanDomain> domains = MBeanDomain.findAllMBeanDomains();
-			for (MBeanDomain domain : domains) {
-				Set<MBeanType> types = domain.getMBeanTypes();
-				System.out.println("Domain name: " + domain.getName() + ":"
-						+ types.size() + " version: " + domain.getVersion());
-				for (MBeanType type : types) {
-					System.out.println(type.getName());
-					System.out.println("num of params:"
-							+ type.getMBeanQueryParams().size());
-					System.out.println("num of attributes:"
-							+ type.getMBeanAttributes().size());
-
-				}
-			}
-			*/
+			 * List<MBeanDomain> domains = MBeanDomain.findAllMBeanDomains();
+			 * for (MBeanDomain domain : domains) { Set<MBeanType> types =
+			 * domain.getMBeanTypes(); System.out.println("Domain name: " +
+			 * domain.getName() + ":" + types.size() + " version: " +
+			 * domain.getVersion()); for (MBeanType type : types) {
+			 * System.out.println(type.getName());
+			 * System.out.println("num of params:" +
+			 * type.getMBeanQueryParams().size());
+			 * System.out.println("num of attributes:" +
+			 * type.getMBeanAttributes().size());
+			 * 
+			 * } }
+			 */
 
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} catch (Exception e) {
@@ -168,20 +168,38 @@ public class JmxController {
 					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@RequestMapping(value = "/tree", method = RequestMethod.GET)
-	public ResponseEntity<String> get(){
-		
-	}
-	
-	
-	public TreeNode buildTree(String domainName, String version){
-		MBeanDomain domain = MBeanDomain.findUniqueMBeanDomain(domainName, version).getResultList().get(0);
-		TreeNode root = new TreeNode();
-		root.setText(domain.getName());
-		
-		
+	public ResponseEntity<String> get(@RequestParam("dnName") String dnName,
+			@RequestParam("version") String version) {
+		String s = buildTree(dnName, version);
+		return new ResponseEntity<String>(s, HttpStatus.OK);
 	}
 
+	public String buildTree(String domainName, String version) {
+		List<MBeanDomain> domains = MBeanDomain
+				.findMBeanDomains(domainName, version).getResultList();
+		TreeNode root = new TreeNode();		
+		for(MBeanDomain domain : domains){
+			TreeNode domainRoot = new TreeNode();
+			domainRoot.setText(domain.getName());
+			domainRoot.setLeaf(false);
+			domainRoot.setExpanded(true);
+			Set<MBeanType> list = domain.getMBeanTypes();
+			for (MBeanType mBeanType : list) {
+				TreeNode typeNode = new TreeNode();
+				typeNode.setText(mBeanType.getName());
+				typeNode.setLeaf(true);
+				domainRoot.getChildren().add(typeNode);
+			}
+			root.getChildren().add(domainRoot);
+		}
+		
+		String s = new JSONSerializer().exclude("*.class").include("children")
+		// .transform(new DateTransformer("MM/dd/yy"), Date.class)
+				.deepSerialize(root.getChildren());
+
+		return s;
+	}
 
 }

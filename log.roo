@@ -112,3 +112,9 @@ web mvc controller --class ~.web.JmxController --preferredMapping /jmx
 // [failed] quit
 exit
 // Spring Roo 1.2.0.M1 [rev 1fa252f] log closed at 2011-11-22 00:37:52
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2011-11-22 10:06:38
+finder list --class ~.domain.MBeanDomain
+finder add --finderName finderMBeanDomainsByNameLike
+finder add --finderName findMBeanDomainsByNameLike
+exit
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log closed at 2011-11-22 12:53:14
