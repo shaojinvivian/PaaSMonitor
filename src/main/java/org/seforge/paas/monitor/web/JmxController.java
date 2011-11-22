@@ -44,36 +44,35 @@ public class JmxController {
 				newSet = util.queryNames(new ObjectName(dnName + ":*"));
 
 			for (ObjectName name : newSet) {
-				// persist domain
+				// get or instantiate the MBeanDomain
 				String domainName = name.getDomain();
 
 				MBeanDomain mbd;
-				List<MBeanDomain> existedDomains = MBeanDomain
-						.findUniqueMBeanDomain(domainName, version)
-						.getResultList();
-				if (existedDomains.size() > 0) {
-					mbd = existedDomains.get(0);
+				MBeanDomain existedDomain = MBeanDomain
+						.findUniqueMBeanDomain(domainName, version);						
+				if (existedDomain!=null) {
+					mbd = existedDomain;
 				} else {
 					mbd = new MBeanDomain();
 					mbd.setName(name.getDomain());
-					mbd.setVersion(version);
-					mbd.persist();
+					mbd.setVersion(version);					
 				}
 
-				// persit type
-				MBeanType type;
+				// persit type				
 				String typeName = name.getKeyProperty("type");
+				String tag = "type";
 				if (typeName == null) {
 					typeName = name.getKeyProperty("j2eeType");
+					tag = "j2eeType";
 				}
 				if (typeName == null) {
 					typeName = "none";
+					tag = "none";
 				}
-				List<MBeanType> existedTypes = MBeanType
-						.findDuplicateMBeanTypes(typeName, mbd).getResultList();
-				if (existedTypes.size() > 0) {
-					type = existedTypes.get(0);
-					Set<MBeanQueryParam> params = type.getMBeanQueryParams();
+				MBeanType existedType = MBeanType
+						.findMBeanTypeByNameAndDomain(typeName, mbd);
+				if (existedType!=null) {					
+					Set<MBeanQueryParam> params = existedType.getMBeanQueryParams();
 					// if all params have been added to the MBeanType
 					if (params.size() >= name.getKeyPropertyList().size() - 1) {
 						for (MBeanQueryParam param : params) {
@@ -95,30 +94,18 @@ public class JmxController {
 								param.setName(key);
 								param.getSuggestedValues().add(
 										name.getKeyPropertyList().get(key));
-								param.setMBeanType(type);
-								type.getMBeanQueryParams().add(param);
-								type.persist();
+								param.setMBeanType(existedType);
+								existedType.getMBeanQueryParams().add(param);								
 							}
 
 						}
 					}
-
 				} else {
-					type = new MBeanType();
+					MBeanType type = new MBeanType();
 					type.setMBeanDomain(mbd);
-					if (name.getKeyProperty("type") != null) {
-						type.setName(name.getKeyProperty("type"));
-						type.setTag("type");
-					} else if (name.getKeyProperty("j2eeType") != null) {
-						type.setName(name.getKeyProperty("j2eeType"));
-						type.setTag("j2eeType");
-					} else {
-						type.setName("none");
-						type.setTag("none");
-					}
-
-					mbd.getMBeanTypes().add(type);
-
+					type.setName(typeName);
+					type.setTag(tag);
+					
 					Map<String, String> keyMap = name.getKeyPropertyList();
 					for (String key : keyMap.keySet()) {
 						if (!key.equals("type") && !key.equals("j2eeType")) {
@@ -140,8 +127,10 @@ public class JmxController {
 						attribute.setMBeanType(type);
 						type.getMBeanAttributes().add(attribute);
 					}
-					mbd.persist();
+					
+					mbd.getMBeanTypes().add(type);									
 				}
+				mbd.persist();
 			}
 			util.disconnect();
 
@@ -175,6 +164,19 @@ public class JmxController {
 		String s = buildTree(dnName, version);
 		return new ResponseEntity<String>(s, HttpStatus.OK);
 	}
+	
+	
+	@RequestMapping(value = "/mbeaninfo", method = RequestMethod.GET)
+	public ResponseEntity<String> get(@RequestParam("dnName") String dnName,
+			@RequestParam("version") String version,
+			@RequestParam("typeName") String typeName) {
+		MBeanDomain domain = MBeanDomain.findUniqueMBeanDomain(dnName, version);
+		MBeanType type = MBeanType.findMBeanTypeByNameAndDomain(typeName, domain);
+		Set<MBeanQueryParam> params = type.getMBeanQueryParams();		
+		return new ResponseEntity<String>(generateFormFields(params), HttpStatus.OK);
+	}
+	
+	
 
 	public String buildTree(String domainName, String version) {
 		List<MBeanDomain> domains = MBeanDomain
@@ -193,13 +195,28 @@ public class JmxController {
 				domainRoot.getChildren().add(typeNode);
 			}
 			root.getChildren().add(domainRoot);
-		}
-		
+		}		
 		String s = new JSONSerializer().exclude("*.class").include("children")
 		// .transform(new DateTransformer("MM/dd/yy"), Date.class)
 				.deepSerialize(root.getChildren());
 
 		return s;
+	}
+	
+	
+	public String generateFormFields(Set<MBeanQueryParam> params){
+		StringBuilder sb = new StringBuilder();
+		sb.append("{success: true,data:[");	
+		for(MBeanQueryParam param : params){
+			sb.append("{");
+			sb.append("fieldLabel:");
+			sb.append(param.getName());
+			sb.append(",name: ");
+			sb.append(param.getName());
+			sb.append("},");		
+		}
+		sb.append("]}");
+		return sb.toString();
 	}
 
 }

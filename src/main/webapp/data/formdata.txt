@@ -1,0 +1,9 @@
+{
+  success: true,
+  data: [
+    {xtype: "textfield", fieldLabel: "label1", name: "textfield1"},
+    {xtype: "textfield", fieldLabel: "label2", name: "textfield2"},
+    {xtype: "textfield", fieldLabel: "label2", name: "textfield2"},
+    {xtype: "textfield", fieldLabel: "label3", name: "textfield3"}
+  ]
+}

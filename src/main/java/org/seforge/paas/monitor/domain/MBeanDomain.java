@@ -16,7 +16,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooEntity
 public class MBeanDomain {
 
-    @NotNull
+    @NotNull    
     private String name;
 
     private String version;
@@ -24,13 +24,13 @@ public class MBeanDomain {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "mBeanDomain")
     private Set<MBeanType> mBeanTypes = new HashSet<MBeanType>();
 
-    public static TypedQuery<org.seforge.paas.monitor.domain.MBeanDomain> findUniqueMBeanDomain(String name, String version) {
+    public static MBeanDomain findUniqueMBeanDomain(String name, String version) {
         if (name == null || name.length() == 0 || version == null || version.length() == 0) throw new IllegalArgumentException("The name and version argument is required");
         EntityManager em = MBeanDomain.entityManager();
         TypedQuery<MBeanDomain> q = em.createQuery("SELECT o FROM MBeanDomain AS o WHERE o.name = :name AND o.version = :version", MBeanDomain.class);
         q.setParameter("name", name);
         q.setParameter("version", version);
-        return q;
+        return q.getSingleResult();
     }
 
     public static TypedQuery<org.seforge.paas.monitor.domain.MBeanDomain> findMBeanDomains(String name, String version) {
