@@ -1,9 +1,1 @@
-{
-  success: true,
-  data: [
-    {xtype: "textfield", fieldLabel: "label1", name: "textfield1"},
-    {xtype: "textfield", fieldLabel: "label2", name: "textfield2"},
-    {xtype: "textfield", fieldLabel: "label2", name: "textfield2"},
-    {xtype: "textfield", fieldLabel: "label3", name: "textfield3"}
-  ]
-}
+{success: true,data:[{fieldLabel:"J2EEApplication",name: "J2EEApplication"},{fieldLabel:"name",name: "name"},{fieldLabel:"J2EEServer",name: "J2EEServer"},]}

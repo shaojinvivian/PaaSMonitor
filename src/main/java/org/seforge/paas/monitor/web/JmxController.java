@@ -55,7 +55,8 @@ public class JmxController {
 				} else {
 					mbd = new MBeanDomain();
 					mbd.setName(name.getDomain());
-					mbd.setVersion(version);					
+					mbd.setVersion(version);	
+					mbd.persist();
 				}
 
 				// persit type				
@@ -165,12 +166,13 @@ public class JmxController {
 		return new ResponseEntity<String>(s, HttpStatus.OK);
 	}
 	
-	
+	// http://localhost:8080/PaaSMonitor/jmx/mbeaninfo?version=tomcat7&dnName=Catalina&typeName=WebModule
+
 	@RequestMapping(value = "/mbeaninfo", method = RequestMethod.GET)
 	public ResponseEntity<String> get(@RequestParam("dnName") String dnName,
 			@RequestParam("version") String version,
 			@RequestParam("typeName") String typeName) {
-		MBeanDomain domain = MBeanDomain.findUniqueMBeanDomain(dnName, version);
+		MBeanDomain domain = MBeanDomain.findUniqueMBeanDomain(dnName, version);		
 		MBeanType type = MBeanType.findMBeanTypeByNameAndDomain(typeName, domain);
 		Set<MBeanQueryParam> params = type.getMBeanQueryParams();		
 		return new ResponseEntity<String>(generateFormFields(params), HttpStatus.OK);
@@ -209,11 +211,11 @@ public class JmxController {
 		sb.append("{success: true,data:[");	
 		for(MBeanQueryParam param : params){
 			sb.append("{");
-			sb.append("fieldLabel:");
+			sb.append("fieldLabel:\"");
 			sb.append(param.getName());
-			sb.append(",name: ");
+			sb.append("\",name: \"");
 			sb.append(param.getName());
-			sb.append("},");		
+			sb.append("\"},");		
 		}
 		sb.append("]}");
 		return sb.toString();

@@ -1,15 +1,71 @@
-Ext.require([
-    'Ext.window.Window',
-    'Ext.tab.*',
-    'Ext.toolbar.Spacer',
-    'Ext.layout.container.Card',
-    'Ext.layout.container.Border'
-]);
+Ext.require(['Ext.window.Window', 'Ext.tab.*', 'Ext.toolbar.Spacer', 'Ext.layout.container.Card', 'Ext.layout.container.Border']);
 
-Ext.onReady(function(){	
-var mappingWin;
-   var tomcat6Tree = Ext.create('Ext.tree.Panel', {
-		id : 'tomcat6Tree',
+Ext.onReady(function() {
+	var mappingWin;
+
+
+
+	var treeDetail = Ext.create('Ext.form.Panel', {
+		title : 'Simple Form',
+		bodyPadding : 20,
+		width : 350,
+		height : 500,
+		layout : 'anchor',
+		defaults : {
+			anchor : '100%'
+		},
+		defaultType : 'textfield',
+		buttons : [{
+			text : 'Reset',
+			handler : function() {
+				this.up('form').getForm().reset();
+			}
+		}, {
+			text : 'Submit',
+			formBind : true, //only enabled once the form is valid
+			disabled : true,
+			handler : function() {
+				var form = this.up('form').getForm();
+				if(form.isValid()) {
+					form.submit({
+						success : function(form, action) {
+							Ext.Msg.alert('Success', action.result.msg);
+						},
+						failure : function(form, action) {
+							Ext.Msg.alert('Failed', action.result.msg);
+						}
+					});
+				}
+			}
+		}]
+	});
+	
+	var showForm = function(view, record) {
+		if(record.get('leaf')) {
+			var version = this.up('tabpanel').getActiveTab().id;
+			var dnName = record.parentNode.data.text;
+			var typeName = record.data.text;
+
+			var ajax = Ext.Ajax.request({
+			url : 'jmx/mbeaninfo',
+			params :{
+				version : version,
+				dnName : dnName,
+				typeName : typeName
+			},
+			method : 'get',
+			success : function(response) {				
+				// response = Ext.JSON.decode(response.responseText);
+				treeDetail.add(Ext.decode(response.responseText).data);
+				treeDetail.doLayout();
+			}
+		});
+		}
+
+	};
+	
+	var tomcat6Tree = Ext.create('Ext.tree.Panel', {
+		id : 'tomcat6',
 		title : 'Tomcat 6',
 		height : 300,
 		width : 200,
@@ -28,7 +84,7 @@ var mappingWin;
 	});
 
 	var tomcat7Tree = Ext.create('Ext.tree.Panel', {
-		id : 'tomcat7Tree',
+		id : 'tomcat7',
 		title : 'Tomcat 7',
 		height : 300,
 		width : 200,
@@ -43,12 +99,15 @@ var mappingWin;
 			root : {
 				expanded : true
 			}
-		})
+		}),
+		listeners : {
+			'itemclick' : showForm
+		}
 	});
 
 	var jettyTree = Ext.create('Ext.tree.Panel', {
-		id : 'jettyTree',
-		title : 'Jetty',
+		id : 'jetty8',
+		title : 'Jetty 8',
 		height : 300,
 		width : 200,
 		rootVisible : false,
@@ -64,69 +123,10 @@ var mappingWin;
 			}
 		})
 	});
-	
-	
-	var treeDetail = Ext.create('Ext.form.Panel', {
-    title: 'Simple Form',
-    bodyPadding: 20,
-    width: 350,
-    height: 500,
-
-    // The form will submit an AJAX request to this URL when submitted
-    
-
-    // Fields will be arranged vertically, stretched to full width
-    layout: 'anchor',
-    defaults: {
-        anchor: '100%'
-    },
-
-    // The fields
-    defaultType: 'textfield',
-
-
-    // Reset and Submit buttons
-    buttons: [{
-        text: 'Reset',
-        handler: function() {
-            this.up('form').getForm().reset();
-        }
-    }, {
-        text: 'Submit',
-        formBind: true, //only enabled once the form is valid
-        disabled: true,
-        handler: function() {
-            var form = this.up('form').getForm();
-            if (form.isValid()) {
-                form.submit({
-                    success: function(form, action) {
-                       Ext.Msg.alert('Success', action.result.msg);
-                    },
-                    failure: function(form, action) {
-                        Ext.Msg.alert('Failed', action.result.msg);
-                    }
-                });
-            }
-        }
-    }]
-});
-
 
 	
-	var ajax = Ext.Ajax.request({
-  url: 'data/formdata.txt',
-  method: 'get',
-  success: function(response) {               
-    // response = Ext.JSON.decode(response.responseText);
-    treeDetail.add(Ext.decode(response.responseText).data);
-	treeDetail.doLayout();
-	}
-});
 
-
-
-
-	if(mappingWin==null){
+	if(mappingWin == null) {
 		mappingWin = Ext.create('widget.window', {
 			title : 'Please choose the mapping',
 			closable : true,
@@ -136,14 +136,12 @@ var mappingWin;
 			height : 350,
 			layout : 'column',
 			bodyStyle : 'padding: 5px;',
-			items : [{				
+			items : [{
 				xtype : 'tabpanel',
 				items : [tomcat6Tree, tomcat7Tree, jettyTree]
-			},treeDetail]
+			}, treeDetail]
 		});
-	}	
+	}
 	mappingWin.show();
 
-	
 });
-

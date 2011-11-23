@@ -39,7 +39,10 @@ public class MBeanType {
 	        TypedQuery<MBeanType> q = em.createQuery("SELECT o FROM MBeanType AS o WHERE o.name = :name AND o.mBeanDomain = :mBeanDomain", MBeanType.class);
 	        q.setParameter("name", name);
 	        q.setParameter("mBeanDomain", mBeanDomain);
-	        return q.getSingleResult();
+	        if(q.getResultList().size()>0)
+	        	return q.getSingleResult();
+	        else
+	        	return null;
 	    }
 	 
 	 

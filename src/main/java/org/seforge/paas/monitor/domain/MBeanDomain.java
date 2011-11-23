@@ -30,7 +30,10 @@ public class MBeanDomain {
         TypedQuery<MBeanDomain> q = em.createQuery("SELECT o FROM MBeanDomain AS o WHERE o.name = :name AND o.version = :version", MBeanDomain.class);
         q.setParameter("name", name);
         q.setParameter("version", version);
-        return q.getSingleResult();
+        if(q.getResultList().size()>0)
+        	return q.getSingleResult();
+        else 
+        	return null;
     }
 
     public static TypedQuery<org.seforge.paas.monitor.domain.MBeanDomain> findMBeanDomains(String name, String version) {
