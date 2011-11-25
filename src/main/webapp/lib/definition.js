@@ -979,6 +979,16 @@ AppInstance.prototype.clone = function() {
 }
 
 
+function MBeanAttribute(name){
+	this.name = name;
+}
+
+MBeanAttribute.prototype.objectName = null;
+
+MBeanAttribute.prototype.clone = function() {
+	return mxUtils.clone(this);
+}
+
 function addConfigs(object, cell, config) {
 	for(attri in object) {
 		if(attri != 'name' && attri != 'clone') {
@@ -991,8 +1001,103 @@ function addConfigs(object, cell, config) {
 }
 
 function mapping() {
+	var mappingWin;
+
+	var detailPanel = Ext.create('Ext.panel.Panel', {
+		width : 350
+
+	});
+
+	var showForm = function(view, record) {
+		if(record.get('leaf')) {
+			var version = this.up('tabpanel').getActiveTab().id;
+			var dnName = record.parentNode.data.text;
+			var typeName = record.data.text;
+
+			var attributes = Ext.create('Ext.data.Store', {
+				fields : ['id', 'name', 'info'],
+				proxy : {
+					type : 'ajax',
+					extraParams : {
+						version : version,
+						dnName : dnName,
+						typeName : typeName
+					},
+					url : 'jmx/mbeanattributes',
+					reader : {
+						type : 'json',
+						root : 'data'
+					}
+				},
+				autoLoad : true
+
+			});
+
+			var ajax = Ext.Ajax.request({
+				url : 'jmx/mbeaninfo',
+				params : {
+					version : version,
+					dnName : dnName,
+					typeName : typeName
+				},
+				method : 'get',
+				success : function(response) {
+					// response = Ext.JSON.decode(response.responseText);
+					detailPanel.removeAll();
+
+					var attribute = Ext.create('Ext.form.ComboBox', {
+						fieldLabel : 'Attribute',
+						store : attributes,
+						queryMode : 'local',
+						displayField : 'name',
+						valueField : 'id'
+					});
+					var treeDetail = Ext.create('widget.form', {
+						title : 'MBean Detail',
+						bodyPadding : 20,
+						width : 350,
+						autoheight : true,
+						layout : 'anchor',
+						defaults : {
+							anchor : '100%'
+						},
+						defaultType : 'textfield',
+						buttons : [{
+							text : 'Reset',
+							handler : function() {
+								this.up('form').getForm().reset();
+							}
+						}, {
+							text : 'Add',
+							formBind : true, // only enabled once the
+							// form is valid
+							disabled : true,
+							handler : function() {
+								var form = this.up('form').getForm();
+								if(form.isValid()) {
+									form.submit({
+										success : function(form, action) {
+											Ext.Msg.alert('Success', action.result.msg);
+										},
+										failure : function(form, action) {
+											Ext.Msg.alert('Failed', action.result.msg);
+										}
+									});
+								}
+							}
+						}]
+					});
+					treeDetail.add(Ext.decode(response.responseText).data);
+					treeDetail.add(attribute);
+					treeDetail.doLayout();
+					detailPanel.add(treeDetail);
+				}
+			});
+		}
+
+	};
 	var tomcat6Tree = Ext.create('Ext.tree.Panel', {
-		id : 'tomcat6Tree',
+		id : 'tomcat6',
 		title : 'Tomcat 6',
 		height : 300,
 		width : 200,
@@ -1007,11 +1112,14 @@ function mapping() {
 			root : {
 				expanded : true
 			}
-		})
+		}),
+		listeners : {
+			'itemclick' : showForm
+		}
 	});
 
 	var tomcat7Tree = Ext.create('Ext.tree.Panel', {
-		id : 'tomcat7Tree',
+		id : 'tomcat7',
 		title : 'Tomcat 7',
 		height : 300,
 		width : 200,
@@ -1026,12 +1134,15 @@ function mapping() {
 			root : {
 				expanded : true
 			}
-		})
+		}),
+		listeners : {
+			'itemclick' : showForm
+		}
 	});
 
 	var jettyTree = Ext.create('Ext.tree.Panel', {
-		id : 'jettyTree',
-		title : 'Jetty',
+		id : 'jetty8',
+		title : 'Jetty 8',
 		height : 300,
 		width : 200,
 		rootVisible : false,
@@ -1045,26 +1156,34 @@ function mapping() {
 			root : {
 				expanded : true
 			}
-		})
+		}),
+		listeners : {
+			'itemclick' : showForm
+		}
 	});
-	if(mappingWin==null){
+
+	if(mappingWin == null) {
 		mappingWin = Ext.create('widget.window', {
 			title : 'Please choose the mapping',
 			closable : true,
 			closeAction : 'hide',
 			//animateTarget: this,
-			width : 600,
+			width : 650,
 			height : 350,
-			layout : 'column',
+			layout : {
+				type : 'hbox', // Arrange child items vertically
+				align : 'stretch', // Each takes up full width
+				padding : 5
+
+			},
 			bodyStyle : 'padding: 5px;',
-			items : [{				
+			items : [{
 				xtype : 'tabpanel',
-				items : [tomcat6Tree, tomcat7Tree, jettyTree]
-			},{				
-				xtype : 'panel',
-				id : 'treeDetail'		
-			}]
+				width : 250,
+				items : [tomcat6Tree, tomcat7Tree, jettyTree],
+				margin : '0, 10, 0, 0'
+			}, detailPanel]
 		});
-	}	
+	}
 	mappingWin.show();
 }

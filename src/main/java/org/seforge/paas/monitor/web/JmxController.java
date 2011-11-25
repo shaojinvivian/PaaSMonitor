@@ -13,6 +13,7 @@ import org.seforge.paas.monitor.domain.MBeanAttribute;
 import org.seforge.paas.monitor.domain.MBeanDomain;
 import org.seforge.paas.monitor.domain.MBeanQueryParam;
 import org.seforge.paas.monitor.domain.MBeanType;
+import org.seforge.paas.monitor.extjs.JsonObjectResponse;
 import org.seforge.paas.monitor.extjs.TreeNode;
 import org.seforge.paas.monitor.monitor.JmxUtil;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ import flexjson.JSONSerializer;
 public class JmxController {
 	// http://localhost:8080/PaaSMonitor/jmx/propagate?ip=localhost&port=8999&version=jetty8&dnName=org.eclipse.jetty*
 	@RequestMapping(value = "/propagate", method = RequestMethod.GET)
-	public ResponseEntity<String> get(@RequestParam("ip") String ip,
+	public ResponseEntity<String> propagate(@RequestParam("ip") String ip,
 			@RequestParam("port") String port,
 			@RequestParam("dnName") String dnName,
 			@RequestParam("version") String version) {
@@ -160,7 +161,7 @@ public class JmxController {
 	}
 
 	@RequestMapping(value = "/tree", method = RequestMethod.GET)
-	public ResponseEntity<String> get(@RequestParam("dnName") String dnName,
+	public ResponseEntity<String> generateTree(@RequestParam("dnName") String dnName,
 			@RequestParam("version") String version) {
 		String s = buildTree(dnName, version);
 		return new ResponseEntity<String>(s, HttpStatus.OK);
@@ -169,13 +170,30 @@ public class JmxController {
 	// http://localhost:8080/PaaSMonitor/jmx/mbeaninfo?version=tomcat7&dnName=Catalina&typeName=WebModule
 
 	@RequestMapping(value = "/mbeaninfo", method = RequestMethod.GET)
-	public ResponseEntity<String> get(@RequestParam("dnName") String dnName,
+	public ResponseEntity<String> mbeaninfo(@RequestParam("dnName") String dnName,
 			@RequestParam("version") String version,
 			@RequestParam("typeName") String typeName) {
 		MBeanDomain domain = MBeanDomain.findUniqueMBeanDomain(dnName, version);		
 		MBeanType type = MBeanType.findMBeanTypeByNameAndDomain(typeName, domain);
 		Set<MBeanQueryParam> params = type.getMBeanQueryParams();		
 		return new ResponseEntity<String>(generateFormFields(params), HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value = "/mbeanattributes", method = RequestMethod.GET)
+	public ResponseEntity<String> mbeanattributes(@RequestParam("dnName") String dnName,
+			@RequestParam("version") String version,
+			@RequestParam("typeName") String typeName) {
+		MBeanDomain domain = MBeanDomain.findUniqueMBeanDomain(dnName, version);		
+		MBeanType type = MBeanType.findMBeanTypeByNameAndDomain(typeName, domain);
+		Set<MBeanAttribute> attributes = type.getMBeanAttributes();	
+		JsonObjectResponse response = new JsonObjectResponse();
+		response.setMessage("All MBeanAttributes retrieved.");
+		response.setSuccess(true);
+		response.setTotal(attributes.size());
+		response.setData(attributes);
+		String s = new JSONSerializer().exclude("*.class").exclude("data.MBeanType").exclude("data.info").exclude("data.version").serialize(response);
+		return new ResponseEntity<String>(s, HttpStatus.OK);
 	}
 	
 	
@@ -220,5 +238,6 @@ public class JmxController {
 		sb.append("]}");
 		return sb.toString();
 	}
-
+	
+	
 }
