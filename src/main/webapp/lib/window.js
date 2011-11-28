@@ -2,7 +2,6 @@ Ext.require(['Ext.window.Window', 'Ext.tab.*', 'Ext.toolbar.Spacer', 'Ext.layout
 
 Ext.onReady(function() {
 	var mappingWin;
-
 	Ext.define('MBeanAttribute', {
 		extend : 'Ext.data.Model',
 		fields : [{
@@ -20,11 +19,11 @@ Ext.onReady(function() {
 		}]
 	});
 
-	var upperRightPanel = Ext.create('Ext.panel.Panel', {
-		width : 350,
+	var upperRightPanel = Ext.create('Ext.container.Container', {
+		width : 500,
 		id : 'upperRightPanel',
-		layout : 'fit'
-
+		layout : 'fit',
+		height: 260
 	});
 
 	var gridStore = Ext.create('Ext.data.Store', {
@@ -35,12 +34,14 @@ Ext.onReady(function() {
 	var attributeGridPanel = Ext.create('Ext.grid.Panel', {
 		id : 'attributeGridPanel',
 		title : 'Added Mappings',
+		padding : '10, 0, 0, 0',		
 		columns : [{
 			header : 'Name',
 			dataIndex : 'name'
 		}, {
 			header : 'ObjectName',
-			dataIndex : 'objectName'
+			dataIndex : 'objectName',
+			flex : 2
 		}, {
 			header : 'Version',
 			dataIndex : 'version'
@@ -50,33 +51,27 @@ Ext.onReady(function() {
 		}],
 		store : gridStore
 	});
+	
+	attributeGridPanel.setVisible(false);
 
-	var lowerRightPanel = Ext.create('Ext.panel.Panel', {
-		id : 'lowerRightPanel',
-		layout : 'vbox',
-		items : [attributeGridPanel],
-		height : 500
-	});
-
-	var rightPanel = Ext.create('Ext.panel.Panel', {
-		width : 350,
+	
+	var rightPanel = Ext.create('Ext.container.Container', {
+		width : 500,
 		id : 'rightPanel',
-		layout : {
-			type : 'vbox',
-			align : 'stretch',
-			padding : 5
-		},
-		items : [upperRightPanel, lowerRightPanel]
+		layout : 'anchor',
+		items : [upperRightPanel, attributeGridPanel]
 
 	});
 
+	var attributesStore;
+	
 	var showForm = function(view, record) {
 		if(record.get('leaf')) {
 			var version = this.up('tabpanel').getActiveTab().id;
 			var dnName = record.parentNode.data.text;
 			var typeName = record.data.text;
 
-			var attributesStore = Ext.create('Ext.data.Store', {
+			attributesStore = Ext.create('Ext.data.Store', {
 				model : 'MBeanAttribute',
 				proxy : {
 					type : 'ajax',
@@ -116,8 +111,7 @@ Ext.onReady(function() {
 
 					var treeDetail = Ext.create('widget.form', {
 						title : 'MBean Detail',
-						bodyPadding : 20,
-						width : 350,
+						bodyPadding : 20,						
 						autoheight : true,
 						layout : 'anchor',
 						defaults : {
@@ -138,12 +132,20 @@ Ext.onReady(function() {
 								var form = this.up('form').getForm();
 								if(form.isValid()) {
 									var newItem = Ext.create('MBeanAttribute');
-									var objectName = dnName + ':type='+ typeName +  ',' ;									
+									var objectName = dnName + ':type='+ typeName ;
+									var fields = form.getFields().items;
+									// Don't add attribute to objectName
+									for(var i=0; i<fields.length-1; i++){
+										objectName += ',' + fields[i].getFieldLabel() + '=' + fields[i].getValue() ;										
+
+									}																		
 									newItem.set('name', attribute.displayTplData[0].name);
 									newItem.set('objectName', objectName);
 									newItem.set('version', version);
 									newItem.set('type', attribute.displayTplData[0].type)
-									gridStore.add(newItem);
+									gridStore.add(newItem);		
+									attributeGridPanel.setVisible(true);							
+									
 								}
 							}
 						}]
@@ -152,6 +154,7 @@ Ext.onReady(function() {
 					treeDetail.add(attribute);
 					treeDetail.doLayout();
 					upperRightPanel.add(treeDetail);
+					upperRightPanel.doLayout();
 				}
 			});
 		}
@@ -229,8 +232,8 @@ Ext.onReady(function() {
 			closable : true,
 			closeAction : 'hide',
 			//animateTarget: this,
-			width : 650,
-			height : 400,
+			width : 800,
+			height : 550,
 			layout : {
 				type : 'hbox', // Arrange child items vertically
 				align : 'stretch', // Each takes up full width
@@ -243,9 +246,20 @@ Ext.onReady(function() {
 				width : 250,
 				items : [tomcat6Tree, tomcat7Tree, jettyTree],
 				margin : '0, 10, 0, 0'
-			}, rightPanel]
+			}, rightPanel],
+			buttons: [{
+				text: 'Submit',
+				handler: submitMapping
+			}]
 		});
 	}
 	mappingWin.show();
+	
+	function submitMapping(){
+		if(attributesStore==null || attributesStore == undefined || attributesStore.getCount()<=0)
+			alert("No mapping has been added!");			
+		else
+			mappingWin.hide();
+	}
 
 });

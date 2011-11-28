@@ -242,8 +242,13 @@ function main(container, outline, toolbar, sidebar, status) {
 				if(cell.value.category == 'Control') {
 					label += '<img title="View" src="images/icons48/edit.png" width="16" height="16" align="top">&nbsp;';
 				}
+				
+				var mapped = '';
+				if(cell.value.mapped)
+					mapped = '&nbsp;&nbsp;<img title="Mapped" src="images/check.png" width="16" height="16" align="top">'
+				
 
-				return label + mxUtils.htmlEntities(cell.value.name, false) + '&nbsp;<span style="color:#B0B0B0; font-style: italic">' + mxUtils.htmlEntities(cell.value.type, false) + '</span>';
+				return label + mxUtils.htmlEntities(cell.value.name, false) + '&nbsp;<span style="color:#B0B0B0; font-style: italic">' + mxUtils.htmlEntities(cell.value.type, false) + '</span>'+ mapped;
 			}
 
 			return mxGraph.prototype.getLabel.apply(this, arguments);
@@ -295,19 +300,19 @@ function main(container, outline, toolbar, sidebar, status) {
 		addSidebarIcon(graph, sidebar, vim, 'images/icons48/bigvim.png');
 		addConfigs(vimObject, vim, attribute);
 		
-		var appServerObject = new AppServer('AppServer');
+		var appServerObject = new AppServer('Application Server');
 		var appServer = new mxCell(appServerObject, new mxGeometry(0, 0, 200, 28), 'appServer');
 		appServer.setVertex(true);
 		addSidebarIcon(graph, sidebar, appServer, 'images/icons48/tomcatserver.png');
 		addConfigs(appServerObject, appServer, attribute);
 		
-		var appObject = new App('App');
+		var appObject = new App('Application');
 		var app = new mxCell(appObject, new mxGeometry(0, 0, 200, 28), 'app');
 		app.setVertex(true);
 		addSidebarIcon(graph, sidebar, app, 'images/icons48/app.png');
 		addConfigs(appObject, app, attribute);
 		
-		var appInstanceObject = new AppInstance('AppInstance');
+		var appInstanceObject = new AppInstance('Application Instance');
 		var appInstance = new mxCell(appInstanceObject, new mxGeometry(0, 0, 200, 28), 'appInstance');
 		appInstance.setVertex(true);
 		addSidebarIcon(graph, sidebar, appInstance, 'images/icons48/appInstance.png');
@@ -406,7 +411,7 @@ function main(container, outline, toolbar, sidebar, status) {
 			*/
 			// if (graph.isHtmlLabel(cell))
 			// {
-			mapping();
+			mapping(graph, cell);
 			// }
 		});
 		addToolbarButton(editor, toolbar, 'delete', 'Delete', 'images/delete2.png');
@@ -915,6 +920,8 @@ function Attribute(name) {
 
 Attribute.prototype.type = 'String';
 Attribute.prototype.category = '';
+Attribute.prototype.mapped = false;
+Attribute.prototype.mapping = 'none';
 Attribute.prototype.clone = function() {
 	return mxUtils.clone(this);
 };
@@ -972,7 +979,7 @@ function AppInstance(name) {
 	this.name = name;
 }
 
-AppInstance.prototype.type = null;
+AppInstance.prototype.contextName = null;
 
 AppInstance.prototype.clone = function() {
 	return mxUtils.clone(this);
@@ -1000,22 +1007,79 @@ function addConfigs(object, cell, config) {
 	}
 }
 
-function mapping() {
+function mapping(graph, cell){
 	var mappingWin;
+	Ext.define('MBeanAttribute', {
+		extend : 'Ext.data.Model',
+		fields : [{
+			name : 'name',
+			type : 'string'
+		}, {
+			name : 'objectName',
+			type : 'string'
+		}, {
+			name : 'version',
+			type : 'string'
+		}, {
+			name : 'type',
+			type : 'string'
+		}]
+	});
 
-	var detailPanel = Ext.create('Ext.panel.Panel', {
-		width : 350
+	var upperRightPanel = Ext.create('Ext.container.Container', {
+		width : 500,
+		id : 'upperRightPanel',
+		layout : 'fit',
+		height: 260
+	});
+
+	var gridStore = Ext.create('Ext.data.Store', {
+		storeId : 'gridStore',
+		model : 'MBeanAttribute'
+	});
+
+	var attributeGridPanel = Ext.create('Ext.grid.Panel', {
+		id : 'attributeGridPanel',
+		title : 'Added Mappings',
+		padding : '10, 0, 0, 0',		
+		columns : [{
+			header : 'Name',
+			dataIndex : 'name'
+		}, {
+			header : 'ObjectName',
+			dataIndex : 'objectName',
+			flex : 2
+		}, {
+			header : 'Version',
+			dataIndex : 'version'
+		}, {
+			header : 'Type',
+			dataIndex : 'type'
+		}],
+		store : gridStore
+	});
+	
+	attributeGridPanel.setVisible(false);
+
+	
+	var rightPanel = Ext.create('Ext.container.Container', {
+		width : 500,
+		id : 'rightPanel',
+		layout : 'anchor',
+		items : [upperRightPanel, attributeGridPanel]
 
 	});
 
+	var attributesStore;
+	
 	var showForm = function(view, record) {
 		if(record.get('leaf')) {
 			var version = this.up('tabpanel').getActiveTab().id;
 			var dnName = record.parentNode.data.text;
 			var typeName = record.data.text;
 
-			var attributes = Ext.create('Ext.data.Store', {
-				fields : ['id', 'name', 'info'],
+			attributesStore = Ext.create('Ext.data.Store', {
+				model : 'MBeanAttribute',
 				proxy : {
 					type : 'ajax',
 					extraParams : {
@@ -1033,6 +1097,14 @@ function mapping() {
 
 			});
 
+			var attribute = Ext.create('Ext.form.ComboBox', {
+				fieldLabel : 'Attribute',
+				store : attributesStore,
+				queryMode : 'local',
+				displayField : 'name',				
+				// valueField : 'type'
+			});
+
 			var ajax = Ext.Ajax.request({
 				url : 'jmx/mbeaninfo',
 				params : {
@@ -1042,20 +1114,11 @@ function mapping() {
 				},
 				method : 'get',
 				success : function(response) {
-					// response = Ext.JSON.decode(response.responseText);
-					detailPanel.removeAll();
+					upperRightPanel.removeAll();
 
-					var attribute = Ext.create('Ext.form.ComboBox', {
-						fieldLabel : 'Attribute',
-						store : attributes,
-						queryMode : 'local',
-						displayField : 'name',
-						valueField : 'id'
-					});
 					var treeDetail = Ext.create('widget.form', {
 						title : 'MBean Detail',
-						bodyPadding : 20,
-						width : 350,
+						bodyPadding : 20,						
 						autoheight : true,
 						layout : 'anchor',
 						defaults : {
@@ -1075,14 +1138,21 @@ function mapping() {
 							handler : function() {
 								var form = this.up('form').getForm();
 								if(form.isValid()) {
-									form.submit({
-										success : function(form, action) {
-											Ext.Msg.alert('Success', action.result.msg);
-										},
-										failure : function(form, action) {
-											Ext.Msg.alert('Failed', action.result.msg);
-										}
-									});
+									var newItem = Ext.create('MBeanAttribute');
+									var objectName = dnName + ':type='+ typeName ;
+									var fields = form.getFields().items;
+									// Don't add attribute to objectName
+									for(var i=0; i<fields.length-1; i++){
+										objectName += ',' + fields[i].getFieldLabel() + '=' + fields[i].getValue() ;										
+
+									}																		
+									newItem.set('name', attribute.displayTplData[0].name);
+									newItem.set('objectName', objectName);
+									newItem.set('version', version);
+									newItem.set('type', attribute.displayTplData[0].type)
+									gridStore.add(newItem);		
+									attributeGridPanel.setVisible(true);							
+									
 								}
 							}
 						}]
@@ -1090,7 +1160,8 @@ function mapping() {
 					treeDetail.add(Ext.decode(response.responseText).data);
 					treeDetail.add(attribute);
 					treeDetail.doLayout();
-					detailPanel.add(treeDetail);
+					upperRightPanel.add(treeDetail);
+					upperRightPanel.doLayout();
 				}
 			});
 		}
@@ -1168,8 +1239,8 @@ function mapping() {
 			closable : true,
 			closeAction : 'hide',
 			//animateTarget: this,
-			width : 650,
-			height : 350,
+			width : 800,
+			height : 550,
 			layout : {
 				type : 'hbox', // Arrange child items vertically
 				align : 'stretch', // Each takes up full width
@@ -1182,8 +1253,32 @@ function mapping() {
 				width : 250,
 				items : [tomcat6Tree, tomcat7Tree, jettyTree],
 				margin : '0, 10, 0, 0'
-			}, detailPanel]
+			}, rightPanel],
+			buttons: [{
+				text: 'Submit',
+				handler: submitMapping
+			}]
 		});
 	}
 	mappingWin.show();
+	
+	function submitMapping(){
+		if(gridStore==null || gridStore == undefined || gridStore.getCount()<=0)
+			alert("No mapping has been added!");			
+		else
+		{			
+			var clone = cell.value.clone();
+			clone.mapped = true;					
+			var items = gridStore.data.items;
+			var mappingArray = new Array();
+			for(var i=0; i<gridStore.getCount(); i++){
+				var e = items[i].data;
+				mappingArray.push(e);	
+			}			
+			clone.mapping = Ext.encode(mappingArray);
+			graph.model.setValue(cell, clone);					
+			mappingWin.hide();
+		}
+			
+	}
 }
