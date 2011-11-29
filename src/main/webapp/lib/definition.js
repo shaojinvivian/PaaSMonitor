@@ -754,6 +754,8 @@ function addAttribute(graph, cell) {
 	var typeField = form.addCombo('Type', false, 1);
 	form.addOption(typeField, 'String', 'String', false);
 	form.addOption(typeField, 'int', 'int', false);
+	form.addOption(typeField, 'long', 'long', false);
+	form.addOption(typeField, 'boolean', 'boolean', false);
 
 	var categoryField = form.addCombo('Category', false, 1);
 	form.addOption(categoryField, 'Config', 'Config', false);
@@ -1007,9 +1009,9 @@ function addConfigs(object, cell, config) {
 	}
 }
 
-function mapping(graph, cell){
-	var mappingWin;
-	Ext.define('MBeanAttribute', {
+function mapping(graph, cell){	
+	if(mappingWin == null) {
+		Ext.define('MBeanAttribute', {
 		extend : 'Ext.data.Model',
 		fields : [{
 			name : 'name',
@@ -1023,11 +1025,14 @@ function mapping(graph, cell){
 		}, {
 			name : 'type',
 			type : 'string'
+		}, {
+			name : 'code',
+			type : 'string'
 		}]
 	});
 
 	var upperRightPanel = Ext.create('Ext.container.Container', {
-		width : 500,
+		width : 400,
 		id : 'upperRightPanel',
 		layout : 'fit',
 		height: 260
@@ -1037,7 +1042,7 @@ function mapping(graph, cell){
 		storeId : 'gridStore',
 		model : 'MBeanAttribute'
 	});
-
+	
 	var attributeGridPanel = Ext.create('Ext.grid.Panel', {
 		id : 'attributeGridPanel',
 		title : 'Added Mappings',
@@ -1056,19 +1061,55 @@ function mapping(graph, cell){
 			header : 'Type',
 			dataIndex : 'type'
 		}],
-		store : gridStore
+		store : gridStore,
+		listeners : {
+				'itemclick' : function(view, record) {
+					codePanel.setVisible(true);
+					codeArea.enable();	
+					codeArea.setRawValue(record.get('code'));					
+				}
+			}
 	});
 	
 	attributeGridPanel.setVisible(false);
+	
+	
+	var codeArea =  Ext.create('Ext.form.field.TextArea',{						
+				anchor: '-20, -20',
+				emptyText : 'Object transform(Object){}',
+				disabled : true,
+				padding: 10,
+				listeners : {				
+					'blur' : function(thisField, options) {
+						var selected = attributeGridPanel.getSelectionModel().getSelection();
+						selected[0].data.code = thisField.getRawValue();
+						codePanel.setVisible(false);
+					}
+				}				
+	});
+	
 
 	
 	var rightPanel = Ext.create('Ext.container.Container', {
-		width : 500,
+		width : 400,
 		id : 'rightPanel',
 		layout : 'anchor',
 		items : [upperRightPanel, attributeGridPanel]
 
 	});
+	
+	
+	
+	var codePanel = Ext.create('Ext.panel.Panel', {
+		width : 195,
+		id : 'codePanel',
+		title : 'Code Area',
+		layout : 'anchor',
+		items : [codeArea],
+		margin: '0, 0, 0, 5'
+
+	});
+	codePanel.setVisible(false);
 
 	var attributesStore;
 	
@@ -1151,7 +1192,7 @@ function mapping(graph, cell){
 									newItem.set('version', version);
 									newItem.set('type', attribute.displayTplData[0].type)
 									gridStore.add(newItem);		
-									attributeGridPanel.setVisible(true);							
+									attributeGridPanel.setVisible(true);						
 									
 								}
 							}
@@ -1232,14 +1273,14 @@ function mapping(graph, cell){
 			'itemclick' : showForm
 		}
 	});
-
-	if(mappingWin == null) {
+		
+		
 		mappingWin = Ext.create('widget.window', {
 			title : 'Please choose the mapping',
 			closable : true,
 			closeAction : 'hide',
 			//animateTarget: this,
-			width : 800,
+			width : 900,
 			height : 550,
 			layout : {
 				type : 'hbox', // Arrange child items vertically
@@ -1252,8 +1293,8 @@ function mapping(graph, cell){
 				xtype : 'tabpanel',
 				width : 250,
 				items : [tomcat6Tree, tomcat7Tree, jettyTree],
-				margin : '0, 10, 0, 0'
-			}, rightPanel],
+				margin : '0, 5, 0, 0'
+			}, rightPanel, codePanel],
 			buttons: [{
 				text: 'Submit',
 				handler: submitMapping
@@ -1278,7 +1319,6 @@ function mapping(graph, cell){
 			clone.mapping = Ext.encode(mappingArray);
 			graph.model.setValue(cell, clone);					
 			mappingWin.hide();
-		}
-			
+		}			
 	}
 }
