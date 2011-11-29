@@ -3,6 +3,8 @@
 // from the onLoad event handler of the document (see below).
 
 var mappingWin;
+var addAttributeWin;
+var showPropertyWin;
 
 function main(container, outline, toolbar, sidebar, status) {
 	// Checks if the browser is supported
@@ -725,51 +727,184 @@ function createPopupMenu(editor, graph, menu, cell, evt) {
 };
 
 function addAttribute(graph, cell) {
-	// Creates a form for the user object inside
-	// the cell
-	var form = new mxForm('addAttribute');
-	// Adds a field for the columnname
-	var nameField = form.addText('Name', '');
-	var typeField = form.addCombo('Type', false, 1);
-	form.addOption(typeField, 'String', 'String', false);
-	form.addOption(typeField, 'int', 'int', false);
-	form.addOption(typeField, 'long', 'long', false);
-	form.addOption(typeField, 'boolean', 'boolean', false);
-
-	var categoryField = form.addCombo('Category', false, 1);
-	form.addOption(categoryField, 'Config', 'Config', false);
-	form.addOption(categoryField, 'Monitor', 'Monitor', false);
-	form.addOption(categoryField, 'Control', 'Control', false);
-
-	var wnd = null;
-
-	// Defines the function to be executed when the
-	// OK button is pressed in the dialog
-	var okFunction = function() {
-		var attribute = cell.children[0].clone();
-		attribute.value.name = nameField.value;
-		attribute.value.type = typeField.value;
-		attribute.value.category = categoryField.value;
-		// attribute.value.value = valueField.value;
-
-		graph.model.beginUpdate();
-		try {
-			graph.addCell(attribute, cell);
-		} finally {
-			graph.model.endUpdate();
-		}
-		wnd.destroy();
+	if(addAttributeWin == null) {		
+		var nameField = Ext.create('Ext.form.field.Text',{
+				fieldLabel : 'Name',
+				name : 'name',				
+				allowBlank : false
+		});		
+		var types = Ext.create('Ext.data.Store', {
+			fields : ['name'],
+			data : [{
+				"name" : "String"
+			}, {
+				"name" : "int"
+			}, {
+				"name" : "long"
+			}, {
+				"name" : "boolean"
+			}]
+		});
+		var typeField = Ext.create('Ext.form.field.ComboBox', {
+			fieldLabel : 'Type',
+			store : types,
+			queryMode : 'local',
+			displayField : 'name',
+			valueField : 'name'
+		});		
+		var categories = Ext.create('Ext.data.Store', {
+			fields : ['name'],
+			data : [{
+				"name" : "Config"
+			}, {
+				"name" : "Monitor"
+			}, {
+				"name" : "Control"
+			}]
+		});
+		var categoryField = Ext.create('Ext.form.field.ComboBox', {
+			fieldLabel : 'Category',
+			store : categories,
+			queryMode : 'local',
+			displayField : 'name',
+			valueField : 'name'
+		});				
+		var form = Ext.create('Ext.form.Panel', {			
+			bodyPadding : 5,
+			layout : 'anchor',
+			defaults : {
+				anchor : '100%'
+			},
+			defaultType : 'textfield',
+			items : [nameField, typeField, categoryField],
+			// Reset and Submit buttons
+			buttons : [{
+				text : 'Submit',
+				formBind : true, //only enabled once the form is valid				
+				handler : function() {
+					var form = this.up('form').getForm();
+					if(form.isValid()) {
+						var attribute = cell.children[0].clone();
+						attribute.value.name = nameField.getValue();
+						attribute.value.type = typeField.getValue();
+						attribute.value.category = categoryField.getValue();				
+						graph.model.beginUpdate();
+						try {
+							graph.addCell(attribute, cell);
+						} finally {
+							graph.model.endUpdate();
+						}
+						addAttributeWin.hide();
+					}
+				}
+			}, {
+				text : 'Cancel',
+				handler : function() {
+					this.up('form').getForm().reset();
+					this.up('window').hide();
+				}
+			}]
+		});
+		var addAttributeWin = Ext.create('Ext.window.Window', {
+			title : 'Add a new attribute',
+			layout : 'fit',			
+			width : 300,
+			height : 150,
+			items : [form]
+		});
 	}
-	// Defines the function to be executed when the
-	// Cancel button is pressed in the dialog
-	var cancelFunction = function() {
-		wnd.destroy();
-	}
-	form.addButtons(okFunction, cancelFunction);
-	wnd = showModalWindow('Add an attribute', form.table, 240, 240);
+	addAttributeWin.show();	
 };
 
 function showProperties(graph, cell) {
+	if(showPropertyWin == null) {		
+		var nameField = Ext.create('Ext.form.field.Text',{
+				fieldLabel : 'Name',
+				name : 'name',				
+				allowBlank : false
+		});		
+		nameField.setRawValue(cell.value.name);
+		var types = Ext.create('Ext.data.Store', {
+			fields : ['name'],
+			data : [{
+				"name" : "String"
+			}, {
+				"name" : "int"
+			}, {
+				"name" : "long"
+			}, {
+				"name" : "boolean"
+			}]
+		});
+		var typeField = Ext.create('Ext.form.field.ComboBox', {
+			fieldLabel : 'Type',
+			store : types,
+			queryMode : 'local',
+			displayField : 'name',
+			valueField : 'name'
+		});		
+		
+		typeField.setRawValue(cell.value.type);
+		var categories = Ext.create('Ext.data.Store', {
+			fields : ['name'],
+			data : [{
+				"name" : "Config"
+			}, {
+				"name" : "Monitor"
+			}, {
+				"name" : "Control"
+			}]
+		});
+		var categoryField = Ext.create('Ext.form.field.ComboBox', {
+			fieldLabel : 'Category',
+			store : categories,
+			queryMode : 'local',
+			displayField : 'name',
+			valueField : 'name'
+		});		
+		categoryField.setRawValue(cell.value.category);		
+		var form = Ext.create('Ext.form.Panel', {			
+			bodyPadding : 5,
+			layout : 'anchor',
+			defaults : {
+				anchor : '100%'
+			},			
+			items : [nameField, typeField, categoryField],
+			// Reset and Submit buttons
+			buttons : [{
+				text : 'Submit',
+				formBind : true, //only enabled once the form is valid				
+				handler : function() {
+					var form = this.up('form').getForm();
+					if(form.isValid()) {
+						var clone = cell.value.clone();;
+						clone.name = nameField.getValue();
+						clone.type = typeField.getValue();
+						clone.category = categoryField.getValue();				
+						graph.model.setValue(cell, clone);
+						showPropertyWin.hide();
+					}
+				}
+			}, {
+				text : 'Cancel',
+				handler : function() {
+					this.up('form').getForm().reset();
+					this.up('window').hide();
+				}
+			}]
+		});
+		var showPropertyWin = Ext.create('Ext.window.Window', {
+			title : 'Properties of ' + cell.value.name,
+			layout : 'fit',			
+			width : 300,
+			height : 150,
+			items : [form]
+		});
+	}
+	showPropertyWin.show();	
+	
+	
+	/*
 	// Creates a form for the user object inside
 	// the cell
 	var form = new mxForm('properties');
@@ -821,6 +956,7 @@ function showProperties(graph, cell) {
 	var parent = graph.model.getParent(cell);
 	var name = parent.value.name + '.' + cell.value.name;
 	wnd = showModalWindow(name, form.table, 240, 240);
+	*/
 };
 
 function createEdgeTemplate(graph, name, icon, style, width, height, value) {
@@ -982,22 +1118,21 @@ function addConfigs(object, cell, config) {
 }
 
 function mapping(graph, cell) {
-	
-	var gridStore = Ext.create('Ext.data.Store', {
+
+	if(mappingWin == null) {
+
+		var gridStore = Ext.create('Ext.data.Store', {
 			storeId : 'gridStore',
 			model : 'PaaSMonitor.model.MBeanAttribute'
 		});
-	
-	
-	if(mappingWin == null) {		
 
 		var upperRightPanel = Ext.create('Ext.container.Container', {
 			width : 400,
 			id : 'upperRightPanel',
 			layout : 'fit',
 			height : 260
-		});		
-		
+		});
+
 		var attributeGridPanel = Ext.create('Ext.grid.Panel', {
 			id : 'attributeGridPanel',
 			title : 'Added Mappings',
@@ -1024,7 +1159,7 @@ function mapping(graph, cell) {
 					codeArea.setRawValue(record.get('code'));
 				}
 			}
-		});	
+		});
 
 		attributeGridPanel.setVisible(false);
 
@@ -1059,9 +1194,7 @@ function mapping(graph, cell) {
 
 		});
 		codePanel.setVisible(false);
-
 		var attributesStore;
-
 		var showForm = function(view, record) {
 			if(record.get('leaf')) {
 				var version = this.up('tabpanel').getActiveTab().id;
@@ -1232,7 +1365,6 @@ function mapping(graph, cell) {
 				type : 'hbox', // Arrange child items vertically
 				align : 'stretch', // Each takes up full width
 				padding : 5
-
 			},
 			bodyStyle : 'padding: 5px;',
 			items : [{
@@ -1243,34 +1375,46 @@ function mapping(graph, cell) {
 			}, rightPanel, codePanel]
 		});
 	}
-	
+
 	var submitButton = Ext.create('Ext.button.Button', {
 		text : 'Submit',
-				id : 'mappingSubmitButton'	,
-				dock : 'bottom',
-				handler: function() {
-					if(gridStore == null || gridStore == undefined || gridStore.getCount() <= 0)
-						alert("No mapping has been added!");
-					else {
-						var clone = cell.value.clone();
-						clone.mapped = true;
-						var items = gridStore.data.items;
-						var mappingArray = new Array();
-						for(var i = 0; i < gridStore.getCount(); i++) {
-							var e = items[i].data;
-							mappingArray.push(e);
-						}
-						clone.mapping = Ext.encode(mappingArray);
-						graph.model.setValue(cell, clone);
-						upperRightPanel.removeAll();
-						gridStore.removeAll();
-						attributeGridPanel.setVisible(false);
-						codePanel.setVisible(false);
-						mappingWin.hide();
-					}
+		id : 'mappingSubmitButton',
+		width : 100,
+		dock : 'bottom',
+		handler : function() {
+			var gridPanel = this.up('window').down('gridpanel');
+			var result = gridPanel.getStore();
+			if(result == null || result == undefined || result.getCount() <= 0)
+				alert("No mapping has been added!");
+			else {
+				var clone = cell.value.clone();
+				clone.mapped = true;
+				var items = result.data.items;
+				var mappingArray = new Array();
+				for(var i = 0; i < result.getCount(); i++) {
+					var e = items[i].data;
+					mappingArray.push(e);
 				}
+				clone.mapping = Ext.encode(mappingArray);
+				graph.model.setValue(cell, clone);
+				Ext.getCmp('upperRightPanel').removeAll();
+				result.removeAll();
+				gridPanel.setVisible(false);
+				Ext.getCmp('codePanel').setVisible(false);
+				mappingWin.hide();
+			}
+		}
 	});
-	
-	mappingWin.addDocked(submitButton);
+	mappingWin.remove('bottomBar');
+	mappingWin.addDocked({
+		xtype : 'toolbar',
+		id : 'bottomBar',
+		dock : 'bottom',
+		ui : 'footer',
+		items : [{
+			xtype : 'component',
+			flex : 1
+		}, submitButton]
+	});
 	mappingWin.show();
 }
