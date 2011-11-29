@@ -3,6 +3,7 @@ Ext.define('PaaSMonitor.controller.Model', {
 	// stores : ['Phyms', 'Vims', 'MoniteeTree', 'AppServers', 'AppInstances'],
 	// models : ['Phym', 'Vim', 'AppServer', 'AppInstance'],
 	views : ['model.Diagram', 'model.Definition'],
+	models : ['MBeanAttribute'],
 
 	init : function() {
 		this.control({			

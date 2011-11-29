@@ -15,7 +15,6 @@ function main(container, outline, toolbar, sidebar, status) {
 		mxConstants.SHADOWCOLOR = '#C0C0C0';
 		mxConstants.SHADOW_OFFSET_X = 5;
 		mxConstants.SHADOW_OFFSET_Y = 6;
-		
 
 		mxConstants.SVG_SHADOWTRANSFORM = 'translate(' + mxConstants.SHADOW_OFFSET_X + ' ' + mxConstants.SHADOW_OFFSET_Y + ')';
 
@@ -186,24 +185,23 @@ function main(container, outline, toolbar, sidebar, status) {
 		// Text label changes will go into the name field of the user object
 		/*
 		graph.model.valueForCellChanged = function(cell, value) {
-			if(value.name != null) {
-				return mxGraphModel.prototype.valueForCellChanged.apply(this, arguments);
-			} else {
-				var old = cell.value.name;
-				cell.value.name = value;
-				return old;
-			}
+		if(value.name != null) {
+		return mxGraphModel.prototype.valueForCellChanged.apply(this, arguments);
+		} else {
+		var old = cell.value.name;
+		cell.value.name = value;
+		return old;
+		}
 		};
 		*/
 		// Columns are dynamically created HTML labels
 		graph.isHtmlLabel = function(cell) {
 			return !this.isSwimlane(cell) && !this.model.isEdge(cell);
 		};
-		
 		// Edges are not editable
 		/*
 		graph.isCellEditable = function(cell) {
-			return !this.model.isEdge(cell);
+		return !this.model.isEdge(cell);
 		};
 		*/
 		// Returns the name field of the user object for the label
@@ -242,13 +240,11 @@ function main(container, outline, toolbar, sidebar, status) {
 				if(cell.value.category == 'Control') {
 					label += '<img title="View" src="images/icons48/edit.png" width="16" height="16" align="top">&nbsp;';
 				}
-				
+
 				var mapped = '';
 				if(cell.value.mapped)
 					mapped = '&nbsp;&nbsp;<img title="Mapped" src="images/check.png" width="16" height="16" align="top">'
-				
-
-				return label + mxUtils.htmlEntities(cell.value.name, false) + '&nbsp;<span style="color:#B0B0B0; font-style: italic">' + mxUtils.htmlEntities(cell.value.type, false) + '</span>'+ mapped;
+				return label + mxUtils.htmlEntities(cell.value.name, false) + '&nbsp;<span style="color:#B0B0B0; font-style: italic">' + mxUtils.htmlEntities(cell.value.type, false) + '</span>' + mapped;
 			}
 
 			return mxGraph.prototype.getLabel.apply(this, arguments);
@@ -257,17 +253,17 @@ function main(container, outline, toolbar, sidebar, status) {
 		// Removes the source vertex if edges are removed
 		/*
 		graph.addListener(mxEvent.REMOVE_CELLS, function(sender, evt) {
-			var cells = evt.getProperty('cells');
+		var cells = evt.getProperty('cells');
 
-			for(var i = 0; i < cells.length; i++) {
-				var cell = cells[i];
+		for(var i = 0; i < cells.length; i++) {
+		var cell = cells[i];
 
-				if(this.model.isEdge(cell)) {
-					var terminal = this.model.getTerminal(cell, true);
-					var parent = this.model.getParent(terminal);
-					this.model.remove(terminal);
-				}
-			}
+		if(this.model.isEdge(cell)) {
+		var terminal = this.model.getTerminal(cell, true);
+		var parent = this.model.getParent(terminal);
+		this.model.remove(terminal);
+		}
+		}
 		});
 		*/
 		// Disables drag-and-drop into non-swimlanes.
@@ -280,49 +276,46 @@ function main(container, outline, toolbar, sidebar, status) {
 		};
 		// Adds all required styles to the graph (see below)
 		configureStylesheet(graph);
-				
-		
+
 		// Adds sidebar icon for each object
 		var attributeObject = new Attribute('ATTRIBUTENAME');
 		var attribute = new mxCell(attributeObject, new mxGeometry(0, 0, 0, 26));
 		attribute.setVertex(true);
 		attribute.setConnectable(false);
-		
+
 		var phymObject = new Phym('Phym');
 		var phym = new mxCell(phymObject, new mxGeometry(0, 0, 200, 28), 'phym');
 		phym.setVertex(true);
 		addSidebarIcon(graph, sidebar, phym, 'images/icons48/phym.png');
 		addConfigs(phymObject, phym, attribute);
-		
+
 		var vimObject = new Vim('Vim');
 		var vim = new mxCell(vimObject, new mxGeometry(0, 0, 200, 28), 'vim');
 		vim.setVertex(true);
 		addSidebarIcon(graph, sidebar, vim, 'images/icons48/bigvim.png');
 		addConfigs(vimObject, vim, attribute);
-		
+
 		var appServerObject = new AppServer('Application Server');
 		var appServer = new mxCell(appServerObject, new mxGeometry(0, 0, 200, 28), 'appServer');
 		appServer.setVertex(true);
 		addSidebarIcon(graph, sidebar, appServer, 'images/icons48/tomcatserver.png');
 		addConfigs(appServerObject, appServer, attribute);
-		
+
 		var appObject = new App('Application');
 		var app = new mxCell(appObject, new mxGeometry(0, 0, 200, 28), 'app');
 		app.setVertex(true);
 		addSidebarIcon(graph, sidebar, app, 'images/icons48/app.png');
 		addConfigs(appObject, app, attribute);
-		
+
 		var appInstanceObject = new AppInstance('Application Instance');
 		var appInstance = new mxCell(appInstanceObject, new mxGeometry(0, 0, 200, 28), 'appInstance');
 		appInstance.setVertex(true);
 		addSidebarIcon(graph, sidebar, appInstance, 'images/icons48/appInstance.png');
 		addConfigs(appInstanceObject, appInstance, attribute);
-		
+
 		sidebar.appendChild(createEdgeTemplate(graph, 'libStraight', 'images/straight.gif', 'edgeStyle=none', 100, 100));
 
 		sidebar.appendChild(createEdgeTemplate(graph, 'libEntityRel', 'images/entity.gif', 'edgeStyle=entityRelationEdgeStyle', 100, 100));
-
-	
 
 		/*
 		// Adds child columns for new connections between tables
@@ -603,9 +596,6 @@ function addSidebarIcon(graph, sidebar, prototype, image) {
 		graph.setSelectionCell(v1);
 
 	}
-	
-	
-	
 	// Creates the image which is used as the sidebar icon (drag source)
 	var img = document.createElement('img');
 	img.setAttribute('src', image);
@@ -640,8 +630,7 @@ function addSidebarIcon(graph, sidebar, prototype, image) {
 	};
 };
 
-
-function createMoniteeStyleObject(image){
+function createMoniteeStyleObject(image) {
 	style = new Object();
 	style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_SWIMLANE;
 	style[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;
@@ -663,8 +652,6 @@ function createMoniteeStyleObject(image){
 	return style;
 }
 
-
-
 function configureStylesheet(graph) {
 	var style = new Object();
 	style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_RECTANGLE;
@@ -678,32 +665,24 @@ function configureStylesheet(graph) {
 	style[mxConstants.STYLE_IMAGE_WIDTH] = '48';
 	style[mxConstants.STYLE_IMAGE_HEIGHT] = '48';
 	graph.getStylesheet().putDefaultVertexStyle(style);
-	
-	
 	phymStyle = createMoniteeStyleObject('images/icons48/phym.png');
 	graph.getStylesheet().putCellStyle('phym', phymStyle);
-	
 	vimStyle = createMoniteeStyleObject('images/icons48/bigvim.png');
 	graph.getStylesheet().putCellStyle('vim', vimStyle);
-	
 	appServerStyle = createMoniteeStyleObject('images/icons48/tomcatserver.png');
 	graph.getStylesheet().putCellStyle('appServer', appServerStyle);
-	
 	appStyle = createMoniteeStyleObject('images/icons48/app.png');
-	graph.getStylesheet().putCellStyle('app', appStyle);	
-	
+	graph.getStylesheet().putCellStyle('app', appStyle);
 	appInstanceStyle = createMoniteeStyleObject('images/icons48/appInstance.png');
 	graph.getStylesheet().putCellStyle('appInstance', appInstanceStyle);
+	style = graph.stylesheet.getDefaultEdgeStyle();
+	style[mxConstants.STYLE_LABEL_BACKGROUNDCOLOR] = '#FFFFFF';
+	style[mxConstants.STYLE_STROKEWIDTH] = '2';
+	style[mxConstants.STYLE_ROUNDED] = true;
+	style[mxConstants.STYLE_ENDARROW] = mxConstants.ARROW_DIAMOND;
 
-	
-	 style = graph.stylesheet.getDefaultEdgeStyle();
-	 style[mxConstants.STYLE_LABEL_BACKGROUNDCOLOR] = '#FFFFFF';
-	 style[mxConstants.STYLE_STROKEWIDTH] = '2';
-	 style[mxConstants.STYLE_ROUNDED] = true;	
-	 style[mxConstants.STYLE_ENDARROW] = mxConstants.ARROW_DIAMOND;
+	// style[mxConstants.STYLE_EDGE] = mxEdgeStyle.EntityRelation;
 
-	 // style[mxConstants.STYLE_EDGE] = mxEdgeStyle.EntityRelation;
-	 
 };
 
 // Function to create the entries in the popupmenu
@@ -961,11 +940,9 @@ Phym.prototype.ip = null;
 Phym.prototype.username = null;
 Phym.prototype.password = null;
 
-
 Phym.prototype.clone = function() {
 	return mxUtils.clone(this);
 }
-
 function App(name) {
 	this.name = name;
 }
@@ -975,8 +952,6 @@ App.prototype.type = null;
 App.prototype.clone = function() {
 	return mxUtils.clone(this);
 }
-
-
 function AppInstance(name) {
 	this.name = name;
 }
@@ -986,9 +961,7 @@ AppInstance.prototype.contextName = null;
 AppInstance.prototype.clone = function() {
 	return mxUtils.clone(this);
 }
-
-
-function MBeanAttribute(name){
+function MBeanAttribute(name) {
 	this.name = name;
 }
 
@@ -997,7 +970,6 @@ MBeanAttribute.prototype.objectName = null;
 MBeanAttribute.prototype.clone = function() {
 	return mxUtils.clone(this);
 }
-
 function addConfigs(object, cell, config) {
 	for(attri in object) {
 		if(attri != 'name' && attri != 'clone') {
@@ -1009,272 +981,246 @@ function addConfigs(object, cell, config) {
 	}
 }
 
-function mapping(graph, cell){	
-	if(mappingWin == null) {
-		Ext.define('MBeanAttribute', {
-		extend : 'Ext.data.Model',
-		fields : [{
-			name : 'name',
-			type : 'string'
-		}, {
-			name : 'objectName',
-			type : 'string'
-		}, {
-			name : 'version',
-			type : 'string'
-		}, {
-			name : 'type',
-			type : 'string'
-		}, {
-			name : 'code',
-			type : 'string'
-		}]
-	});
-
-	var upperRightPanel = Ext.create('Ext.container.Container', {
-		width : 400,
-		id : 'upperRightPanel',
-		layout : 'fit',
-		height: 260
-	});
-
-	var gridStore = Ext.create('Ext.data.Store', {
-		storeId : 'gridStore',
-		model : 'MBeanAttribute'
-	});
+function mapping(graph, cell) {
 	
-	var attributeGridPanel = Ext.create('Ext.grid.Panel', {
-		id : 'attributeGridPanel',
-		title : 'Added Mappings',
-		padding : '10, 0, 0, 0',		
-		columns : [{
-			header : 'Name',
-			dataIndex : 'name'
-		}, {
-			header : 'ObjectName',
-			dataIndex : 'objectName',
-			flex : 2
-		}, {
-			header : 'Version',
-			dataIndex : 'version'
-		}, {
-			header : 'Type',
-			dataIndex : 'type'
-		}],
-		store : gridStore,
-		listeners : {
+	var gridStore = Ext.create('Ext.data.Store', {
+			storeId : 'gridStore',
+			model : 'PaaSMonitor.model.MBeanAttribute'
+		});
+	
+	
+	if(mappingWin == null) {		
+
+		var upperRightPanel = Ext.create('Ext.container.Container', {
+			width : 400,
+			id : 'upperRightPanel',
+			layout : 'fit',
+			height : 260
+		});		
+		
+		var attributeGridPanel = Ext.create('Ext.grid.Panel', {
+			id : 'attributeGridPanel',
+			title : 'Added Mappings',
+			padding : '10, 0, 0, 0',
+			columns : [{
+				header : 'Name',
+				dataIndex : 'name'
+			}, {
+				header : 'ObjectName',
+				dataIndex : 'objectName',
+				flex : 2
+			}, {
+				header : 'Version',
+				dataIndex : 'version'
+			}, {
+				header : 'Type',
+				dataIndex : 'type'
+			}],
+			store : gridStore,
+			listeners : {
 				'itemclick' : function(view, record) {
 					codePanel.setVisible(true);
-					codeArea.enable();	
-					codeArea.setRawValue(record.get('code'));					
+					codeArea.enable();
+					codeArea.setRawValue(record.get('code'));
 				}
 			}
-	});
-	
-	attributeGridPanel.setVisible(false);
-	
-	
-	var codeArea =  Ext.create('Ext.form.field.TextArea',{						
-				anchor: '-20, -20',
-				emptyText : 'Object transform(Object){}',
-				disabled : true,
-				padding: 10,
-				listeners : {				
-					'blur' : function(thisField, options) {
-						var selected = attributeGridPanel.getSelectionModel().getSelection();
-						selected[0].data.code = thisField.getRawValue();
-						codePanel.setVisible(false);
-					}
-				}				
-	});
-	
+		});	
 
-	
-	var rightPanel = Ext.create('Ext.container.Container', {
-		width : 400,
-		id : 'rightPanel',
-		layout : 'anchor',
-		items : [upperRightPanel, attributeGridPanel]
+		attributeGridPanel.setVisible(false);
 
-	});
-	
-	
-	
-	var codePanel = Ext.create('Ext.panel.Panel', {
-		width : 195,
-		id : 'codePanel',
-		title : 'Code Area',
-		layout : 'anchor',
-		items : [codeArea],
-		margin: '0, 0, 0, 5'
+		var codeArea = Ext.create('Ext.form.field.TextArea', {
+			anchor : '-20, -20',
+			emptyText : 'Object transform(Object){}',
+			disabled : true,
+			padding : 10,
+			listeners : {
+				'blur' : function(thisField, options) {
+					var selected = attributeGridPanel.getSelectionModel().getSelection();
+					selected[0].data.code = thisField.getRawValue();
+					codePanel.setVisible(false);
+				}
+			}
+		});
 
-	});
-	codePanel.setVisible(false);
+		var rightPanel = Ext.create('Ext.container.Container', {
+			width : 400,
+			id : 'rightPanel',
+			layout : 'anchor',
+			items : [upperRightPanel, attributeGridPanel]
+		});
 
-	var attributesStore;
-	
-	var showForm = function(view, record) {
-		if(record.get('leaf')) {
-			var version = this.up('tabpanel').getActiveTab().id;
-			var dnName = record.parentNode.data.text;
-			var typeName = record.data.text;
+		var codePanel = Ext.create('Ext.panel.Panel', {
+			width : 195,
+			id : 'codePanel',
+			title : 'Code Area',
+			layout : 'anchor',
+			items : [codeArea],
+			margin : '0, 0, 0, 5'
 
-			attributesStore = Ext.create('Ext.data.Store', {
-				model : 'MBeanAttribute',
-				proxy : {
-					type : 'ajax',
-					extraParams : {
+		});
+		codePanel.setVisible(false);
+
+		var attributesStore;
+
+		var showForm = function(view, record) {
+			if(record.get('leaf')) {
+				var version = this.up('tabpanel').getActiveTab().id;
+				var dnName = record.parentNode.data.text;
+				var typeName = record.data.text;
+				attributesStore = Ext.create('Ext.data.Store', {
+					model : 'PaaSMonitor.model.MBeanAttribute',
+					proxy : {
+						type : 'ajax',
+						extraParams : {
+							version : version,
+							dnName : dnName,
+							typeName : typeName
+						},
+						url : 'jmx/mbeanattributes',
+						reader : {
+							type : 'json',
+							root : 'data'
+						}
+					},
+					autoLoad : true
+
+				});
+
+				var attribute = Ext.create('Ext.form.ComboBox', {
+					fieldLabel : 'Attribute',
+					store : attributesStore,
+					queryMode : 'local',
+					displayField : 'name',
+					// valueField : 'type'
+				});
+
+				var ajax = Ext.Ajax.request({
+					url : 'jmx/mbeaninfo',
+					params : {
 						version : version,
 						dnName : dnName,
 						typeName : typeName
 					},
-					url : 'jmx/mbeanattributes',
-					reader : {
-						type : 'json',
-						root : 'data'
-					}
-				},
-				autoLoad : true
+					method : 'get',
+					success : function(response) {
+						upperRightPanel.removeAll();
 
-			});
-
-			var attribute = Ext.create('Ext.form.ComboBox', {
-				fieldLabel : 'Attribute',
-				store : attributesStore,
-				queryMode : 'local',
-				displayField : 'name',				
-				// valueField : 'type'
-			});
-
-			var ajax = Ext.Ajax.request({
-				url : 'jmx/mbeaninfo',
-				params : {
-					version : version,
-					dnName : dnName,
-					typeName : typeName
-				},
-				method : 'get',
-				success : function(response) {
-					upperRightPanel.removeAll();
-
-					var treeDetail = Ext.create('widget.form', {
-						title : 'MBean Detail',
-						bodyPadding : 20,						
-						autoheight : true,
-						layout : 'anchor',
-						defaults : {
-							anchor : '100%'
-						},
-						defaultType : 'textfield',
-						buttons : [{
-							text : 'Reset',
-							handler : function() {
-								this.up('form').getForm().reset();
-							}
-						}, {
-							text : 'Add',
-							formBind : true, // only enabled once the
-							// form is valid
-							disabled : true,
-							handler : function() {
-								var form = this.up('form').getForm();
-								if(form.isValid()) {
-									var newItem = Ext.create('MBeanAttribute');
-									var objectName = dnName + ':type='+ typeName ;
-									var fields = form.getFields().items;
-									// Don't add attribute to objectName
-									for(var i=0; i<fields.length-1; i++){
-										objectName += ',' + fields[i].getFieldLabel() + '=' + fields[i].getValue() ;										
-
-									}																		
-									newItem.set('name', attribute.displayTplData[0].name);
-									newItem.set('objectName', objectName);
-									newItem.set('version', version);
-									newItem.set('type', attribute.displayTplData[0].type)
-									gridStore.add(newItem);		
-									attributeGridPanel.setVisible(true);						
-									
+						var treeDetail = Ext.create('widget.form', {
+							title : 'MBean Detail',
+							bodyPadding : 20,
+							autoheight : true,
+							layout : 'anchor',
+							defaults : {
+								anchor : '100%'
+							},
+							defaultType : 'textfield',
+							buttons : [{
+								text : 'Reset',
+								handler : function() {
+									this.up('form').getForm().reset();
 								}
-							}
-						}]
-					});
-					treeDetail.add(Ext.decode(response.responseText).data);
-					treeDetail.add(attribute);
-					treeDetail.doLayout();
-					upperRightPanel.add(treeDetail);
-					upperRightPanel.doLayout();
+							}, {
+								text : 'Add',
+								formBind : true, // only enabled once the
+								// form is valid
+								disabled : true,
+								handler : function() {
+									var form = this.up('form').getForm();
+									if(form.isValid()) {
+										var newItem = Ext.create('PaaSMonitor.model.MBeanAttribute');
+										var objectName = dnName + ':type=' + typeName;
+										var fields = form.getFields().items;
+										// Don't add attribute to objectName
+										for(var i = 0; i < fields.length - 1; i++) {
+											objectName += ',' + fields[i].getFieldLabel() + '=' + fields[i].getValue();
+
+										}
+										newItem.set('name', attribute.displayTplData[0].name);
+										newItem.set('objectName', objectName);
+										newItem.set('version', version);
+										newItem.set('type', attribute.displayTplData[0].type)
+										gridStore.add(newItem);
+										attributeGridPanel.setVisible(true);
+
+									}
+								}
+							}]
+						});
+						treeDetail.add(Ext.decode(response.responseText).data);
+						treeDetail.add(attribute);
+						treeDetail.doLayout();
+						upperRightPanel.add(treeDetail);
+						upperRightPanel.doLayout();
+					}
+				});
+			}
+
+		};
+		var tomcat6Tree = Ext.create('Ext.tree.Panel', {
+			id : 'tomcat6',
+			title : 'Tomcat 6',
+			height : 300,
+			width : 200,
+			rootVisible : false,
+			autoScroll : true,
+			collapsible : true,
+			store : Ext.create('Ext.data.TreeStore', {
+				proxy : {
+					type : 'ajax',
+					url : 'data/tomcat6-tree.txt'
+				},
+				root : {
+					expanded : true
 				}
-			});
-		}
-
-	};
-	var tomcat6Tree = Ext.create('Ext.tree.Panel', {
-		id : 'tomcat6',
-		title : 'Tomcat 6',
-		height : 300,
-		width : 200,
-		rootVisible : false,
-		autoScroll : true,
-		collapsible : true,
-		store : Ext.create('Ext.data.TreeStore', {
-			proxy : {
-				type : 'ajax',
-				url : 'data/tomcat6-tree.txt'
-			},
-			root : {
-				expanded : true
+			}),
+			listeners : {
+				'itemclick' : showForm
 			}
-		}),
-		listeners : {
-			'itemclick' : showForm
-		}
-	});
+		});
 
-	var tomcat7Tree = Ext.create('Ext.tree.Panel', {
-		id : 'tomcat7',
-		title : 'Tomcat 7',
-		height : 300,
-		width : 200,
-		rootVisible : false,
-		autoScroll : true,
-		collapsible : true,
-		store : Ext.create('Ext.data.TreeStore', {
-			proxy : {
-				type : 'ajax',
-				url : 'data/tomcat7-tree.txt'
-			},
-			root : {
-				expanded : true
+		var tomcat7Tree = Ext.create('Ext.tree.Panel', {
+			id : 'tomcat7',
+			title : 'Tomcat 7',
+			height : 300,
+			width : 200,
+			rootVisible : false,
+			autoScroll : true,
+			collapsible : true,
+			store : Ext.create('Ext.data.TreeStore', {
+				proxy : {
+					type : 'ajax',
+					url : 'data/tomcat7-tree.txt'
+				},
+				root : {
+					expanded : true
+				}
+			}),
+			listeners : {
+				'itemclick' : showForm
 			}
-		}),
-		listeners : {
-			'itemclick' : showForm
-		}
-	});
+		});
 
-	var jettyTree = Ext.create('Ext.tree.Panel', {
-		id : 'jetty8',
-		title : 'Jetty 8',
-		height : 300,
-		width : 200,
-		rootVisible : false,
-		autoScroll : true,
-		collapsible : true,
-		store : Ext.create('Ext.data.TreeStore', {
-			proxy : {
-				type : 'ajax',
-				url : 'data/jetty-tree.txt'
-			},
-			root : {
-				expanded : true
+		var jettyTree = Ext.create('Ext.tree.Panel', {
+			id : 'jetty8',
+			title : 'Jetty 8',
+			height : 300,
+			width : 200,
+			rootVisible : false,
+			autoScroll : true,
+			collapsible : true,
+			store : Ext.create('Ext.data.TreeStore', {
+				proxy : {
+					type : 'ajax',
+					url : 'data/jetty-tree.txt'
+				},
+				root : {
+					expanded : true
+				}
+			}),
+			listeners : {
+				'itemclick' : showForm
 			}
-		}),
-		listeners : {
-			'itemclick' : showForm
-		}
-	});
-		
-		
+		});
 		mappingWin = Ext.create('widget.window', {
 			title : 'Please choose the mapping',
 			closable : true,
@@ -1294,31 +1240,37 @@ function mapping(graph, cell){
 				width : 250,
 				items : [tomcat6Tree, tomcat7Tree, jettyTree],
 				margin : '0, 5, 0, 0'
-			}, rightPanel, codePanel],
-			buttons: [{
-				text: 'Submit',
-				handler: submitMapping
-			}]
+			}, rightPanel, codePanel]
 		});
 	}
-	mappingWin.show();
 	
-	function submitMapping(){
-		if(gridStore==null || gridStore == undefined || gridStore.getCount()<=0)
-			alert("No mapping has been added!");			
-		else
-		{			
-			var clone = cell.value.clone();
-			clone.mapped = true;					
-			var items = gridStore.data.items;
-			var mappingArray = new Array();
-			for(var i=0; i<gridStore.getCount(); i++){
-				var e = items[i].data;
-				mappingArray.push(e);	
-			}			
-			clone.mapping = Ext.encode(mappingArray);
-			graph.model.setValue(cell, clone);					
-			mappingWin.hide();
-		}			
-	}
+	var submitButton = Ext.create('Ext.button.Button', {
+		text : 'Submit',
+				id : 'mappingSubmitButton'	,
+				dock : 'bottom',
+				handler: function() {
+					if(gridStore == null || gridStore == undefined || gridStore.getCount() <= 0)
+						alert("No mapping has been added!");
+					else {
+						var clone = cell.value.clone();
+						clone.mapped = true;
+						var items = gridStore.data.items;
+						var mappingArray = new Array();
+						for(var i = 0; i < gridStore.getCount(); i++) {
+							var e = items[i].data;
+							mappingArray.push(e);
+						}
+						clone.mapping = Ext.encode(mappingArray);
+						graph.model.setValue(cell, clone);
+						upperRightPanel.removeAll();
+						gridStore.removeAll();
+						attributeGridPanel.setVisible(false);
+						codePanel.setVisible(false);
+						mappingWin.hide();
+					}
+				}
+	});
+	
+	mappingWin.addDocked(submitButton);
+	mappingWin.show();
 }
