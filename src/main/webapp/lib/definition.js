@@ -6,6 +6,7 @@ var mappingWin;
 var addAttributeWin;
 var showPropertyWin;
 
+
 function main(container, outline, toolbar, sidebar, status) {
 	// Checks if the browser is supported
 	if(!mxClient.isBrowserSupported()) {
@@ -471,6 +472,7 @@ function main(container, outline, toolbar, sidebar, status) {
 		var req = mxUtils.load('model.xml');
 		var root = req.getDocumentElement();
 		var dec = new mxCodec(root);
+		graph.getModel().beginUpdate();
 		dec.decode(root, graph.getModel());
 		graph.getModel().endUpdate();
 

@@ -1,17 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mxGraphModel>
-	<root>
-		<mxCell id="0"/>
-		<mxCell id="1" parent="0"/>
-		<mxCell id="3" style="appServer" vertex="1" parent="1">
-			<AppServer name="127.0.0.1" as="value"/>
-			<mxGeometry x="240" y="40" width="200" height="54" as="geometry">
-				<mxRectangle width="200" height="80" as="alternateBounds"/>
-			</mxGeometry>
-		</mxCell>
-		<mxCell id="4" connectable="0" vertex="1" parent="3">
-			<Attribute name="status" value="STARTED" category="Monitor" as="value"/>
-			<mxGeometry y="28" width="200" height="26" as="geometry"/>
-		</mxCell>
-	</root>
-</mxGraphModel>
+<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/><mxCell id="3" style="appServer" vertex="1" parent="1"><AppServer name="192.168.233.1" as="value"/><mxGeometry x="20" y="40" width="200" height="80" as="geometry"><mxRectangle width="200" height="80" as="alternateBounds"/></mxGeometry></mxCell><mxCell id="4" connectable="0" vertex="1" parent="3"><Attribute name="status" value="STARTED" category="Monitor" as="value"/><mxGeometry y="28" width="200" height="26" as="geometry"/></mxCell><mxCell id="5" connectable="0" vertex="1" parent="3"><Attribute name="info" value="Apache Tomcat/7.0.20" category="Monitor" as="value"/><mxGeometry y="54" width="200" height="26" as="geometry"/></mxCell><mxCell id="6" style="appServer" vertex="1" parent="1"><AppServer name="127.0.0.1" as="value"/><mxGeometry x="240" y="40" width="200" height="80" as="geometry"><mxRectangle width="200" height="80" as="alternateBounds"/></mxGeometry></mxCell><mxCell id="7" connectable="0" vertex="1" parent="6"><Attribute name="status" value="STARTED" category="Monitor" as="value"/><mxGeometry y="28" width="200" height="26" as="geometry"/></mxCell><mxCell id="8" connectable="0" vertex="1" parent="6"><Attribute name="info" value="Apache Tomcat/7.0.20" category="Monitor" as="value"/><mxGeometry y="54" width="200" height="26" as="geometry"/></mxCell><mxCell id="9" style="appServer" vertex="1" parent="1"><AppServer name="192.168.4.168" as="value"/><mxGeometry x="460" y="40" width="200" height="80" as="geometry"><mxRectangle width="200" height="80" as="alternateBounds"/></mxGeometry></mxCell><mxCell id="10" connectable="0" vertex="1" parent="9"><Attribute name="status" value="Apache Tomcat/6.0.20" category="Monitor" as="value"/><mxGeometry y="28" width="200" height="26" as="geometry"/></mxCell><mxCell id="11" connectable="0" vertex="1" parent="9"><Attribute name="info" value="Apache Tomcat/6.0.20" category="Monitor" as="value"/><mxGeometry y="54" width="200" height="26" as="geometry"/></mxCell></root></mxGraphModel>

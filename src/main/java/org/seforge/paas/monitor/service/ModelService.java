@@ -183,10 +183,11 @@ public class ModelService {
 		mxCell1.addAttribute("parent", "0");
 
 		int index = 2;
+		int lastX = -200;
+		int lastY = 40;
 
 		for (Model model : models) {
-			int lastX = 20;
-			int lastY = 40;
+			
 			if (model.getName().equals("AppServer")) {
 				int attributeNum = model.getMonitorAttributes().size()
 						+ model.getControlAttributes().size();
@@ -214,9 +215,9 @@ public class ModelService {
 				rectangle.addAttribute("width", "200");
 				rectangle.addAttribute("height", "80");
 				rectangle.addAttribute("as", "alternateBounds");				
-
+				int initialY = 2;
 				for (String name : model.getMonitorAttributes().keySet()) {
-					int initialY = 2;
+					
 
 					Element attributeCell = root.addElement("mxCell");
 					attributeCell.addAttribute("id", String.valueOf(++index));
@@ -239,13 +240,10 @@ public class ModelService {
 					cellGeometry.addAttribute("width", "200");
 					cellGeometry.addAttribute("height", "26");
 					cellGeometry.addAttribute("as", "geometry");
-
 				}
 			}
-
 		}
 		return document;
-
 	}
 
 	public void writeDocument(String outFile) {
