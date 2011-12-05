@@ -1,5 +1,8 @@
 package org.seforge.paas.monitor.web;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,6 +11,7 @@ import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanInfo;
 import javax.management.ObjectName;
 import javax.management.remote.JMXServiceURL;
+import javax.servlet.http.HttpServletRequest;
 
 import org.seforge.paas.monitor.domain.MBeanAttribute;
 import org.seforge.paas.monitor.domain.MBeanDomain;
@@ -195,6 +199,26 @@ public class JmxController {
 		String s = new JSONSerializer().exclude("*.class").exclude("data.MBeanType").exclude("data.info").exclude("data.version").serialize(response);
 		return new ResponseEntity<String>(s, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/savemodel", method = RequestMethod.POST)
+	public ResponseEntity<String> saveModel(@RequestParam("content") String content, HttpServletRequest request) {		
+		FileWriter fw;
+		try {
+			String path = request.getRealPath("/");
+			System.out.println(path);
+			fw = new FileWriter(path + "/model.xml");
+			fw.write(content,0,content.length());  
+			fw.flush(); 
+			fw.close();
+			return new ResponseEntity<String>("ok", HttpStatus.OK);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ResponseEntity<String>("ok", HttpStatus.INTERNAL_SERVER_ERROR);
+		}		
+		
+	}
+	
 	
 	
 

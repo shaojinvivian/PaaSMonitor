@@ -121,3 +121,5 @@ exit
 // Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2011-11-28 13:31:31
 exit
 // Spring Roo 1.2.0.M1 [rev 1fa252f] log closed at 2011-11-28 16:35:58
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2011-12-05 18:35:28
+entity --class ~.domain.modelFile

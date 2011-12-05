@@ -1,0 +1,48 @@
+<mxGraphModel>
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+    <mxCell id="2" style="phym" vertex="1" parent="1">
+      <Phym name="Phym" as="value"/>
+      <mxGeometry x="190" y="50" width="200" height="106" as="geometry">
+        <mxRectangle width="200" height="28" as="alternateBounds"/>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="3" vertex="1" connectable="0" parent="2">
+      <Attribute name="ip" category="Config" type="String" as="value"/>
+      <mxGeometry y="28" width="200" height="26" as="geometry"/>
+    </mxCell>
+    <mxCell id="4" vertex="1" connectable="0" parent="2">
+      <Attribute name="username" category="Config" type="String" as="value"/>
+      <mxGeometry y="54" width="200" height="26" as="geometry"/>
+    </mxCell>
+    <mxCell id="5" vertex="1" connectable="0" parent="2">
+      <Attribute name="password" category="Config" type="String" as="value"/>
+      <mxGeometry y="80" width="200" height="26" as="geometry"/>
+    </mxCell>
+    <mxCell id="6" style="vim" vertex="1" parent="1">
+      <Vim name="Vim" as="value"/>
+      <mxGeometry x="230" y="210" width="200" height="54" as="geometry">
+        <mxRectangle width="200" height="28" as="alternateBounds"/>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="7" vertex="1" connectable="0" parent="6">
+      <Attribute name="ip" category="Config" type="String" as="value"/>
+      <mxGeometry y="28" width="200" height="26" as="geometry"/>
+    </mxCell>
+    <mxCell id="8" style="appServer" vertex="1" parent="1">
+      <AppServer name="Application Server" as="value"/>
+      <mxGeometry x="580" y="110" width="200" height="80" as="geometry">
+        <mxRectangle width="200" height="28" as="alternateBounds"/>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="9" vertex="1" connectable="0" parent="8">
+      <Attribute name="ip" category="Config" type="String" as="value"/>
+      <mxGeometry y="28" width="200" height="26" as="geometry"/>
+    </mxCell>
+    <mxCell id="10" vertex="1" connectable="0" parent="8">
+      <Attribute name="jmxPort" category="Config" type="String" as="value"/>
+      <mxGeometry y="54" width="200" height="26" as="geometry"/>
+    </mxCell>
+  </root>
+</mxGraphModel>
