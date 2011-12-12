@@ -178,6 +178,21 @@ Ext.onReady(function() {
 
 	var showCpuButton = Ext.create('Ext.Button', {
 		text : 'Show CPU Statistics',
+		margin: '0, 20, 0, 0',
+		handler : function() {
+			Ext.create('Ext.Window', {
+				width : 800,
+				height : 600,
+				maximizable : true,
+				title : 'Live Updated Chart',
+				layout : 'fit',
+				items : [chart]
+			}).show();
+		}
+	});
+	
+	var showMemoryButton = Ext.create('Ext.Button', {
+		text : 'Show Memory Statistics',
 		handler : function() {
 			Ext.create('Ext.Window', {
 				width : 800,
@@ -192,18 +207,43 @@ Ext.onReady(function() {
 	
 	var startButton =  Ext.create('Ext.Button', {
 		text: 'Start',
+		width: 55,
+		height : 25,
+		margin: '0, 20, 0, 0'
+		
 	});
 	
 	var stopButton =  Ext.create('Ext.Button', {
+		width: 55,
+		height : 25,
 		text: 'Stop',
+		margin: '0, 20, 0, 0'		
 	});
 	
-
-	var buttonsPanel = Ext.create('Ext.panel.Panel', {
+	var suspendButton =  Ext.create('Ext.Button', {
+		width: 55,
+		height : 25,
+		text: 'Suspend',
+		margin: '0, 20, 0, 0'		
+	});
+	
+	
+	var showChartPanel = Ext.create('Ext.panel.Panel', {
 		layout : 'anchor',
-		padding : 10,
-		height : 200,
-		items : [showCpuButton, startButton, stopButton]
+		title : 'View Statistics Chart',
+		bodyPadding : 5,
+		boarder : false,
+		height : 100,
+		items : [showCpuButton, showMemoryButton]
+	});
+
+	var controlPanel = Ext.create('Ext.panel.Panel', {
+		layout : 'anchor',
+		title : 'Control',
+		bodyPadding : 5,
+		boarder : false,
+		height : 100,
+		items : [startButton, stopButton, suspendButton]
 	});
 
 	var monitorPanel = Ext.create('Ext.panel.Panel', {
@@ -213,9 +253,9 @@ Ext.onReady(function() {
 			align : 'stretch'
 		},
 		title : 'Current status of ' + contextName + ' @ ' + ip,
-		width : 500,
-		height : 400,
-		items : [formPanel, buttonsPanel]
+		width : 400,
+		height : 360,
+		items : [formPanel, showChartPanel, controlPanel]
 	});
 
 	formPanel.getForm().load({
