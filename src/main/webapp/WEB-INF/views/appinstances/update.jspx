@@ -13,5 +13,6 @@
         <field:input field="contextName" id="c_org_seforge_paas_monitor_domain_AppInstance_contextName" required="true" z="aS7wQ0jhtrM7G/0WyR4ELibR5ds="/>
         <field:input field="errorLogDir" id="c_org_seforge_paas_monitor_domain_AppInstance_errorLogDir" z="rPZKt7RZiXt2B1ozg7OCsFtec58="/>
         <field:input field="errorCount" id="c_org_seforge_paas_monitor_domain_AppInstance_errorCount" z="A8+K8rwVSliqN2x/OIvydQElv0Y="/>
+        <field:simple field="appInstanceSnaps" id="c_org_seforge_paas_monitor_domain_AppInstance_appInstanceSnaps" messageCode="entity_reference_not_managed" messageCodeAttribute="App Instance Snap" z="xNASlka7TFvCUha8UxJa856K5Bo="/>
     </form:update>
 </div>

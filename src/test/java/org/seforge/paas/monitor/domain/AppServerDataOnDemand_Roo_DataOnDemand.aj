@@ -34,7 +34,10 @@ privileged aspect AppServerDataOnDemand_Roo_DataOnDemand {
         setIp(obj, index);
         setIsMonitee(obj, index);
         setJmxPort(obj, index);
+        setLastCpuTime(obj, index);
+        setLastSystemTime(obj, index);
         setName(obj, index);
+        setProcessorNum(obj, index);
         setStatus(obj, index);
         setVim(obj, index);
         return obj;
@@ -58,9 +61,24 @@ privileged aspect AppServerDataOnDemand_Roo_DataOnDemand {
         obj.setJmxPort(jmxPort);
     }
     
+    public void AppServerDataOnDemand.setLastCpuTime(AppServer obj, int index) {
+        Long lastCpuTime = new Integer(index).longValue();
+        obj.setLastCpuTime(lastCpuTime);
+    }
+    
+    public void AppServerDataOnDemand.setLastSystemTime(AppServer obj, int index) {
+        Long lastSystemTime = new Integer(index).longValue();
+        obj.setLastSystemTime(lastSystemTime);
+    }
+    
     public void AppServerDataOnDemand.setName(AppServer obj, int index) {
         String name = "name_" + index;
         obj.setName(name);
+    }
+    
+    public void AppServerDataOnDemand.setProcessorNum(AppServer obj, int index) {
+        int processorNum = index;
+        obj.setProcessorNum(processorNum);
     }
     
     public void AppServerDataOnDemand.setStatus(AppServer obj, int index) {

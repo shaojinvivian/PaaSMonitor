@@ -6,9 +6,10 @@
         <table:table data="${appservers}" id="l_org_seforge_paas_monitor_domain_AppServer" path="/appservers" z="xixLnhCy8MP/Kj0WsKJ6Zy599I0=">
             <table:column id="c_org_seforge_paas_monitor_domain_AppServer_name" property="name" z="4wQmIzXXfqSm8/1532+m6KN1d9o="/>
             <table:column id="c_org_seforge_paas_monitor_domain_AppServer_jmxPort" property="jmxPort" z="PB7PZTkgCd5NWUEQKhO58S+HDT0="/>
-            <table:column id="c_org_seforge_paas_monitor_domain_AppServer_vim" property="vim" z="bHj4b1D/G9QIt9Q4IVGpY05jYo0="/>
-            <table:column id="c_org_seforge_paas_monitor_domain_AppServer_ip" property="ip" z="4A3RThb8I6+uV+KueL3d77j9rdI="/>
             <table:column id="c_org_seforge_paas_monitor_domain_AppServer_status" property="status" z="r9u1iMcB54fA2TQaWRJLop8kYkM="/>
+            <table:column id="c_org_seforge_paas_monitor_domain_AppServer_lastCpuTime" property="lastCpuTime" z="/8xH5n7Z7CAeWSA5RYVCJoL7eGc="/>
+            <table:column id="c_org_seforge_paas_monitor_domain_AppServer_lastSystemTime" property="lastSystemTime" z="lXbNPZuqTnUCmBB0/EPgwEDx2Eo="/>
+            <table:column id="c_org_seforge_paas_monitor_domain_AppServer_processorNum" property="processorNum" z="94FNuaVtboAYevz88csD8IxL6Bw="/>
         </table:table>
     </page:list>
 </div>

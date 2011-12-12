@@ -10,6 +10,7 @@ privileged aspect AppInstance_Roo_ToString {
     public String AppInstance.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("App: ").append(getApp()).append(", ");
+        sb.append("AppInstanceSnaps: ").append(getAppInstanceSnaps() == null ? "null" : getAppInstanceSnaps().size()).append(", ");
         sb.append("AppServer: ").append(getAppServer()).append(", ");
         sb.append("ContextName: ").append(getContextName()).append(", ");
         sb.append("DisplayName: ").append(getDisplayName()).append(", ");

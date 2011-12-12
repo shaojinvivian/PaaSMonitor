@@ -10,5 +10,8 @@
         <field:input field="ip" id="c_org_seforge_paas_monitor_domain_AppServer_ip" max="15" required="true" z="RURgl2mjlrv0a3Ij+qAXXIbz0j0="/>
         <field:checkbox field="isMonitee" id="c_org_seforge_paas_monitor_domain_AppServer_isMonitee" z="PSqU9zZEtY7ZpAZ1fSFDEhazquc="/>
         <field:input field="status" id="c_org_seforge_paas_monitor_domain_AppServer_status" z="Dsra2m14iA3qM6ZinEoPAwMMz/w="/>
+        <field:input field="lastCpuTime" id="c_org_seforge_paas_monitor_domain_AppServer_lastCpuTime" z="7rcJSqlso/i2bo2YiIQcA3tPS6A="/>
+        <field:input field="lastSystemTime" id="c_org_seforge_paas_monitor_domain_AppServer_lastSystemTime" z="OfWwm7h+vPuC5CYc934BE1qjAok="/>
+        <field:input field="processorNum" id="c_org_seforge_paas_monitor_domain_AppServer_processorNum" z="8zg+RjqkbkkQ4mRuFGW3QeOwE7Y="/>
     </form:update>
 </div>

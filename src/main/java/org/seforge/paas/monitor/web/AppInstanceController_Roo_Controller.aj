@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.seforge.paas.monitor.domain.App;
 import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.domain.AppInstanceSnap;
 import org.seforge.paas.monitor.domain.AppServer;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -98,6 +99,11 @@ privileged aspect AppInstanceController_Roo_Controller {
     @ModelAttribute("appinstances")
     public Collection<AppInstance> AppInstanceController.populateAppInstances() {
         return AppInstance.findAllAppInstances();
+    }
+    
+    @ModelAttribute("appinstancesnaps")
+    public Collection<AppInstanceSnap> AppInstanceController.populateAppInstanceSnaps() {
+        return AppInstanceSnap.findAllAppInstanceSnaps();
     }
     
     @ModelAttribute("appservers")

@@ -67,7 +67,15 @@ public class AppServerService{
 		JmxUtil jmxUtil = new JmxUtil(ip, port);
 		jmxUtil.connect();	
 		ObjectName objectName = new ObjectName("Catalina:type=Server");
-		appServer.setName((String)jmxUtil.getAttribute(objectName, "serverInfo"));	
+		appServer.setName((String)jmxUtil.getAttribute(objectName, "serverInfo"));		
+		int processorNum = (Integer)jmxUtil.getAttribute(new ObjectName(
+				"java.lang:type=OperatingSystem"), "AvailableProcessors");
+		long lastCpuTime = (Long)jmxUtil.getAttribute(new ObjectName(
+				"java.lang:type=OperatingSystem"), "ProcessCpuTime");
+		long lastSystemTime = System.nanoTime();
+		appServer.setLastCpuTime(lastCpuTime);
+		appServer.setLastSystemTime(lastSystemTime);
+		appServer.setProcessorNum(processorNum);		
 		jmxUtil.disconnect();	
 	}
 	

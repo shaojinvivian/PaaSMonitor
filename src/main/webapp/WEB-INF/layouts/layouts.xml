@@ -19,5 +19,8 @@
   <definition name="extjs" template="/WEB-INF/layouts/extjs.jspx">
   </definition>
   
+   <definition name="iframe" template="/WEB-INF/layouts/iframe.jspx">
+  </definition>
+  
   
 </tiles-definitions>

@@ -5,7 +5,9 @@ package org.seforge.paas.monitor.domain;
 
 import java.lang.Boolean;
 import java.lang.String;
+import java.util.Set;
 import org.seforge.paas.monitor.domain.App;
+import org.seforge.paas.monitor.domain.AppInstanceSnap;
 import org.seforge.paas.monitor.domain.AppServer;
 
 privileged aspect AppInstance_Roo_JavaBean {
@@ -64,6 +66,14 @@ privileged aspect AppInstance_Roo_JavaBean {
     
     public void AppInstance.setObjectName(String objectName) {
         this.objectName = objectName;
+    }
+    
+    public Set<AppInstanceSnap> AppInstance.getAppInstanceSnaps() {
+        return this.appInstanceSnaps;
+    }
+    
+    public void AppInstance.setAppInstanceSnaps(Set<AppInstanceSnap> appInstanceSnaps) {
+        this.appInstanceSnaps = appInstanceSnaps;
     }
     
     public String AppInstance.getErrorLogDir() {

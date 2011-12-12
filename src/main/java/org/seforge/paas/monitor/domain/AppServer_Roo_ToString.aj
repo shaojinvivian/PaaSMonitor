@@ -15,7 +15,10 @@ privileged aspect AppServer_Roo_ToString {
         sb.append("Ip: ").append(getIp()).append(", ");
         sb.append("IsMonitee: ").append(getIsMonitee()).append(", ");
         sb.append("JmxPort: ").append(getJmxPort()).append(", ");
+        sb.append("LastCpuTime: ").append(getLastCpuTime()).append(", ");
+        sb.append("LastSystemTime: ").append(getLastSystemTime()).append(", ");
         sb.append("Name: ").append(getName()).append(", ");
+        sb.append("ProcessorNum: ").append(getProcessorNum()).append(", ");
         sb.append("Status: ").append(getStatus()).append(", ");
         sb.append("Version: ").append(getVersion()).append(", ");
         sb.append("Vim: ").append(getVim());

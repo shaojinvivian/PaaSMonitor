@@ -69,7 +69,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     public Converter<AppServer, String> ApplicationConversionServiceFactoryBean.getAppServerToStringConverter() {
         return new org.springframework.core.convert.converter.Converter<org.seforge.paas.monitor.domain.AppServer, java.lang.String>() {
             public String convert(AppServer appServer) {
-                return new StringBuilder().append(appServer.getStatus()).append(" ").append(appServer.getName()).append(" ").append(appServer.getJmxPort()).append(" ").append(appServer.getIp()).toString();
+                return new StringBuilder().append(appServer.getStatus()).append(" ").append(appServer.getName()).append(" ").append(appServer.getJmxPort()).append(" ").append(appServer.getLastCpuTime()).toString();
             }
         };
     }

@@ -86,22 +86,34 @@ private AppServerService appServerService;
 		JsonObjectResponse response = new JsonObjectResponse();
 		try {			
 			AppServer record = AppServer.fromJsonToAppServer(json);
-			record.setId(null);
-			record.setVersion(null);
-			record.setStatus(null);
-			appServerService.addAppInstances(record);
-			appServerService.setAppServerName(record);
-			List<Vim> vims = Vim.findVimsByIp(record.getIp()).getResultList();
-			if (vims.size() > 0) {
-				Vim vim = vims.get(0);
-				record.setVim(vim);
+			//If there is no appserver with identical ip and jmxPort existed			
+			if(AppServer.findAppServerByIpAndJmxPort(record.getIp(), record.getJmxPort()) == null){
+				record.setId(null);
+				record.setVersion(null);
+				record.setStatus(null);
+				appServerService.addAppInstances(record);
+				appServerService.setAppServerName(record);
+				List<Vim> vims = Vim.findVimsByIp(record.getIp()).getResultList();
+				if (vims.size() > 0) {
+					Vim vim = vims.get(0);
+					record.setVim(vim);
+				}
+				record.persist();
+				returnStatus = HttpStatus.CREATED;
+				response.setMessage("AppServer created.");
+				response.setData(record);
+				response.setSuccess(true);
+				response.setTotal(1L);
 			}
-			record.persist();
-			returnStatus = HttpStatus.CREATED;
-			response.setMessage("AppServer created.");
-			response.setData(record);
-			response.setSuccess(true);
-			response.setTotal(1L);
+			// if the appserver is already existed
+			else{
+				returnStatus = HttpStatus.CREATED;
+				response.setMessage("AppServer existed.");
+				response.setData(record);
+				response.setSuccess(true);
+				response.setTotal(1L);
+			}
+			
 		} catch(IOException e) {			
 			response.setMessage("The App Server is not available currently.");			
 			response.setSuccess(false);

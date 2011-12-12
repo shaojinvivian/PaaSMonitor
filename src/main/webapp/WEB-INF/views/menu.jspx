@@ -26,6 +26,7 @@
         <menu:category id="c_controller" z="nj8Dm3hojIyIEyPkwE1UMDIs+K8=">
             <menu:item id="i_controller__moniteesindex_id" messageCode="global_generic" url="/monitees/index" z="nnlb5HCnWWdPcODbs4hHsa2T0MM="/>
             <menu:item id="i_controller__jmxindex_id" messageCode="global_generic" url="/jmx/index" z="SyhbT2ec6rk2EK2GeuU1KBYr0vI="/>
+            <menu:item id="i_controller__monitorindex_id" messageCode="global_generic" url="/monitor/index" z="VQwvhIWfEfEF1p8jl2ZcSrH/bTs="/>
         </menu:category>
     </menu:menu>
 </div>
