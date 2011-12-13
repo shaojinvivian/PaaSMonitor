@@ -72,12 +72,9 @@ public class MoniteeController {
 	}
 
 	
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/report", method = RequestMethod.GET)
     public void get(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
-//    	reporter.report();    
-		Map map = new HashMap<String, List>();
-		
-		
+    	reporter.report(); 
     }
     
 

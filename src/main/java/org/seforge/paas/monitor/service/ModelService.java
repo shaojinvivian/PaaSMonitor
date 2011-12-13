@@ -250,16 +250,16 @@ public class ModelService {
 		try {
 			Document document = generateModelDoc(generateModel(parseModel()
 					.get("AppServer")));
-			// 读取文件
+			// 
 			FileWriter fileWriter = new FileWriter(outFile);
-			// 设置文件编码
+			// 
 			OutputFormat xmlFormat = new OutputFormat();
 			xmlFormat.setEncoding("UTF-8");
-			// 创建写文件方法
+			// 
 			XMLWriter xmlWriter = new XMLWriter(fileWriter, xmlFormat);
-			// 写入文件
+			// write document
 			xmlWriter.write(document);
-			// 关闭
+			// 
 			xmlWriter.close();
 		} catch (IOException e) {
 			System.out.println("文件没有找到");
