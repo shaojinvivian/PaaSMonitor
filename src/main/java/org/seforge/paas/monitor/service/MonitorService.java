@@ -21,14 +21,14 @@ public class MonitorService {
 		AppInstanceSnap snap = new AppInstanceSnap();
 		snap.setAppInstance(appInstance);		
 		ObjectName instanceON= new ObjectName(
-				"PaaSMonitor:type=Context,name=\\"+appInstance.getContextName());
+				"PaaSMonitor:type=Context,name=\\"+appInstance.getName());
 		JmxUtil jmxUtil = new JmxUtil(ip,jmxPort);
 		jmxUtil.connect();
 		long currentCpuTime = (Long)jmxUtil.getAttribute(new ObjectName(
 				"java.lang:type=OperatingSystem"), "ProcessCpuTime");
 		long currentSystemTime = System.nanoTime();
 		long startTime = (Long)jmxUtil.getAttribute(new ObjectName(
-				"Catalina:j2eeType=WebModule,J2EEApplication=none,J2EEServer=none,name=//localhost/" + appInstance.getContextName()), "startTime");
+				"Catalina:j2eeType=WebModule,J2EEApplication=none,J2EEServer=none,name=//localhost/" + appInstance.getName()), "startTime");
 		CompositeDataSupport heap = (CompositeDataSupport)jmxUtil.getAttribute(new ObjectName(
 				"java.lang:type=Memory"), "HeapMemoryUsage");
 		snap.setRequestCount((Integer)jmxUtil.getAttribute(instanceON, "RequestCount"));
@@ -64,7 +64,7 @@ public class MonitorService {
 		jmxUtil.connect();
 		
 		ObjectName instanceON= new ObjectName(
-				"Catalina:j2eeType=WebModule,J2EEApplication=none,J2EEServer=none,name=//localhost/"+appInstance.getContextName());
+				"Catalina:j2eeType=WebModule,J2EEApplication=none,J2EEServer=none,name=//localhost/"+appInstance.getName());
 		jmxUtil.invoke(instanceON, op, null);
 		jmxUtil.disconnect();
 		

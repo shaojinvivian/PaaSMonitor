@@ -6,12 +6,12 @@
         <field:display field="app" id="s_org_seforge_paas_monitor_domain_AppInstance_app" object="${appinstance}" z="BfobfFH93QNnXlJXmBxJAn0jl2U="/>
         <field:display field="appServer" id="s_org_seforge_paas_monitor_domain_AppInstance_appServer" object="${appinstance}" z="0NDCyNYtDpqp05hta4qj2HOByVQ="/>
         <field:display field="isMonitee" id="s_org_seforge_paas_monitor_domain_AppInstance_isMonitee" object="${appinstance}" z="ID/nZrPWm+qTMAS2kQm/EV6aDW8="/>
-        <field:display field="displayName" id="s_org_seforge_paas_monitor_domain_AppInstance_displayName" object="${appinstance}" z="WH5UMRT1mVNqEHPZBhqjPciho2s="/>
         <field:display field="docBase" id="s_org_seforge_paas_monitor_domain_AppInstance_docBase" object="${appinstance}" z="3SUl5grCbGwFWqSMhxqGB5uOkWU="/>
         <field:display field="status" id="s_org_seforge_paas_monitor_domain_AppInstance_status" object="${appinstance}" z="AAHHN5U4jMXwOgyrLKQvCxOOvYk="/>
         <field:display field="objectName" id="s_org_seforge_paas_monitor_domain_AppInstance_objectName" object="${appinstance}" z="8ety1u+MFswkeYPeERPnxmsUZHo="/>
-        <field:display field="contextName" id="s_org_seforge_paas_monitor_domain_AppInstance_contextName" object="${appinstance}" z="aY0u31F+1+IvxAtCwjbVTi/Oepg="/>
         <field:display field="errorLogDir" id="s_org_seforge_paas_monitor_domain_AppInstance_errorLogDir" object="${appinstance}" z="tI+K32bS5PPpcupNrcVvdFFzCqo="/>
         <field:display field="errorCount" id="s_org_seforge_paas_monitor_domain_AppInstance_errorCount" object="${appinstance}" z="C37kg5FD0metkM9JoDCsgh/zD/g="/>
+        <field:display field="name" id="s_org_seforge_paas_monitor_domain_AppInstance_name" object="${appinstance}" z="KiNLY/xP+H/4wHJiA5QKumqRYF4="/>
+        <field:display field="description" id="s_org_seforge_paas_monitor_domain_AppInstance_description" object="${appinstance}" z="NvMfJzqQR/E/5k9Lpb49QH5U4Lg="/>
     </page:show>
 </div>

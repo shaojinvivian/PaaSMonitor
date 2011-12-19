@@ -54,6 +54,8 @@ public class AppServerService{
 				modelTransformer.transform(appInstance);
 				appInstance.setAppServer(appServer);
 				appInstance.setIsMonitee(false);
+				String newName = appInstance.getName().substring(1,-1);
+				appInstance.setName(newName);
 				appInstances.add(appInstance);
 				
 			}			

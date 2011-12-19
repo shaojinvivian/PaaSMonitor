@@ -25,21 +25,21 @@ import org.springframework.roo.addon.json.RooJson;
 public class AppInstance {
 
     @NotNull
-    private String contextName;
+    private String name;    
 
+    private Boolean isMonitee;
+
+    private String description;
+
+    private String docBase;
+    
+    private String objectName;
+    
     @ManyToOne
     private App app;
 
     @ManyToOne
     private AppServer appServer;
-
-    private Boolean isMonitee;
-
-    private String displayName;
-
-    private String docBase;
-    
-    private String objectName;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appInstance")
     private Set<AppInstanceSnap> appInstanceSnaps = new HashSet<AppInstanceSnap>();
@@ -65,12 +65,12 @@ public class AppInstance {
 		this.errorCount = errorCount;
 	}  
 	
-	 public static AppInstance findAppInstanceByAppServerAndContextName(AppServer appServer, String contextName) {
-	        if (appServer == null || contextName == null || contextName.length() == 0) throw new IllegalArgumentException("The appServer and contextName argument is required");
+	 public static AppInstance findAppInstanceByAppServerAndContextName(AppServer appServer, String name) {
+	        if (appServer == null || name == null || name.length() == 0) throw new IllegalArgumentException("The appServer and contextName argument is required");
 	        EntityManager em = AppInstance.entityManager();
-	        TypedQuery<AppInstance> q = em.createQuery("SELECT o FROM AppInstance AS o WHERE o.appServer = :appServer AND o.contextName = :contextName", AppInstance.class);
+	        TypedQuery<AppInstance> q = em.createQuery("SELECT o FROM AppInstance AS o WHERE o.appServer = :appServer AND o.name = :name", AppInstance.class);
 	        q.setParameter("appServer", appServer);
-	        q.setParameter("contextName", contextName);
+	        q.setParameter("name", name);
 	        if(q.getResultList().size()>0)
 	        	return q.getSingleResult();
 	        else

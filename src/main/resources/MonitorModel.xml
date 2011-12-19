@@ -49,7 +49,7 @@
 			</RuntimeModels>
 		</Attribute>
 		
-		<Attribute name="displayName"  type="java.lang.String">			
+		<Attribute name="description"  type="java.lang.String">			
 			<RuntimeModels>
 				<ConditionGroup evaluator="serverType">					
 					<RuntimeModel>						
@@ -60,7 +60,7 @@
 				</ConditionGroup>			
 			</RuntimeModels>
 		</Attribute>
-		<Attribute name="contextName"  type="java.lang.String">			
+		<Attribute name="name"  type="java.lang.String">			
 			<RuntimeModels>
 				<ConditionGroup evaluator="serverType">					
 					<RuntimeModel>						

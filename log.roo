@@ -144,3 +144,7 @@ exit
 entity jpa --class ~.domain.AppServerSnap
 exit
 // Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2011-12-19 16:40:42
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2011-12-19 18:05:21
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2011-12-19 18:40:33
+exit
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2011-12-19 18:50:08

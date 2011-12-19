@@ -11,28 +11,12 @@ import org.seforge.paas.monitor.domain.AppServer;
 
 privileged aspect AppInstance_Roo_JavaBean {
     
-    public String AppInstance.getContextName() {
-        return this.contextName;
+    public String AppInstance.getName() {
+        return this.name;
     }
     
-    public void AppInstance.setContextName(String contextName) {
-        this.contextName = contextName;
-    }
-    
-    public App AppInstance.getApp() {
-        return this.app;
-    }
-    
-    public void AppInstance.setApp(App app) {
-        this.app = app;
-    }
-    
-    public AppServer AppInstance.getAppServer() {
-        return this.appServer;
-    }
-    
-    public void AppInstance.setAppServer(AppServer appServer) {
-        this.appServer = appServer;
+    public void AppInstance.setName(String name) {
+        this.name = name;
     }
     
     public Boolean AppInstance.getIsMonitee() {
@@ -43,12 +27,12 @@ privileged aspect AppInstance_Roo_JavaBean {
         this.isMonitee = isMonitee;
     }
     
-    public String AppInstance.getDisplayName() {
-        return this.displayName;
+    public String AppInstance.getDescription() {
+        return this.description;
     }
     
-    public void AppInstance.setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void AppInstance.setDescription(String description) {
+        this.description = description;
     }
     
     public String AppInstance.getDocBase() {
@@ -65,6 +49,22 @@ privileged aspect AppInstance_Roo_JavaBean {
     
     public void AppInstance.setObjectName(String objectName) {
         this.objectName = objectName;
+    }
+    
+    public App AppInstance.getApp() {
+        return this.app;
+    }
+    
+    public void AppInstance.setApp(App app) {
+        this.app = app;
+    }
+    
+    public AppServer AppInstance.getAppServer() {
+        return this.appServer;
+    }
+    
+    public void AppInstance.setAppServer(AppServer appServer) {
+        this.appServer = appServer;
     }
     
     public Set<AppInstanceSnap> AppInstance.getAppInstanceSnaps() {

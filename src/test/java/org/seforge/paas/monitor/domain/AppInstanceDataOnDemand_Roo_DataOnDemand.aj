@@ -37,12 +37,12 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
         AppInstance obj = new AppInstance();
         setApp(obj, index);
         setAppServer(obj, index);
-        setContextName(obj, index);
-        setDisplayName(obj, index);
+        setDescription(obj, index);
         setDocBase(obj, index);
         setErrorCount(obj, index);
         setErrorLogDir(obj, index);
         setIsMonitee(obj, index);
+        setName(obj, index);
         setObjectName(obj, index);
         setStatus(obj, index);
         return obj;
@@ -58,14 +58,9 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
         obj.setAppServer(appServer);
     }
     
-    public void AppInstanceDataOnDemand.setContextName(AppInstance obj, int index) {
-        String contextName = "contextName_" + index;
-        obj.setContextName(contextName);
-    }
-    
-    public void AppInstanceDataOnDemand.setDisplayName(AppInstance obj, int index) {
-        String displayName = "displayName_" + index;
-        obj.setDisplayName(displayName);
+    public void AppInstanceDataOnDemand.setDescription(AppInstance obj, int index) {
+        String description = "description_" + index;
+        obj.setDescription(description);
     }
     
     public void AppInstanceDataOnDemand.setDocBase(AppInstance obj, int index) {
@@ -86,6 +81,11 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
     public void AppInstanceDataOnDemand.setIsMonitee(AppInstance obj, int index) {
         Boolean isMonitee = Boolean.TRUE;
         obj.setIsMonitee(isMonitee);
+    }
+    
+    public void AppInstanceDataOnDemand.setName(AppInstance obj, int index) {
+        String name = "name_" + index;
+        obj.setName(name);
     }
     
     public void AppInstanceDataOnDemand.setObjectName(AppInstance obj, int index) {
