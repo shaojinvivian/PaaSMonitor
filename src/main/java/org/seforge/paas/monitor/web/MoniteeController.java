@@ -190,7 +190,7 @@ public class MoniteeController {
 						for (AppInstance appInstance : appInstances) {
 							if(appInstance.getIsMonitee()){
 								TreeNode appInstanceNode = new TreeNode();
-								appInstanceNode.setText(appInstance.getContextName()+":"+appInstance.getStatus());
+								appInstanceNode.setText(appInstance.getName()+":"+appInstance.getStatus());
 								appInstanceNode.setId("appInstance" + appInstance.getId().toString());
 								appInstanceNode.setLeaf(true);							
 								response.add(appInstanceNode);

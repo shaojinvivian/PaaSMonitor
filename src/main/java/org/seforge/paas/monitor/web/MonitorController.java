@@ -61,7 +61,7 @@ public class MonitorController {
     	AppInstance appInstance = AppInstance.findAppInstanceByAppServerAndContextName(appServer, contextName);
     	if(appInstance == null){
     		appInstance = new AppInstance();
-    		appInstance.setContextName(contextName);
+    		appInstance.setName(contextName);
     		appInstance.setAppServer(appServer);
     		appInstance.persist();    		
     	}
@@ -104,7 +104,7 @@ public class MonitorController {
     	AppInstance appInstance = AppInstance.findAppInstanceByAppServerAndContextName(appServer, contextName);
     	if(appInstance == null){
     		appInstance = new AppInstance();
-    		appInstance.setContextName(contextName);
+    		appInstance.setName(contextName);
     		appInstance.setAppServer(appServer);
     		appInstance.persist();    		
     	}

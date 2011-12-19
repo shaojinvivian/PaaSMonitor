@@ -104,7 +104,7 @@ public class AppInstanceController {
 				.serialize(response), returnStatus);
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, headers = "Accept=application/json")
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, headers = "Accept=application/json")
 	public ResponseEntity<String> updateFromJson(@RequestBody String json) {
 		HttpStatus returnStatus = HttpStatus.BAD_REQUEST;
 

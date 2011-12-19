@@ -7,7 +7,17 @@
 	<jsp:output omit-xml-declaration="yes" />
 	<spring:url var="banner" value="/images/banner-graphic.png" />
 	<spring:url var="home" value="/" />
-	<spring:message code="button_home" var="home_label" />	
+	<spring:message code="button_home" var="home_label" />
+	
+	<div id="loading-mask" style=""></div>
+	<div id="loading">
+		<div class="loading-indicator">
+			<img src="images/extanim32.gif" width="32" height="32"
+				style="margin-right: 8px; float: left; vertical-align: top;" />PaaSMonitor
+			- <a href="http://www.seforge.org">seforge.org</a> <br /> <span
+				id="loading-msg">Loading...Please wait...</span>
+		</div>
+	</div>	
 	
 </div>
 

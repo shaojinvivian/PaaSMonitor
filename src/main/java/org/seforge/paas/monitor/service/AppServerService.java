@@ -1,26 +1,10 @@
 package org.seforge.paas.monitor.service;
 
-import java.io.IOException;
-import java.io.InterruptedIOException;
-import java.net.MalformedURLException;
-import java.net.SocketTimeoutException;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
-
-
-import javax.management.MBeanServerConnection;
 import javax.management.ObjectName;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
-
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.monitor.JmxUtil;
@@ -54,7 +38,7 @@ public class AppServerService{
 				modelTransformer.transform(appInstance);
 				appInstance.setAppServer(appServer);
 				appInstance.setIsMonitee(false);
-				String newName = appInstance.getName().substring(1,-1);
+				String newName = appInstance.getName().substring(1);
 				appInstance.setName(newName);
 				appInstances.add(appInstance);
 				

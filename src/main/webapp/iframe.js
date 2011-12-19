@@ -7,7 +7,232 @@ Ext.onReady(function() {
 	var ip = getRequestParam('ip');
 	var jmxPort = getRequestParam('jmxPort');
 	var contextName = getRequestParam('contextName');
+	
+	var formPanel = Ext.create('Ext.form.Panel', {
+		title : '监测',
+		frame : true,
+		bodyPadding : 5,
+		fieldDefaults : {
+			labelAlign : 'left',
+			labelWidth : 150,
+			anchor : '100%'
+		},
+		items : [{
+			xtype : 'displayfield',
+			name : 'status',
+			fieldLabel : '运行状态'
+		}, {
+			xtype : 'displayfield',
+			name : 'cpuPercent',
+			fieldLabel : 'CPU使用率'
+		}, {
+			xtype : 'displayfield',
+			name : 'usedMemory',
+			fieldLabel : '已用内存'
+		}, {
+			xtype : 'displayfield',
+			name : 'availableMemory',
+			fieldLabel : '可用内存'
+		}, {
+			xtype : 'displayfield',
+			name : 'runningDuration',
+			fieldLabel : '已运行时间'
+		}, {
+			xtype : 'displayfield',
+			name : 'requestCount',
+			fieldLabel : '已接收请求总数'
+		}, {
+			xtype : 'displayfield',
+			name : 'avgTime',
+			fieldLabel : '平均响应时间'
+		}, {
+			xtype : 'displayfield',
+			name : 'maxTime',
+			fieldLabel : '最长响应时间'
+		}, {
+			xtype : 'displayfield',
+			name : 'minTime',
+			fieldLabel : '最短响应时间'
+		}, {
+			xtype : 'displayfield',
+			name : 'errorCount',
+			fieldLabel : '出错数'
+		}, {
+			xtype : 'displayfield',
+			name : 'bytesReceived',
+			fieldLabel : '已接收字节数'
+		}, {
+			xtype : 'displayfield',
+			name : 'bytesSent',
+			fieldLabel : '已发送字节数'
+		}]
+	});
 
+
+	var startButton = Ext.create('Ext.Button', {
+		id : 'startButton',
+		text : 'start',
+		width : 55,
+		height : 25,
+		margin : '0, 20, 0, 0',
+		disabled : true,
+		handler : function(button, event) {
+			var op = button.getText();
+			var ajax = Ext.Ajax.request({
+				url : 'monitor/control',
+				params : {
+					ip : ip,
+					jmxPort : jmxPort,
+					contextName : contextName,
+					operation : op
+				},
+				method : 'get',
+				success : function(response) {
+					Ext.getCmp('stopButton').enable();
+					button.disable();
+
+				}
+			});
+		}
+	});
+
+	var stopButton = Ext.create('Ext.Button', {
+		id : 'stopButton',
+		width : 55,
+		height : 25,
+		text : 'stop',
+		margin : '0, 20, 0, 0',
+		handler : function(button, event) {
+			var op = button.getText();
+			var ajax = Ext.Ajax.request({
+				url : 'monitor/control',
+				params : {
+					ip : ip,
+					jmxPort : jmxPort,
+					contextName : contextName,
+					operation : op
+				},
+				method : 'get',
+				success : function(response) {
+					Ext.getCmp('startButton').enable();
+					button.disable();
+				}
+			});
+		}
+	});
+
+	var reloadButton = Ext.create('Ext.Button', {
+		id : 'reload',
+		width : 55,
+		height : 25,
+		text : 'reload',
+		margin : '0, 20, 0, 0',
+		handler : function(button, event) {
+			var op = button.getText();
+			var ajax = Ext.Ajax.request({
+				url : 'monitor/control',
+				params : {
+					ip : ip,
+					jmxPort : jmxPort,
+					contextName : contextName,
+					operation : op
+				},
+				method : 'get',
+				success : function(response) {
+				}
+			});
+		}
+	});
+
+
+	formPanel.getForm().load({
+		url : 'monitor/snap',
+		waitMsg : 'Loading',
+		params : {
+			ip : ip,
+			jmxPort : jmxPort,
+			contextName : contextName
+		},
+		method : 'get',
+		success : function(form, action) {
+		}
+	});
+
+	var controlPanel = Ext.create('Ext.panel.Panel', {
+		layout : 'anchor',
+		title : '控制',
+		bodyPadding : 5,
+		boarder : false,
+		height : 60,
+		items : [startButton, stopButton, reloadButton]
+	});
+	
+	
+	var mostPopButton = Ext.create('Ext.Button', {
+		id : 'mostPop',
+		width : 120,
+		height : 25,
+		text : '显示最受欢迎的URL',
+		margin : '0, 20, 0, 0',
+		handler : function(button, event) {			
+		}
+	});
+	
+	var timeDistributionButton = Ext.create('Ext.Button', {
+		id : 'timeDistribution',
+		width : 100,
+		height : 25,
+		text : '显示时间分布图',
+		margin : '0, 20, 0, 0',
+		handler : function(button, event) {
+			
+		}
+	});
+	
+	var locationDistributionButton = Ext.create('Ext.Button', {
+		id : 'locationDistribution',
+		width : 100,
+		height : 25,
+		text : '显示地域分布图',
+		margin : '0, 20, 0, 0',
+		handler : function(button, event) {
+			
+		}
+	});
+	
+	var analysisPanel = Ext.create('Ext.panel.Panel', {
+		layout : 'anchor',
+		title : '分析',
+		bodyPadding : 5,
+		boarder : false,
+		height : 70,
+		items : [mostPopButton, timeDistributionButton, locationDistributionButton]
+		
+	});
+
+	var panel = Ext.create('Ext.panel.Panel', {
+		renderTo : Ext.getBody(),
+		layout : {
+			type : 'vbox', // Arrange child items vertically
+			align : 'stretch'
+		},
+		title : contextName + ' @ ' + ip,
+		width : 420,
+		height : 500,
+		items : [formPanel, controlPanel, analysisPanel]
+	});	
+
+	var hideMask = function() {
+		Ext.get('loading').remove();
+		Ext.fly('loading-mask').animate({
+			opacity : 0,
+			remove : true
+		});
+	};
+
+	Ext.defer(hideMask, 200);
+	
+	/*
 	var generateData = (function() {
 		var data = [], i = 0, last = false, date = new Date(2011, 1, 1), seconds = +date, min = Math.min, max = Math.max, random = Math.random;
 		return function() {
@@ -145,68 +370,11 @@ Ext.onReady(function() {
 		}
 		store.loadData(gs);
 	}, 100);
-	var formPanel = Ext.create('Ext.form.Panel', {
-		frame : true,
-		bodyPadding : 5,
-		fieldDefaults : {
-			labelAlign : 'left',
-			labelWidth : 150,
-			anchor : '100%'
-		},
-		items : [{
-			xtype : 'displayfield',
-			name : 'status',
-			fieldLabel : '运行状态'
-		}, {
-			xtype : 'displayfield',
-			name : 'cpuPercent',
-			fieldLabel : 'CPU使用率'
-		}, {
-			xtype : 'displayfield',
-			name : 'usedMemory',
-			fieldLabel : '已用内存'
-		}, {
-			xtype : 'displayfield',
-			name : 'availableMemory',
-			fieldLabel : '可用内存'
-		}, {
-			xtype : 'displayfield',
-			name : 'runningDuration',
-			fieldLabel : '已运行时间'
-		}, {
-			xtype : 'displayfield',
-			name : 'requestCount',
-			fieldLabel : '已接收请求总数'
-		}, {
-			xtype : 'displayfield',
-			name : 'avgTime',
-			fieldLabel : '平均响应时间'
-		}, {
-			xtype : 'displayfield',
-			name : 'maxTime',
-			fieldLabel : '最长响应时间'
-		}, {
-			xtype : 'displayfield',
-			name : 'minTime',
-			fieldLabel : '最短响应时间'
-		}, {
-			xtype : 'displayfield',
-			name : 'errorCount',
-			fieldLabel : '出错数'
-		}, {
-			xtype : 'displayfield',
-			name : 'bytesReceived',
-			fieldLabel : '已接收字节数'
-		}, {
-			xtype : 'displayfield',
-			name : 'bytesSent',
-			fieldLabel : '已发送字节数'
-		}]
-	});
-
+	*/
+	/*
 	var showCpuButton = Ext.create('Ext.Button', {
 		text : 'Show CPU Statistics',
-		margin: '0, 20, 0, 0',
+		margin : '0, 20, 0, 0',
 		handler : function() {
 			Ext.create('Ext.Window', {
 				width : 800,
@@ -218,7 +386,7 @@ Ext.onReady(function() {
 			}).show();
 		}
 	});
-	
+
 	var showMemoryButton = Ext.create('Ext.Button', {
 		text : 'Show Memory Statistics',
 		handler : function() {
@@ -232,84 +400,9 @@ Ext.onReady(function() {
 			}).show();
 		}
 	});
-	
-	var startButton =  Ext.create('Ext.Button', {
-		id: 'startButton',
-		text: 'start',
-		width: 55,
-		height : 25,
-		margin: '0, 20, 0, 0',
-		disabled: true,
-		handler: function(button, event){
-			var op = button.getText();
-			var ajax = Ext.Ajax.request({
-					url : 'monitor/control',
-					params : {
-						ip : ip,
-						jmxPort : jmxPort,
-						contextName : contextName,
-						operation : op
-					},
-					method : 'get',
-					success : function(response) {
-						Ext.getCmp('stopButton').enable();
-						button.disable();
-						
-					}
-			});			
-		}		
-	});
-	
-	var stopButton =  Ext.create('Ext.Button', {
-		id: 'stopButton',
-		width: 55,
-		height : 25,
-		text: 'stop',
-		margin: '0, 20, 0, 0',
-		handler: function(button, event){
-			var op = button.getText();
-			var ajax = Ext.Ajax.request({
-					url : 'monitor/control',
-					params : {
-						ip : ip,
-						jmxPort : jmxPort,
-						contextName : contextName,
-						operation : op
-					},
-					method : 'get',
-					success : function(response) {
-						Ext.getCmp('startButton').enable();
-						button.disable();						
-					}
-			});			
-		}		
-		
-	});
-	
-	var reloadButton =  Ext.create('Ext.Button', {
-		id: 'reload',
-		width: 55,
-		height : 25,
-		text: 'reload',
-		margin: '0, 20, 0, 0',
-		handler: function(button, event){
-			var op = button.getText();
-			var ajax = Ext.Ajax.request({
-					url : 'monitor/control',
-					params : {
-						ip : ip,
-						jmxPort : jmxPort,
-						contextName : contextName,
-						operation : op
-					},
-					method : 'get',
-					success : function(response) {												
-					}
-			});			
-		}			
-	});
-	
-	
+*/
+
+/*
 	var showChartPanel = Ext.create('Ext.panel.Panel', {
 		layout : 'anchor',
 		title : 'View Statistics Chart',
@@ -318,43 +411,6 @@ Ext.onReady(function() {
 		height : 100,
 		items : [showCpuButton, showMemoryButton]
 	});
-
-	var controlPanel = Ext.create('Ext.panel.Panel', {
-		layout : 'anchor',
-		title : 'Control',
-		bodyPadding : 5,
-		boarder : false,
-		height : 100,
-		items : [startButton, stopButton, reloadButton]
-	});
-
-	var monitorPanel = Ext.create('Ext.panel.Panel', {
-		renderTo : Ext.getBody(),
-		layout : {
-			type : 'vbox', // Arrange child items vertically
-			align : 'stretch'
-		},
-		title : 'Current status of ' + contextName + ' @ ' + ip,
-		width : 400,
-		height : 400,
-		items : [formPanel, controlPanel]
-	});
-
-	formPanel.getForm().load({
-		url : 'monitor/snap',
-		waitMsg : 'Loading',
-		params : {
-			ip : ip,
-			jmxPort : jmxPort,
-			contextName : contextName
-		},
-		method : 'get',
-		success : function(form, action) {
-		}
-	});
-	
-	var controlButtonHandler = function(button, event){
-		
-	};
+	*/
 
 });
