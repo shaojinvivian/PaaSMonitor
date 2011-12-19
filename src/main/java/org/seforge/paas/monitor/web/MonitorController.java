@@ -82,6 +82,49 @@ public class MonitorController {
         return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").transform(new DateTransformer("MM/dd/yy-HH:mm:ss"), Date.class).serialize(response), returnStatus);
     }
 
+    
+    @RequestMapping(value = "/control", method = RequestMethod.GET)
+    public ResponseEntity<String>  control(@RequestParam("ip") String ip,
+			@RequestParam("jmxPort") String jmxPort,  @RequestParam("contextName") String contextName, @RequestParam("operation") String operation) {
+    	JsonObjectResponse response = new JsonObjectResponse();
+    	HttpStatus returnStatus;
+    	AppServer appServer = AppServer.findAppServerByIpAndJmxPort(ip, jmxPort);
+    	if(appServer == null){
+    		appServer = new AppServer();
+    		appServer.setIp(ip);
+    		appServer.setJmxPort(jmxPort);   		
+    		try {
+				appServerService.setAppServerName(appServer);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		appServer.persist();    		
+    	}
+    	AppInstance appInstance = AppInstance.findAppInstanceByAppServerAndContextName(appServer, contextName);
+    	if(appInstance == null){
+    		appInstance = new AppInstance();
+    		appInstance.setContextName(contextName);
+    		appInstance.setAppServer(appServer);
+    		appInstance.persist();    		
+    	}
+    	
+    	try{
+    		monitorService.controlAppInstance(appInstance, operation);
+    		response.setMessage("Operation performed.");
+    		response.setSuccess(true);
+    		response.setTotal(1L);    		
+    		returnStatus = HttpStatus.OK;
+    	}catch(Exception e){
+    		response.setMessage(e.getMessage());
+    		response.setSuccess(false);
+    		response.setTotal(0L);    	
+    		returnStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+    	}   	
+        return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").transform(new DateTransformer("MM/dd/yy-HH:mm:ss"), Date.class).serialize(response), returnStatus);
+    }
+    
+    
     @RequestMapping(method = RequestMethod.POST, value = "{id}")
     public void post(@PathVariable Long id, ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
     }

@@ -4,18 +4,14 @@
 package org.seforge.paas.monitor.web;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.Integer;
-import java.lang.Long;
-import java.lang.String;
-import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;
+import org.seforge.paas.monitor.web.VimController;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,10 +21,10 @@ import org.springframework.web.util.WebUtils;
 
 privileged aspect VimController_Roo_Controller {
     
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, produces = "text/html")
     public String VimController.create(@Valid Vim vim, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
-            uiModel.addAttribute("vim", vim);
+            populateEditForm(uiModel, vim);
             return "vims/create";
         }
         uiModel.asMap().clear();
@@ -36,20 +32,20 @@ privileged aspect VimController_Roo_Controller {
         return "redirect:/vims/" + encodeUrlPathSegment(vim.getId().toString(), httpServletRequest);
     }
     
-    @RequestMapping(params = "form", method = RequestMethod.GET)
+    @RequestMapping(params = "form", produces = "text/html")
     public String VimController.createForm(Model uiModel) {
-        uiModel.addAttribute("vim", new Vim());
+        populateEditForm(uiModel, new Vim());
         return "vims/create";
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", produces = "text/html")
     public String VimController.show(@PathVariable("id") Long id, Model uiModel) {
         uiModel.addAttribute("vim", Vim.findVim(id));
         uiModel.addAttribute("itemId", id);
         return "vims/show";
     }
     
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(produces = "text/html")
     public String VimController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
@@ -63,10 +59,10 @@ privileged aspect VimController_Roo_Controller {
         return "vims/list";
     }
     
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(method = RequestMethod.PUT, produces = "text/html")
     public String VimController.update(@Valid Vim vim, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
-            uiModel.addAttribute("vim", vim);
+            populateEditForm(uiModel, vim);
             return "vims/update";
         }
         uiModel.asMap().clear();
@@ -74,13 +70,13 @@ privileged aspect VimController_Roo_Controller {
         return "redirect:/vims/" + encodeUrlPathSegment(vim.getId().toString(), httpServletRequest);
     }
     
-    @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", params = "form", produces = "text/html")
     public String VimController.updateForm(@PathVariable("id") Long id, Model uiModel) {
-        uiModel.addAttribute("vim", Vim.findVim(id));
+        populateEditForm(uiModel, Vim.findVim(id));
         return "vims/update";
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
     public String VimController.delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         Vim vim = Vim.findVim(id);
         vim.remove();
@@ -90,19 +86,10 @@ privileged aspect VimController_Roo_Controller {
         return "redirect:/vims";
     }
     
-    @ModelAttribute("appservers")
-    public Collection<AppServer> VimController.populateAppServers() {
-        return AppServer.findAllAppServers();
-    }
-    
-    @ModelAttribute("phyms")
-    public Collection<Phym> VimController.populatePhyms() {
-        return Phym.findAllPhyms();
-    }
-    
-    @ModelAttribute("vims")
-    public Collection<Vim> VimController.populateVims() {
-        return Vim.findAllVims();
+    void VimController.populateEditForm(Model uiModel, Vim vim) {
+        uiModel.addAttribute("vim", vim);
+        uiModel.addAttribute("appservers", AppServer.findAllAppServers());
+        uiModel.addAttribute("phyms", Phym.findAllPhyms());
     }
     
     String VimController.encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
@@ -112,8 +99,7 @@ privileged aspect VimController_Roo_Controller {
         }
         try {
             pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
-        }
-        catch (UnsupportedEncodingException uee) {}
+        } catch (UnsupportedEncodingException uee) {}
         return pathSegment;
     }
     

@@ -3,11 +3,11 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.String;
 import java.util.Set;
 import org.seforge.paas.monitor.domain.MBeanAttribute;
 import org.seforge.paas.monitor.domain.MBeanDomain;
 import org.seforge.paas.monitor.domain.MBeanQueryParam;
+import org.seforge.paas.monitor.domain.MBeanType;
 
 privileged aspect MBeanType_Roo_JavaBean {
     

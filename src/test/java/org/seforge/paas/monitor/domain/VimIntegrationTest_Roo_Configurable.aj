@@ -3,6 +3,7 @@
 
 package org.seforge.paas.monitor.domain;
 
+import org.seforge.paas.monitor.domain.VimIntegrationTest;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect VimIntegrationTest_Roo_Configurable {

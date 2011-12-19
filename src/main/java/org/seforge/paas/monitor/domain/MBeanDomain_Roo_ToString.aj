@@ -3,18 +3,14 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.String;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.seforge.paas.monitor.domain.MBeanDomain;
 
 privileged aspect MBeanDomain_Roo_ToString {
     
     public String MBeanDomain.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("MBeanTypes: ").append(getMBeanTypes() == null ? "null" : getMBeanTypes().size()).append(", ");
-        sb.append("Name: ").append(getName()).append(", ");
-        sb.append("Version: ").append(getVersion()).append(", ");
-        sb.append("Version_: ").append(getVersion_());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

@@ -3,9 +3,8 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.Boolean;
-import java.lang.String;
 import java.util.Set;
+import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;
 
 privileged aspect Phym_Roo_JavaBean {

@@ -3,6 +3,7 @@
 
 package org.seforge.paas.monitor.domain;
 
+import org.seforge.paas.monitor.domain.AppServerIntegrationTest;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect AppServerIntegrationTest_Roo_Configurable {

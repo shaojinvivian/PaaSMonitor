@@ -4,17 +4,13 @@
 package org.seforge.paas.monitor.web;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.Integer;
-import java.lang.Long;
-import java.lang.String;
-import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.seforge.paas.monitor.domain.App;
 import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.web.AppController;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,10 +20,10 @@ import org.springframework.web.util.WebUtils;
 
 privileged aspect AppController_Roo_Controller {
     
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, produces = "text/html")
     public String AppController.create(@Valid App app, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
-            uiModel.addAttribute("app", app);
+            populateEditForm(uiModel, app);
             return "apps/create";
         }
         uiModel.asMap().clear();
@@ -35,20 +31,20 @@ privileged aspect AppController_Roo_Controller {
         return "redirect:/apps/" + encodeUrlPathSegment(app.getId().toString(), httpServletRequest);
     }
     
-    @RequestMapping(params = "form", method = RequestMethod.GET)
+    @RequestMapping(params = "form", produces = "text/html")
     public String AppController.createForm(Model uiModel) {
-        uiModel.addAttribute("app", new App());
+        populateEditForm(uiModel, new App());
         return "apps/create";
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", produces = "text/html")
     public String AppController.show(@PathVariable("id") Long id, Model uiModel) {
         uiModel.addAttribute("app", App.findApp(id));
         uiModel.addAttribute("itemId", id);
         return "apps/show";
     }
     
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(produces = "text/html")
     public String AppController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
@@ -62,10 +58,10 @@ privileged aspect AppController_Roo_Controller {
         return "apps/list";
     }
     
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(method = RequestMethod.PUT, produces = "text/html")
     public String AppController.update(@Valid App app, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
-            uiModel.addAttribute("app", app);
+            populateEditForm(uiModel, app);
             return "apps/update";
         }
         uiModel.asMap().clear();
@@ -73,13 +69,13 @@ privileged aspect AppController_Roo_Controller {
         return "redirect:/apps/" + encodeUrlPathSegment(app.getId().toString(), httpServletRequest);
     }
     
-    @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", params = "form", produces = "text/html")
     public String AppController.updateForm(@PathVariable("id") Long id, Model uiModel) {
-        uiModel.addAttribute("app", App.findApp(id));
+        populateEditForm(uiModel, App.findApp(id));
         return "apps/update";
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
     public String AppController.delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         App app = App.findApp(id);
         app.remove();
@@ -89,14 +85,9 @@ privileged aspect AppController_Roo_Controller {
         return "redirect:/apps";
     }
     
-    @ModelAttribute("apps")
-    public Collection<App> AppController.populateApps() {
-        return App.findAllApps();
-    }
-    
-    @ModelAttribute("appinstances")
-    public Collection<AppInstance> AppController.populateAppInstances() {
-        return AppInstance.findAllAppInstances();
+    void AppController.populateEditForm(Model uiModel, App app) {
+        uiModel.addAttribute("app", app);
+        uiModel.addAttribute("appinstances", AppInstance.findAllAppInstances());
     }
     
     String AppController.encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
@@ -106,8 +97,7 @@ privileged aspect AppController_Roo_Controller {
         }
         try {
             pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
-        }
-        catch (UnsupportedEncodingException uee) {}
+        } catch (UnsupportedEncodingException uee) {}
         return pathSegment;
     }
     

@@ -3,17 +3,39 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.Long;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.seforge.paas.monitor.domain.Vim;
 import org.springframework.transaction.annotation.Transactional;
 
-privileged aspect Vim_Roo_Entity {
+privileged aspect Vim_Roo_Jpa_ActiveRecord {
     
     @PersistenceContext
     transient EntityManager Vim.entityManager;
+    
+    public static final EntityManager Vim.entityManager() {
+        EntityManager em = new Vim().entityManager;
+        if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+        return em;
+    }
+    
+    public static long Vim.countVims() {
+        return entityManager().createQuery("SELECT COUNT(o) FROM Vim o", Long.class).getSingleResult();
+    }
+    
+    public static List<Vim> Vim.findAllVims() {
+        return entityManager().createQuery("SELECT o FROM Vim o", Vim.class).getResultList();
+    }
+    
+    public static Vim Vim.findVim(Long id) {
+        if (id == null) return null;
+        return entityManager().find(Vim.class, id);
+    }
+    
+    public static List<Vim> Vim.findVimEntries(int firstResult, int maxResults) {
+        return entityManager().createQuery("SELECT o FROM Vim o", Vim.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
     
     @Transactional
     public void Vim.persist() {
@@ -50,29 +72,6 @@ privileged aspect Vim_Roo_Entity {
         Vim merged = this.entityManager.merge(this);
         this.entityManager.flush();
         return merged;
-    }
-    
-    public static final EntityManager Vim.entityManager() {
-        EntityManager em = new Vim().entityManager;
-        if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
-        return em;
-    }
-    
-    public static long Vim.countVims() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM Vim o", Long.class).getSingleResult();
-    }
-    
-    public static List<Vim> Vim.findAllVims() {
-        return entityManager().createQuery("SELECT o FROM Vim o", Vim.class).getResultList();
-    }
-    
-    public static Vim Vim.findVim(Long id) {
-        if (id == null) return null;
-        return entityManager().find(Vim.class, id);
-    }
-    
-    public static List<Vim> Vim.findVimEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("SELECT o FROM Vim o", Vim.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
 }

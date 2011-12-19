@@ -3,17 +3,39 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.Long;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.seforge.paas.monitor.domain.AppInstance;
 import org.springframework.transaction.annotation.Transactional;
 
-privileged aspect AppInstance_Roo_Entity {
+privileged aspect AppInstance_Roo_Jpa_ActiveRecord {
     
     @PersistenceContext
     transient EntityManager AppInstance.entityManager;
+    
+    public static final EntityManager AppInstance.entityManager() {
+        EntityManager em = new AppInstance().entityManager;
+        if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+        return em;
+    }
+    
+    public static long AppInstance.countAppInstances() {
+        return entityManager().createQuery("SELECT COUNT(o) FROM AppInstance o", Long.class).getSingleResult();
+    }
+    
+    public static List<AppInstance> AppInstance.findAllAppInstances() {
+        return entityManager().createQuery("SELECT o FROM AppInstance o", AppInstance.class).getResultList();
+    }
+    
+    public static AppInstance AppInstance.findAppInstance(Long id) {
+        if (id == null) return null;
+        return entityManager().find(AppInstance.class, id);
+    }
+    
+    public static List<AppInstance> AppInstance.findAppInstanceEntries(int firstResult, int maxResults) {
+        return entityManager().createQuery("SELECT o FROM AppInstance o", AppInstance.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
     
     @Transactional
     public void AppInstance.persist() {
@@ -50,29 +72,6 @@ privileged aspect AppInstance_Roo_Entity {
         AppInstance merged = this.entityManager.merge(this);
         this.entityManager.flush();
         return merged;
-    }
-    
-    public static final EntityManager AppInstance.entityManager() {
-        EntityManager em = new AppInstance().entityManager;
-        if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
-        return em;
-    }
-    
-    public static long AppInstance.countAppInstances() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM AppInstance o", Long.class).getSingleResult();
-    }
-    
-    public static List<AppInstance> AppInstance.findAllAppInstances() {
-        return entityManager().createQuery("SELECT o FROM AppInstance o", AppInstance.class).getResultList();
-    }
-    
-    public static AppInstance AppInstance.findAppInstance(Long id) {
-        if (id == null) return null;
-        return entityManager().find(AppInstance.class, id);
-    }
-    
-    public static List<AppInstance> AppInstance.findAppInstanceEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("SELECT o FROM AppInstance o", AppInstance.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
 }

@@ -3,8 +3,6 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.Boolean;
-import java.lang.String;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,6 +13,7 @@ import javax.validation.ConstraintViolationException;
 import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.PhymDataOnDemand;
 import org.seforge.paas.monitor.domain.Vim;
+import org.seforge.paas.monitor.domain.VimDataOnDemand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -75,17 +74,21 @@ privileged aspect VimDataOnDemand_Roo_DataOnDemand {
     
     public Vim VimDataOnDemand.getSpecificVim(int index) {
         init();
-        if (index < 0) index = 0;
-        if (index > (data.size() - 1)) index = data.size() - 1;
+        if (index < 0) {
+            index = 0;
+        }
+        if (index > (data.size() - 1)) {
+            index = data.size() - 1;
+        }
         Vim obj = data.get(index);
-        java.lang.Long id = obj.getId();
+        Long id = obj.getId();
         return Vim.findVim(id);
     }
     
     public Vim VimDataOnDemand.getRandomVim() {
         init();
         Vim obj = data.get(rnd.nextInt(data.size()));
-        java.lang.Long id = obj.getId();
+        Long id = obj.getId();
         return Vim.findVim(id);
     }
     
@@ -97,20 +100,22 @@ privileged aspect VimDataOnDemand_Roo_DataOnDemand {
         int from = 0;
         int to = 10;
         data = Vim.findVimEntries(from, to);
-        if (data == null) throw new IllegalStateException("Find entries implementation for 'Vim' illegally returned null");
+        if (data == null) {
+            throw new IllegalStateException("Find entries implementation for 'Vim' illegally returned null");
+        }
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new ArrayList<org.seforge.paas.monitor.domain.Vim>();
+        data = new ArrayList<Vim>();
         for (int i = 0; i < 10; i++) {
             Vim obj = getNewTransientVim(i);
             try {
                 obj.persist();
             } catch (ConstraintViolationException e) {
                 StringBuilder msg = new StringBuilder();
-                for (Iterator<ConstraintViolation<?>> it = e.getConstraintViolations().iterator(); it.hasNext();) {
-                    ConstraintViolation<?> cv = it.next();
+                for (Iterator<ConstraintViolation<?>> iter = e.getConstraintViolations().iterator(); iter.hasNext();) {
+                    ConstraintViolation<?> cv = iter.next();
                     msg.append("[").append(cv.getConstraintDescriptor()).append(":").append(cv.getMessage()).append("=").append(cv.getInvalidValue()).append("]");
                 }
                 throw new RuntimeException(msg.toString(), e);

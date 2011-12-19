@@ -131,3 +131,16 @@ field reference --fieldName appInstance --type ~.domain.AppInstance
 web mvc controller --class ~.web.MonitorController --preferredMapping /monitor
 quit
 // Spring Roo 1.2.0.M1 [rev 1fa252f] log closed at 2011-12-12 21:12:31
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2011-12-19 14:02:38
+exit
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2011-12-19 14:28:52
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2011-12-19 14:29:04
+exit
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2011-12-19 14:34:08
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2011-12-19 14:34:12
+exit
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2011-12-19 14:35:39
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2011-12-19 14:35:44
+entity jpa --class ~.domain.AppServerSnap
+exit
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2011-12-19 16:40:42

@@ -3,10 +3,9 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.Boolean;
-import java.lang.String;
 import java.util.Set;
 import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.Vim;
 
 privileged aspect AppServer_Roo_JavaBean {

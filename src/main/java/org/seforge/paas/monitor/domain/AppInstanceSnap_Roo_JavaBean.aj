@@ -3,10 +3,9 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.Long;
-import java.lang.String;
 import java.util.Date;
 import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.domain.AppInstanceSnap;
 
 privileged aspect AppInstanceSnap_Roo_JavaBean {
     
@@ -40,6 +39,70 @@ privileged aspect AppInstanceSnap_Roo_JavaBean {
     
     public void AppInstanceSnap.setAvailableMemory(Long availableMemory) {
         this.availableMemory = availableMemory;
+    }
+    
+    public int AppInstanceSnap.getRequestCount() {
+        return this.requestCount;
+    }
+    
+    public void AppInstanceSnap.setRequestCount(int requestCount) {
+        this.requestCount = requestCount;
+    }
+    
+    public int AppInstanceSnap.getMaxTime() {
+        return this.maxTime;
+    }
+    
+    public void AppInstanceSnap.setMaxTime(int maxTime) {
+        this.maxTime = maxTime;
+    }
+    
+    public int AppInstanceSnap.getMinTime() {
+        return this.minTime;
+    }
+    
+    public void AppInstanceSnap.setMinTime(int minTime) {
+        this.minTime = minTime;
+    }
+    
+    public int AppInstanceSnap.getAvgTime() {
+        return this.avgTime;
+    }
+    
+    public void AppInstanceSnap.setAvgTime(int avgTime) {
+        this.avgTime = avgTime;
+    }
+    
+    public Long AppInstanceSnap.getTotalTime() {
+        return this.totalTime;
+    }
+    
+    public void AppInstanceSnap.setTotalTime(Long totalTime) {
+        this.totalTime = totalTime;
+    }
+    
+    public int AppInstanceSnap.getBytesReceived() {
+        return this.bytesReceived;
+    }
+    
+    public void AppInstanceSnap.setBytesReceived(int bytesReceived) {
+        this.bytesReceived = bytesReceived;
+    }
+    
+    public int AppInstanceSnap.getBytesSent() {
+        return this.bytesSent;
+    }
+    
+    public void AppInstanceSnap.setBytesSent(int bytesSent) {
+        this.bytesSent = bytesSent;
+    }
+    
+    public int AppInstanceSnap.getErrorCount() {
+        return this.errorCount;
+    }
+    
+    public void AppInstanceSnap.setErrorCount(int errorCount) {
+        this.errorCount = errorCount;
     }
     
     public String AppInstanceSnap.getRunningDuration() {

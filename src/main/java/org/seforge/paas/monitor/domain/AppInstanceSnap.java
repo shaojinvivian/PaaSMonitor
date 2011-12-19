@@ -7,26 +7,34 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
+import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
 
 @RooJavaBean
 @RooToString
-@RooEntity
+@RooJpaActiveRecord
 public class AppInstanceSnap {
 
     private String status;
-
    
-    private double cpuPercent;
+    private double cpuPercent;    
     
-   
     private Long usedMemory;
-
    
     private Long availableMemory;   
-   
+    
+    private int requestCount;
+    
+    private int maxTime;
+    private int minTime;
+    private int avgTime;
+    private Long totalTime;
+    
+    private int bytesReceived;
+    private int bytesSent;
+    
+    private int errorCount;
     
     @Transient
     private String runningDuration;

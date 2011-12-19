@@ -3,22 +3,14 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.String;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.seforge.paas.monitor.domain.AppInstanceSnap;
 
 privileged aspect AppInstanceSnap_Roo_ToString {
     
     public String AppInstanceSnap.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("AppInstance: ").append(getAppInstance()).append(", ");
-        sb.append("AvailableMemory: ").append(getAvailableMemory()).append(", ");
-        sb.append("CpuPercent: ").append(getCpuPercent()).append(", ");
-        sb.append("CreateTime: ").append(getCreateTime()).append(", ");
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("RunningDuration: ").append(getRunningDuration()).append(", ");
-        sb.append("Status: ").append(getStatus()).append(", ");
-        sb.append("UsedMemory: ").append(getUsedMemory()).append(", ");
-        sb.append("Version: ").append(getVersion());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

@@ -3,17 +3,39 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.Long;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.seforge.paas.monitor.domain.MBeanType;
 import org.springframework.transaction.annotation.Transactional;
 
-privileged aspect MBeanType_Roo_Entity {
+privileged aspect MBeanType_Roo_Jpa_ActiveRecord {
     
     @PersistenceContext
     transient EntityManager MBeanType.entityManager;
+    
+    public static final EntityManager MBeanType.entityManager() {
+        EntityManager em = new MBeanType().entityManager;
+        if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+        return em;
+    }
+    
+    public static long MBeanType.countMBeanTypes() {
+        return entityManager().createQuery("SELECT COUNT(o) FROM MBeanType o", Long.class).getSingleResult();
+    }
+    
+    public static List<MBeanType> MBeanType.findAllMBeanTypes() {
+        return entityManager().createQuery("SELECT o FROM MBeanType o", MBeanType.class).getResultList();
+    }
+    
+    public static MBeanType MBeanType.findMBeanType(Long id) {
+        if (id == null) return null;
+        return entityManager().find(MBeanType.class, id);
+    }
+    
+    public static List<MBeanType> MBeanType.findMBeanTypeEntries(int firstResult, int maxResults) {
+        return entityManager().createQuery("SELECT o FROM MBeanType o", MBeanType.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
     
     @Transactional
     public void MBeanType.persist() {
@@ -50,29 +72,6 @@ privileged aspect MBeanType_Roo_Entity {
         MBeanType merged = this.entityManager.merge(this);
         this.entityManager.flush();
         return merged;
-    }
-    
-    public static final EntityManager MBeanType.entityManager() {
-        EntityManager em = new MBeanType().entityManager;
-        if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
-        return em;
-    }
-    
-    public static long MBeanType.countMBeanTypes() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM MBeanType o", Long.class).getSingleResult();
-    }
-    
-    public static List<MBeanType> MBeanType.findAllMBeanTypes() {
-        return entityManager().createQuery("SELECT o FROM MBeanType o", MBeanType.class).getResultList();
-    }
-    
-    public static MBeanType MBeanType.findMBeanType(Long id) {
-        if (id == null) return null;
-        return entityManager().find(MBeanType.class, id);
-    }
-    
-    public static List<MBeanType> MBeanType.findMBeanTypeEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("SELECT o FROM MBeanType o", MBeanType.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
 }

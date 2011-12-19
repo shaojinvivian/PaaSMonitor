@@ -3,26 +3,14 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.String;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.seforge.paas.monitor.domain.AppServer;
 
 privileged aspect AppServer_Roo_ToString {
     
     public String AppServer.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("ActiveAppInstances: ").append(getActiveAppInstances() == null ? "null" : getActiveAppInstances().size()).append(", ");
-        sb.append("AppInstances: ").append(getAppInstances() == null ? "null" : getAppInstances().size()).append(", ");
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("Ip: ").append(getIp()).append(", ");
-        sb.append("IsMonitee: ").append(getIsMonitee()).append(", ");
-        sb.append("JmxPort: ").append(getJmxPort()).append(", ");
-        sb.append("LastCpuTime: ").append(getLastCpuTime()).append(", ");
-        sb.append("LastSystemTime: ").append(getLastSystemTime()).append(", ");
-        sb.append("Name: ").append(getName()).append(", ");
-        sb.append("ProcessorNum: ").append(getProcessorNum()).append(", ");
-        sb.append("Status: ").append(getStatus()).append(", ");
-        sb.append("Version: ").append(getVersion()).append(", ");
-        sb.append("Vim: ").append(getVim());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

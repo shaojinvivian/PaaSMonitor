@@ -5,11 +5,11 @@ package org.seforge.paas.monitor.domain;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.seforge.paas.monitor.domain.App;
+import org.seforge.paas.monitor.domain.AppServerSnap;
 
-privileged aspect App_Roo_ToString {
+privileged aspect AppServerSnap_Roo_ToString {
     
-    public String App.toString() {
+    public String AppServerSnap.toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     

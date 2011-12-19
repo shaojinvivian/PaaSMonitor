@@ -3,14 +3,13 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.Integer;
-import java.lang.Long;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Version;
+import org.seforge.paas.monitor.domain.AppInstanceSnap;
 
 privileged aspect AppInstanceSnap_Roo_Jpa_Entity {
     

@@ -3,7 +3,6 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.String;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import org.seforge.paas.monitor.domain.AppServer;

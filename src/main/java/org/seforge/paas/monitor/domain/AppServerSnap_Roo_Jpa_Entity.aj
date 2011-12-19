@@ -9,34 +9,34 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Version;
-import org.seforge.paas.monitor.domain.MBeanType;
+import org.seforge.paas.monitor.domain.AppServerSnap;
 
-privileged aspect MBeanType_Roo_Jpa_Entity {
+privileged aspect AppServerSnap_Roo_Jpa_Entity {
     
-    declare @type: MBeanType: @Entity;
+    declare @type: AppServerSnap: @Entity;
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long MBeanType.id;
+    private Long AppServerSnap.id;
     
     @Version
     @Column(name = "version")
-    private Integer MBeanType.version;
+    private Integer AppServerSnap.version;
     
-    public Long MBeanType.getId() {
+    public Long AppServerSnap.getId() {
         return this.id;
     }
     
-    public void MBeanType.setId(Long id) {
+    public void AppServerSnap.setId(Long id) {
         this.id = id;
     }
     
-    public Integer MBeanType.getVersion() {
+    public Integer AppServerSnap.getVersion() {
         return this.version;
     }
     
-    public void MBeanType.setVersion(Integer version) {
+    public void AppServerSnap.setVersion(Integer version) {
         this.version = version;
     }
     

@@ -3,10 +3,9 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.Boolean;
-import java.lang.String;
 import java.util.Set;
 import org.seforge.paas.monitor.domain.App;
+import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.AppInstanceSnap;
 import org.seforge.paas.monitor.domain.AppServer;
 

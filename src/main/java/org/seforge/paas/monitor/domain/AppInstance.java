@@ -3,7 +3,6 @@ package org.seforge.paas.monitor.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 import javax.validation.constraints.NotNull;
@@ -16,12 +15,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.TypedQuery;
 
 import org.seforge.paas.monitor.domain.AppServer;
+import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.json.RooJson;
 
 @RooJavaBean
 @RooToString
 @RooJson
-@RooEntity(finders = { "findAppInstancesByAppServer" })
+@RooJpaActiveRecord(finders = { "findAppInstancesByAppServer" })
 public class AppInstance {
 
     @NotNull

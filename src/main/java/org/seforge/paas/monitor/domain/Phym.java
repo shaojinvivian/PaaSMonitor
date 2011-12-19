@@ -1,6 +1,5 @@
 package org.seforge.paas.monitor.domain;
 
-import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 import javax.validation.constraints.NotNull;
@@ -15,11 +14,13 @@ import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
+
+import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.json.RooJson;
 
 @RooJavaBean
 @RooToString
-@RooEntity
+@RooJpaActiveRecord
 @RooJson
 public class Phym {
 

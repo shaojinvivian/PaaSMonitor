@@ -3,8 +3,8 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.String;
 import java.util.List;
+import org.seforge.paas.monitor.domain.MBeanQueryParam;
 import org.seforge.paas.monitor.domain.MBeanType;
 
 privileged aspect MBeanQueryParam_Roo_JavaBean {

@@ -3,22 +3,14 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.String;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.seforge.paas.monitor.domain.Phym;
 
 privileged aspect Phym_Roo_ToString {
     
     public String Phym.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("ActiveVims: ").append(getActiveVims() == null ? "null" : getActiveVims().size()).append(", ");
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("Ip: ").append(getIp()).append(", ");
-        sb.append("IsMonitee: ").append(getIsMonitee()).append(", ");
-        sb.append("Name: ").append(getName()).append(", ");
-        sb.append("Password: ").append(getPassword()).append(", ");
-        sb.append("Username: ").append(getUsername()).append(", ");
-        sb.append("Version: ").append(getVersion()).append(", ");
-        sb.append("Vims: ").append(getVims() == null ? "null" : getVims().size());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

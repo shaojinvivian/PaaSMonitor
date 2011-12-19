@@ -12,8 +12,7 @@ import org.seforge.paas.monitor.utils.TimeUtils;
 import org.springframework.stereotype.Service;
 
 @Service("monitorService")
-public class MonitorService {
-	
+public class MonitorService {	
 	
 	public AppInstanceSnap getLatestSnap(AppInstance appInstance) throws Exception{
 		AppServer appServer = appInstance.getAppServer();
@@ -21,6 +20,8 @@ public class MonitorService {
 		String jmxPort = appServer.getJmxPort();
 		AppInstanceSnap snap = new AppInstanceSnap();
 		snap.setAppInstance(appInstance);		
+		ObjectName instanceON= new ObjectName(
+				"PaaSMonitor:type=Context,name=\\"+appInstance.getContextName());
 		JmxUtil jmxUtil = new JmxUtil(ip,jmxPort);
 		jmxUtil.connect();
 		long currentCpuTime = (Long)jmxUtil.getAttribute(new ObjectName(
@@ -30,6 +31,14 @@ public class MonitorService {
 				"Catalina:j2eeType=WebModule,J2EEApplication=none,J2EEServer=none,name=//localhost/" + appInstance.getContextName()), "startTime");
 		CompositeDataSupport heap = (CompositeDataSupport)jmxUtil.getAttribute(new ObjectName(
 				"java.lang:type=Memory"), "HeapMemoryUsage");
+		snap.setRequestCount((Integer)jmxUtil.getAttribute(instanceON, "RequestCount"));
+		snap.setBytesReceived((Integer)jmxUtil.getAttribute(instanceON, "BytesReceived"));
+		snap.setBytesSent((Integer)jmxUtil.getAttribute(instanceON, "BytesSent"));
+		snap.setAvgTime((Integer)jmxUtil.getAttribute(instanceON, "AvgTime"));
+		snap.setMaxTime((Integer)jmxUtil.getAttribute(instanceON, "MaxTime"));
+		snap.setMinTime((Integer)jmxUtil.getAttribute(instanceON, "MinTime"));
+		snap.setTotalTime((Long)jmxUtil.getAttribute(instanceON, "TotalTime"));
+		snap.setErrorCount((Integer)jmxUtil.getAttribute(instanceON, "ErrorCount"));
 		jmxUtil.disconnect();
 		
 		double percentage = (double)(currentCpuTime - appServer.getLastCpuTime())/(currentSystemTime-appServer.getLastSystemTime())/appServer.getProcessorNum();
@@ -44,6 +53,21 @@ public class MonitorService {
 		snap.setCreateTime(new Date());
 		snap.persist();
 		return snap;
+	}
+	
+	public void controlAppInstance(AppInstance appInstance, String op) throws Exception{
+		AppServer appServer = appInstance.getAppServer();
+		String ip = appServer.getIp();
+		String jmxPort = appServer.getJmxPort();
+		
+		JmxUtil jmxUtil = new JmxUtil(ip,jmxPort);
+		jmxUtil.connect();
+		
+		ObjectName instanceON= new ObjectName(
+				"Catalina:j2eeType=WebModule,J2EEApplication=none,J2EEServer=none,name=//localhost/"+appInstance.getContextName());
+		jmxUtil.invoke(instanceON, op, null);
+		jmxUtil.disconnect();
+		
 	}
 	
 	

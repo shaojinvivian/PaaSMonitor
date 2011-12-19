@@ -3,22 +3,14 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.String;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.seforge.paas.monitor.domain.Vim;
 
 privileged aspect Vim_Roo_ToString {
     
     public String Vim.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("AppServers: ").append(getAppServers() == null ? "null" : getAppServers().size()).append(", ");
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("Ip: ").append(getIp()).append(", ");
-        sb.append("IsMonitee: ").append(getIsMonitee()).append(", ");
-        sb.append("Name: ").append(getName()).append(", ");
-        sb.append("Phym: ").append(getPhym()).append(", ");
-        sb.append("PowerState: ").append(getPowerState()).append(", ");
-        sb.append("Uuid: ").append(getUuid()).append(", ");
-        sb.append("Version: ").append(getVersion());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

@@ -1,6 +1,5 @@
 package org.seforge.paas.monitor.domain;
 
-import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 import javax.validation.constraints.NotNull;
@@ -22,13 +21,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.TypedQuery;
 
+import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.json.RooJson;
 import javax.persistence.Column;
 
 @RooJavaBean
 @RooToString
 @RooJson
-@RooEntity(finders = { "findAppServersByIp" })
+@RooJpaActiveRecord(finders = { "findAppServersByIp" })
 public class AppServer {
 
     private String name;

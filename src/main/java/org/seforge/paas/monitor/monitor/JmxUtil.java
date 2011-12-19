@@ -71,6 +71,10 @@ public class JmxUtil {
 			return null;		
 	}
 	
+	public void invoke(ObjectName objectName, String op, Object[] params) throws Exception{		
+		mbsc.invoke(objectName, op, params, null);
+	}
+	
 	public Set<ObjectName> queryNames(ObjectName objectName){
 		try {
 			return mbsc.queryNames(objectName,null);

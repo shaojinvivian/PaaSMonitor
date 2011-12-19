@@ -3,6 +3,7 @@
 
 package org.seforge.paas.monitor.domain;
 
+import org.seforge.paas.monitor.domain.VimDataOnDemand;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect VimDataOnDemand_Roo_Configurable {

@@ -3,17 +3,39 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.Long;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.seforge.paas.monitor.domain.Phym;
 import org.springframework.transaction.annotation.Transactional;
 
-privileged aspect Phym_Roo_Entity {
+privileged aspect Phym_Roo_Jpa_ActiveRecord {
     
     @PersistenceContext
     transient EntityManager Phym.entityManager;
+    
+    public static final EntityManager Phym.entityManager() {
+        EntityManager em = new Phym().entityManager;
+        if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+        return em;
+    }
+    
+    public static long Phym.countPhyms() {
+        return entityManager().createQuery("SELECT COUNT(o) FROM Phym o", Long.class).getSingleResult();
+    }
+    
+    public static List<Phym> Phym.findAllPhyms() {
+        return entityManager().createQuery("SELECT o FROM Phym o", Phym.class).getResultList();
+    }
+    
+    public static Phym Phym.findPhym(Long id) {
+        if (id == null) return null;
+        return entityManager().find(Phym.class, id);
+    }
+    
+    public static List<Phym> Phym.findPhymEntries(int firstResult, int maxResults) {
+        return entityManager().createQuery("SELECT o FROM Phym o", Phym.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
     
     @Transactional
     public void Phym.persist() {
@@ -50,29 +72,6 @@ privileged aspect Phym_Roo_Entity {
         Phym merged = this.entityManager.merge(this);
         this.entityManager.flush();
         return merged;
-    }
-    
-    public static final EntityManager Phym.entityManager() {
-        EntityManager em = new Phym().entityManager;
-        if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
-        return em;
-    }
-    
-    public static long Phym.countPhyms() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM Phym o", Long.class).getSingleResult();
-    }
-    
-    public static List<Phym> Phym.findAllPhyms() {
-        return entityManager().createQuery("SELECT o FROM Phym o", Phym.class).getResultList();
-    }
-    
-    public static Phym Phym.findPhym(Long id) {
-        if (id == null) return null;
-        return entityManager().find(Phym.class, id);
-    }
-    
-    public static List<Phym> Phym.findPhymEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("SELECT o FROM Phym o", Phym.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
 }

@@ -3,6 +3,7 @@
 
 package org.seforge.paas.monitor.domain;
 
+import org.seforge.paas.monitor.domain.MBeanType;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect MBeanType_Roo_Configurable {

@@ -3,8 +3,8 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.String;
 import java.util.Set;
+import org.seforge.paas.monitor.domain.App;
 import org.seforge.paas.monitor.domain.AppInstance;
 
 privileged aspect App_Roo_JavaBean {

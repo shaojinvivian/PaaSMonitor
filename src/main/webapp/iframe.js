@@ -156,23 +156,51 @@ Ext.onReady(function() {
 		items : [{
 			xtype : 'displayfield',
 			name : 'status',
-			fieldLabel : 'Status'
+			fieldLabel : '运行状态'
 		}, {
 			xtype : 'displayfield',
 			name : 'cpuPercent',
-			fieldLabel : 'CPU Percentage'
+			fieldLabel : 'CPU使用率'
 		}, {
 			xtype : 'displayfield',
 			name : 'usedMemory',
-			fieldLabel : 'Used Memory'
+			fieldLabel : '已用内存'
 		}, {
 			xtype : 'displayfield',
 			name : 'availableMemory',
-			fieldLabel : 'Available Memory'
+			fieldLabel : '可用内存'
 		}, {
 			xtype : 'displayfield',
 			name : 'runningDuration',
-			fieldLabel : 'Running Duration'
+			fieldLabel : '已运行时间'
+		}, {
+			xtype : 'displayfield',
+			name : 'requestCount',
+			fieldLabel : '已接收请求总数'
+		}, {
+			xtype : 'displayfield',
+			name : 'avgTime',
+			fieldLabel : '平均响应时间'
+		}, {
+			xtype : 'displayfield',
+			name : 'maxTime',
+			fieldLabel : '最长响应时间'
+		}, {
+			xtype : 'displayfield',
+			name : 'minTime',
+			fieldLabel : '最短响应时间'
+		}, {
+			xtype : 'displayfield',
+			name : 'errorCount',
+			fieldLabel : '出错数'
+		}, {
+			xtype : 'displayfield',
+			name : 'bytesReceived',
+			fieldLabel : '已接收字节数'
+		}, {
+			xtype : 'displayfield',
+			name : 'bytesSent',
+			fieldLabel : '已发送字节数'
 		}]
 	});
 
@@ -206,25 +234,79 @@ Ext.onReady(function() {
 	});
 	
 	var startButton =  Ext.create('Ext.Button', {
-		text: 'Start',
+		id: 'startButton',
+		text: 'start',
 		width: 55,
 		height : 25,
-		margin: '0, 20, 0, 0'
-		
+		margin: '0, 20, 0, 0',
+		disabled: true,
+		handler: function(button, event){
+			var op = button.getText();
+			var ajax = Ext.Ajax.request({
+					url : 'monitor/control',
+					params : {
+						ip : ip,
+						jmxPort : jmxPort,
+						contextName : contextName,
+						operation : op
+					},
+					method : 'get',
+					success : function(response) {
+						Ext.getCmp('stopButton').enable();
+						button.disable();
+						
+					}
+			});			
+		}		
 	});
 	
 	var stopButton =  Ext.create('Ext.Button', {
+		id: 'stopButton',
 		width: 55,
 		height : 25,
-		text: 'Stop',
-		margin: '0, 20, 0, 0'		
+		text: 'stop',
+		margin: '0, 20, 0, 0',
+		handler: function(button, event){
+			var op = button.getText();
+			var ajax = Ext.Ajax.request({
+					url : 'monitor/control',
+					params : {
+						ip : ip,
+						jmxPort : jmxPort,
+						contextName : contextName,
+						operation : op
+					},
+					method : 'get',
+					success : function(response) {
+						Ext.getCmp('startButton').enable();
+						button.disable();						
+					}
+			});			
+		}		
+		
 	});
 	
-	var suspendButton =  Ext.create('Ext.Button', {
+	var reloadButton =  Ext.create('Ext.Button', {
+		id: 'reload',
 		width: 55,
 		height : 25,
-		text: 'Suspend',
-		margin: '0, 20, 0, 0'		
+		text: 'reload',
+		margin: '0, 20, 0, 0',
+		handler: function(button, event){
+			var op = button.getText();
+			var ajax = Ext.Ajax.request({
+					url : 'monitor/control',
+					params : {
+						ip : ip,
+						jmxPort : jmxPort,
+						contextName : contextName,
+						operation : op
+					},
+					method : 'get',
+					success : function(response) {												
+					}
+			});			
+		}			
 	});
 	
 	
@@ -243,7 +325,7 @@ Ext.onReady(function() {
 		bodyPadding : 5,
 		boarder : false,
 		height : 100,
-		items : [startButton, stopButton, suspendButton]
+		items : [startButton, stopButton, reloadButton]
 	});
 
 	var monitorPanel = Ext.create('Ext.panel.Panel', {
@@ -254,8 +336,8 @@ Ext.onReady(function() {
 		},
 		title : 'Current status of ' + contextName + ' @ ' + ip,
 		width : 400,
-		height : 360,
-		items : [formPanel, showChartPanel, controlPanel]
+		height : 400,
+		items : [formPanel, controlPanel]
 	});
 
 	formPanel.getForm().load({
@@ -270,5 +352,9 @@ Ext.onReady(function() {
 		success : function(form, action) {
 		}
 	});
+	
+	var controlButtonHandler = function(button, event){
+		
+	};
 
 });

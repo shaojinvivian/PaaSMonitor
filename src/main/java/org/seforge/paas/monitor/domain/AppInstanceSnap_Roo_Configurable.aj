@@ -3,6 +3,7 @@
 
 package org.seforge.paas.monitor.domain;
 
+import org.seforge.paas.monitor.domain.AppInstanceSnap;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect AppInstanceSnap_Roo_Configurable {

@@ -3,12 +3,11 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.io.Serializable;
+import org.seforge.paas.monitor.domain.AppServerSnap;
+import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect MBeanAttribute_Roo_Serializable {
+privileged aspect AppServerSnap_Roo_Configurable {
     
-    declare parents: MBeanAttribute implements Serializable;
-    
-    private static final long MBeanAttribute.serialVersionUID = 1L;
+    declare @type: AppServerSnap: @Configurable;
     
 }

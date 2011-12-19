@@ -12,3 +12,9 @@ function getRequestParam(paras) {
 		return returnValue;
 	}
 }
+
+
+function convertToMB(bytes){
+	var result = bytes/1024/1024;
+	return result;
+}

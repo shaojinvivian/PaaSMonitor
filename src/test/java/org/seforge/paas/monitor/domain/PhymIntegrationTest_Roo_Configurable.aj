@@ -3,6 +3,7 @@
 
 package org.seforge.paas.monitor.domain;
 
+import org.seforge.paas.monitor.domain.PhymIntegrationTest;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect PhymIntegrationTest_Roo_Configurable {

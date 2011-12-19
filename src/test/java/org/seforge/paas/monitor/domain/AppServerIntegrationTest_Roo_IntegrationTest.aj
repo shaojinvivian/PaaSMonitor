@@ -3,13 +3,13 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.lang.Integer;
-import java.lang.Long;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.AppServerDataOnDemand;
+import org.seforge.paas.monitor.domain.AppServerIntegrationTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

@@ -3,6 +3,7 @@
 
 package org.seforge.paas.monitor.domain;
 
+import org.seforge.paas.monitor.domain.AppInstanceDataOnDemand;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect AppInstanceDataOnDemand_Roo_Configurable {
