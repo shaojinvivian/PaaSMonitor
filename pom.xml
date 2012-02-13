@@ -20,7 +20,7 @@
 		<database.password>paasmonitor</database.password>
 		<hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
 		<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
-		<mail.default.to>mass@sei.pku.edu.cn</mail.default.to>	
+		<mail.default.to>shaojin07@sei.pku.edu.cn</mail.default.to>	
 		
 		<!-- 
 		<database.url>jdbc:hsqldb:/tmp/PaaSMonitor;shutdown=true</database.url>

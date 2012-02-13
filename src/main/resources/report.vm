@@ -56,12 +56,12 @@
 								#foreach ($appInstance in $appInstances)
 									<tr>
 									#if($appInstance.status == "STOPPED")
-											<td style="color:red">$appInstance.contextName</td>
+											<td style="color:red">$appInstance.name</td>
 											<td style="color:red">$appInstance.status</td>
 											<td style="color:red">$appInstance.errorCount</td>
 											<td style="color:red">N/A</td>	
 									#else
-											<td>$appInstance.contextName</td>
+											<td>$appInstance.name</td>
 											<td>$appInstance.status</td>
 											<td>$appInstance.errorCount</td>
 											<td>$appInstance.errorLogDir</td>
