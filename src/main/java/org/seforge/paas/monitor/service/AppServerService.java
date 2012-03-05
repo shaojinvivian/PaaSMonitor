@@ -54,6 +54,7 @@ public class AppServerService{
 		jmxUtil.connect();	
 		ObjectName objectName = new ObjectName("Catalina:type=Server");
 		appServer.setName((String)jmxUtil.getAttribute(objectName, "serverInfo"));		
+		
 		int processorNum = (Integer)jmxUtil.getAttribute(new ObjectName(
 				"java.lang:type=OperatingSystem"), "AvailableProcessors");
 		long lastCpuTime = (Long)jmxUtil.getAttribute(new ObjectName(
@@ -61,7 +62,8 @@ public class AppServerService{
 		long lastSystemTime = System.nanoTime();
 		appServer.setLastCpuTime(lastCpuTime);
 		appServer.setLastSystemTime(lastSystemTime);
-		appServer.setProcessorNum(processorNum);		
+		appServer.setProcessorNum(processorNum);	
+			
 		jmxUtil.disconnect();	
 	}
 	
@@ -94,7 +96,7 @@ public class AppServerService{
 			Set<AppInstance> appInstances = appServer.getAppInstances();
 			modelTransformer.prepare(jmxUtil);
 			for(AppInstance appInstance: appInstances){				
-				if(appInstance.getIsMonitee()){
+				if(appInstance.getIsMonitee()!=null && appInstance.getIsMonitee()){
 					modelTransformer.transform(appInstance);
 				}
 				

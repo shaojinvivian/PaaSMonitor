@@ -34,6 +34,7 @@ public class MonitorController {
 	private MonitorService monitorService;	
 	
 	
+	//To view the page: http://localhost:8080/PaaSMonitor/monitor?ip=192.168.4.168&jmxPort=8999&contextName=doc
     @RequestMapping(method = RequestMethod.GET)
     public String get(@RequestParam("ip") String ip,
 			@RequestParam("jmxPort") String jmxPort, @RequestParam("contextName") String contextName) {

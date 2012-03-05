@@ -8,6 +8,7 @@ import org.seforge.paas.monitor.domain.App;
 import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.AppInstanceSnap;
 import org.seforge.paas.monitor.domain.AppServer;
+import org.seforge.paas.monitor.domain.MonitorConfig;
 
 privileged aspect AppInstance_Roo_JavaBean {
     
@@ -73,6 +74,14 @@ privileged aspect AppInstance_Roo_JavaBean {
     
     public void AppInstance.setAppInstanceSnaps(Set<AppInstanceSnap> appInstanceSnaps) {
         this.appInstanceSnaps = appInstanceSnaps;
+    }
+    
+    public Set<MonitorConfig> AppInstance.getMonitorConfigs() {
+        return this.monitorConfigs;
+    }
+    
+    public void AppInstance.setMonitorConfigs(Set<MonitorConfig> monitorConfigs) {
+        this.monitorConfigs = monitorConfigs;
     }
     
     public String AppInstance.getErrorLogDir() {

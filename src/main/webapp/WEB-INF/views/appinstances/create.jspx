@@ -14,6 +14,7 @@
         <field:simple field="appInstanceSnaps" id="c_org_seforge_paas_monitor_domain_AppInstance_appInstanceSnaps" messageCode="entity_reference_not_managed" messageCodeAttribute="App Instance Snap" z="xNASlka7TFvCUha8UxJa856K5Bo="/>
         <field:input field="name" id="c_org_seforge_paas_monitor_domain_AppInstance_name" required="true" z="wQmpj/XNZ2k1qXy9k+MjNpwAqYM="/>
         <field:input field="description" id="c_org_seforge_paas_monitor_domain_AppInstance_description" z="X3LaS4EVmUCddhYiLo/NJzAHiQw="/>
+        <field:simple field="monitorConfigs" id="c_org_seforge_paas_monitor_domain_AppInstance_monitorConfigs" messageCode="entity_reference_not_managed" messageCodeAttribute="Monitor Config" z="8S+5isb5BkxrbIWVFSUpjNGg1h0="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_seforge_paas_monitor_domain_AppInstance" render="${not empty dependencies}" z="TqsS7te/VyR1aQHRRjs/dyFCr/g="/>
 </div>

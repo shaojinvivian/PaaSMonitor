@@ -27,6 +27,7 @@
             <menu:item id="i_controller__moniteesindex_id" messageCode="global_generic" url="/monitees/index" z="nnlb5HCnWWdPcODbs4hHsa2T0MM="/>
             <menu:item id="i_controller__jmxindex_id" messageCode="global_generic" url="/jmx/index" z="SyhbT2ec6rk2EK2GeuU1KBYr0vI="/>
             <menu:item id="i_controller__monitorindex_id" messageCode="global_generic" url="/monitor/index" z="VQwvhIWfEfEF1p8jl2ZcSrH/bTs="/>
+            <menu:item id="i_controller__servletmonitorindex_id" messageCode="global_generic" url="/servletmonitor/index" z="NhNkAG8kbwJmI6gLn0IKuCMP4Nc="/>
         </menu:category>
     </menu:menu>
 </div>

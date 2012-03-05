@@ -67,7 +67,8 @@ public class AppServer {
 	public List<AppInstance> getActiveAppInstances(){
 		List<AppInstance> list = new ArrayList();		
 		for(AppInstance appInstance : this.getAppInstances()){
-			if(appInstance.getIsMonitee())
+			//appInstance.getIsMonitee() may be null
+			if(appInstance.getIsMonitee()!=null && appInstance.getIsMonitee())
 				list.add(appInstance);
 		}
 		return list;

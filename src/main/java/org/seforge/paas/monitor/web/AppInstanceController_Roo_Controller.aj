@@ -10,6 +10,7 @@ import org.seforge.paas.monitor.domain.App;
 import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.AppInstanceSnap;
 import org.seforge.paas.monitor.domain.AppServer;
+import org.seforge.paas.monitor.domain.MonitorConfig;
 import org.seforge.paas.monitor.web.AppInstanceController;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -92,6 +93,7 @@ privileged aspect AppInstanceController_Roo_Controller {
         uiModel.addAttribute("apps", App.findAllApps());
         uiModel.addAttribute("appinstancesnaps", AppInstanceSnap.findAllAppInstanceSnaps());
         uiModel.addAttribute("appservers", AppServer.findAllAppServers());
+        uiModel.addAttribute("monitorconfigs", MonitorConfig.findAllMonitorConfigs());
     }
     
     String AppInstanceController.encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {

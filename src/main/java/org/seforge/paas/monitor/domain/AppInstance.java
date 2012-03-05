@@ -43,6 +43,9 @@ public class AppInstance {
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appInstance")
     private Set<AppInstanceSnap> appInstanceSnaps = new HashSet<AppInstanceSnap>();
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "appInstance")
+    private Set<MonitorConfig> monitorConfigs = new HashSet<MonitorConfig>();
 
     private transient String status;
     private transient int errorCount;

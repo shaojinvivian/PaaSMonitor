@@ -152,3 +152,19 @@ exit
 exit
 // Spring Roo 1.2.0.RELEASE [rev 39eb957] log closed at 2011-12-19 19:07:24
 // Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2011-12-19 19:44:36
+// Spring Roo 1.2.0.RELEASE [rev 39eb957] log opened at 2012-02-20 13:14:46
+// Spring Roo UNKNOWN VERSION log opened at 2012-02-24 16:04:26
+// Spring Roo UNKNOWN VERSION log opened at 2012-02-24 16:05:53
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2012-02-24 17:13:36
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2012-02-27 17:09:52
+quit
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log closed at 2012-02-27 17:11:13
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2012-02-27 17:11:21
+quit
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log closed at 2012-02-27 17:14:00
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2012-02-27 17:14:07
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2012-02-27 17:15:44
+web mvc controller --class org.seforge.paas.monitor.web.ServletMonitorController --preferredmapping /servlet/monitor
+entity jpa --class ~.domain.MonitorConfig
+quit
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log closed at 2012-03-05 12:58:49
