@@ -30,16 +30,26 @@ public class ServletMonitorController {
 	private AppServerService appServerService;
 	
    
-    //Receive monitor status from ServletMonitorFilter
+    //Receive usage signal from monitor agent, and add the usage time by 1
     
-	@RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<String> receiveFilterMessage(@RequestBody String json){
-    	System.out.println(json);
+	@RequestMapping(value = "/addhit", method = RequestMethod.POST)
+    public ResponseEntity<String> receiveFilterMessage(@RequestParam("name") String name, @RequestParam("ip") String ip,
+			@RequestParam("jmxPort") String jmxPort,
+			@RequestParam("uri") String uri){    	
+    	String realUri= uri.substring(name.length()+1);    	
+    	AppInstance instance = AppInstance.findAppInstanceByAppServerAndContextName(AppServer.findAppServerByIpAndJmxPort(ip, jmxPort), name);
+    	Set<MonitorConfig> monitorConfigs = instance.getMonitorConfigs();
+    	for(MonitorConfig config: monitorConfigs){    		
+    		if(realUri.contains(config.getName())){
+    			config.setTimes(config.getTimes()+1);
+    		}    		
+    		config.persist();
+    	}    	
     	return new ResponseEntity<String>("success",HttpStatus.OK);
     }    
     
     @RequestMapping(value = "/monitorConfigs", method = RequestMethod.GET)
-    public ResponseEntity<String>  getSnap(@RequestParam("ip") String ip,
+    public ResponseEntity<String>  listMonitorConfigs(@RequestParam("ip") String ip,
 			@RequestParam("jmxPort") String jmxPort,  @RequestParam("contextName") String contextName) {
     	JsonObjectResponse response = new JsonObjectResponse();
     	HttpStatus returnStatus;

@@ -226,6 +226,9 @@ Ext.onReady(function() {
 		}, {
 			name : 'name',
 			type : 'string'
+		}, {
+			name : 'times',
+			type : 'long'
 		}]
 	});
 
@@ -253,6 +256,9 @@ Ext.onReady(function() {
 		}, {
 			header : 'Name',
 			dataIndex : 'name'
+		}, {
+			header : 'Times',
+			dataIndex : 'times'
 		}],
 		layout : 'fit',
 		height : 150,
