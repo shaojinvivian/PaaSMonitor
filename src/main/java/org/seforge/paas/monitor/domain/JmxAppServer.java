@@ -21,7 +21,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord
+@RooJpaActiveRecord(finders = {"findJmxAppServersByIpAndJmxPort"})
 public class JmxAppServer extends AppServer {
 	@NotNull
 	private String jmxPort;
@@ -76,9 +76,14 @@ public class JmxAppServer extends AppServer {
 		jmxUtil.disconnect();
 	}
 	
-	public void saveAllInstances(){
-		Set<JmxAppInstance> appInstances = new HashSet<JmxAppInstance>();			
-					
+	
+	/** Query all appinstances in this jmxAppServer, and save them in database
+	 * 
+	 * @param appServer
+	 * @throws Exception
+	 */
+	public void saveAllInstances() throws Exception{
+		Set<JmxAppInstance> appInstances = new HashSet<JmxAppInstance>();				
 		JmxUtil jmxUtil = new JmxUtil(ip, jmxPort);
 		jmxUtil.connect();			
 		ObjectName obName = new ObjectName(
@@ -87,20 +92,66 @@ public class JmxAppServer extends AppServer {
 		ModelTransformer modelTransformer = new ModelTransformer();
 		modelTransformer.prepare(jmxUtil);
 		for(ObjectName name : set){
-			JmxAppInstance appInstance = new JmxAppInstance();
-			
+			JmxAppInstance appInstance = new JmxAppInstance();			
 //			appInstance.setObjectName((String)jmxUtil.getAttribute(name, "objectName"));
 			appInstance.setObjectName(name.toString());
 			modelTransformer.transform(appInstance);
-			appInstance.setJmxAppServer(appServer);
+			appInstance.setJmxAppServer(this);
 			appInstance.setIsMonitee(false);
 			String newName = appInstance.getName().substring(1);
 			appInstance.setName(newName);
-			appInstances.add(appInstance);
-			
+			appInstances.add(appInstance);			
 		}			
-		appServer.setJmxAppInstances(appInstances);
+		this.setJmxAppInstances(appInstances);
 		jmxUtil.disconnect();				
 	}
+	
+	/** init several properties (including name, cpuTime, etc.) of jmxAppServer
+	 * 
+	 * @param appServer
+	 * @throws Exception
+	 */
+	public void init() throws Exception{		
+		JmxUtil jmxUtil = new JmxUtil(ip, jmxPort);
+		jmxUtil.connect();	
+		ObjectName objectName = new ObjectName("Catalina:type=Server");
+		this.setName((String)jmxUtil.getAttribute(objectName, "serverInfo"));		
+		
+		int processorNum = (Integer)jmxUtil.getAttribute(new ObjectName(
+				"java.lang:type=OperatingSystem"), "AvailableProcessors");
+		long lastCpuTime = (Long)jmxUtil.getAttribute(new ObjectName(
+				"java.lang:type=OperatingSystem"), "ProcessCpuTime");
+		long lastSystemTime = System.nanoTime();
+		this.setLastCpuTime(lastCpuTime);
+		this.setLastSystemTime(lastSystemTime);
+		this.setProcessorNum(processorNum);			
+		jmxUtil.disconnect();	
+	}	
+	
+	
+	public void checkInstancesStatus() throws Exception{		
+		ModelTransformer modelTransformer = new ModelTransformer();
+		JmxUtil jmxUtil = new JmxUtil(ip, jmxPort);
+		jmxUtil.connect();
+		if(jmxUtil.connected()){
+			this.setStatus(MoniteeState.STARTED);	
+			Set<JmxAppInstance> appInstances = this.getJmxAppInstances();
+			modelTransformer.prepare(jmxUtil);
+			for(JmxAppInstance appInstance: appInstances){				
+				if(appInstance.getIsMonitee()!=null && appInstance.getIsMonitee()){
+					modelTransformer.transform(appInstance);
+				}
+				
+			}
+		}else{
+			this.setStatus(MoniteeState.STOPPED);
+			Set<JmxAppInstance> appInstances = this.getJmxAppInstances();
+			for(JmxAppInstance appInstance: appInstances){	
+				appInstance.setStatus(MoniteeState.STOPPED);
+			}
+		}
+		jmxUtil.disconnect();		
+	}
+	
 
 }

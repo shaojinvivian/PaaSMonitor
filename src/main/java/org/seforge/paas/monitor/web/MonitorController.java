@@ -9,7 +9,6 @@ import org.seforge.paas.monitor.domain.JmxAppInstance;
 import org.seforge.paas.monitor.domain.AppInstanceSnap;
 import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.seforge.paas.monitor.extjs.JsonObjectResponse;
-import org.seforge.paas.monitor.service.JmxAppServerService;
 import org.seforge.paas.monitor.service.MonitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,9 +25,7 @@ import flexjson.transformer.DateTransformer;
 
 @RequestMapping("/monitor/**")
 @Controller
-public class MonitorController {
-	@Autowired
-	private JmxAppServerService appServerService;
+public class MonitorController {	
 	
 	@Autowired
 	private MonitorService monitorService;	
@@ -52,7 +49,7 @@ public class MonitorController {
     		appServer.setIp(ip);
     		appServer.setJmxPort(jmxPort);   		
     		try {
-				appServerService.setAppServerName(appServer);
+				appServer.init();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -95,7 +92,7 @@ public class MonitorController {
     		appServer.setIp(ip);
     		appServer.setJmxPort(jmxPort);   		
     		try {
-				appServerService.setAppServerName(appServer);
+				appServer.init();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

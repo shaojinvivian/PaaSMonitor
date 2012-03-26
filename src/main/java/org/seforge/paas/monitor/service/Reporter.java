@@ -20,10 +20,7 @@ import org.springframework.stereotype.Service;
 public class Reporter {
 
 	@Autowired
-	private MailEngine mailEngine;
-
-	@Autowired
-	private JmxAppServerService appServerService;
+	private MailEngine mailEngine;	
 
 	@Autowired
 	private PhymService phymService;
@@ -46,7 +43,7 @@ public class Reporter {
 					if (vim.getPowerState().equals(MoniteeState.POWEREDON)) {
 						for (JmxAppServer appServer : vim.getJmxAppServers()) {
 							try {
-								appServerService.checkInstancesState(appServer);
+								appServer.checkInstancesStatus();
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								appServer.setStatus(MoniteeState.STOPPED);

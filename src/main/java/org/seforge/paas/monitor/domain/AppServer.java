@@ -45,12 +45,30 @@ public class AppServer {
 	
 	//use TypeLocator to identify which subclass of AppServer should be generated
 	public static AppServer fromJsonToAppServer(String json) {
-        return new JSONDeserializer<AppServer>().use("AppServer.class", new TypeLocator<String>("type")
-                .add("jmx", JmxAppServer.class)
+		System.out.println("ok");
+		
+        Object a =  new JSONDeserializer<AppServer>().use(null, new TypeLocator<String>("type")
+                .add("tomcat", JmxAppServer.class)
+                 .add("jetty", JmxAppServer.class)
                 .add("apache", Apache.class))
+               
                .deserialize(json);
+        return (AppServer)a;
+        
     }
 	
 	public void checkStatus(){}
+	
+	public static void main(String[] args){
+		String json = "{\"id\":0,\"version\":0,\"httpPort\":\"8999\",\"jmxPort\":\"\",\"type\":\"tomcat\",\"vim\":null,\"isMonitee\":true,\"name\":\"\",\"ip\":\"192.168.4.165\",\"status\":null}";
+		Object a =  new JSONDeserializer<AppServer>().use(null, new TypeLocator<String>("type")
+                .add("tomcat", JmxAppServer.class)
+                 .add("jetty", JmxAppServer.class)
+                .add("apache", Apache.class))
+               
+               .deserialize(json);
+		AppServer ap = (AppServer) a;
+		System.out.println(a.toString());
+	}
 	
 }

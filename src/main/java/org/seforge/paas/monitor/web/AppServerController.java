@@ -9,7 +9,6 @@ import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.extjs.JsonObjectResponse;
-import org.seforge.paas.monitor.service.JmxAppServerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +27,8 @@ import flexjson.transformer.DateTransformer;
 @RooWebJson(jsonObject = AppServer.class)
 @RequestMapping("/appservers")
 @Controller
-public class AppServerController {
-private JmxAppServerService appServerService;
+public class AppServerController {	
 	
-	@Autowired
-	public void setAppServerService(JmxAppServerService appServerService){
-		this.appServerService = appServerService;
-	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
     public ResponseEntity<String> deleteFromJson(@PathVariable("id") Long id) {
@@ -97,8 +91,8 @@ private JmxAppServerService appServerService;
 				record.setVersion(null);
 				record.setStatus(null);
 				if(record instanceof JmxAppServer){					
-					appServerService.addAppInstances((JmxAppServer)record);
-					appServerService.setAppServerName((JmxAppServer)record);
+					((JmxAppServer)record).saveAllInstances();
+					((JmxAppServer)record).init();
 				}				
 				List<Vim> vims = Vim.findVimsByIp(record.getIp()).getResultList();
 				if (vims.size() > 0) {
@@ -126,6 +120,7 @@ private JmxAppServerService appServerService;
 			response.setSuccess(false);
 			response.setTotal(0L);
 		}catch (Exception e){
+			e.printStackTrace();
 			response.setMessage(e.getMessage());
 			response.setSuccess(false);
 			response.setTotal(0L);			

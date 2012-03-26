@@ -10,7 +10,6 @@ import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.seforge.paas.monitor.domain.MonitorConfig;
 import org.seforge.paas.monitor.extjs.JsonObjectResponse;
-import org.seforge.paas.monitor.service.JmxAppServerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +24,7 @@ import flexjson.transformer.DateTransformer;
 
 @RequestMapping("/servletmonitor/**")
 @Controller
-public class ServletMonitorController {
-	
-	@Autowired
-	private JmxAppServerService appServerService;
+public class ServletMonitorController {	
 	
    
     //Receive usage signal from monitor agent, and add the usage time by 1

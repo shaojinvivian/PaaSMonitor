@@ -7,7 +7,13 @@ Ext.define('PaaSMonitor.model.AppServer', {
 		name: 'version',
 		type: 'int'
 	},{
+		name: 'httpPort',
+		type: 'string'
+	},{
 		name: 'jmxPort',
+		type: 'string'
+	},{
+		name: 'type',
 		type: 'string'	
 	},{
 		name: 'vim',

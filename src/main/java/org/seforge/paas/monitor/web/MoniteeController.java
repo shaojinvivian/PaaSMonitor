@@ -28,7 +28,6 @@ import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.extjs.TreeNode;
 import org.seforge.paas.monitor.monitor.JmxUtil;
 import org.seforge.paas.monitor.reference.MoniteeState;
-import org.seforge.paas.monitor.service.JmxAppServerService;
 import org.seforge.paas.monitor.service.PhymService;
 import org.seforge.paas.monitor.service.Reporter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,15 +46,11 @@ import flexjson.transformer.DateTransformer;
 @RequestMapping("/monitees/**")
 @Controller
 public class MoniteeController {
-	private JmxAppServerService appServerService;
 	private PhymService phymService;
 	private VelocityEngine velocityEngine;
 	private Reporter reporter;
 	
-	@Autowired
-	public void setAppServerService(JmxAppServerService appServerService){
-		this.appServerService = appServerService;
-	}
+	
 	
 	@Autowired
 	public void setPhymService(PhymService phymService){
@@ -187,7 +182,7 @@ public class MoniteeController {
 					Set<JmxAppInstance> appInstances = appServer.getJmxAppInstances();
 					if (appServer.getStatus().equals(MoniteeState.STARTED) && appInstances.size() > 0) {
 						response = new ArrayList<TreeNode>();
-						appServerService.checkInstancesState(appServer);
+						appServer.checkInstancesStatus();
 						for (JmxAppInstance appInstance : appInstances) {
 							if(appInstance.getIsMonitee()){
 								TreeNode appInstanceNode = new TreeNode();
