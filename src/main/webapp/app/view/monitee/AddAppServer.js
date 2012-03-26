@@ -58,7 +58,7 @@ Ext.define('PaaSMonitor.view.monitee.AddAppServer', {
 				
 
 		combo.on("select", function(selected) {
-			if(selected.value == 'jmx') {
+			if(selected.value == 'tomcat' || selected.value == 'jetty') {
 				jmxField.show();
 			}else{
 				jmxField.hide();

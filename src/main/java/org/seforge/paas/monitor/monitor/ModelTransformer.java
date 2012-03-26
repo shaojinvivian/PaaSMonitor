@@ -26,6 +26,10 @@ public class ModelTransformer {
 	private Map transformRule;
 	private String ruleFile;
 	private Map<String, ConditionEvaluator> conditionEvaluators;
+	
+	public ModelTransformer(){
+		
+	}
 
 	public void setRuleFile(String ruleFile) {
 		this.ruleFile = ruleFile;
@@ -43,9 +47,7 @@ public class ModelTransformer {
 		this.ruleFile = ruleFile;
 	}
 
-	public ModelTransformer() {
-
-	}
+	
 
 	public void setTransformRule(Map rule) {
 		this.transformRule = rule;

@@ -85,8 +85,8 @@ public class AppServerController {
 		JsonObjectResponse response = new JsonObjectResponse();
 		try {		
 			AppServer record = AppServer.fromJsonToAppServer(json);
-			//If there is no appserver with identical ip and jmxPort existed			
-			if(AppServer.findAppServersByIpAndHttpPort(record.getIp(), record.getHttpPort()) == null){
+			//If there is no appserver with identical ip and httpPort existed			
+			if(AppServer.findAppServersByIpAndHttpPort(record.getIp(), record.getHttpPort()).getResultList().size()==0){
 				record.setId(null);
 				record.setVersion(null);
 				record.setStatus(null);
@@ -126,7 +126,7 @@ public class AppServerController {
 			response.setTotal(0L);			
 		}
 		// return the created record with the new system generated id
-        return new ResponseEntity<String>(new JSONSerializer().include("data.appInstances").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
+        return new ResponseEntity<String>(new JSONSerializer().exclude("data.jmxAppInstances").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
     }
 	
 	@RequestMapping(method = RequestMethod.PUT, headers = "Accept=application/json")

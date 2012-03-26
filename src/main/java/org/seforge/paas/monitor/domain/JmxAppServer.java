@@ -9,12 +9,15 @@ import javax.management.ObjectName;
 import javax.persistence.CascadeType;
 import javax.persistence.EntityManager;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
 import org.seforge.paas.monitor.monitor.JmxUtil;
 import org.seforge.paas.monitor.monitor.ModelTransformer;
 import org.seforge.paas.monitor.reference.MoniteeState;
+import org.seforge.paas.monitor.service.MonitorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -65,6 +68,10 @@ public class JmxAppServer extends AppServer {
 			return null;
 	}
 	
+	@Transient
+	@Autowired
+	private ModelTransformer modelTransformer;
+	
 	public void checkStatus(){
 		JmxUtil jmxUtil = new JmxUtil(ip, jmxPort);
 		jmxUtil.connect();	
@@ -88,8 +95,8 @@ public class JmxAppServer extends AppServer {
 		jmxUtil.connect();			
 		ObjectName obName = new ObjectName(
 				"PaaSMonitor:type=Context,name=*");			
-		Set<ObjectName> set = jmxUtil.queryNames(obName);			
-		ModelTransformer modelTransformer = new ModelTransformer();
+		Set<ObjectName> set = jmxUtil.queryNames(obName);	
+		
 		modelTransformer.prepare(jmxUtil);
 		for(ObjectName name : set){
 			JmxAppInstance appInstance = new JmxAppInstance();			
@@ -129,8 +136,7 @@ public class JmxAppServer extends AppServer {
 	}	
 	
 	
-	public void checkInstancesStatus() throws Exception{		
-		ModelTransformer modelTransformer = new ModelTransformer();
+	public void checkInstancesStatus() throws Exception{	
 		JmxUtil jmxUtil = new JmxUtil(ip, jmxPort);
 		jmxUtil.connect();
 		if(jmxUtil.connected()){

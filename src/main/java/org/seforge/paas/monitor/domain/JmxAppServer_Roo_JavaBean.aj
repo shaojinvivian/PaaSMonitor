@@ -6,6 +6,7 @@ package org.seforge.paas.monitor.domain;
 import java.util.Set;
 import org.seforge.paas.monitor.domain.JmxAppInstance;
 import org.seforge.paas.monitor.domain.JmxAppServer;
+import org.seforge.paas.monitor.monitor.ModelTransformer;
 
 privileged aspect JmxAppServer_Roo_JavaBean {
     
@@ -47,6 +48,14 @@ privileged aspect JmxAppServer_Roo_JavaBean {
     
     public void JmxAppServer.setJmxAppInstances(Set<JmxAppInstance> jmxAppInstances) {
         this.jmxAppInstances = jmxAppInstances;
+    }
+    
+    public ModelTransformer JmxAppServer.getModelTransformer() {
+        return this.modelTransformer;
+    }
+    
+    public void JmxAppServer.setModelTransformer(ModelTransformer modelTransformer) {
+        this.modelTransformer = modelTransformer;
     }
     
 }
