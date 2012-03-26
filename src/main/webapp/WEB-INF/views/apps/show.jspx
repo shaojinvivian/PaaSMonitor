@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
-    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
-    <jsp:output omit-xml-declaration="yes"/>
-    <page:show id="ps_org_seforge_paas_monitor_domain_App" object="${app}" path="/apps" z="AhHPrt1YrLbE9PPAJycki2Cf6lA=">
-        <field:display field="name" id="s_org_seforge_paas_monitor_domain_App_name" object="${app}" z="tH5eFTnKz6g8XobX/uVVk9XgwXU="/>
-    </page:show>
-</div>

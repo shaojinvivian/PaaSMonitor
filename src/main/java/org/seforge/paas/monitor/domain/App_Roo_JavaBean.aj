@@ -5,7 +5,7 @@ package org.seforge.paas.monitor.domain;
 
 import java.util.Set;
 import org.seforge.paas.monitor.domain.App;
-import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.domain.JmxAppInstance;
 
 privileged aspect App_Roo_JavaBean {
     
@@ -17,11 +17,11 @@ privileged aspect App_Roo_JavaBean {
         this.name = name;
     }
     
-    public Set<AppInstance> App.getAppInstances() {
+    public Set<JmxAppInstance> App.getAppInstances() {
         return this.appInstances;
     }
     
-    public void App.setAppInstances(Set<AppInstance> appInstances) {
+    public void App.setAppInstances(Set<JmxAppInstance> appInstances) {
         this.appInstances = appInstances;
     }
     

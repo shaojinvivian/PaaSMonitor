@@ -12,10 +12,9 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import org.seforge.paas.monitor.domain.App;
 import org.seforge.paas.monitor.domain.AppDataOnDemand;
-import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.AppInstanceDataOnDemand;
-import org.seforge.paas.monitor.domain.AppServer;
-import org.seforge.paas.monitor.domain.AppServerDataOnDemand;
+import org.seforge.paas.monitor.domain.JmxAppInstance;
+import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,80 +24,77 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
     
     private Random AppInstanceDataOnDemand.rnd = new SecureRandom();
     
-    private List<AppInstance> AppInstanceDataOnDemand.data;
+    private List<JmxAppInstance> AppInstanceDataOnDemand.data;
     
     @Autowired
     private AppDataOnDemand AppInstanceDataOnDemand.appDataOnDemand;
     
-    @Autowired
-    private AppServerDataOnDemand AppInstanceDataOnDemand.appServerDataOnDemand;
-    
-    public AppInstance AppInstanceDataOnDemand.getNewTransientAppInstance(int index) {
-        AppInstance obj = new AppInstance();
+    public JmxAppInstance AppInstanceDataOnDemand.getNewTransientJmxAppInstance(int index) {
+        JmxAppInstance obj = new JmxAppInstance();
         setApp(obj, index);
-        setAppServer(obj, index);
         setDescription(obj, index);
         setDocBase(obj, index);
         setErrorCount(obj, index);
         setErrorLogDir(obj, index);
         setIsMonitee(obj, index);
+        setJmxAppServer(obj, index);
         setName(obj, index);
         setObjectName(obj, index);
         setStatus(obj, index);
         return obj;
     }
     
-    public void AppInstanceDataOnDemand.setApp(AppInstance obj, int index) {
+    public void AppInstanceDataOnDemand.setApp(JmxAppInstance obj, int index) {
         App app = appDataOnDemand.getRandomApp();
         obj.setApp(app);
     }
     
-    public void AppInstanceDataOnDemand.setAppServer(AppInstance obj, int index) {
-        AppServer appServer = appServerDataOnDemand.getRandomAppServer();
-        obj.setAppServer(appServer);
-    }
-    
-    public void AppInstanceDataOnDemand.setDescription(AppInstance obj, int index) {
+    public void AppInstanceDataOnDemand.setDescription(JmxAppInstance obj, int index) {
         String description = "description_" + index;
         obj.setDescription(description);
     }
     
-    public void AppInstanceDataOnDemand.setDocBase(AppInstance obj, int index) {
+    public void AppInstanceDataOnDemand.setDocBase(JmxAppInstance obj, int index) {
         String docBase = "docBase_" + index;
         obj.setDocBase(docBase);
     }
     
-    public void AppInstanceDataOnDemand.setErrorCount(AppInstance obj, int index) {
+    public void AppInstanceDataOnDemand.setErrorCount(JmxAppInstance obj, int index) {
         int errorCount = index;
         obj.setErrorCount(errorCount);
     }
     
-    public void AppInstanceDataOnDemand.setErrorLogDir(AppInstance obj, int index) {
+    public void AppInstanceDataOnDemand.setErrorLogDir(JmxAppInstance obj, int index) {
         String errorLogDir = "errorLogDir_" + index;
         obj.setErrorLogDir(errorLogDir);
     }
     
-    public void AppInstanceDataOnDemand.setIsMonitee(AppInstance obj, int index) {
+    public void AppInstanceDataOnDemand.setIsMonitee(JmxAppInstance obj, int index) {
         Boolean isMonitee = Boolean.TRUE;
         obj.setIsMonitee(isMonitee);
     }
     
-    public void AppInstanceDataOnDemand.setName(AppInstance obj, int index) {
+    public void AppInstanceDataOnDemand.setJmxAppServer(JmxAppInstance obj, int index) {
+        JmxAppServer jmxAppServer = null;
+        obj.setJmxAppServer(jmxAppServer);
+    }
+    
+    public void AppInstanceDataOnDemand.setName(JmxAppInstance obj, int index) {
         String name = "name_" + index;
         obj.setName(name);
     }
     
-    public void AppInstanceDataOnDemand.setObjectName(AppInstance obj, int index) {
+    public void AppInstanceDataOnDemand.setObjectName(JmxAppInstance obj, int index) {
         String objectName = "objectName_" + index;
         obj.setObjectName(objectName);
     }
     
-    public void AppInstanceDataOnDemand.setStatus(AppInstance obj, int index) {
+    public void AppInstanceDataOnDemand.setStatus(JmxAppInstance obj, int index) {
         String status = "status_" + index;
         obj.setStatus(status);
     }
     
-    public AppInstance AppInstanceDataOnDemand.getSpecificAppInstance(int index) {
+    public JmxAppInstance AppInstanceDataOnDemand.getSpecificJmxAppInstance(int index) {
         init();
         if (index < 0) {
             index = 0;
@@ -106,36 +102,36 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
         if (index > (data.size() - 1)) {
             index = data.size() - 1;
         }
-        AppInstance obj = data.get(index);
+        JmxAppInstance obj = data.get(index);
         Long id = obj.getId();
-        return AppInstance.findAppInstance(id);
+        return JmxAppInstance.findJmxAppInstance(id);
     }
     
-    public AppInstance AppInstanceDataOnDemand.getRandomAppInstance() {
+    public JmxAppInstance AppInstanceDataOnDemand.getRandomJmxAppInstance() {
         init();
-        AppInstance obj = data.get(rnd.nextInt(data.size()));
+        JmxAppInstance obj = data.get(rnd.nextInt(data.size()));
         Long id = obj.getId();
-        return AppInstance.findAppInstance(id);
+        return JmxAppInstance.findJmxAppInstance(id);
     }
     
-    public boolean AppInstanceDataOnDemand.modifyAppInstance(AppInstance obj) {
+    public boolean AppInstanceDataOnDemand.modifyJmxAppInstance(JmxAppInstance obj) {
         return false;
     }
     
     public void AppInstanceDataOnDemand.init() {
         int from = 0;
         int to = 10;
-        data = AppInstance.findAppInstanceEntries(from, to);
+        data = JmxAppInstance.findJmxAppInstanceEntries(from, to);
         if (data == null) {
-            throw new IllegalStateException("Find entries implementation for 'AppInstance' illegally returned null");
+            throw new IllegalStateException("Find entries implementation for 'JmxAppInstance' illegally returned null");
         }
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new ArrayList<AppInstance>();
+        data = new ArrayList<JmxAppInstance>();
         for (int i = 0; i < 10; i++) {
-            AppInstance obj = getNewTransientAppInstance(i);
+            JmxAppInstance obj = getNewTransientJmxAppInstance(i);
             try {
                 obj.persist();
             } catch (ConstraintViolationException e) {

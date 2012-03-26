@@ -3,7 +3,7 @@
 
 package org.seforge.paas.monitor.domain;
 
-import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.domain.JmxAppInstance;
 import org.seforge.paas.monitor.domain.MonitorConfig;
 
 privileged aspect MonitorConfig_Roo_JavaBean {
@@ -32,11 +32,11 @@ privileged aspect MonitorConfig_Roo_JavaBean {
         this.times = times;
     }
     
-    public AppInstance MonitorConfig.getAppInstance() {
+    public JmxAppInstance MonitorConfig.getAppInstance() {
         return this.appInstance;
     }
     
-    public void MonitorConfig.setAppInstance(AppInstance appInstance) {
+    public void MonitorConfig.setAppInstance(JmxAppInstance appInstance) {
         this.appInstance = appInstance;
     }
     

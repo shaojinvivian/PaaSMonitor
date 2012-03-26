@@ -3,8 +3,6 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.util.Set;
-import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.Vim;
 
@@ -18,38 +16,6 @@ privileged aspect AppServer_Roo_JavaBean {
         this.name = name;
     }
     
-    public String AppServer.getJmxPort() {
-        return this.jmxPort;
-    }
-    
-    public void AppServer.setJmxPort(String jmxPort) {
-        this.jmxPort = jmxPort;
-    }
-    
-    public long AppServer.getLastCpuTime() {
-        return this.lastCpuTime;
-    }
-    
-    public void AppServer.setLastCpuTime(long lastCpuTime) {
-        this.lastCpuTime = lastCpuTime;
-    }
-    
-    public long AppServer.getLastSystemTime() {
-        return this.lastSystemTime;
-    }
-    
-    public void AppServer.setLastSystemTime(long lastSystemTime) {
-        this.lastSystemTime = lastSystemTime;
-    }
-    
-    public int AppServer.getProcessorNum() {
-        return this.processorNum;
-    }
-    
-    public void AppServer.setProcessorNum(int processorNum) {
-        this.processorNum = processorNum;
-    }
-    
     public String AppServer.getIp() {
         return this.ip;
     }
@@ -58,20 +24,20 @@ privileged aspect AppServer_Roo_JavaBean {
         this.ip = ip;
     }
     
+    public String AppServer.getHttpPort() {
+        return this.httpPort;
+    }
+    
+    public void AppServer.setHttpPort(String httpPort) {
+        this.httpPort = httpPort;
+    }
+    
     public Vim AppServer.getVim() {
         return this.vim;
     }
     
     public void AppServer.setVim(Vim vim) {
         this.vim = vim;
-    }
-    
-    public Set<AppInstance> AppServer.getAppInstances() {
-        return this.appInstances;
-    }
-    
-    public void AppServer.setAppInstances(Set<AppInstance> appInstances) {
-        this.appInstances = appInstances;
     }
     
     public Boolean AppServer.getIsMonitee() {

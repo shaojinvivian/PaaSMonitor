@@ -13,11 +13,12 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
-import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.domain.JmxAppInstance;
 import org.seforge.paas.monitor.domain.MonitorConfig;
 import org.seforge.paas.monitor.extjs.JsonObjectResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.roo.addon.web.mvc.controller.json.RooWebJson;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +29,9 @@ import flexjson.JSONSerializer;
 import flexjson.transformer.DateTransformer;
 
 
-@RequestMapping("/monitorConfigs")
+@RooWebJson(jsonObject = MonitorConfig.class)
 @Controller
+@RequestMapping("/monitorconfigs")
 public class MonitorConfigController {	
 	
 	//平台监测界面添加一个自定义监测参数，对应此方法
@@ -44,7 +46,7 @@ public class MonitorConfigController {
 			record.setType(type);
 			record.setName(name);	
 			record.setTimes(0L);
-			AppInstance instance = AppInstance.findAppInstance(appInstanceId);
+			JmxAppInstance instance = JmxAppInstance.findJmxAppInstance(appInstanceId);
 			record.setAppInstance(instance);						
 			record.persist();		
 			returnStatus = HttpStatus.CREATED;
@@ -57,7 +59,7 @@ public class MonitorConfigController {
 			
 			HttpClient httpclient = new DefaultHttpClient();
 			try {
-				String ip = instance.getAppServer().getIp();
+				String ip = instance.getJmxAppServer().getIp();
 				String strURL = "http://" + ip + ":8088/PaaSAgentWeb/filterconfig";			
 				HttpPost httppost = new HttpPost(strURL);	
 				List<NameValuePair> params = new ArrayList<NameValuePair>();

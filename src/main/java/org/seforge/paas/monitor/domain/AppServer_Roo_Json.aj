@@ -16,10 +16,6 @@ privileged aspect AppServer_Roo_Json {
         return new JSONSerializer().exclude("*.class").serialize(this);
     }
     
-    public static AppServer AppServer.fromJsonToAppServer(String json) {
-        return new JSONDeserializer<AppServer>().use(null, AppServer.class).deserialize(json);
-    }
-    
     public static String AppServer.toJsonArray(Collection<AppServer> collection) {
         return new JSONSerializer().exclude("*.class").serialize(collection);
     }

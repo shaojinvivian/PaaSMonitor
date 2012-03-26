@@ -21,8 +21,8 @@ import org.springframework.roo.addon.json.RooJson;
 @RooJavaBean
 @RooToString
 @RooJson
-@RooJpaActiveRecord(finders = { "findAppInstancesByAppServer" })
-public class AppInstance {
+@RooJpaActiveRecord(finders = { "findJmxAppInstancesByJmxAppServer" })
+public class JmxAppInstance {
 
     @NotNull
     private String name;    
@@ -39,7 +39,7 @@ public class AppInstance {
     private App app;
 
     @ManyToOne
-    private AppServer appServer;
+    private JmxAppServer jmxAppServer;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appInstance")
     private Set<AppInstanceSnap> appInstanceSnaps = new HashSet<AppInstanceSnap>();
@@ -68,10 +68,10 @@ public class AppInstance {
 		this.errorCount = errorCount;
 	}  
 	
-	 public static AppInstance findAppInstanceByAppServerAndContextName(AppServer appServer, String name) {
+	 public static JmxAppInstance findAppInstanceByAppServerAndContextName(AppServer appServer, String name) {
 	        if (appServer == null || name == null || name.length() == 0) throw new IllegalArgumentException("The appServer and contextName argument is required");
-	        EntityManager em = AppInstance.entityManager();
-	        TypedQuery<AppInstance> q = em.createQuery("SELECT o FROM AppInstance AS o WHERE o.appServer = :appServer AND o.name = :name", AppInstance.class);
+	        EntityManager em = JmxAppInstance.entityManager();
+	        TypedQuery<JmxAppInstance> q = em.createQuery("SELECT o FROM AppInstance AS o WHERE o.appServer = :appServer AND o.name = :name", JmxAppInstance.class);
 	        q.setParameter("appServer", appServer);
 	        q.setParameter("name", name);
 	        if(q.getResultList().size()>0)

@@ -18,6 +18,6 @@ public class MonitorConfig {
 	private Long times;
 	
 	@ManyToOne
-    private AppInstance appInstance;
+    private JmxAppInstance appInstance;
 	
 }

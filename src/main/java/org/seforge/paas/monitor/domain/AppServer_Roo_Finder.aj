@@ -9,11 +9,13 @@ import org.seforge.paas.monitor.domain.AppServer;
 
 privileged aspect AppServer_Roo_Finder {
     
-    public static TypedQuery<AppServer> AppServer.findAppServersByIp(String ip) {
+    public static TypedQuery<AppServer> AppServer.findAppServersByIpAndHttpPort(String ip, String httpPort) {
         if (ip == null || ip.length() == 0) throw new IllegalArgumentException("The ip argument is required");
+        if (httpPort == null || httpPort.length() == 0) throw new IllegalArgumentException("The httpPort argument is required");
         EntityManager em = AppServer.entityManager();
-        TypedQuery<AppServer> q = em.createQuery("SELECT o FROM AppServer AS o WHERE o.ip = :ip", AppServer.class);
+        TypedQuery<AppServer> q = em.createQuery("SELECT o FROM AppServer AS o WHERE o.ip = :ip AND o.httpPort = :httpPort", AppServer.class);
         q.setParameter("ip", ip);
+        q.setParameter("httpPort", httpPort);
         return q;
     }
     

@@ -44,5 +44,5 @@ public class AppInstanceSnap {
     private Date createTime;
 
     @ManyToOne
-    private AppInstance appInstance;
+    private JmxAppInstance appInstance;
 }

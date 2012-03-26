@@ -49,6 +49,17 @@ public class Vim {
 
 	public void setPowerState(String powerState) {
 		this.powerState = powerState;
-	}    
+	}
+	
+	
+	public Set<JmxAppServer> getJmxAppServers(){
+		Set<JmxAppServer> jmxAppServers = new HashSet<JmxAppServer>();
+		for(AppServer appServer: this.getAppServers()){
+			if(appServer instanceof JmxAppServer){
+				jmxAppServers.add((JmxAppServer)appServer);
+			}
+		}
+		return jmxAppServers;
+	}
     
 }

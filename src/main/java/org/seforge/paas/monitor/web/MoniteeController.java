@@ -16,8 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.app.VelocityEngine;
-import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.domain.JmxAppInstance;
 import org.seforge.paas.monitor.domain.AppServer;
+import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.seforge.paas.monitor.domain.MBeanAttribute;
 import org.seforge.paas.monitor.domain.MBeanDomain;
 import org.seforge.paas.monitor.domain.MBeanQueryParam;
@@ -27,7 +28,7 @@ import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.extjs.TreeNode;
 import org.seforge.paas.monitor.monitor.JmxUtil;
 import org.seforge.paas.monitor.reference.MoniteeState;
-import org.seforge.paas.monitor.service.AppServerService;
+import org.seforge.paas.monitor.service.JmxAppServerService;
 import org.seforge.paas.monitor.service.PhymService;
 import org.seforge.paas.monitor.service.Reporter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,13 +47,13 @@ import flexjson.transformer.DateTransformer;
 @RequestMapping("/monitees/**")
 @Controller
 public class MoniteeController {
-	private AppServerService appServerService;
+	private JmxAppServerService appServerService;
 	private PhymService phymService;
 	private VelocityEngine velocityEngine;
 	private Reporter reporter;
 	
 	@Autowired
-	public void setAppServerService(AppServerService appServerService){
+	public void setAppServerService(JmxAppServerService appServerService){
 		this.appServerService = appServerService;
 	}
 	
@@ -150,9 +151,9 @@ public class MoniteeController {
 					Long id = Long.valueOf(nodeId.substring(nodeId
 							.indexOf("vim") + 3));
 					Vim vim = Vim.findVim(id);
-					Set<AppServer> appServers = vim.getAppServers();
-
-					appServerService.checkState(appServers);
+					Set<JmxAppServer> appServers = vim.getJmxAppServers();
+					for(AppServer appServer : appServers)
+						appServer.checkStatus();					
 					if (appServers.size() > 0) {
 						response = new ArrayList<TreeNode>();
 						for (AppServer appServer : appServers) {
@@ -181,13 +182,13 @@ public class MoniteeController {
 				} else if (nodeId.indexOf("appServer") != -1) {
 					Long id = Long.valueOf(nodeId.substring(nodeId
 							.indexOf("appServer") + 9));
-					AppServer appServer = AppServer.findAppServer(id);
-					appServerService.checkState(appServer);
-					Set<AppInstance> appInstances = appServer.getAppInstances();
+					JmxAppServer appServer = JmxAppServer.findJmxAppServer(id);
+					appServer.checkStatus();
+					Set<JmxAppInstance> appInstances = appServer.getJmxAppInstances();
 					if (appServer.getStatus().equals(MoniteeState.STARTED) && appInstances.size() > 0) {
 						response = new ArrayList<TreeNode>();
 						appServerService.checkInstancesState(appServer);
-						for (AppInstance appInstance : appInstances) {
+						for (JmxAppInstance appInstance : appInstances) {
 							if(appInstance.getIsMonitee()){
 								TreeNode appInstanceNode = new TreeNode();
 								appInstanceNode.setText(appInstance.getName()+":"+appInstance.getStatus());

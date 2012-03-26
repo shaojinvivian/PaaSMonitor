@@ -1,12 +1,12 @@
 package org.seforge.paas.monitor.service;
 
-
 import java.util.Date;
 import javax.management.ObjectName;
 import javax.management.openmbean.CompositeDataSupport;
-import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.domain.JmxAppInstance;
 import org.seforge.paas.monitor.domain.AppInstanceSnap;
 import org.seforge.paas.monitor.domain.AppServer;
+import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.seforge.paas.monitor.monitor.JmxUtil;
 import org.seforge.paas.monitor.utils.TimeUtils;
 import org.springframework.stereotype.Service;
@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 @Service("monitorService")
 public class MonitorService {	
 	
-	public AppInstanceSnap getLatestSnap(AppInstance appInstance) throws Exception{
-		AppServer appServer = appInstance.getAppServer();
+	public AppInstanceSnap getLatestSnap(JmxAppInstance appInstance) throws Exception{
+		JmxAppServer appServer = appInstance.getJmxAppServer();
 		String ip = appServer.getIp();
 		String jmxPort = appServer.getJmxPort();
 		AppInstanceSnap snap = new AppInstanceSnap();
@@ -55,8 +55,8 @@ public class MonitorService {
 		return snap;
 	}
 	
-	public void controlAppInstance(AppInstance appInstance, String op) throws Exception{
-		AppServer appServer = appInstance.getAppServer();
+	public void controlAppInstance(JmxAppInstance appInstance, String op) throws Exception{
+		JmxAppServer appServer = appInstance.getJmxAppServer();
 		String ip = appServer.getIp();
 		String jmxPort = appServer.getJmxPort();
 		

@@ -7,8 +7,9 @@ import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.domain.JmxAppInstance;
 import org.seforge.paas.monitor.domain.AppServer;
+import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.reference.MoniteeState;
@@ -22,7 +23,7 @@ public class Reporter {
 	private MailEngine mailEngine;
 
 	@Autowired
-	private AppServerService appServerService;
+	private JmxAppServerService appServerService;
 
 	@Autowired
 	private PhymService phymService;
@@ -43,24 +44,24 @@ public class Reporter {
 				phymService.checkPowerState(phym);
 				for (Vim vim : phym.getVims()) {
 					if (vim.getPowerState().equals(MoniteeState.POWEREDON)) {
-						for (AppServer appServer : vim.getAppServers()) {
+						for (JmxAppServer appServer : vim.getJmxAppServers()) {
 							try {
 								appServerService.checkInstancesState(appServer);
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								appServer.setStatus(MoniteeState.STOPPED);
-								for (AppInstance appInstance : appServer
-										.getAppInstances()) {
+								for (JmxAppInstance appInstance : appServer
+										.getJmxAppInstances()) {
 									appInstance.setStatus(MoniteeState.STOPPED);
 								}
 								e.printStackTrace();
 							}
 						}
 					} else {
-						for (AppServer appServer : vim.getAppServers()) {
+						for (JmxAppServer appServer : vim.getJmxAppServers()) {
 							appServer.setStatus(MoniteeState.STOPPED);
-							for (AppInstance appInstance : appServer
-									.getAppInstances()) {
+							for (JmxAppInstance appInstance : appServer
+									.getJmxAppInstances()) {
 								appInstance.setStatus(MoniteeState.STOPPED);
 							}
 						}

@@ -4,12 +4,13 @@ package org.seforge.paas.monitor.web;
 import java.util.Date;
 import java.util.Set;
 
-import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.domain.JmxAppInstance;
 import org.seforge.paas.monitor.domain.AppInstanceSnap;
 import org.seforge.paas.monitor.domain.AppServer;
+import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.seforge.paas.monitor.domain.MonitorConfig;
 import org.seforge.paas.monitor.extjs.JsonObjectResponse;
-import org.seforge.paas.monitor.service.AppServerService;
+import org.seforge.paas.monitor.service.JmxAppServerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ import flexjson.transformer.DateTransformer;
 public class ServletMonitorController {
 	
 	@Autowired
-	private AppServerService appServerService;
+	private JmxAppServerService appServerService;
 	
    
     //Receive usage signal from monitor agent, and add the usage time by 1
@@ -37,7 +38,7 @@ public class ServletMonitorController {
 			@RequestParam("jmxPort") String jmxPort,
 			@RequestParam("uri") String uri){    	
     	String realUri= uri.substring(name.length()+1);    	
-    	AppInstance instance = AppInstance.findAppInstanceByAppServerAndContextName(AppServer.findAppServerByIpAndJmxPort(ip, jmxPort), name);
+    	JmxAppInstance instance = JmxAppInstance.findAppInstanceByAppServerAndContextName(JmxAppServer.findJmxAppServerByIpAndJmxPort(ip, jmxPort), name);
     	Set<MonitorConfig> monitorConfigs = instance.getMonitorConfigs();
     	for(MonitorConfig config: monitorConfigs){    		
     		if(realUri.contains(config.getName())){
@@ -58,9 +59,9 @@ public class ServletMonitorController {
 		response.setSuccess(true);
 		response.setTotal(0L);    	
 		returnStatus = HttpStatus.OK;
-    	AppServer appServer = AppServer.findAppServerByIpAndJmxPort(ip, jmxPort);
+    	AppServer appServer = JmxAppServer.findJmxAppServerByIpAndJmxPort(ip, jmxPort);
     	if(appServer != null){
-        	AppInstance appInstance = AppInstance.findAppInstanceByAppServerAndContextName(appServer, contextName);
+        	JmxAppInstance appInstance = JmxAppInstance.findAppInstanceByAppServerAndContextName(appServer, contextName);
         	if(appInstance != null){
         		try{
             		Set<MonitorConfig> monitorConfigs = appInstance.getMonitorConfigs();

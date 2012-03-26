@@ -168,3 +168,12 @@ web mvc controller --class org.seforge.paas.monitor.web.ServletMonitorController
 entity jpa --class ~.domain.MonitorConfig
 quit
 // Spring Roo 1.2.1.RELEASE [rev 6eae723] log closed at 2012-03-05 12:58:49
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log opened at 2012-03-26 11:45:09
+entity jpa --class ~.domain.AppServer --abstract
+entity jpa --class ~.domain.JmxAppServer --extends ~.domain.AppServer
+entity jpa --class ~.domain.Tomcat --extends ~.domain.JmxAppServer
+entity jpa --class ~.domain.Jetty --extends ~.domain.JmxAppServer
+entity jpa --class ~.domain.Apache --extends ~.domain.AppServer
+web mvc json all
+quit
+// Spring Roo 1.2.1.RELEASE [rev 6eae723] log closed at 2012-03-26 15:53:11

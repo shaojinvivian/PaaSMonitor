@@ -5,11 +5,11 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.seforge.paas.monitor.domain.AppInstance;
+import org.seforge.paas.monitor.domain.JmxAppInstance;
 import org.seforge.paas.monitor.domain.AppInstanceSnap;
-import org.seforge.paas.monitor.domain.AppServer;
+import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.seforge.paas.monitor.extjs.JsonObjectResponse;
-import org.seforge.paas.monitor.service.AppServerService;
+import org.seforge.paas.monitor.service.JmxAppServerService;
 import org.seforge.paas.monitor.service.MonitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ import flexjson.transformer.DateTransformer;
 @Controller
 public class MonitorController {
 	@Autowired
-	private AppServerService appServerService;
+	private JmxAppServerService appServerService;
 	
 	@Autowired
 	private MonitorService monitorService;	
@@ -46,9 +46,9 @@ public class MonitorController {
 			@RequestParam("jmxPort") String jmxPort,  @RequestParam("contextName") String contextName) {
     	JsonObjectResponse response = new JsonObjectResponse();
     	HttpStatus returnStatus;
-    	AppServer appServer = AppServer.findAppServerByIpAndJmxPort(ip, jmxPort);
+    	JmxAppServer appServer = JmxAppServer.findJmxAppServerByIpAndJmxPort(ip, jmxPort);
     	if(appServer == null){
-    		appServer = new AppServer();
+    		appServer = new JmxAppServer();
     		appServer.setIp(ip);
     		appServer.setJmxPort(jmxPort);   		
     		try {
@@ -59,11 +59,11 @@ public class MonitorController {
 			}
     		appServer.persist();    		
     	}
-    	AppInstance appInstance = AppInstance.findAppInstanceByAppServerAndContextName(appServer, contextName);
+    	JmxAppInstance appInstance = JmxAppInstance.findAppInstanceByAppServerAndContextName(appServer, contextName);
     	if(appInstance == null){
-    		appInstance = new AppInstance();
+    		appInstance = new JmxAppInstance();
     		appInstance.setName(contextName);
-    		appInstance.setAppServer(appServer);
+    		appInstance.setJmxAppServer(appServer);
     		appInstance.persist();    		
     	}
     	
@@ -89,9 +89,9 @@ public class MonitorController {
 			@RequestParam("jmxPort") String jmxPort,  @RequestParam("contextName") String contextName, @RequestParam("operation") String operation) {
     	JsonObjectResponse response = new JsonObjectResponse();
     	HttpStatus returnStatus;
-    	AppServer appServer = AppServer.findAppServerByIpAndJmxPort(ip, jmxPort);
+    	JmxAppServer appServer = JmxAppServer.findJmxAppServerByIpAndJmxPort(ip, jmxPort);
     	if(appServer == null){
-    		appServer = new AppServer();
+    		appServer = new JmxAppServer();
     		appServer.setIp(ip);
     		appServer.setJmxPort(jmxPort);   		
     		try {
@@ -102,11 +102,11 @@ public class MonitorController {
 			}
     		appServer.persist();    		
     	}
-    	AppInstance appInstance = AppInstance.findAppInstanceByAppServerAndContextName(appServer, contextName);
+    	JmxAppInstance appInstance = JmxAppInstance.findAppInstanceByAppServerAndContextName(appServer, contextName);
     	if(appInstance == null){
-    		appInstance = new AppInstance();
+    		appInstance = new JmxAppInstance();
     		appInstance.setName(contextName);
-    		appInstance.setAppServer(appServer);
+    		appInstance.setJmxAppServer(appServer);
     		appInstance.persist();    		
     	}
     	

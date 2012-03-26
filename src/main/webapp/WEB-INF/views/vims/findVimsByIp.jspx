@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
-    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
-    <jsp:output omit-xml-declaration="yes"/>
-    <form:find finderName="ByIp" id="ff_org_seforge_paas_monitor_domain_Vim" path="/vims" z="lfLEjFXhsdjDzuGvZ631tG+IwFs=">
-        <field:input disableFormBinding="true" field="ip" id="f_org_seforge_paas_monitor_domain_Vim_ip" max="15" required="true" z="pVWqEy0dhMOrDPQpd3QCLCCzejE="/>
-    </form:find>
-</div>

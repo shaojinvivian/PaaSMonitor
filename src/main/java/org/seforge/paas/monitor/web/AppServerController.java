@@ -4,31 +4,35 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import org.seforge.paas.monitor.domain.App;
 import org.seforge.paas.monitor.domain.AppServer;
+import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.extjs.JsonObjectResponse;
-import org.seforge.paas.monitor.service.AppServerService;
+import org.seforge.paas.monitor.service.JmxAppServerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.roo.addon.web.mvc.controller.json.RooWebJson;
 import org.springframework.roo.addon.web.mvc.controller.scaffold.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import flexjson.JSONSerializer;
 import flexjson.transformer.DateTransformer;
 
-@RooWebScaffold(path = "appservers", formBackingObject = AppServer.class)
+@RooWebJson(jsonObject = AppServer.class)
 @RequestMapping("/appservers")
 @Controller
 public class AppServerController {
-private AppServerService appServerService;
+private JmxAppServerService appServerService;
 	
 	@Autowired
-	public void setAppServerService(AppServerService appServerService){
+	public void setAppServerService(JmxAppServerService appServerService){
 		this.appServerService = appServerService;
 	}
 	
@@ -62,7 +66,9 @@ private AppServerService appServerService;
 
 		try {
 			List<AppServer> records = AppServer.findAllAppServers();
-			appServerService.checkState(records);
+			for(AppServer appServer : records){
+				appServer.checkStatus();
+			}			
             returnStatus = HttpStatus.OK;
 			response.setMessage("All AppServers retrieved.");
 			response.setSuccess(true);
@@ -81,18 +87,19 @@ private AppServerService appServerService;
 
 	@RequestMapping(method = RequestMethod.POST, headers = "Accept=application/json")
     public ResponseEntity<String> createFromJson(@RequestBody String json) {
-		HttpStatus returnStatus = HttpStatus.OK;
-		
+		HttpStatus returnStatus = HttpStatus.OK;		
 		JsonObjectResponse response = new JsonObjectResponse();
-		try {			
+		try {		
 			AppServer record = AppServer.fromJsonToAppServer(json);
 			//If there is no appserver with identical ip and jmxPort existed			
-			if(AppServer.findAppServerByIpAndJmxPort(record.getIp(), record.getJmxPort()) == null){
+			if(AppServer.findAppServersByIpAndHttpPort(record.getIp(), record.getHttpPort()) == null){
 				record.setId(null);
 				record.setVersion(null);
 				record.setStatus(null);
-				appServerService.addAppInstances(record);
-				appServerService.setAppServerName(record);
+				if(record instanceof JmxAppServer){					
+					appServerService.addAppInstances((JmxAppServer)record);
+					appServerService.setAppServerName((JmxAppServer)record);
+				}				
 				List<Vim> vims = Vim.findVimsByIp(record.getIp()).getResultList();
 				if (vims.size() > 0) {
 					Vim vim = vims.get(0);
@@ -155,4 +162,5 @@ private AppServerService appServerService;
 		// return the updated record
         return new ResponseEntity<String>(new JSONSerializer().include("data.appInstances").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
     }	
+    
 }
