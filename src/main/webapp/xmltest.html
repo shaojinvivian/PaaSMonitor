@@ -1,0 +1,16 @@
+<html>
+<head>
+<script type="text/javascript" src="lib/loadxmldoc.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+xmlDoc=loadXMLDoc("config/moniteetypes.xml");
+
+document.write(xmlDoc.getElementsByTagName("title")[0].childNodes[0].nodeValue);
+document.write("<br />");
+document.write(xmlDoc.getElementsByTagName("author")[0].childNodes[0].nodeValue);
+document.write("<br />");
+document.write(xmlDoc.getElementsByTagName("year")[0].childNodes[0].nodeValue);
+</script>
+</body>
+</html>
