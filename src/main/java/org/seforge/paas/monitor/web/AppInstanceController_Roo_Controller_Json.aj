@@ -4,7 +4,6 @@
 package org.seforge.paas.monitor.web;
 
 import org.seforge.paas.monitor.domain.JmxAppInstance;
-import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.seforge.paas.monitor.web.AppInstanceController;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 privileged aspect AppInstanceController_Roo_Controller_Json {
@@ -50,14 +48,6 @@ privileged aspect AppInstanceController_Roo_Controller_Json {
             }
         }
         return new ResponseEntity<String>(headers, HttpStatus.OK);
-    }
-    
-    @RequestMapping(params = "find=ByJmxAppServer", headers = "Accept=application/json")
-    @ResponseBody
-    public ResponseEntity<String> AppInstanceController.jsonFindJmxAppInstancesByJmxAppServer(@RequestParam("jmxAppServer") JmxAppServer jmxAppServer) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json; charset=utf-8");
-        return new ResponseEntity<String>(JmxAppInstance.toJsonArray(JmxAppInstance.findJmxAppInstancesByJmxAppServer(jmxAppServer).getResultList()), headers, HttpStatus.OK);
     }
     
 }

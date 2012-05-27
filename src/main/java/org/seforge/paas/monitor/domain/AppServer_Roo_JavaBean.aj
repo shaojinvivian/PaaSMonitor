@@ -3,6 +3,8 @@
 
 package org.seforge.paas.monitor.domain;
 
+import java.util.Set;
+import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.Vim;
 
@@ -38,6 +40,14 @@ privileged aspect AppServer_Roo_JavaBean {
     
     public void AppServer.setVim(Vim vim) {
         this.vim = vim;
+    }
+    
+    public Set<AppInstance> AppServer.getAppInstances() {
+        return this.appInstances;
+    }
+    
+    public void AppServer.setAppInstances(Set<AppInstance> appInstances) {
+        this.appInstances = appInstances;
     }
     
     public Boolean AppServer.getIsMonitee() {

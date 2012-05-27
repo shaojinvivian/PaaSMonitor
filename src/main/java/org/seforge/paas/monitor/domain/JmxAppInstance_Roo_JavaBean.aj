@@ -4,29 +4,10 @@
 package org.seforge.paas.monitor.domain;
 
 import java.util.Set;
-import org.seforge.paas.monitor.domain.App;
-import org.seforge.paas.monitor.domain.AppInstanceSnap;
 import org.seforge.paas.monitor.domain.JmxAppInstance;
-import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.seforge.paas.monitor.domain.MonitorConfig;
 
 privileged aspect JmxAppInstance_Roo_JavaBean {
-    
-    public String JmxAppInstance.getName() {
-        return this.name;
-    }
-    
-    public void JmxAppInstance.setName(String name) {
-        this.name = name;
-    }
-    
-    public Boolean JmxAppInstance.getIsMonitee() {
-        return this.isMonitee;
-    }
-    
-    public void JmxAppInstance.setIsMonitee(Boolean isMonitee) {
-        this.isMonitee = isMonitee;
-    }
     
     public String JmxAppInstance.getDescription() {
         return this.description;
@@ -50,30 +31,6 @@ privileged aspect JmxAppInstance_Roo_JavaBean {
     
     public void JmxAppInstance.setObjectName(String objectName) {
         this.objectName = objectName;
-    }
-    
-    public App JmxAppInstance.getApp() {
-        return this.app;
-    }
-    
-    public void JmxAppInstance.setApp(App app) {
-        this.app = app;
-    }
-    
-    public JmxAppServer JmxAppInstance.getJmxAppServer() {
-        return this.jmxAppServer;
-    }
-    
-    public void JmxAppInstance.setJmxAppServer(JmxAppServer jmxAppServer) {
-        this.jmxAppServer = jmxAppServer;
-    }
-    
-    public Set<AppInstanceSnap> JmxAppInstance.getAppInstanceSnaps() {
-        return this.appInstanceSnaps;
-    }
-    
-    public void JmxAppInstance.setAppInstanceSnaps(Set<AppInstanceSnap> appInstanceSnaps) {
-        this.appInstanceSnaps = appInstanceSnaps;
     }
     
     public Set<MonitorConfig> JmxAppInstance.getMonitorConfigs() {

@@ -89,7 +89,7 @@ privileged aspect AppInstanceIntegrationTest_Roo_IntegrationTest {
         obj = JmxAppInstance.findJmxAppInstance(id);
         boolean modified =  dod.modifyJmxAppInstance(obj);
         Integer currentVersion = obj.getVersion();
-        JmxAppInstance merged = obj.merge();
+        JmxAppInstance merged = (JmxAppInstance)obj.merge();
         obj.flush();
         Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
         Assert.assertTrue("Version for 'JmxAppInstance' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);

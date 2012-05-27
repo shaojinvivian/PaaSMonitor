@@ -13,8 +13,9 @@ import javax.validation.ConstraintViolationException;
 import org.seforge.paas.monitor.domain.App;
 import org.seforge.paas.monitor.domain.AppDataOnDemand;
 import org.seforge.paas.monitor.domain.AppInstanceDataOnDemand;
+import org.seforge.paas.monitor.domain.AppServer;
+import org.seforge.paas.monitor.domain.AppServerDataOnDemand;
 import org.seforge.paas.monitor.domain.JmxAppInstance;
-import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,15 +30,18 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
     @Autowired
     private AppDataOnDemand AppInstanceDataOnDemand.appDataOnDemand;
     
+    @Autowired
+    private AppServerDataOnDemand AppInstanceDataOnDemand.appServerDataOnDemand;
+    
     public JmxAppInstance AppInstanceDataOnDemand.getNewTransientJmxAppInstance(int index) {
         JmxAppInstance obj = new JmxAppInstance();
         setApp(obj, index);
+        setAppServer(obj, index);
         setDescription(obj, index);
         setDocBase(obj, index);
         setErrorCount(obj, index);
         setErrorLogDir(obj, index);
         setIsMonitee(obj, index);
-        setJmxAppServer(obj, index);
         setName(obj, index);
         setObjectName(obj, index);
         setStatus(obj, index);
@@ -47,6 +51,11 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
     public void AppInstanceDataOnDemand.setApp(JmxAppInstance obj, int index) {
         App app = appDataOnDemand.getRandomApp();
         obj.setApp(app);
+    }
+    
+    public void AppInstanceDataOnDemand.setAppServer(JmxAppInstance obj, int index) {
+        AppServer appServer = appServerDataOnDemand.getRandomAppServer();
+        obj.setAppServer(appServer);
     }
     
     public void AppInstanceDataOnDemand.setDescription(JmxAppInstance obj, int index) {
@@ -72,11 +81,6 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
     public void AppInstanceDataOnDemand.setIsMonitee(JmxAppInstance obj, int index) {
         Boolean isMonitee = Boolean.TRUE;
         obj.setIsMonitee(isMonitee);
-    }
-    
-    public void AppInstanceDataOnDemand.setJmxAppServer(JmxAppInstance obj, int index) {
-        JmxAppServer jmxAppServer = null;
-        obj.setJmxAppServer(jmxAppServer);
     }
     
     public void AppInstanceDataOnDemand.setName(JmxAppInstance obj, int index) {

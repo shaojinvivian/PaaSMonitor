@@ -60,7 +60,7 @@ public class MonitorController {
     	if(appInstance == null){
     		appInstance = new JmxAppInstance();
     		appInstance.setName(contextName);
-    		appInstance.setJmxAppServer(appServer);
+    		appInstance.setAppServer(appServer);
     		appInstance.persist();    		
     	}
     	
@@ -103,7 +103,7 @@ public class MonitorController {
     	if(appInstance == null){
     		appInstance = new JmxAppInstance();
     		appInstance.setName(contextName);
-    		appInstance.setJmxAppServer(appServer);
+    		appInstance.setAppServer(appServer);
     		appInstance.persist();    		
     	}
     	

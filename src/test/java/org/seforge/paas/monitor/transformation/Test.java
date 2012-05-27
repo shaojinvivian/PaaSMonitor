@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.management.ObjectName;
 
+import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.JmxAppInstance;
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.JmxAppServer;
@@ -17,7 +18,7 @@ public class Test {
 		JmxAppServer appServer = new JmxAppServer();
 		appServer.setIp("127.0.0.1");
 		appServer.setJmxPort("8999");
-		Set<JmxAppInstance> appInstances = new HashSet<JmxAppInstance>();			
+		Set<AppInstance> appInstances = new HashSet<AppInstance>();			
 		String ip = appServer.getIp();
 		String port = appServer.getJmxPort();			
 		JmxUtil util = new JmxUtil(ip, port);
@@ -35,7 +36,7 @@ public class Test {
 				transformer.transform(appInstance);
 				appInstances.add(appInstance);
 			}			
-			appServer.setJmxAppInstances(appInstances);
+			appServer.setAppInstances(appInstances);
 		}		
 		util.disconnect();		
 	}

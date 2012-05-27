@@ -6,6 +6,8 @@ import javax.validation.constraints.NotNull;
 import java.util.Set;
 import org.seforge.paas.monitor.domain.JmxAppInstance;
 import java.util.HashSet;
+
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 
@@ -22,5 +24,8 @@ public class App {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "app")
-    private Set<JmxAppInstance> appInstances = new HashSet<JmxAppInstance>();
+    private Set<AppInstance> appInstances = new HashSet<AppInstance>();    
+    
+    @ManyToOne
+    private PaaSUser paasUser;
 }

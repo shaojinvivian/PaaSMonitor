@@ -21,44 +21,24 @@ import org.springframework.roo.addon.json.RooJson;
 @RooJavaBean
 @RooToString
 @RooJson
-@RooJpaActiveRecord(finders = { "findJmxAppInstancesByJmxAppServer" })
-public class JmxAppInstance {
-
-    @NotNull
-    private String name;    
-
-    private Boolean isMonitee;
+@RooJpaActiveRecord
+public class JmxAppInstance extends AppInstance{    
 
     private String description;
 
     private String docBase;
     
-    private String objectName;
-    
-    @ManyToOne
-    private App app;
-
-    @ManyToOne
-    private JmxAppServer jmxAppServer;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "appInstance")
-    private Set<AppInstanceSnap> appInstanceSnaps = new HashSet<AppInstanceSnap>();
+    private String objectName;   
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appInstance")
     private Set<MonitorConfig> monitorConfigs = new HashSet<MonitorConfig>();
 
-    private transient String status;
+    
     private transient int errorCount;
     
     private String errorLogDir;
     
-    public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
+   
 
 	public int getErrorCount() {
 		return errorCount;

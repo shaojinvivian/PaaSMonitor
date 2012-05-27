@@ -59,7 +59,7 @@ public class MonitorConfigController {
 			
 			HttpClient httpclient = new DefaultHttpClient();
 			try {
-				String ip = instance.getJmxAppServer().getIp();
+				String ip = instance.getAppServer().getIp();
 				String strURL = "http://" + ip + ":8088/PaaSAgentWeb/filterconfig";			
 				HttpPost httppost = new HttpPost(strURL);	
 				List<NameValuePair> params = new ArrayList<NameValuePair>();

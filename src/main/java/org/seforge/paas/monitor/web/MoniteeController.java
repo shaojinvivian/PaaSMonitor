@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.app.VelocityEngine;
+import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.JmxAppInstance;
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.JmxAppServer;
@@ -179,11 +180,11 @@ public class MoniteeController {
 							.indexOf("appServer") + 9));
 					JmxAppServer appServer = JmxAppServer.findJmxAppServer(id);
 					appServer.checkStatus();
-					Set<JmxAppInstance> appInstances = appServer.getJmxAppInstances();
+					Set<AppInstance> appInstances = appServer.getAppInstances();
 					if (appServer.getStatus().equals(MoniteeState.STARTED) && appInstances.size() > 0) {
 						response = new ArrayList<TreeNode>();
 						appServer.checkInstancesStatus();
-						for (JmxAppInstance appInstance : appInstances) {
+						for (AppInstance appInstance : appInstances) {
 							if(appInstance.getIsMonitee()){
 								TreeNode appInstanceNode = new TreeNode();
 								appInstanceNode.setText(appInstance.getName()+":"+appInstance.getStatus());

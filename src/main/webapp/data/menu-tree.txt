@@ -6,6 +6,10 @@
         	id:'add_phym',
         	leaf:true
          },{
+        	text: 'Add a new Platform Service',
+        	id:'add_platformservice',
+        	leaf:true
+         },{
         	text: 'Add a new Application Server',
         	id:'add_appserver',
         	leaf:true

@@ -7,6 +7,7 @@ import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.JmxAppInstance;
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.JmxAppServer;
@@ -47,18 +48,18 @@ public class Reporter {
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								appServer.setStatus(MoniteeState.STOPPED);
-								for (JmxAppInstance appInstance : appServer
-										.getJmxAppInstances()) {
+								for (AppInstance appInstance : appServer
+										.getAppInstances()) {
 									appInstance.setStatus(MoniteeState.STOPPED);
 								}
 								e.printStackTrace();
 							}
 						}
 					} else {
-						for (JmxAppServer appServer : vim.getJmxAppServers()) {
+						for (AppServer appServer : vim.getAppServers()) {
 							appServer.setStatus(MoniteeState.STOPPED);
-							for (JmxAppInstance appInstance : appServer
-									.getJmxAppInstances()) {
+							for (AppInstance appInstance : appServer
+									.getAppInstances()) {
 								appInstance.setStatus(MoniteeState.STOPPED);
 							}
 						}

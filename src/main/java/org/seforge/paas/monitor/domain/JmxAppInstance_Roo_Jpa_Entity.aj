@@ -3,41 +3,11 @@
 
 package org.seforge.paas.monitor.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Version;
 import org.seforge.paas.monitor.domain.JmxAppInstance;
 
 privileged aspect JmxAppInstance_Roo_Jpa_Entity {
     
     declare @type: JmxAppInstance: @Entity;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long JmxAppInstance.id;
-    
-    @Version
-    @Column(name = "version")
-    private Integer JmxAppInstance.version;
-    
-    public Long JmxAppInstance.getId() {
-        return this.id;
-    }
-    
-    public void JmxAppInstance.setId(Long id) {
-        this.id = id;
-    }
-    
-    public Integer JmxAppInstance.getVersion() {
-        return this.version;
-    }
-    
-    public void JmxAppInstance.setVersion(Integer version) {
-        this.version = version;
-    }
     
 }

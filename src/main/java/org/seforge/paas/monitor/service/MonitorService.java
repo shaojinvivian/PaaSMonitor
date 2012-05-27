@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class MonitorService {	
 	
 	public AppInstanceSnap getLatestSnap(JmxAppInstance appInstance) throws Exception{
-		JmxAppServer appServer = appInstance.getJmxAppServer();
+		JmxAppServer appServer = (JmxAppServer) appInstance.getAppServer();
 		String ip = appServer.getIp();
 		String jmxPort = appServer.getJmxPort();
 		AppInstanceSnap snap = new AppInstanceSnap();
@@ -56,7 +56,7 @@ public class MonitorService {
 	}
 	
 	public void controlAppInstance(JmxAppInstance appInstance, String op) throws Exception{
-		JmxAppServer appServer = appInstance.getJmxAppServer();
+		JmxAppServer appServer = (JmxAppServer) appInstance.getAppServer();
 		String ip = appServer.getIp();
 		String jmxPort = appServer.getJmxPort();
 		

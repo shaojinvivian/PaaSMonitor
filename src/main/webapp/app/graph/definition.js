@@ -2,7 +2,11 @@
 // DOM node with the specified ID. This function is invoked
 // from the onLoad event handler of the document (see below).
 
+
+// The window of adding mappings
 var mappingWin;
+
+//The window of adding a new attribute to a class
 var addAttributeWin;
 var showPropertyWin;
 
@@ -297,6 +301,12 @@ function main(container, outline, toolbar, sidebar, status) {
 		vim.setVertex(true);
 		addSidebarIcon(graph, sidebar, vim, 'images/icons48/bigvim.png');
 		addConfigs(vimObject, vim, attribute);
+		
+		var serviceObject = new Service('Service');
+		var service = new mxCell(serviceObject, new mxGeometry(0, 0, 200, 28), 'service');
+		service.setVertex(true);
+		addSidebarIcon(graph, sidebar, service, 'images/icons48/service.png');
+		addConfigs(serviceObject, service, attribute);
 
 		var appServerObject = new AppServer('Application Server');
 		var appServer = new mxCell(appServerObject, new mxGeometry(0, 0, 200, 28), 'appServer');
@@ -315,10 +325,17 @@ function main(container, outline, toolbar, sidebar, status) {
 		appInstance.setVertex(true);
 		addSidebarIcon(graph, sidebar, appInstance, 'images/icons48/appInstance.png');
 		addConfigs(appInstanceObject, appInstance, attribute);
+		
+		var paasUserObject = new PaaSUser('PaaS User');
+		var paasUser = new mxCell(paasUserObject, new mxGeometry(0, 0, 200, 28), 'paasUser');
+		paasUser.setVertex(true);
+		addSidebarIcon(graph, sidebar, paasUser, 'images/icons48/paasUser.png');
+		addConfigs(paasUserObject, paasUser, attribute);
 
-		sidebar.appendChild(createEdgeTemplate(graph, 'libStraight', 'images/straight.gif', 'edgeStyle=none', 100, 100));
+		//Do not add the connecting line now 
+		// sidebar.appendChild(createEdgeTemplate(graph, 'libStraight', 'images/straight.gif', 'edgeStyle=none', 100, 100));
 
-		sidebar.appendChild(createEdgeTemplate(graph, 'libEntityRel', 'images/entity.gif', 'edgeStyle=entityRelationEdgeStyle', 100, 100));
+		// sidebar.appendChild(createEdgeTemplate(graph, 'libEntityRel', 'images/entity.gif', 'edgeStyle=entityRelationEdgeStyle', 100, 100));
 
 		/*
 		// Adds child columns for new connections between tables
@@ -636,7 +653,7 @@ function addSidebarIcon(graph, sidebar, prototype, image) {
 	img.style.width = '48px';
 	img.style.height = '48px';
 	img.style.margin = '5px';
-	img.title = 'Drag this to the diagram to create a new vertex';
+	img.title = prototype.value.name;
 	sidebar.appendChild(img);
 
 	// Creates the image which is used as the drag icon (preview)
@@ -703,12 +720,16 @@ function configureStylesheet(graph) {
 	graph.getStylesheet().putCellStyle('phym', phymStyle);
 	vimStyle = createMoniteeStyleObject('images/icons48/bigvim.png');
 	graph.getStylesheet().putCellStyle('vim', vimStyle);
+	serviceStyle = createMoniteeStyleObject('images/icons48/service.png');
+	graph.getStylesheet().putCellStyle('service', serviceStyle);
 	appServerStyle = createMoniteeStyleObject('images/icons48/tomcatserver.png');
 	graph.getStylesheet().putCellStyle('appServer', appServerStyle);
 	appStyle = createMoniteeStyleObject('images/icons48/app.png');
 	graph.getStylesheet().putCellStyle('app', appStyle);
 	appInstanceStyle = createMoniteeStyleObject('images/icons48/appInstance.png');
 	graph.getStylesheet().putCellStyle('appInstance', appInstanceStyle);
+	paasUserStyle = createMoniteeStyleObject('images/icons48/paasUser.png');
+	graph.getStylesheet().putCellStyle('paasUser', paasUserStyle);
 	style = graph.stylesheet.getDefaultEdgeStyle();
 	style[mxConstants.STYLE_LABEL_BACKGROUNDCOLOR] = '#FFFFFF';
 	style[mxConstants.STYLE_STROKEWIDTH] = '2';
@@ -1063,79 +1084,7 @@ function createImg(name, icon) {
 	return node;
 };
 
-function Attribute(name) {
-	this.name = name;
-}
 
-Attribute.prototype.type = 'String';
-Attribute.prototype.category = '';
-Attribute.prototype.mapped = false;
-Attribute.prototype.mapping = 'none';
-Attribute.prototype.value = '';
-Attribute.prototype.clone = function() {
-	return mxUtils.clone(this);
-};
-function Monitee(name) {
-	this.name = name;
-}
-
-Monitee.prototype.clone = function() {
-	return mxUtils.clone(this);
-}
-function AppServer(name) {
-	this.name = name;
-}
-
-AppServer.prototype.clone = function() {
-	return mxUtils.clone(this);
-}
-function Vim(name) {
-	this.name = name;
-}
-
-Vim.prototype.ip = null;
-
-Vim.prototype.clone = function() {
-	return mxUtils.clone(this);
-}
-function Phym(name) {
-	this.name = name;
-}
-
-Phym.prototype.ip = null;
-Phym.prototype.username = null;
-Phym.prototype.password = null;
-
-Phym.prototype.clone = function() {
-	return mxUtils.clone(this);
-}
-function App(name) {
-	this.name = name;
-}
-
-App.prototype.type = null;
-
-App.prototype.clone = function() {
-	return mxUtils.clone(this);
-}
-function AppInstance(name) {
-	this.name = name;
-}
-
-AppInstance.prototype.contextName = null;
-
-AppInstance.prototype.clone = function() {
-	return mxUtils.clone(this);
-}
-function MBeanAttribute(name) {
-	this.name = name;
-}
-
-MBeanAttribute.prototype.objectName = null;
-
-MBeanAttribute.prototype.clone = function() {
-	return mxUtils.clone(this);
-}
 function addConfigs(object, cell, config) {
 	for(attri in object) {
 		if(attri != 'name' && attri != 'clone') {

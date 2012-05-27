@@ -12,6 +12,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import org.seforge.paas.monitor.domain.App;
 import org.seforge.paas.monitor.domain.AppDataOnDemand;
+import org.seforge.paas.monitor.domain.PaaSUser;
 import org.springframework.stereotype.Component;
 
 privileged aspect AppDataOnDemand_Roo_DataOnDemand {
@@ -25,12 +26,18 @@ privileged aspect AppDataOnDemand_Roo_DataOnDemand {
     public App AppDataOnDemand.getNewTransientApp(int index) {
         App obj = new App();
         setName(obj, index);
+        setPaasUser(obj, index);
         return obj;
     }
     
     public void AppDataOnDemand.setName(App obj, int index) {
         String name = "name_" + index;
         obj.setName(name);
+    }
+    
+    public void AppDataOnDemand.setPaasUser(App obj, int index) {
+        PaaSUser paasUser = null;
+        obj.setPaasUser(paasUser);
     }
     
     public App AppDataOnDemand.getSpecificApp(int index) {

@@ -3,8 +3,6 @@
 
 package org.seforge.paas.monitor.domain;
 
-import java.util.Set;
-import org.seforge.paas.monitor.domain.JmxAppInstance;
 import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.seforge.paas.monitor.monitor.ModelTransformer;
 
@@ -40,14 +38,6 @@ privileged aspect JmxAppServer_Roo_JavaBean {
     
     public void JmxAppServer.setProcessorNum(int processorNum) {
         this.processorNum = processorNum;
-    }
-    
-    public Set<JmxAppInstance> JmxAppServer.getJmxAppInstances() {
-        return this.jmxAppInstances;
-    }
-    
-    public void JmxAppServer.setJmxAppInstances(Set<JmxAppInstance> jmxAppInstances) {
-        this.jmxAppInstances = jmxAppInstances;
     }
     
     public ModelTransformer JmxAppServer.getModelTransformer() {

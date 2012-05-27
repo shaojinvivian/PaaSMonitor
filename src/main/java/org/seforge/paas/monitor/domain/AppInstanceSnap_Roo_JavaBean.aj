@@ -4,8 +4,8 @@
 package org.seforge.paas.monitor.domain;
 
 import java.util.Date;
+import org.seforge.paas.monitor.domain.AppInstance;
 import org.seforge.paas.monitor.domain.AppInstanceSnap;
-import org.seforge.paas.monitor.domain.JmxAppInstance;
 
 privileged aspect AppInstanceSnap_Roo_JavaBean {
     
@@ -121,11 +121,11 @@ privileged aspect AppInstanceSnap_Roo_JavaBean {
         this.createTime = createTime;
     }
     
-    public JmxAppInstance AppInstanceSnap.getAppInstance() {
+    public AppInstance AppInstanceSnap.getAppInstance() {
         return this.appInstance;
     }
     
-    public void AppInstanceSnap.setAppInstance(JmxAppInstance appInstance) {
+    public void AppInstanceSnap.setAppInstance(AppInstance appInstance) {
         this.appInstance = appInstance;
     }
     

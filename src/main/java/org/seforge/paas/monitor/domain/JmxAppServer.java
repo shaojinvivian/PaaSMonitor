@@ -33,21 +33,9 @@ public class JmxAppServer extends AppServer {
 
 	private long lastSystemTime;
 
-	private int processorNum;
+	private int processorNum;	
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jmxAppServer")
-	private Set<JmxAppInstance> jmxAppInstances = new HashSet<JmxAppInstance>();
-
-	public List<JmxAppInstance> getActiveAppInstances() {
-		List<JmxAppInstance> list = new ArrayList();
-		for (JmxAppInstance appInstance : this.getJmxAppInstances()) {
-			// appInstance.getIsMonitee() may be null
-			if (appInstance.getIsMonitee() != null
-					&& appInstance.getIsMonitee())
-				list.add(appInstance);
-		}
-		return list;
-	}
+	
 
 	public static JmxAppServer findJmxAppServerByIpAndJmxPort(String ip,
 			String jmxPort) {
@@ -90,7 +78,7 @@ public class JmxAppServer extends AppServer {
 	 * @throws Exception
 	 */
 	public void saveAllInstances() throws Exception{
-		Set<JmxAppInstance> appInstances = new HashSet<JmxAppInstance>();				
+		Set<AppInstance> appInstances = new HashSet<AppInstance>();				
 		JmxUtil jmxUtil = new JmxUtil(ip, jmxPort);
 		jmxUtil.connect();			
 		ObjectName obName = new ObjectName(
@@ -103,13 +91,13 @@ public class JmxAppServer extends AppServer {
 //			appInstance.setObjectName((String)jmxUtil.getAttribute(name, "objectName"));
 			appInstance.setObjectName(name.toString());
 			modelTransformer.transform(appInstance);
-			appInstance.setJmxAppServer(this);
+			appInstance.setAppServer(this);
 			appInstance.setIsMonitee(false);
 			String newName = appInstance.getName().substring(1);
 			appInstance.setName(newName);
 			appInstances.add(appInstance);			
 		}			
-		this.setJmxAppInstances(appInstances);
+		this.setAppInstances(appInstances);
 		jmxUtil.disconnect();				
 	}
 	
@@ -141,9 +129,9 @@ public class JmxAppServer extends AppServer {
 		jmxUtil.connect();
 		if(jmxUtil.connected()){
 			this.setStatus(MoniteeState.STARTED);	
-			Set<JmxAppInstance> appInstances = this.getJmxAppInstances();
+			Set<AppInstance> appInstances = this.getAppInstances();
 			modelTransformer.prepare(jmxUtil);
-			for(JmxAppInstance appInstance: appInstances){				
+			for(AppInstance appInstance: appInstances){				
 				if(appInstance.getIsMonitee()!=null && appInstance.getIsMonitee()){
 					modelTransformer.transform(appInstance);
 				}
@@ -151,8 +139,8 @@ public class JmxAppServer extends AppServer {
 			}
 		}else{
 			this.setStatus(MoniteeState.STOPPED);
-			Set<JmxAppInstance> appInstances = this.getJmxAppInstances();
-			for(JmxAppInstance appInstance: appInstances){	
+			Set<AppInstance> appInstances = this.getAppInstances();
+			for(AppInstance appInstance: appInstances){	
 				appInstance.setStatus(MoniteeState.STOPPED);
 			}
 		}

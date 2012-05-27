@@ -118,8 +118,8 @@ public class AppInstanceController {
         HttpStatus returnStatus = HttpStatus.BAD_REQUEST;
         JsonObjectResponse response = new JsonObjectResponse();
         try {
-            JmxAppServer appServer = JmxAppServer.findJmxAppServer(appServerId);
-            List appInstances = JmxAppInstance.findJmxAppInstancesByJmxAppServer(appServer).getResultList();
+            AppServer appServer = JmxAppServer.findJmxAppServer(appServerId);
+            List appInstances = JmxAppInstance.findAppInstancesByAppServer(appServer).getResultList();
             returnStatus = HttpStatus.OK;
             response.setMessage("All App Instances retrieved.");
             response.setSuccess(true);
@@ -141,7 +141,7 @@ public class AppInstanceController {
             List<JmxAppInstance> data = new ArrayList<JmxAppInstance>();
             for (String appServerId : appServerIdList) {
                 AppServer appServer = AppServer.findAppServer(Long.valueOf(appServerId));
-                Set appInstances = ((JmxAppServer)appServer).getJmxAppInstances();
+                Set appInstances = ((JmxAppServer)appServer).getAppInstances();
                 data.addAll(appInstances);
             }
             returnStatus = HttpStatus.OK;

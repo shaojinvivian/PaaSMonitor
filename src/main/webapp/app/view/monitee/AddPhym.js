@@ -19,6 +19,7 @@ Ext.define('PaaSMonitor.view.monitee.AddPhym', {
 				fieldLabel : 'User Name'
 			}, {
 				xtype : 'textfield',
+				inputType: 'password',
 				name : 'password',
 				fieldLabel : 'Password'
 			}],
