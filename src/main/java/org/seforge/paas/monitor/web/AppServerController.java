@@ -1,25 +1,24 @@
 package org.seforge.paas.monitor.web;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.Date;
 import java.util.List;
 
-import org.seforge.paas.monitor.domain.App;
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.extjs.JsonObjectResponse;
+import org.seforge.paas.monitor.service.AppServerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.roo.addon.web.mvc.controller.json.RooWebJson;
-import org.springframework.roo.addon.web.mvc.controller.scaffold.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import flexjson.JSONSerializer;
 import flexjson.transformer.DateTransformer;
@@ -28,7 +27,8 @@ import flexjson.transformer.DateTransformer;
 @RequestMapping("/appservers")
 @Controller
 public class AppServerController {	
-	
+	@Autowired
+	private AppServerService appServerService;
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
     public ResponseEntity<String> deleteFromJson(@PathVariable("id") Long id) {
@@ -61,7 +61,7 @@ public class AppServerController {
 		try {
 			List<AppServer> records = AppServer.findAllAppServers();
 			for(AppServer appServer : records){
-				appServer.checkStatus();
+				appServer.setStatus("STARTED");
 			}			
             returnStatus = HttpStatus.OK;
 			response.setMessage("All AppServers retrieved.");
@@ -75,7 +75,9 @@ public class AppServerController {
 		}
 		
 		// Return list of retrieved performance areas
-        return new ResponseEntity<String>(new JSONSerializer().include("data.appInstances").include("data.vim").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
+        return new ResponseEntity<String>(new JSONSerializer().exclude("data.modelTransformer").exclude("data.vim").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
+
+//        return new ResponseEntity<String>(new JSONSerializer().include("data.appInstances").include("data.vim").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
 	
 	}
 
@@ -90,16 +92,17 @@ public class AppServerController {
 				record.setId(null);
 				record.setVersion(null);
 				record.setStatus(null);
-				if(record instanceof JmxAppServer){					
-					((JmxAppServer)record).saveAllInstances();
-					((JmxAppServer)record).init();
-				}				
 				List<Vim> vims = Vim.findVimsByIp(record.getIp()).getResultList();
 				if (vims.size() > 0) {
 					Vim vim = vims.get(0);
 					record.setVim(vim);
 				}
 				record.persist();
+				if(record instanceof JmxAppServer){					
+					appServerService.saveAllJmxAppInstances((JmxAppServer)record);
+					((JmxAppServer)record).init();
+				}		
+				record.flush();
 				returnStatus = HttpStatus.CREATED;
 				response.setMessage("AppServer created.");
 				response.setData(record);
@@ -113,12 +116,11 @@ public class AppServerController {
 				response.setData(record);
 				response.setSuccess(true);
 				response.setTotal(1L);
-			}
-			
+			}			
 		} catch(IOException e) {			
 			response.setMessage("The App Server is not available currently.");			
 			response.setSuccess(false);
-			response.setTotal(0L);
+			response.setTotal(0L);		
 		}catch (Exception e){
 			e.printStackTrace();
 			response.setMessage(e.getMessage());
@@ -126,7 +128,7 @@ public class AppServerController {
 			response.setTotal(0L);			
 		}
 		// return the created record with the new system generated id
-        return new ResponseEntity<String>(new JSONSerializer().exclude("data.jmxAppInstances").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
+        return new ResponseEntity<String>(new JSONSerializer().exclude("data.appInstances").exclude("data.modelTransformer").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
     }
 	
 	@RequestMapping(method = RequestMethod.PUT, headers = "Accept=application/json")

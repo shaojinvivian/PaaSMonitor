@@ -10,6 +10,9 @@ import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;
 import org.seforge.paas.monitor.extjs.JsonObjectResponse;
 import org.seforge.paas.monitor.reference.MoniteeState;
+import org.seforge.paas.monitor.service.PhymService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.roo.addon.web.mvc.controller.json.RooWebJson;
@@ -20,11 +23,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @RequestMapping("/vims")
 @Controller
 @RooWebJson(jsonObject = Vim.class)
 public class VimController {
+	
+	@Autowired
+    private PhymService phymService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
     public ResponseEntity<java.lang.String> deleteFromJson(@PathVariable("id") Long id) {
@@ -112,13 +119,39 @@ public class VimController {
         return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
     }
 
-    @RequestMapping(params = "findVims=ByPhym", method = RequestMethod.GET)
+    @RequestMapping(params = "list=ByPhym", headers = "Accept=application/json")
+    @ResponseBody
+    //通过接口获取指定phym上的vim列表
+    public ResponseEntity<String> listVimsOnPhym(@RequestParam("phymId") Long phymId) {
+    	HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=utf-8");
+    	HttpStatus returnStatus = HttpStatus.BAD_REQUEST;
+        JsonObjectResponse response = new JsonObjectResponse();
+    	try {	    	
+	        Phym phym = Phym.findPhym(phymId);
+	        phymService.addVims(phym);
+	        Set vims = phym.getVims();
+	        returnStatus = HttpStatus.OK;
+            response.setMessage("All Vims retrieved.");
+            response.setSuccess(true);
+            response.setTotal(vims.size());
+            response.setData(vims);
+    	}catch(Exception e){
+    		response.setMessage(e.getMessage());
+            response.setSuccess(false);
+            response.setTotal(0L);
+    	}
+        return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), headers, returnStatus);
+    }
+    
+    
+    @RequestMapping(params = "find=ByPhym", method = RequestMethod.GET)
     public ResponseEntity<java.lang.String> findVimsByPhymJson(@RequestParam("phymId") Long phymId) {
         HttpStatus returnStatus = HttpStatus.BAD_REQUEST;
         JsonObjectResponse response = new JsonObjectResponse();
         try {
             Phym phym = Phym.findPhym(phymId);
-            List vims = Vim.findVimsByPhym(phym).getResultList();
+            Set vims = phym.getVims();            
             returnStatus = HttpStatus.OK;
             response.setMessage("All Vims retrieved.");
             response.setSuccess(true);
@@ -132,7 +165,7 @@ public class VimController {
         return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
     }
 
-    @RequestMapping(params = "findVims=ByPhyms", method = RequestMethod.GET)
+    @RequestMapping(params = "find=ByPhyms", method = RequestMethod.GET)
     public ResponseEntity<java.lang.String> findVimsByPhymsJson(@RequestParam("phymIdList") List<java.lang.String> phymIdList) {
         HttpStatus returnStatus = HttpStatus.BAD_REQUEST;
         JsonObjectResponse response = new JsonObjectResponse();

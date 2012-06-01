@@ -15,7 +15,10 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord
-public class PaaSUser {
+public class PaasUser {
+	
+	private String email;	
+	private String name;	
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "paasUser")
     private Set<App> apps = new HashSet<App>();

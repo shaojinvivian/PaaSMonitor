@@ -28,13 +28,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RooWebJson(jsonObject = Phym.class)
 public class PhymController {
-
+	
+	@Autowired
     private PhymService phymService;
-
-    @Autowired
-    public void setPhymSerivce(PhymService phymService) {
-        this.phymService = phymService;
-    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, headers = "Accept=application/json")
     public ResponseEntity<java.lang.String> deleteFromJson(@PathVariable("id") Long id) {
@@ -84,19 +80,19 @@ public class PhymController {
             record.setId(null);
             record.setVersion(null);
             record.setIsMonitee(true);
-            phymService.addVims(record);
             record.persist();
+            phymService.addVims(record);
             returnStatus = HttpStatus.CREATED;
-            response.setMessage("Phym created.");
+            response.setMessage(record.getName());
             response.setSuccess(true);
             response.setTotal(1L);
-            response.setData(record);
+            response.setData(record.getVims());
         } catch (Exception e) {
             response.setMessage(e.getMessage());
             response.setSuccess(false);
             response.setTotal(0L);
         }
-        return new ResponseEntity<String>(new JSONSerializer().include("data.vims").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
+        return new ResponseEntity<String>(new JSONSerializer().include("data.vims").include("data.vims.phym").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
     }
 
     @RequestMapping(method = RequestMethod.PUT, headers = "Accept=application/json")

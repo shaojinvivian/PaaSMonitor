@@ -4,6 +4,7 @@
 package org.seforge.paas.monitor.domain;
 
 import org.seforge.paas.monitor.domain.PlatformService;
+import org.seforge.paas.monitor.domain.Vim;
 
 privileged aspect PlatformService_Roo_JavaBean {
     
@@ -21,6 +22,14 @@ privileged aspect PlatformService_Roo_JavaBean {
     
     public void PlatformService.setPort(String port) {
         this.port = port;
+    }
+    
+    public Vim PlatformService.getVim() {
+        return this.vim;
+    }
+    
+    public void PlatformService.setVim(Vim vim) {
+        this.vim = vim;
     }
     
 }

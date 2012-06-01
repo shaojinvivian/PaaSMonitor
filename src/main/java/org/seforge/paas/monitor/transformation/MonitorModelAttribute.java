@@ -3,6 +3,7 @@ package org.seforge.paas.monitor.transformation;
 public class MonitorModelAttribute {
 	private String name;
 	private String type;	
+	private boolean inherited;
 	
 	public String getName() {
 		return name;
@@ -16,6 +17,14 @@ public class MonitorModelAttribute {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public boolean getInherited(){
+		return inherited;
+	}
+	
+	public void setInherited(boolean inherited){
+		this.inherited = inherited;
 	}
 	@Override
 	public int hashCode(){

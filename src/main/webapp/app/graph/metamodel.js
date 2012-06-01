@@ -102,10 +102,10 @@ Monitee.prototype.clone = function() {
 
 
 /*Definition of PaaSUser*/
-function PaaSUser(name)	{
+function PaasUser(name)	{
 	this.name = name;	
 }
 
-PaaSUser.prototype.clone = function() {
+PaasUser.prototype.clone = function() {
 	return mxUtils.clone(this);
 }

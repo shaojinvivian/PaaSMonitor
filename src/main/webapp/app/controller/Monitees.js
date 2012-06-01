@@ -52,15 +52,13 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 		var store = this.getVimsStore();		
 		phym.save({
 			success : function(phym, operation) {
+				var response = Ext.decode(operation.response.responseText);
+				var vims = response.data;
+				var name = response.message;
 				form.getForm().reset();
-				store.getProxy().extraParams = {
-					findVims : "ByPhym",
-					phymId : phym.internalId
-				};
-				store.load();
+				store.loadData(vims);
 				Ext.ComponentManager.get('add_vims-panel').setTitle('Phym ' + phym.get('name'));
-				uppanel.layout.setActiveItem('add_vims-panel');
-				store.getProxy().extraParams = {};				
+				uppanel.layout.setActiveItem('add_vims-panel');							
 			}
 		});
 	},
@@ -84,7 +82,8 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 				instanceStore.getProxy().extraParams = {};	
 			},
 			failure: function(r, operation){
-				Ext.Msg.alert("Error", operation.getError());
+				Ext.MessageBox.alert('提示', '应用服务器信息已保存，但该应用服务器目前不可用，未能获得应用实例信息');
+				uppanel.layout.setActiveItem('start-panel');
 			}
 		});
 	},
@@ -155,11 +154,11 @@ Ext.define('PaaSMonitor.controller.Monitees', {
 		});
 		var vimStore = this.getVimsStore();
 		vimStore.getProxy().extraParams = {
-			findVims : "ByPhyms",
+			find: "ByPhyms",
 			phymIdList : idList
 		};
 		vimStore.load();
-		// Ext.ComponentManager.get('add_vims-panel').setTitle('Phym ' + phym.get('name'));
+		Ext.ComponentManager.get('add_vims-panel').setTitle('Configure Phyms');
 		var panel = button.up('panel').up('panel');
 		panel.layout.setActiveItem('add_vims-panel');
 		vimStore.getProxy().extraParams = {};

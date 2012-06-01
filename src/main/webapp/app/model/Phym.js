@@ -17,6 +17,7 @@ Ext.define('PaaSMonitor.model.Phym', {
 		headers : {
 			'Accept' : 'application/json'
 		},
+		timeout: 90000,
 		reader : {
 			type : 'json',
 			root : 'data',

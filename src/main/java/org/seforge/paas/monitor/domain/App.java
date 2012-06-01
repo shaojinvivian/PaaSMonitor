@@ -4,7 +4,6 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
-import org.seforge.paas.monitor.domain.JmxAppInstance;
 import java.util.HashSet;
 
 import javax.persistence.ManyToOne;
@@ -27,5 +26,5 @@ public class App {
     private Set<AppInstance> appInstances = new HashSet<AppInstance>();    
     
     @ManyToOne
-    private PaaSUser paasUser;
+    private PaasUser paasUser;
 }

@@ -25,9 +25,8 @@
 				</Operation>								
 		</Evaluator>		
 	</ConditionEvaluators>	
-	<MonitoringModel class="org.seforge.paas.monitor.domain.AppInstance">				
-		
-		<Attribute name="status" type="java.lang.String">			
+	<MonitoringModel class="org.seforge.paas.monitor.domain.JmxAppInstance">		
+		<Attribute name="status" type="java.lang.String" inherited="true">			
 			<RuntimeModels>
 				<ConditionGroup evaluator="serverType">					
 					<RuntimeModel>					
@@ -49,7 +48,7 @@
 			</RuntimeModels>
 		</Attribute>
 		
-		<Attribute name="description"  type="java.lang.String">			
+		<Attribute name="description"  type="java.lang.String" inherited="false">			
 			<RuntimeModels>
 				<ConditionGroup evaluator="serverType">					
 					<RuntimeModel>						
@@ -60,7 +59,7 @@
 				</ConditionGroup>			
 			</RuntimeModels>
 		</Attribute>
-		<Attribute name="name"  type="java.lang.String">			
+		<Attribute name="name"  type="java.lang.String" inherited="true">			
 			<RuntimeModels>
 				<ConditionGroup evaluator="serverType">					
 					<RuntimeModel>						
@@ -71,7 +70,7 @@
 				</ConditionGroup>							
 			</RuntimeModels>
 		</Attribute>
-		<Attribute name="docBase"  type="java.lang.String">			
+		<Attribute name="docBase"  type="java.lang.String" inherited="false">			
 			<RuntimeModels>
 				<ConditionGroup evaluator="serverType">		
 					<RuntimeModel>
@@ -82,7 +81,7 @@
 				</ConditionGroup>				
 			</RuntimeModels>
 		</Attribute>
-		<Attribute name="errorCount"  type="int">			
+		<Attribute name="errorCount"  type="int" inherited="false">			
 			<RuntimeModels>
 				<ConditionGroup evaluator="serverType">		
 					<RuntimeModel>
@@ -93,7 +92,7 @@
 				</ConditionGroup>				
 			</RuntimeModels>
 		</Attribute>
-		<Attribute name="errorLogDir"  type="java.lang.String">			
+		<Attribute name="errorLogDir"  type="java.lang.String" inherited="false">			
 			<RuntimeModels>
 				<ConditionGroup evaluator="serverType">		
 					<RuntimeModel>

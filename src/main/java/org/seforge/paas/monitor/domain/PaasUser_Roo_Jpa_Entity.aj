@@ -9,34 +9,34 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Version;
-import org.seforge.paas.monitor.domain.PaaSUser;
+import org.seforge.paas.monitor.domain.PaasUser;
 
-privileged aspect PaaSUser_Roo_Jpa_Entity {
+privileged aspect PaasUser_Roo_Jpa_Entity {
     
-    declare @type: PaaSUser: @Entity;
+    declare @type: PaasUser: @Entity;
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long PaaSUser.id;
+    private Long PaasUser.id;
     
     @Version
     @Column(name = "version")
-    private Integer PaaSUser.version;
+    private Integer PaasUser.version;
     
-    public Long PaaSUser.getId() {
+    public Long PaasUser.getId() {
         return this.id;
     }
     
-    public void PaaSUser.setId(Long id) {
+    public void PaasUser.setId(Long id) {
         this.id = id;
     }
     
-    public Integer PaaSUser.getVersion() {
+    public Integer PaasUser.getVersion() {
         return this.version;
     }
     
-    public void PaaSUser.setVersion(Integer version) {
+    public void PaasUser.setVersion(Integer version) {
         this.version = version;
     }
     

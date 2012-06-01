@@ -1,5 +1,6 @@
 package org.seforge.paas.monitor.domain;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -56,50 +57,19 @@ public class JmxAppServer extends AppServer {
 			return null;
 	}
 	
-	@Transient
-	@Autowired
-	private ModelTransformer modelTransformer;
-	
 	public void checkStatus(){
 		JmxUtil jmxUtil = new JmxUtil(ip, jmxPort);
-		jmxUtil.connect();	
-		if(jmxUtil.connected()){
-			this.setStatus(MoniteeState.STARTED);	
-		}else{
+		try {
+			jmxUtil.connect();
+			this.setStatus(MoniteeState.STARTED);
+		} catch (IOException e) {			
 			this.setStatus(MoniteeState.STOPPED);
-		}
+		}		
 		jmxUtil.disconnect();
 	}
 	
 	
-	/** Query all appinstances in this jmxAppServer, and save them in database
-	 * 
-	 * @param appServer
-	 * @throws Exception
-	 */
-	public void saveAllInstances() throws Exception{
-		Set<AppInstance> appInstances = new HashSet<AppInstance>();				
-		JmxUtil jmxUtil = new JmxUtil(ip, jmxPort);
-		jmxUtil.connect();			
-		ObjectName obName = new ObjectName(
-				"PaaSMonitor:type=Context,name=*");			
-		Set<ObjectName> set = jmxUtil.queryNames(obName);	
-		
-		modelTransformer.prepare(jmxUtil);
-		for(ObjectName name : set){
-			JmxAppInstance appInstance = new JmxAppInstance();			
-//			appInstance.setObjectName((String)jmxUtil.getAttribute(name, "objectName"));
-			appInstance.setObjectName(name.toString());
-			modelTransformer.transform(appInstance);
-			appInstance.setAppServer(this);
-			appInstance.setIsMonitee(false);
-			String newName = appInstance.getName().substring(1);
-			appInstance.setName(newName);
-			appInstances.add(appInstance);			
-		}			
-		this.setAppInstances(appInstances);
-		jmxUtil.disconnect();				
-	}
+
 	
 	/** init several properties (including name, cpuTime, etc.) of jmxAppServer
 	 * 
@@ -121,31 +91,5 @@ public class JmxAppServer extends AppServer {
 		this.setLastSystemTime(lastSystemTime);
 		this.setProcessorNum(processorNum);			
 		jmxUtil.disconnect();	
-	}	
-	
-	
-	public void checkInstancesStatus() throws Exception{	
-		JmxUtil jmxUtil = new JmxUtil(ip, jmxPort);
-		jmxUtil.connect();
-		if(jmxUtil.connected()){
-			this.setStatus(MoniteeState.STARTED);	
-			Set<AppInstance> appInstances = this.getAppInstances();
-			modelTransformer.prepare(jmxUtil);
-			for(AppInstance appInstance: appInstances){				
-				if(appInstance.getIsMonitee()!=null && appInstance.getIsMonitee()){
-					modelTransformer.transform(appInstance);
-				}
-				
-			}
-		}else{
-			this.setStatus(MoniteeState.STOPPED);
-			Set<AppInstance> appInstances = this.getAppInstances();
-			for(AppInstance appInstance: appInstances){	
-				appInstance.setStatus(MoniteeState.STOPPED);
-			}
-		}
-		jmxUtil.disconnect();		
 	}
-	
-
 }

@@ -22,19 +22,17 @@
 
 	<!-- Loads and initializes the library -->
 	<script type="text/javascript" src="mxgraph/mxclient-ff.js"></script>
-	<script type="text/javascript" src="app/graph/metamodel.js"></script>
-		<script type="text/javascript" src="app/graph/definition.js"></script>
-		
+		<script type="text/javascript" src="app/graph/runtime_model.js"></script>
+		<script type="text/javascript" src="app/graph/metamodel.js"></script>
 
 
 	
 </head>
 
 <!-- Page passes the container for the graph to the grogram -->
-<body onload="main(document.getElementById('graphContainer'),
+<body onload="generateModel(document.getElementById('graphContainer'),
 			document.getElementById('outlineContainer'),
-		 	document.getElementById('toolbarContainer'),
-			document.getElementById('sidebarContainer'),
+		 	document.getElementById('toolbarContainer'),			
 			document.getElementById('statusContainer'));">
 	
 	<!-- Creates a container for the splash screen -->
@@ -49,15 +47,11 @@
 	<div id="toolbarContainer"
 		style="position:absolute;white-space:nowrap;overflow:hidden;top:0px;left:0px;max-height:40px;height:36px;right:0px;padding:6px;background-image:url('images/toolbar_bg.gif');">
 	</div>
-
-	<!-- Creates a container for the toolboox -->
-	<div id="sidebarContainer"
-		style="position:absolute;overflow:hidden;top:36px;left:0px;bottom:36px;max-width:70px;width:60px;padding-top:10px;padding-left:4px;background-image:url('images/sidebar_bg.gif');">
-	</div>
+	
 
 	<!-- Creates a container for the graph -->
 	<div id="graphContainer"
-		style="position:absolute;overflow:hidden;top:36px;left:60px;bottom:36px;right:0px;">
+		style="position:absolute;overflow:hidden;top:36px;left:10px;bottom:36px;right:0px;">
 	</div>
 
 	<!-- Creates a container for the outline -->

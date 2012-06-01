@@ -6,6 +6,7 @@ package org.seforge.paas.monitor.domain;
 import java.util.Set;
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.Phym;
+import org.seforge.paas.monitor.domain.PlatformService;
 import org.seforge.paas.monitor.domain.Vim;
 
 privileged aspect Vim_Roo_JavaBean {
@@ -40,6 +41,14 @@ privileged aspect Vim_Roo_JavaBean {
     
     public void Vim.setAppServers(Set<AppServer> appServers) {
         this.appServers = appServers;
+    }
+    
+    public Set<PlatformService> Vim.getPlatformServices() {
+        return this.platformServices;
+    }
+    
+    public void Vim.setPlatformServices(Set<PlatformService> platformServices) {
+        this.platformServices = platformServices;
     }
     
     public Boolean Vim.getIsMonitee() {

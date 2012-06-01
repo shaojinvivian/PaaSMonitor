@@ -2,27 +2,68 @@
   <root>
     <mxCell id="0"/>
     <mxCell id="1" parent="0"/>
-    <mxCell id="8" style="appServer" parent="1" vertex="1">
-      <AppServer name="Application Server" as="value"/>
-      <mxGeometry x="290" y="50" width="200" height="132" as="geometry">
-        <mxRectangle width="200" height="80" as="alternateBounds"/>
+    <mxCell id="13" style="vim" parent="1" vertex="1">
+      <Vim name="Vim" as="value"/>
+      <mxGeometry x="280" y="20" width="200" height="54" as="geometry">
+        <mxRectangle width="200" height="28" as="alternateBounds"/>
       </mxGeometry>
     </mxCell>
-    <mxCell id="9" parent="8" vertex="1" connectable="0">
-      <Attribute name="ip" category="Config" as="value"/>
-      <mxGeometry y="28" width="200" height="26" as="geometry"/>
+    <mxCell id="14" style="appServer" parent="1" vertex="1">
+      <AppServer name="Application Server" as="value"/>
+      <mxGeometry x="540" y="20" width="200" height="54" as="geometry">
+        <mxRectangle width="200" height="28" as="alternateBounds"/>
+      </mxGeometry>
     </mxCell>
-    <mxCell id="10" parent="8" vertex="1" connectable="0">
-      <Attribute name="jmxPort" category="Config" as="value"/>
-      <mxGeometry y="54" width="200" height="26" as="geometry"/>
+    <mxCell id="15" value="1...*" parent="1" source="14" target="13" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
     </mxCell>
-    <mxCell id="11" parent="8" vertex="1" connectable="0">
-      <Attribute name="status" category="Monitor" mapped="1" mapping="[{&quot;name&quot;:&quot;serverInfo&quot;,&quot;objectName&quot;:&quot;Catalina:type=Server&quot;,&quot;version&quot;:&quot;tomcat6&quot;,&quot;type&quot;:&quot;java.lang.String&quot;,&quot;code&quot;:&quot;&quot;},{&quot;name&quot;:&quot;stateName&quot;,&quot;objectName&quot;:&quot;Catalina:type=Server&quot;,&quot;version&quot;:&quot;tomcat7&quot;,&quot;type&quot;:&quot;java.lang.String&quot;,&quot;code&quot;:&quot;&quot;}]" as="value"/>
-      <mxGeometry y="80" width="200" height="26" as="geometry"/>
+    <mxCell id="16" style="phym" parent="1" vertex="1">
+      <Phym name="Phym" as="value"/>
+      <mxGeometry x="30" y="20" width="200" height="54" as="geometry">
+        <mxRectangle width="200" height="28" as="alternateBounds"/>
+      </mxGeometry>
     </mxCell>
-    <mxCell id="12" parent="8" vertex="1" connectable="0">
-      <Attribute name="info" category="Monitor" mapped="1" mapping="[{&quot;name&quot;:&quot;serverInfo&quot;,&quot;objectName&quot;:&quot;Catalina:type=Server&quot;,&quot;version&quot;:&quot;tomcat7&quot;,&quot;type&quot;:&quot;java.lang.String&quot;,&quot;code&quot;:&quot;&quot;},{&quot;name&quot;:&quot;serverInfo&quot;,&quot;objectName&quot;:&quot;Catalina:type=Server&quot;,&quot;version&quot;:&quot;tomcat6&quot;,&quot;type&quot;:&quot;java.lang.String&quot;,&quot;code&quot;:&quot;&quot;}]" as="value"/>
-      <mxGeometry y="106" width="200" height="26" as="geometry"/>
+    <mxCell id="17" value="1...*" parent="1" source="16" target="13" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="18" style="app" parent="1" vertex="1">
+      <App name="Application" as="value"/>
+      <mxGeometry x="210" y="170" width="200" height="54" as="geometry">
+        <mxRectangle width="200" height="28" as="alternateBounds"/>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="19" style="appInstance" parent="1" vertex="1">
+      <AppInstance name="Application Instance" as="value"/>
+      <mxGeometry x="540" y="170" width="200" height="54" as="geometry">
+        <mxRectangle width="200" height="28" as="alternateBounds"/>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="20" style="paasUser" parent="1" vertex="1">
+      <PaaSUser name="PaaS User" as="value"/>
+      <mxGeometry x="210" y="250" width="200" height="54" as="geometry">
+        <mxRectangle width="200" height="28" as="alternateBounds"/>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="21" value="*...1" parent="1" source="18" target="20" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="22" value="1...*" parent="1" source="14" target="19" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="23" value="1..*" parent="1" source="18" target="19" edge="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="24" style="service" vertex="1" parent="1">
+      <Service name="Platform Service" as="value"/>
+      <mxGeometry x="210" y="100" width="200" height="54" as="geometry">
+        <mxRectangle width="200" height="28" as="alternateBounds"/>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="25" value="1...*" edge="1" parent="1" source="13" target="24">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="26" edge="1" parent="1" source="24" target="19">
+      <mxGeometry relative="1" as="geometry"/>
     </mxCell>
   </root>
 </mxGraphModel>

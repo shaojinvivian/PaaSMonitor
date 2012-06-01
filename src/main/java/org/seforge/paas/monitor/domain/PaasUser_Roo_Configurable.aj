@@ -3,11 +3,11 @@
 
 package org.seforge.paas.monitor.domain;
 
-import org.seforge.paas.monitor.domain.PaaSUser;
+import org.seforge.paas.monitor.domain.PaasUser;
 import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect PaaSUser_Roo_Configurable {
+privileged aspect PaasUser_Roo_Configurable {
     
-    declare @type: PaaSUser: @Configurable;
+    declare @type: PaasUser: @Configurable;
     
 }

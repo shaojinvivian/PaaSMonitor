@@ -1,5 +1,6 @@
 package org.seforge.paas.monitor.domain;
 
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -11,7 +12,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJson
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord
+@RooJpaActiveRecord(finders = { "findPlatformServicesByIp" })
 public class PlatformService {
 	@NotNull
 	@Size(max = 15)
@@ -20,5 +21,8 @@ public class PlatformService {
 	@NotNull
 	@Size(max = 10)
 	private String port;
+	
+	@ManyToOne
+	protected Vim vim;
 
 }

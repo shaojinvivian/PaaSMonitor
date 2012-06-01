@@ -55,6 +55,7 @@ public class PhymService{
 			ObjectContent[] vimOcary = cb.getServiceUtil3()
 					.getContentsRecursively(null, null, vimTypeInfo, true);
 			phym.setName((String) phymOcary[0].getPropSet(0).getVal());
+			phym.persist();
 			ObjectContent oc = null;
 			ManagedObjectReference mor = null;
 			DynamicProperty[] pcary = null;
@@ -91,8 +92,6 @@ public class PhymService{
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}
-		
-		
 		
 	}
 	

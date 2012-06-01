@@ -36,6 +36,9 @@ public class Vim {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vim")
     private Set<AppServer> appServers = new HashSet<AppServer>();
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vim")
+    private Set<PlatformService> platformServices = new HashSet<PlatformService>();
 
     private Boolean isMonitee;
 

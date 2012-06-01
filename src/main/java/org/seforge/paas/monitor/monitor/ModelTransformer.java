@@ -90,8 +90,16 @@ public class ModelTransformer {
 			Map<MonitorModelAttribute, Map> attributeMap = (Map) transformRule
 					.get(className);
 			for (MonitorModelAttribute mma : attributeMap.keySet()) {
+				//代表运行的代码中监测对象的实例
+				Class clazz;
+				if(mma.getInherited())
+					clazz = object.getClass().getSuperclass();
+				else
+					clazz = object.getClass();
+				
 				/* Get the type of attributeName of object */
-				Field field = object.getClass().getDeclaredField(mma.getName());
+				Field field = clazz.getDeclaredField(mma.getName());
+							
 				String fieldType = field.getType().getName();
 				Map<String, Map> groupMap = attributeMap.get(mma);
 				String belongedGroup = null;
@@ -116,7 +124,7 @@ public class ModelTransformer {
 				if (fieldType.equals(attributeType)) {
 					Object value = jmxUtil.getAttribute(new ObjectName(
 							objectName), model.getAttributeName());
-					Method setter = object.getClass().getDeclaredMethod(
+					Method setter = clazz.getDeclaredMethod(
 							"set" + mma.getName().substring(0, 1).toUpperCase()
 									+ mma.getName().substring(1),
 							TypeConverter.getTypeClass(fieldType));
@@ -129,8 +137,8 @@ public class ModelTransformer {
 								.getAttribute(new ObjectName(objectName),
 										model.getAttributeName()),
 								attributeType);
-						Object mappedValue = model.getMapping().get(value);
-						Method setter = object.getClass().getDeclaredMethod(
+						Object mappedValue = model.getMapping().get(value);						
+						Method setter = clazz.getDeclaredMethod(
 								"set"
 										+ mma.getName().substring(0, 1)
 												.toUpperCase()
@@ -200,6 +208,7 @@ public class ModelTransformer {
 					MonitorModelAttribute mma = new MonitorModelAttribute();
 					mma.setName(attributeElement.attribute("name").getText());
 					mma.setType(attributeElement.attribute("type").getText());
+					mma.setInherited(Boolean.parseBoolean(attributeElement.attribute("inherited").getText()));
 					Map<String, Map> groupMap = new HashMap();
 					Iterator groupIterator = attributeElement.selectNodes(
 							"RuntimeModels/ConditionGroup").iterator();

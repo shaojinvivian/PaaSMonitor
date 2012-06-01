@@ -25,6 +25,9 @@ public class Reporter {
 
 	@Autowired
 	private PhymService phymService;
+	
+	@Autowired
+	private AppServerService appServerService;
 
 	@Autowired
 	private EntityManagerFactory entityManagerFactory;
@@ -44,7 +47,7 @@ public class Reporter {
 					if (vim.getPowerState().equals(MoniteeState.POWEREDON)) {
 						for (JmxAppServer appServer : vim.getJmxAppServers()) {
 							try {
-								appServer.checkInstancesStatus();
+								appServerService.checkInstancesStatus(appServer);
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								appServer.setStatus(MoniteeState.STOPPED);
