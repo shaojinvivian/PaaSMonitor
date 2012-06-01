@@ -38,9 +38,7 @@ public class Vim {
     private Set<AppServer> appServers = new HashSet<AppServer>();
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vim")
-    private Set<PlatformService> platformServices = new HashSet<PlatformService>();
-
-    private Boolean isMonitee;
+    private Set<PlatformService> platformServices = new HashSet<PlatformService>();    
 
     private String uuid;
 

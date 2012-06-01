@@ -41,8 +41,7 @@ public class AppServerService {
 //			appInstance.setObjectName((String)jmxUtil.getAttribute(name, "objectName"));
 			appInstance.setObjectName(name.toString());
 			modelTransformer.transform(appInstance);
-			appInstance.setAppServer(jmxAppServer);
-			appInstance.setIsMonitee(false);
+			appInstance.setAppServer(jmxAppServer);			
 			String newName = appInstance.getName().substring(1);
 			appInstance.setName(newName);
 			appInstances.add(appInstance);			
@@ -59,10 +58,7 @@ public class AppServerService {
 			Set<AppInstance> appInstances = jmxAppServer.getAppInstances();
 			modelTransformer.prepare(jmxUtil);
 			for(AppInstance appInstance: appInstances){				
-				if(appInstance.getIsMonitee()!=null && appInstance.getIsMonitee()){
-					modelTransformer.transform(appInstance);
-				}
-				
+					modelTransformer.transform(appInstance);				
 			}
 		}else{
 			jmxAppServer.setStatus(MoniteeState.STOPPED);

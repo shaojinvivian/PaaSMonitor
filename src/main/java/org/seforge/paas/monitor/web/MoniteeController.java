@@ -95,15 +95,13 @@ public class MoniteeController {
 			else {
 				if (nodeId.equals("root")) {
 					response = new ArrayList<TreeNode>();
-					for (Phym phym : records) {
-						if(phym.getIsMonitee()){
+					for (Phym phym : records) {						
 							TreeNode phymNode = new TreeNode();
 							phymNode.setText(phym.getName());
 							phymNode.setId("phym" + phym.getId().toString());
 							phymNode.setLeaf(false);
 							phymNode.setExpanded(false);
-							response.add(phymNode);							
-						}						
+							response.add(phymNode);											
 					}
 				} else if (nodeId.indexOf("phym") != -1) {
 					Long id = Long.valueOf(nodeId.substring(nodeId
@@ -112,14 +110,12 @@ public class MoniteeController {
 					Set<Vim> vims = phym.getVims();
 					if (vims.size() > 0) {
 						response = new ArrayList<TreeNode>();
-						for (Vim vim : vims) {
-							if(vim.getIsMonitee()){
+						for (Vim vim : vims) {							
 								TreeNode vimNode = new TreeNode();
 								vimNode.setText(vim.getName());
 								vimNode.setId("vim" + vim.getId().toString());
 								vimNode.setLeaf(false);
-								response.add(vimNode);								
-							}							
+								response.add(vimNode);
 						}
 						if(response.size()<=0){
 							TreeNode vimNode = new TreeNode();
@@ -144,14 +140,12 @@ public class MoniteeController {
 						appServer.checkStatus();					
 					if (appServers.size() > 0) {
 						response = new ArrayList<TreeNode>();
-						for (AppServer appServer : appServers) {
-							if(appServer.getIsMonitee()){
+						for (AppServer appServer : appServers) {							
 								TreeNode appServerNode = new TreeNode();
 								appServerNode.setText(appServer.getName() + ":" + appServer.getStatus());
 								appServerNode.setId("appServer" + appServer.getId().toString());
 								appServerNode.setLeaf(false);
-								response.add(appServerNode);								
-							}							
+								response.add(appServerNode);	
 						}
 						if(response.size()<=0){
 							TreeNode appServerNode = new TreeNode();
@@ -176,14 +170,12 @@ public class MoniteeController {
 					if (appServer.getStatus().equals(MoniteeState.STARTED) && appInstances.size() > 0) {
 						response = new ArrayList<TreeNode>();
 						appServerService.checkInstancesStatus(appServer);
-						for (AppInstance appInstance : appInstances) {
-							if(appInstance.getIsMonitee()){
+						for (AppInstance appInstance : appInstances) {							
 								TreeNode appInstanceNode = new TreeNode();
 								appInstanceNode.setText(appInstance.getName()+":"+appInstance.getStatus());
 								appInstanceNode.setId("appInstance" + appInstance.getId().toString());
 								appInstanceNode.setLeaf(true);							
-								response.add(appInstanceNode);
-							}							
+								response.add(appInstanceNode);														
 						}
 						if(response.size()<=0){
 							TreeNode appInstanceNode = new TreeNode();

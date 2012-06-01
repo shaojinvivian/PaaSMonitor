@@ -14,9 +14,9 @@ Ext.define('PaaSMonitor.view.monitee.ListVimsByPhym', {
 			groupHeaderTpl : 'Phym:  {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
 		});
 
-		var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
-			clicksToEdit : 1
-		});
+		// var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
+			// clicksToEdit : 1
+		// });
 		
 		var selModel = Ext.create('Ext.selection.CheckboxModel');
 		
@@ -29,12 +29,8 @@ Ext.define('PaaSMonitor.view.monitee.ListVimsByPhym', {
 		}, {
 			header : 'Power State',
 			dataIndex : 'powerState'
-		}, {
-			xtype : 'checkcolumn',
-			header : 'Monitee?',
-			dataIndex : 'isMonitee'
 		}];
-		this.plugins = [cellEditing];
+		// this.plugins = [cellEditing];
 		this.features = [groupingFeature];		
 		this.selModel = selModel;
 		this.callParent(arguments);

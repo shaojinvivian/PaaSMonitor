@@ -19,14 +19,6 @@ privileged aspect AppInstance_Roo_JavaBean {
         this.name = name;
     }
     
-    public Boolean AppInstance.getIsMonitee() {
-        return this.isMonitee;
-    }
-    
-    public void AppInstance.setIsMonitee(Boolean isMonitee) {
-        this.isMonitee = isMonitee;
-    }
-    
     public App AppInstance.getApp() {
         return this.app;
     }

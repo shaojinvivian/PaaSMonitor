@@ -1,10 +1,7 @@
 package org.seforge.paas.monitor.domain;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -39,8 +36,7 @@ public class AppServer {
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "appServer")
 	private Set<AppInstance> appInstances = new HashSet<AppInstance>();
-
-	protected Boolean isMonitee;
+	
 
 	protected transient String status;
 
@@ -50,19 +46,7 @@ public class AppServer {
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-	
-	public List<AppInstance> getActiveAppInstances() {
-		List<AppInstance> list = new ArrayList();
-		for (AppInstance appInstance : this.getAppInstances()) {
-			// appInstance.getIsMonitee() may be null
-			if (appInstance.getIsMonitee() != null
-					&& appInstance.getIsMonitee())
-				list.add(appInstance);
-		}
-		return list;
-	}
-	
+	}	
 	
 	//use TypeLocator to identify which subclass of AppServer should be generated
 	public static AppServer fromJsonToAppServer(String json) {

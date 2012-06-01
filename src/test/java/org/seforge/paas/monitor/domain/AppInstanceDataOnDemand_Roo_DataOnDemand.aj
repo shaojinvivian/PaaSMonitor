@@ -41,7 +41,6 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
         setDocBase(obj, index);
         setErrorCount(obj, index);
         setErrorLogDir(obj, index);
-        setIsMonitee(obj, index);
         setName(obj, index);
         setObjectName(obj, index);
         setStatus(obj, index);
@@ -76,11 +75,6 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
     public void AppInstanceDataOnDemand.setErrorLogDir(JmxAppInstance obj, int index) {
         String errorLogDir = "errorLogDir_" + index;
         obj.setErrorLogDir(errorLogDir);
-    }
-    
-    public void AppInstanceDataOnDemand.setIsMonitee(JmxAppInstance obj, int index) {
-        Boolean isMonitee = Boolean.TRUE;
-        obj.setIsMonitee(isMonitee);
     }
     
     public void AppInstanceDataOnDemand.setName(JmxAppInstance obj, int index) {

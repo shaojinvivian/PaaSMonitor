@@ -78,8 +78,7 @@ public class PhymController {
         try {
             Phym record = Phym.fromJsonToPhym(json);
             record.setId(null);
-            record.setVersion(null);
-            record.setIsMonitee(true);
+            record.setVersion(null);           
             record.persist();
             phymService.addVims(record);
             returnStatus = HttpStatus.CREATED;

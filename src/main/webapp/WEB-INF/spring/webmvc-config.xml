@@ -23,13 +23,17 @@
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="lang"/>
 	</mvc:interceptors>
 	
+	
+	<mvc:view-controller path="/" view-name="index.html"/>
 	<!-- selects a static view for rendering without the need for an explicit controller -->
+	<!--  
 	<mvc:view-controller path="/" view-name="index"/>
 	<mvc:view-controller path="/index_extjs" view-name="index_extjs"/>
 	<mvc:view-controller path="/hello" view-name="hello"/>
 	<mvc:view-controller path="/uncaughtException"/>
 	<mvc:view-controller path="/resourceNotFound"/>
 	<mvc:view-controller path="/dataAccessFailure"/>
+	-->
 
 	<!-- Resolves localized messages*.properties and application.properties files in the application to	allow for internationalization. 
 		The messages*.properties files translate Roo generated messages which are part of the admin interface, the application.properties
@@ -61,6 +65,7 @@
 	
 	<!-- allows for integration of file upload functionality -->
 	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver"/>
+<!--  
 <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" id="tilesViewResolver">
     <property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
   </bean>
@@ -68,10 +73,11 @@
     <property name="definitions">
       <list>
         <value>/WEB-INF/layouts/layouts.xml</value>
-        <!-- Scan views directory for Tiles configurations -->
+       
         <value>/WEB-INF/views/**/views.xml</value>
       </list>
     </property>
   </bean>
+  -->
 <bean class="org.seforge.paas.monitor.web.ApplicationConversionServiceFactoryBean" id="applicationConversionService"/>
 </beans>

@@ -17,10 +17,7 @@ Ext.define('PaaSMonitor.model.AppServer', {
 		type: 'string'	
 	},{
 		name: 'vim',
-		type: 'Vim'	
-	},{
-		name: 'isMonitee',
-		type: 'bool'	
+		type: 'Vim'		
 	},'name', 'ip', 'status'],
 	proxy : {
 		type : 'rest',

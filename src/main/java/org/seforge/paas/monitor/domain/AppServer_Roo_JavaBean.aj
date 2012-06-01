@@ -50,12 +50,4 @@ privileged aspect AppServer_Roo_JavaBean {
         this.appInstances = appInstances;
     }
     
-    public Boolean AppServer.getIsMonitee() {
-        return this.isMonitee;
-    }
-    
-    public void AppServer.setIsMonitee(Boolean isMonitee) {
-        this.isMonitee = isMonitee;
-    }
-    
 }

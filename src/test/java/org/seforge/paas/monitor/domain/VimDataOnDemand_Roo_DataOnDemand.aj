@@ -31,7 +31,6 @@ privileged aspect VimDataOnDemand_Roo_DataOnDemand {
     public Vim VimDataOnDemand.getNewTransientVim(int index) {
         Vim obj = new Vim();
         setIp(obj, index);
-        setIsMonitee(obj, index);
         setName(obj, index);
         setPhym(obj, index);
         setPowerState(obj, index);
@@ -45,11 +44,6 @@ privileged aspect VimDataOnDemand_Roo_DataOnDemand {
             ip = new Random().nextInt(10) + ip.substring(1, 15);
         }
         obj.setIp(ip);
-    }
-    
-    public void VimDataOnDemand.setIsMonitee(Vim obj, int index) {
-        Boolean isMonitee = Boolean.TRUE;
-        obj.setIsMonitee(isMonitee);
     }
     
     public void VimDataOnDemand.setName(Vim obj, int index) {

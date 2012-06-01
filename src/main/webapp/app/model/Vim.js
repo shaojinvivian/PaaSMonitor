@@ -11,10 +11,7 @@ Ext.define('PaaSMonitor.model.Vim', {
 		type : 'string'
 	}, {
 		name: 'ip',
-		type: 'string'
-	}, {
-		name : 'isMonitee',
-		type : 'bool'
+		type: 'string'	
 	}, {
 		name : 'powerState',
 		type : 'string'	

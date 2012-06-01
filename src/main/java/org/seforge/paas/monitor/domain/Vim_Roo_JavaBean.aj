@@ -51,14 +51,6 @@ privileged aspect Vim_Roo_JavaBean {
         this.platformServices = platformServices;
     }
     
-    public Boolean Vim.getIsMonitee() {
-        return this.isMonitee;
-    }
-    
-    public void Vim.setIsMonitee(Boolean isMonitee) {
-        this.isMonitee = isMonitee;
-    }
-    
     public String Vim.getUuid() {
         return this.uuid;
     }

@@ -82,8 +82,7 @@ public class PhymService{
 						else
 							vim.setPowerState(MoniteeState.SUSPENDED);
 					}
-				}
-				vim.setIsMonitee(false);
+				}				
 				vim.setPhym(phym);
 				set.add(vim);
 			}

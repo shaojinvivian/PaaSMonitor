@@ -4,7 +4,7 @@ Ext.define('PaaSMonitor.view.monitee.ListAppInstances', {
 	extend : 'Ext.grid.Panel',
 	alias : 'widget.listAppInstances',
 	store : 'AppInstances',
-	selType : 'cellmodel',
+	// selType : 'cellmodel',
 	height : 400,
 	width : '100%',
 	
@@ -13,9 +13,9 @@ Ext.define('PaaSMonitor.view.monitee.ListAppInstances', {
 			groupHeaderTpl : 'AppServer: {name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})'
 		});
 
-		var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
-			clicksToEdit : 1
-		});
+		// var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
+			// clicksToEdit : 1
+		// });
 		var store = this.store;
 		this.columns = [{
 			header : 'Name',
@@ -28,12 +28,8 @@ Ext.define('PaaSMonitor.view.monitee.ListAppInstances', {
 			header : 'Description',
 			dataIndex : 'description',
 			width : 200
-		}, {
-			xtype : 'checkcolumn',
-			header : 'Monitee?',
-			dataIndex : 'isMonitee'
 		}];
-		this.plugins = [cellEditing];
+		// this.plugins = [cellEditing];
 		this.features = [groupingFeature];
 		this.autoScroll = true;
 

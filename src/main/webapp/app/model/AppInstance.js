@@ -20,10 +20,7 @@ Ext.define('PaaSMonitor.model.AppInstance', {
 		mapping: 'appServer.ip'
 	},{
 		name: 'appServer',
-		type: 'AppServer'		
-	},{
-		name: 'isMonitee',
-		type: 'bool'	
+		type: 'AppServer'
 	},'name', 'docBase', 'description', 'objectName'],
 	proxy : {
 		type : 'rest',

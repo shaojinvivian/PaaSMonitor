@@ -32,7 +32,6 @@ privileged aspect AppServerDataOnDemand_Roo_DataOnDemand {
         AppServer obj = new AppServer();
         setHttpPort(obj, index);
         setIp(obj, index);
-        setIsMonitee(obj, index);
         setName(obj, index);
         setStatus(obj, index);
         setVim(obj, index);
@@ -53,11 +52,6 @@ privileged aspect AppServerDataOnDemand_Roo_DataOnDemand {
             ip = ip.substring(0, 15);
         }
         obj.setIp(ip);
-    }
-    
-    public void AppServerDataOnDemand.setIsMonitee(AppServer obj, int index) {
-        Boolean isMonitee = Boolean.TRUE;
-        obj.setIsMonitee(isMonitee);
     }
     
     public void AppServerDataOnDemand.setName(AppServer obj, int index) {

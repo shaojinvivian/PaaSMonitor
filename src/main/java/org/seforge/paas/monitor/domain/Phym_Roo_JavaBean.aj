@@ -49,12 +49,4 @@ privileged aspect Phym_Roo_JavaBean {
         this.vims = vims;
     }
     
-    public Boolean Phym.getIsMonitee() {
-        return this.isMonitee;
-    }
-    
-    public void Phym.setIsMonitee(Boolean isMonitee) {
-        this.isMonitee = isMonitee;
-    }
-    
 }

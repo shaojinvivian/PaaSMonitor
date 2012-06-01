@@ -20,9 +20,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 public class AppInstance {
 
 	@NotNull
-	protected String name;
-
-	protected Boolean isMonitee;
+	protected String name;	
 
 	protected transient String status;
 

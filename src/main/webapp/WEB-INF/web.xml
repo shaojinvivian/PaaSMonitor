@@ -4,7 +4,7 @@
     
     <display-name>PaaSMonitor</display-name>
     
-    <description>Roo generated PaaSMonitor application</description>
+    <description>A Model-based Monitoring Tool for PaaS</description>
 
     
     <!-- Enable escaping of form submission contents -->
@@ -100,6 +100,5 @@
 	<mime-mapping>
 	    <extension>xml</extension>
 	    <mime-type>text/plain</mime-type>
-	</mime-mapping>
-    
+	</mime-mapping>    
 </web-app>

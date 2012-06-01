@@ -11,10 +11,6 @@ Ext.define('PaaSMonitor.view.monitee.ListPhyms', {
 			clicksToEdit : 1
 		});
 		this.columns = [{
-			xtype : 'checkcolumn',
-			header : 'Monitee?',
-			dataIndex : 'isMonitee'	
-		},{
 			header : 'Name',
 			dataIndex : 'name'			
 		}, {

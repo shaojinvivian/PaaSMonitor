@@ -36,8 +36,7 @@ public class JmxAppInstance extends AppInstance{
     
     private transient int errorCount;
     
-    private String errorLogDir;
-    
+    private String errorLogDir;    
    
 
 	public int getErrorCount() {
