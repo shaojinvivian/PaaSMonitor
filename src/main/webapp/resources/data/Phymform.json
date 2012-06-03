@@ -1,0 +1,21 @@
+[
+	{
+		"xtype":"textfield",
+		"name": "ip",
+		"fieldLabel": "IP Address",
+		"allowBlank": false
+	},
+	{
+		"xtype":"textfield",
+		"name": "username",
+		"fieldLabel": "User Name",
+		"allowBlank": false
+	},
+	{
+		"xtype":"textfield",
+		"name": "password",
+		"fieldLabel": "Password",
+		"inputType":"password",
+		"allowBlank": false
+	},
+]

@@ -84,7 +84,7 @@ public class PhymController {
             returnStatus = HttpStatus.CREATED;
             response.setMessage(record.getName());
             response.setSuccess(true);
-            response.setTotal(1L);
+            response.setTotal(record.getVims().size());
             response.setData(record.getVims());
         } catch (Exception e) {
             response.setMessage(e.getMessage());

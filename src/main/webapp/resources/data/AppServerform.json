@@ -1,0 +1,20 @@
+[
+	{
+		"xtype":"textfield",
+		"name": "ip",
+		"fieldLabel": "IP Address",
+		"allowBlank": false
+	},
+	{
+		"xtype":"textfield",
+		"name": "httpPort",
+		"fieldLabel": "HTTP Port",
+		"allowBlank": false
+	},
+	{
+		"xtype":"textfield",
+		"name": "jmxPort",
+		"fieldLabel": "JMX Port",		
+		"allowBlank": false
+	},
+]

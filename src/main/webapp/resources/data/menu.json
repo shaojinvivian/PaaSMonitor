@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "name": "Add New Monitee",
+        "icon": "add.png"		
+    },
+    {
+        "id": 2,
+        "name": "Define Model",
+        "icon": "configure.png"		
+    },
+	{
+        "id": 3,
+        "name": "View Model",
+        "icon": "view.png"
+    }
+]
