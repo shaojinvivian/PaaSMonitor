@@ -20,7 +20,7 @@ import com.vmware.vim25.VirtualMachineSummary;
 public class PhymService{
 	public void addVims(Phym phym) {
 		
-		
+		/*
 		  HashSet set = new HashSet(); 
 		  Vim vim1 = new Vim();
 		  vim1.setName("vim1"); 
@@ -38,8 +38,8 @@ public class PhymService{
 		  
 		  phym.setVims(set);
 		
-		 
-		/*
+		 */
+		
 		try {
 			ExtendedAppUtil cb = ExtendedAppUtil.initialize("PhymService",
 					generateArgs(phym));
@@ -88,9 +88,7 @@ public class PhymService{
 			cb.disConnect();
 		} catch (Exception e) {			
 			e.printStackTrace();
-		}
-		*/
-		
+		}	
 	}
 	
 	public String[] generateArgs(Phym phym) {

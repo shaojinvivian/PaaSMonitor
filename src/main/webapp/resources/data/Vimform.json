@@ -1,9 +1,0 @@
-[
-	{
-		"xtype":"textfield",
-		"name": "ip",
-		"fieldLabel": "IP Address",
-		"allowBlank": false
-	}
-	
-]

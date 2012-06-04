@@ -15,9 +15,6 @@
 
 Ext.define('PaaSMonitor.model.Phym', {
     extend: 'Ext.data.Model',
-    uses: [
-        'PaaSMonitor.model.Vim'
-    ],
 
     idProperty: 'id',
 
@@ -41,11 +38,7 @@ Ext.define('PaaSMonitor.model.Phym', {
 
     proxy: {
         type: 'rest',
+        timeout: 90000,
         url: 'phyms'
-    },
-
-    hasMany: {
-        model: 'PaaSMonitor.model.Vim',
-        name: 'vims'
     }
 });

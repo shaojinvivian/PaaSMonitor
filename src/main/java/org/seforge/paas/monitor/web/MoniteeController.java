@@ -63,7 +63,7 @@ public class MoniteeController {
 	
     @RequestMapping(value = "/report", method = RequestMethod.GET)
     public void get(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
-    	reporter.report(); 
+    	reporter.report();     	
     }
     
 

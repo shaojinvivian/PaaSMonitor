@@ -17,11 +17,14 @@ Ext.define('PaaSMonitor.controller.MoniteesController', {
     extend: 'Ext.app.Controller',
 
     models: [
-        'Phym'
+        'Phym',
+        'Vim',
+        'AppServer'
     ],
     stores: [
-        'MoniteeForm',
-        'Vim'
+        'Vim',
+        'Phym',
+        'AppInstance'
     ],
     views: [
         'Monitee.Add',
@@ -38,84 +41,199 @@ Ext.define('PaaSMonitor.controller.MoniteesController', {
             selector: 'addmonitee'
         },
         {
-            ref: 'moniteeForm',
-            selector: 'addmonitee moniteeform'
+            ref: 'phymForm',
+            selector: 'addmonitee phymform'
+        },
+        {
+            ref: 'vimGrid',
+            selector: 'addmonitee vimgrid'
         }
     ],
 
     init: function(application) {
         Ext.create('PaaSMonitor.view.Monitee.Add');
-
-        this.getMoniteeFormStore().addListener('load',this.finishedLoading, this);
-
         this.control({
             'choosemonitee dataview': {
-                selectionchange: this.showAddMoniteeForm
+                itemclick: this.showAddMoniteeWindow
             },
-            '#add_monitee_button': {
-                click: this.postData
+            '#save_phym_button': {
+                click: this.savePhym
+            },
+            '#save_vim_button': {
+                click: this.saveVim
+            },
+            '#save_selected_vims_button': {
+                click: this.saveSelectedVims
+            },
+            '#save_appserver_button': {
+                click: this.saveAppServer
+            },
+            '#save_selected_app_instances_button': {
+                click: this.saveSelectedAppInstances
             }
         });
     },
 
-    showAddMoniteeForm: function(selModel, selected) {
+    showAddMoniteeWindow: function(view,record) {
         var window = this.getMoniteeWindow();
+        var index = record.data.index;
+        window.layout.setActiveItem(index);
         window.show();
-        var form = this.getMoniteeForm();
-        window.setTitle('Add a New ' + selected[0].data.name);
-        form.removeAll();
-        var modelname =  selected[0].data.model;
-        var url = 'resources/data/' + modelname + 'form.json';
-        var store = this.getMoniteeFormStore();
-        store.getProxy().url = url;
-        store.load();
+        window.setTitle('Add a New ' + record.data.name);
     },
 
-    finishedLoading: function() {
-        var form = this.getMoniteeForm();
-        var fields = this.getMoniteeFormStore().data.items;
-        for(var i=0; i< fields.length; i++){
-            form.add(fields[i].data);
-        }   
-        this.getMoniteeWindow().show();
+    saveSelectedVims: function() {
+        var grid = this.getVimGrid();
+        var selection = grid.getSelectionModel().getSelection();
+        var count  = selection.length;
+        if (count > 0){
+            var loadMask = new Ext.LoadMask(grid.up('window'), {msg:"Loading"});
+            loadMask.show();
+        }
+        var successNum = 0, failNum = 0, added=0, requestCounter = 0;
+        var succeed = function(){
+            successNum ++;
+            added ++;
+            if(added == count){
+                loadMask.hide();
+                Ext.MessageBox.alert('提示', '共添加了'+ count + '个虚拟机，成功：' + successNum +'个，失败：'+ failNum +'个');
+                grid.up('window').hide();
+            }
+        };
+        var fail = function(){
+            failNum ++;
+            added++;
+            if(added == count){
+                loadMask.hide();
+                Ext.MessageBox.alert('提示', '共添加了'+ count + '个虚拟机，成功：' + successNum +'个，失败：'+ failNum +'个');
+                grid.up('window').hide();
+            }
+        };
+        for(var i = 0; i < count; i++) {
+            requestCounter++;   
+            Ext.Ajax.request({
+                url: 'vims',
+                jsonData: Ext.encode(selection[i].data),
+                success: succeed,
+                failure: fail
+            });
+        }
+
     },
 
-    postData: function(button) {
-        var model = this.getMoniteesView().getSelectionModel().getSelection()[0].data.model;
+    savePhym: function(button) {
         var form = button.up('form'), window = form.up('window'), values = form.getValues();
-        var record = Ext.ModelManager.create(values, 'PaaSMonitor.model.' + model);
-        var store = this.getVimStore();
+        var loadMask = new Ext.LoadMask(window, {msg:"Loading...Please wait..."});
+        loadMask.show();
+        var record = Ext.ModelManager.create(values, 'PaaSMonitor.model.Phym');
+        var vimStore = this.getVimStore();
         record.save({
-            success : function(record, operation) {
+            success : function(record, operation) {        
                 form.getForm().reset();	
-                var response = Ext.decode(operation.response.responseText);
-                var vims = response.data;
+                var response = Ext.decode(operation.response.responseText);                 
+                var datas = response.data;       
+                var reader = vimStore.getProxy().getReader();
                 var name = response.message;
-                store.loadData(vims);
-                window.setTitle('请从下面列表中选择想要监测的虚拟机');                        
-                window.layout.setActiveItem(1);
                 var grid = window.down('grid');
-                grid.setTitle('Available Virtual Machines on Phym' + vims[0].phym.name);
-
-
-
-                /*instanceStore.getProxy().extraParams = {
-                findAppInstances : "ByAppServer",
-                appServerId : appServer.internalId
-                };
-                instanceStore.load();
-                uppanel.layout.setActiveItem('add_appinstance-panel');
-                instanceStore.getProxy().extraParams = {};	
-                */
-                //window.hide();
-                //Ext.MessageBox.alert('提示', '已成功添加应用服务器信息');
+                grid.setTitle('Available Virtual Machines on Phym ' + name);
+                vimStore.loadData(reader.readRecords(datas).records);
+                window.setTitle('请从下面列表中选择想要监测的虚拟机');                        
+                window.layout.setActiveItem('save_vim_panel');
+                loadMask.hide();
             },
             failure: function(r, operation){
-                window.hide();
-                Ext.MessageBox.alert('提示', '应用服务器信息已保存，但该应用服务器目前不可用，未能获得应用实例信息');
+                loadMask.hide();
+                window.hide();       
+                Ext.MessageBox.alert('错误', '无法添加物理机');
                 //uppanel.layout.setActiveItem('start-panel');
             }
         });
+    },
+
+    saveVim: function(button) {
+        var form = button.up('form'), window = form.up('window'), values = form.getValues();
+        var record = Ext.ModelManager.create(values, 'PaaSMonitor.model.Vim');
+        var phym = this.getPhymStore().getById(record.data.phym_id);       
+        record.set('phym',phym.data); 
+        record.save({
+            success : function(record, operation) {        
+                form.getForm().reset();	
+                Ext.MessageBox.alert('提示', '已成功添加虚拟机！');  
+                window.hide();
+            },
+            failure: function(r, operation){
+                window.hide();
+                Ext.MessageBox.alert('错误', '无法添加物理机');
+                //uppanel.layout.setActiveItem('start-panel');
+            }
+        });
+    },
+
+    saveAppServer: function(button) {
+        var form = button.up('form'), window = form.up('window'), values = form.getValues();
+        var loadMask = new Ext.LoadMask(window, {msg:"Loading...Please wait..."});
+        loadMask.show();
+        var record = Ext.ModelManager.create(values, 'PaaSMonitor.model.AppServer');
+        var store = this.getAppInstanceStore();
+        record.save({
+            success : function(record, operation) {        
+                form.getForm().reset();	
+                var response = Ext.decode(operation.response.responseText);                 
+                var datas = response.data;       
+                var reader = store.getProxy().getReader();
+                var name = response.message;
+                var grid = window.down('grid');
+                grid.setTitle('Available Application Instances on AppServer ' + name);
+                store.loadData(reader.readRecords(datas).records);
+                window.setTitle('请从下面列表中选择想要监测的应用实例');                        
+                window.layout.setActiveItem('save_app_instances_panel');
+                loadMask.hide();        
+            },
+            failure: function(r, operation){
+                window.hide();
+                Ext.MessageBox.alert('错误', '无法添加应用服务器');
+                //uppanel.layout.setActiveItem('start-panel');
+            }
+        });
+    },
+
+    saveSelectedAppInstances: function(button) {
+        var grid = button.up('panel').down('grid');
+        var selection = grid.getSelectionModel().getSelection();
+        var count  = selection.length;
+        if (count > 0){
+            var loadMask = new Ext.LoadMask(grid.up('window'), {msg:"Loading"});
+            loadMask.show();
+        }
+        var successNum = 0, failNum = 0, added=0, requestCounter = 0;
+        var succeed = function(){
+            successNum ++;
+            added ++;
+            if(added == count){
+                loadMask.hide();
+                Ext.MessageBox.alert('提示', '共添加了'+ count + '个应用实例，成功：' + successNum +'个，失败：'+ failNum +'个');
+                grid.up('window').hide();
+            }
+        };
+        var fail = function(){
+            failNum ++;
+            added++;
+            if(added == count){
+                loadMask.hide();
+                Ext.MessageBox.alert('提示', '共添加了'+ count + '个应用实例，成功：' + successNum +'个，失败：'+ failNum +'个');
+                grid.up('window').hide();
+            }
+        };
+        for(var i = 0; i < count; i++) {
+            requestCounter++;   
+            Ext.Ajax.request({
+                url: 'appinstances',
+                jsonData: Ext.encode(selection[i].data),
+                success: succeed,
+                failure: fail
+            });
+        }
+
     }
 
 });

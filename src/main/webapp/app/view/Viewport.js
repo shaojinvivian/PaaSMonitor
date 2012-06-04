@@ -18,6 +18,7 @@ Ext.define('PaaSMonitor.view.Viewport', {
     renderTo: Ext.getBody(),
     requires: [
         'PaaSMonitor.view.MyViewport',
-        'PaaSMonitor.view.Monitee.Add'
+        'PaaSMonitor.view.Monitee.Add',
+        'PaaSMonitor.view.Monitee.AddForm'
     ]
 });

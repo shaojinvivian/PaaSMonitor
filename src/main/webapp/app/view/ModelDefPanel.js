@@ -19,10 +19,51 @@ Ext.define('PaaSMonitor.view.ModelDefPanel', {
 
     height: 250,
     width: 400,
+    layout: {
+        type: 'border'
+    },
     title: 'Define Model',
 
     initComponent: function() {
         var me = this;
+
+        Ext.applyIf(me, {
+            items: [
+                {
+                    xtype: 'panel',
+                    contentEl: 'toolbarContainer',
+                    height: 50,
+                    title: 'Toolbar',
+                    region: 'north'
+                },
+                {
+                    xtype: 'panel',
+                    contentEl: 'sidebarContainer',
+                    width: 60,
+                    title: 'Monitee',
+                    region: 'west'
+                },
+                {
+                    xtype: 'panel',
+                    contentEl: 'graphContainer',
+                    title: 'Diagram',
+                    region: 'center'
+                },
+                {
+                    xtype: 'panel',
+                    contentEl: 'statusContainer',
+                    height: 30,
+                    region: 'south'
+                },
+                {
+                    xtype: 'panel',
+                    contentEl: 'outlineContainer',
+                    width: 150,
+                    title: 'My Panel',
+                    region: 'east'
+                }
+            ]
+        });
 
         me.callParent(arguments);
     }

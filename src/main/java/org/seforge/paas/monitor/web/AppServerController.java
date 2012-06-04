@@ -98,14 +98,14 @@ public class AppServerController {
 					record.setVim(vim);
 				}
 				record.persist();
-				if(record instanceof JmxAppServer){					
-					appServerService.saveAllJmxAppInstances((JmxAppServer)record);
+				if(record instanceof JmxAppServer){				
 					((JmxAppServer)record).init();
-				}		
-				record.flush();
+					record.flush();
+					appServerService.saveAllJmxAppInstances((JmxAppServer)record);
+				}			
 				returnStatus = HttpStatus.CREATED;
-				response.setMessage("AppServer created.");
-				response.setData(record);
+				response.setMessage(record.getIp());
+				response.setData(record.getAppInstances());
 				response.setSuccess(true);
 				response.setTotal(1L);
 			}
@@ -117,7 +117,8 @@ public class AppServerController {
 				response.setSuccess(true);
 				response.setTotal(1L);
 			}			
-		} catch(IOException e) {			
+		} catch(IOException e) {
+			e.printStackTrace();
 			response.setMessage("The App Server is not available currently.");			
 			response.setSuccess(false);
 			response.setTotal(0L);		
@@ -128,7 +129,7 @@ public class AppServerController {
 			response.setTotal(0L);			
 		}
 		// return the created record with the new system generated id
-        return new ResponseEntity<String>(new JSONSerializer().exclude("data.appInstances").exclude("data.modelTransformer").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
+        return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
     }
 	
 	@RequestMapping(method = RequestMethod.PUT, headers = "Accept=application/json")

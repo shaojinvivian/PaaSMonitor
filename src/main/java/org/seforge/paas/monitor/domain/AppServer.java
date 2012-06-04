@@ -49,9 +49,7 @@ public class AppServer {
 	}	
 	
 	//use TypeLocator to identify which subclass of AppServer should be generated
-	public static AppServer fromJsonToAppServer(String json) {
-		System.out.println("ok");
-		
+	public static AppServer fromJsonToAppServer(String json) {	
         Object a =  new JSONDeserializer<AppServer>().use(null, new TypeLocator<String>("type")
                 .add("tomcat", JmxAppServer.class)
                  .add("jetty", JmxAppServer.class)

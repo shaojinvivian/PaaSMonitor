@@ -24,6 +24,10 @@ Ext.define('PaaSMonitor.store.MoniteeListStore', {
             storeId: 'MyArrayStore1',
             fields: [
                 {
+                    name: 'index',
+                    type: 'int'
+                },
+                {
                     name: 'model',
                     type: 'string'
                 },

@@ -1,23 +1,27 @@
 [
     {
+        "index": 0,
         "model": "Phym",
         "name": "Phym",
         "icon": "phym.png",
 		"tip": "Add a Physical Machine"
     },
     {
+    	"index": 1,
         "model": "Vim",
         "name": "Vim",
         "icon": "vim.png",
 		"tip": "Add a Virtual Machine"
     },
 	{
+		"index": 2,
         "model": "Service",
         "name": "Service",
         "icon": "service.png",
 		"tip": "Add a Platform Service"
     },
 	{
+		"index": 3,
         "model": "AppServer",
         "name": "Application Server",
         "icon": "appserver.png",

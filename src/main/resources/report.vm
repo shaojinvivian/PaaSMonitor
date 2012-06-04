@@ -9,9 +9,7 @@
 	</tr>
 	<tr style="font-weight:bold">
 		<td align="center">Context Name</td>
-		<td align="center">Status</td>
-		<td align="center">Error Count</td>
-		<td align="center">Error Log Dir</td>
+		<td align="center">Status</td>		
 		<td align="center">Name</td>
 		<td align="center">Status</td>
 		<td align="center">Ip</td>
@@ -23,15 +21,15 @@
 	#if ($phyms.size() > 0)		
 		#foreach ( $phym in $phyms )
 			#set ( $vimFirst = 1 )
-			#set ( $vims = $phym.getActiveVims())						
+			#set ( $vims = $phym.getVims())						
 			#if ($vims.size()>0)			
 				#set ($phymRowCount = 0)
 				#set ($phymFirst = 1)
 				#foreach ($vim in $vims)
 					#if($vim.appServers.size()>0)
 						#foreach ($appServer in $vim.appServers)
-							#if($appServer.getActiveAppInstances().size()>0)
-								#set ($phymRowCount = $phymRowCount + $appServer.getActiveAppInstances().size() )	
+							#if($appServer.getAppInstances().size()>0)
+								#set ($phymRowCount = $phymRowCount + $appServer.getAppInstances().size() )	
 							#else
 								#set ($phymRowCount = $phymRowCount + 1)
 							#end
@@ -46,10 +44,10 @@
 						#set ($vimRowCount = 0)
 						#set ( $vimFirst = 1)
 						#foreach ($appServer in $appServers)
-							#set ($vimRowCount = $vimRowCount + $appServer.getActiveAppInstances().size())
+							#set ($vimRowCount = $vimRowCount + $appServer.getAppInstances().size())
 						#end
 						#foreach ($appServer in $appServers)
-							#set ($appInstances = $appServer.getActiveAppInstances())
+							#set ($appInstances = $appServer.getAppInstances())
 							#set ($appServerRowCount = $appInstances.size())							
 							#set ($appServerFirst = 1)
 							#if ( $appServerRowCount >0)
@@ -58,13 +56,11 @@
 									#if($appInstance.status == "STOPPED")
 											<td style="color:red">$appInstance.name</td>
 											<td style="color:red">$appInstance.status</td>
-											<td style="color:red">$appInstance.errorCount</td>
-											<td style="color:red">N/A</td>	
+											
 									#else
 											<td>$appInstance.name</td>
 											<td>$appInstance.status</td>
-											<td>$appInstance.errorCount</td>
-											<td>$appInstance.errorLogDir</td>
+											
 									#end
 									
 									#if($appServerFirst == 1)
@@ -140,11 +136,3 @@
 		</tr>
 	#end		
 </table>
-
-
-
-
-	
-   
-  
-   

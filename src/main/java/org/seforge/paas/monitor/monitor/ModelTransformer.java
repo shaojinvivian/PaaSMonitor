@@ -118,8 +118,7 @@ public class ModelTransformer {
 				RuntimeModel model = conditionMap.get(conditionEvaluators.get(
 						belongedGroup).getValue());
 				String attributeType = model.getAttributeType();
-				Method m1 = object.getClass()
-						.getDeclaredMethod("getObjectName");
+				Method m1 = object.getClass().getDeclaredMethod("getObjectName");
 				String objectName = (String) m1.invoke(object);
 				if (fieldType.equals(attributeType)) {
 					Object value = jmxUtil.getAttribute(new ObjectName(

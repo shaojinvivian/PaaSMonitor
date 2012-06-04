@@ -17,12 +17,46 @@ Ext.define('PaaSMonitor.view.ModelViewPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.modelviewpanel',
 
-    height: 250,
-    width: 400,
+    layout: {
+        type: 'border'
+    },
     title: 'View Model',
 
     initComponent: function() {
         var me = this;
+
+        Ext.applyIf(me, {
+            items: [
+                {
+                    xtype: 'panel',
+                    contentEl: 'runtimemodel_graph_container',
+                    autoScroll: true,
+                    title: 'Runtime Model',
+                    region: 'center'
+                },
+                {
+                    xtype: 'panel',
+                    contentEl: 'runtimemodel_status_container',
+                    height: 60,
+                    title: 'Status',
+                    region: 'south'
+                },
+                {
+                    xtype: 'panel',
+                    contentEl: 'runtimemodel_outline_container',
+                    width: 150,
+                    title: 'Outline',
+                    region: 'east'
+                },
+                {
+                    xtype: 'panel',
+                    contentEl: 'runtimemodel_toolbar_container',
+                    height: 60,
+                    title: 'Toolbar',
+                    region: 'north'
+                }
+            ]
+        });
 
         me.callParent(arguments);
     }

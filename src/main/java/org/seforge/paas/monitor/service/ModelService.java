@@ -47,7 +47,6 @@ public class ModelService {
 	private static final int ELEMENT_HEIGHT = 48;
 	private static final int PHYM_Y = 10;
 
-
 	public Map<String, MetaModel> parseModel() {
 		File file = new File(
 				"D:\\Development\\workspaces\\workspace_indigo\\PaaSMonitor\\src\\main\\webapp\\"
@@ -222,7 +221,8 @@ public class ModelService {
 				appServer.addAttribute("name",
 						model.getConfigAttributes().get("ip"));
 				appServer.addAttribute("as", "value");
-
+				
+				
 				Element geometry = appServerCell.addElement("mxGeometry");
 				geometry.addAttribute("x", String.valueOf(lastX += 220));
 				geometry.addAttribute("y", String.valueOf(lastY));
@@ -230,12 +230,14 @@ public class ModelService {
 				geometry.addAttribute("height",
 						String.valueOf(28 + 26 * attributeNum));
 				geometry.addAttribute("as", "geometry");
+				
 				// 大小和位置該怎麼設置？
 
 				Element rectangle = geometry.addElement("mxRectangle");
 				rectangle.addAttribute("width", "200");
 				rectangle.addAttribute("height", "80");
 				rectangle.addAttribute("as", "alternateBounds");
+				
 				int initialY = 2;
 				for (String name : model.getMonitorAttributes().keySet()) {
 
@@ -304,7 +306,7 @@ public class ModelService {
 		// 生成Phym的节点
 		List<Phym> phyms = Phym.findAllPhyms();
 		int phymCount = phyms.size();
-		
+
 		int phymSpace = (GRAPH_WIDTH - ELEMENT_WIDTH * phymCount)
 				/ (phymCount + 1);
 
@@ -320,21 +322,22 @@ public class ModelService {
 			Element phymTitle = phymCell.addElement("Phym");
 			phymTitle.addAttribute("name", phym.getIp());
 			phymTitle.addAttribute("as", "value");
-
+			
+			
 			Element phymGeometry = phymCell.addElement("mxGeometry");
 			int phymX = phymSpace * (phymIndex + 1) + 48 * phymIndex;
-			phymGeometry.addAttribute("x", String.valueOf(phymX));
-			phymGeometry.addAttribute("y", String.valueOf(PHYM_Y));
+//			phymGeometry.addAttribute("x", String.valueOf(phymX));
+//			phymGeometry.addAttribute("y", String.valueOf(PHYM_Y));
 			phymGeometry.addAttribute("width", String.valueOf(ELEMENT_WIDTH));
 			phymGeometry.addAttribute("height", String.valueOf(ELEMENT_HEIGHT));
 			phymGeometry.addAttribute("as", "geometry");
 
-			/*
-			 * Element rectangle = phymGeometry.addElement("mxRectangle");
-			 * rectangle.addAttribute("width", "48");
-			 * rectangle.addAttribute("width", "48");
-			 * rectangle.addAttribute("as", "alternateBounds");
-			 */
+			Element rectangle = phymGeometry.addElement("mxRectangle");
+			rectangle.addAttribute("width", "48");
+			rectangle.addAttribute("height", "48");
+			rectangle.addAttribute("as", "alternateBounds");
+			
+
 		}
 
 		// 生成Phym所包含的各个Vim的节点
@@ -370,11 +373,17 @@ public class ModelService {
 			vimTitle.addAttribute("as", "value");
 
 			Element vimGeometry = vimCell.addElement("mxGeometry");
-			vimGeometry.addAttribute("x", String.valueOf(vimX));
-			vimGeometry.addAttribute("y", "100");
+//			vimGeometry.addAttribute("x", String.valueOf(vimX));
+//			vimGeometry.addAttribute("y", "100");
 			vimGeometry.addAttribute("width", String.valueOf(ELEMENT_WIDTH));
 			vimGeometry.addAttribute("height", String.valueOf(ELEMENT_HEIGHT));
 			vimGeometry.addAttribute("as", "geometry");
+			
+			Element rectangle = vimGeometry.addElement("mxRectangle");
+			rectangle.addAttribute("width", "48");
+			rectangle.addAttribute("height", "48");
+			rectangle.addAttribute("as", "alternateBounds");
+			
 
 			// 为每个Vim添加一条到它所属的Phym的连线
 			Element pvLine = root.addElement("mxCell");
@@ -419,19 +428,27 @@ public class ModelService {
 			appServerCell.addAttribute("vertex", "1");
 			appServerCell.addAttribute("parent", "vim"
 					+ appServer.getVim().getId());
+			appServerCell.addAttribute("collapsed", "1");
 
 			Element appServerTitle = appServerCell.addElement("AppServer");
 			appServerTitle.addAttribute("name", ":" + appServer.getHttpPort());
 			appServerTitle.addAttribute("as", "value");
 
+			
 			Element appServerGeometry = appServerCell.addElement("mxGeometry");
-			appServerGeometry.addAttribute("x", String.valueOf(appServerX));
-			appServerGeometry.addAttribute("y", "100");
+//			appServerGeometry.addAttribute("x", String.valueOf(appServerX));
+//			appServerGeometry.addAttribute("y", "100");
 			appServerGeometry.addAttribute("width",
 					String.valueOf(ELEMENT_WIDTH));
 			appServerGeometry.addAttribute("height",
 					String.valueOf(ELEMENT_HEIGHT));
 			appServerGeometry.addAttribute("as", "geometry");
+			
+			Element rectangle = appServerGeometry.addElement("mxRectangle");
+			rectangle.addAttribute("width", "48");
+			rectangle.addAttribute("height", "48");
+			rectangle.addAttribute("as", "alternateBounds");
+			
 
 			// 为每个AppServer添加一条到它所属的Vim的连线
 			Element vasLine = root.addElement("mxCell");
@@ -483,15 +500,22 @@ public class ModelService {
 			appInstanceTitle.addAttribute("name", appInstance.getName());
 			appInstanceTitle.addAttribute("as", "value");
 
+			
 			Element appInstanceGeometry = appInstanceCell
 					.addElement("mxGeometry");
-			appInstanceGeometry.addAttribute("x", String.valueOf(appInstanceX));
-			appInstanceGeometry.addAttribute("y", "100");
+//			appInstanceGeometry.addAttribute("x", String.valueOf(appInstanceX));
+//			appInstanceGeometry.addAttribute("y", "100");
 			appInstanceGeometry.addAttribute("width",
 					String.valueOf(ELEMENT_WIDTH));
 			appInstanceGeometry.addAttribute("height",
 					String.valueOf(ELEMENT_HEIGHT));
 			appInstanceGeometry.addAttribute("as", "geometry");
+			
+			Element rectangle = appInstanceGeometry.addElement("mxRectangle");
+			rectangle.addAttribute("width", "48");
+			rectangle.addAttribute("height", "48");
+			rectangle.addAttribute("as", "alternateBounds");
+			
 
 			// 为每个AppServer添加一条到它所属的Vim的连线
 			Element asaiLine = root.addElement("mxCell");
@@ -528,14 +552,14 @@ public class ModelService {
 
 			Element appGeometry = appCell.addElement("mxGeometry");
 			int appX = appSpace * (appIndex + 1) + 48 * appIndex;
-			appGeometry.addAttribute("x", String.valueOf(appX));
-			appGeometry.addAttribute("y", "400");
+//			appGeometry.addAttribute("x", String.valueOf(appX));
+//			appGeometry.addAttribute("y", "400");
 			appGeometry.addAttribute("width", String.valueOf(ELEMENT_WIDTH));
 			appGeometry.addAttribute("height", String.valueOf(ELEMENT_HEIGHT));
 			appGeometry.addAttribute("as", "geometry");
-			
+
 			Set<AppInstance> instances = app.getAppInstances();
-			for(AppInstance instance : instances){
+			for (AppInstance instance : instances) {
 				// 为每个AppServer添加一条到它所属的Vim的连线
 				Element appLine = root.addElement("mxCell");
 				appLine.addAttribute("id",
@@ -552,8 +576,9 @@ public class ModelService {
 		}
 
 		// 把每个AppServer下的Instance添加到模型中
-		
-		ArrayList<PaasUser> users = new ArrayList<PaasUser>(PaasUser.findAllPaasUsers());
+
+		ArrayList<PaasUser> users = new ArrayList<PaasUser>(
+				PaasUser.findAllPaasUsers());
 		int totalUserCount = users.size();
 		int userSpace = (GRAPH_WIDTH - ELEMENT_WIDTH * totalUserCount)
 				/ (totalUserCount + 1);
@@ -562,7 +587,8 @@ public class ModelService {
 			PaasUser user = users.get(userIndex);
 			Element userCell = root.addElement("mxCell");
 			// phymCell的id为“phym+phymId”
-			userCell.addAttribute("id", "paasUser" + String.valueOf(user.getId()));
+			userCell.addAttribute("id",
+					"paasUser" + String.valueOf(user.getId()));
 			userCell.addAttribute("style", "paasUser");
 			userCell.addAttribute("vertex", "1");
 			userCell.addAttribute("parent", "1");
@@ -578,10 +604,9 @@ public class ModelService {
 			userGeometry.addAttribute("width", String.valueOf(ELEMENT_WIDTH));
 			userGeometry.addAttribute("height", String.valueOf(ELEMENT_HEIGHT));
 			userGeometry.addAttribute("as", "geometry");
-			
-			
+
 			Set<App> userApps = user.getApps();
-			for(App app : userApps){
+			for (App app : userApps) {
 				// 为每个AppServer添加一条到它所属的Vim的连线
 				Element userLine = root.addElement("mxCell");
 				userLine.addAttribute("id",
@@ -594,7 +619,7 @@ public class ModelService {
 				Element userLineGeo = userLine.addElement("mxGeometry");
 				userLineGeo.addAttribute("relative", "1");
 				userLineGeo.addAttribute("as", "geometry");
-			}			
+			}
 		}
 		return document;
 	}

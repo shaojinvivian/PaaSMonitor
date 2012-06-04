@@ -20,20 +20,43 @@ Ext.Loader.setConfig({
 Ext.application({
     models: [
         'Phym',
-        'Vim'
+        'AppInstance'
     ],
     stores: [
         'MenuStore',
-        'MoniteeListStore'
+        'MoniteeListStore',
+        'AppServerTypeStore'
     ],
     views: [
         'Monitee.Add',
-        'VimGrid'
+        'Monitee.VimGrid',
+        'Monitee.AddForm',
+        'Monitee.SaveVim',
+        'Monitee.PhymForm',
+        'Monitee.VimForm',
+        'Monitee.AppServerForm',
+        'Monitee.AppInstanceGrid',
+        'Monitee.SaveAppInstances',
+        'ModelViewPanel'
     ],
     autoCreateViewport: true,
     name: 'PaaSMonitor',
     controllers: [
         'MenuController',
-        'MoniteesController'
-    ]
+        'MoniteesController',
+        'ModelController'
+    ],
+
+    launch: function() {
+        var hideMask = function () {
+            Ext.get('loading').remove();
+            Ext.fly('loading-mask').animate({
+                opacity:0,
+                remove:true                
+            });
+        };
+
+        Ext.defer(hideMask, 200);
+    }
+
 });

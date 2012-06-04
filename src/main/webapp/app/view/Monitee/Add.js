@@ -17,8 +17,11 @@ Ext.define('PaaSMonitor.view.Monitee.Add', {
     extend: 'Ext.window.Window',
     alias: 'widget.addmonitee',
     requires: [
-        'PaaSMonitor.view.MoniteeForm',
-        'PaaSMonitor.view.VimGrid'
+        'PaaSMonitor.view.Monitee.PhymForm',
+        'PaaSMonitor.view.Monitee.VimForm',
+        'PaaSMonitor.view.Monitee.SaveVim',
+        'PaaSMonitor.view.Monitee.AppServerForm',
+        'PaaSMonitor.view.Monitee.SaveAppInstances'
     ],
 
     height: 250,
@@ -36,10 +39,21 @@ Ext.define('PaaSMonitor.view.Monitee.Add', {
         Ext.applyIf(me, {
             items: [
                 {
-                    xtype: 'moniteeform'
+                    xtype: 'moniteephymform'
                 },
                 {
-                    xtype: 'vimgrid'
+                    xtype: 'moniteevimform'
+                },
+                {
+                    xtype: 'savevim',
+                    id: 'save_vim_panel'
+                },
+                {
+                    xtype: 'moniteeappserverform'
+                },
+                {
+                    xtype: 'moniteesaveappinstances',
+                    id: 'save_app_instances_panel'
                 }
             ]
         });
