@@ -27,6 +27,9 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooToString
 @RooJpaActiveRecord(finders = {"findJmxAppServersByIpAndJmxPort"})
 public class JmxAppServer extends AppServer {
+	@Transient
+	private static String type = "tomcat";
+	
 	@NotNull
 	private String jmxPort;
 
@@ -36,7 +39,9 @@ public class JmxAppServer extends AppServer {
 
 	private int processorNum;	
 
-	
+	public String getType(){
+		return this.type;
+	}
 
 	public static JmxAppServer findJmxAppServerByIpAndJmxPort(String ip,
 			String jmxPort) {
@@ -92,4 +97,6 @@ public class JmxAppServer extends AppServer {
 		this.setProcessorNum(processorNum);			
 		jmxUtil.disconnect();	
 	}
+	
+	
 }

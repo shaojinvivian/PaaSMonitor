@@ -26,7 +26,7 @@ Ext.define('PaaSMonitor.model.AppInstance', {
             name: 'name'
         },
         {
-            name: 'docBase'
+            name: 'location'
         },
         {
             name: 'description'

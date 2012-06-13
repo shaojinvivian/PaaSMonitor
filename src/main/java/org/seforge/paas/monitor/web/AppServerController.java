@@ -5,6 +5,7 @@ import java.net.SocketTimeoutException;
 import java.util.Date;
 import java.util.List;
 
+import org.seforge.paas.monitor.domain.Apache;
 import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.seforge.paas.monitor.domain.Vim;
@@ -98,12 +99,18 @@ public class AppServerController {
 					Vim vim = vims.get(0);
 					record.setVim(vim);
 				}
-				record.persist();
-				if(record instanceof JmxAppServer){				
-					((JmxAppServer)record).init();
-					record.flush();
-					appServerService.saveAllJmxAppInstances((JmxAppServer)record);
-				}			
+				
+				record.persist();	
+				//获得appserver的基本信息
+				record.init();
+				record.flush();
+				if(record instanceof JmxAppServer){
+					appServerService.fetchAppInstances((JmxAppServer)record);
+				}else{
+					appServerService.fetchAppInstances((Apache)record);
+				}				
+				
+						
 				returnStatus = HttpStatus.CREATED;
 				response.setMessage(record.getIp());
 				response.setData(record.getAppInstances());

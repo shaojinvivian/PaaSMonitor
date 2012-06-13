@@ -19,7 +19,6 @@ Ext.define('PaaSMonitor.view.Monitee.AppInstanceGrid', {
 
     height: 250,
     width: 400,
-    title: 'Vim Grid',
     store: 'AppInstance',
 
     initComponent: function() {
@@ -35,9 +34,9 @@ Ext.define('PaaSMonitor.view.Monitee.AppInstanceGrid', {
                 },
                 {
                     xtype: 'gridcolumn',
-                    dataIndex: 'docBase',
+                    dataIndex: 'location',
                     flex: 1,
-                    text: 'Document Base'
+                    text: 'Location'
                 },
                 {
                     xtype: 'gridcolumn',

@@ -18,3 +18,17 @@ function convertToMB(bytes){
 	var result = bytes/1024/1024;
 	return result;
 }
+
+
+//将字符串s的首字母变成大写
+function upperFirstLetter(str) {
+	first = str.substring(0, 1).toUpperCase();
+	rest = str.substring(1, str.length);
+	return first + rest;
+}
+
+function lowerFirstLetter(str) {
+	first = str.substring(0, 1).toLowerCase();
+	rest = str.substring(1, str.length);
+	return first + rest;
+}

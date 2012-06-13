@@ -2,8 +2,8 @@
 
 <table cellpadding="2" cellspacing="1" border="1" style="empty-cells:show">
 	<tr style="font-weight:bold">
-		<td align="center" colspan="4">AppInstance</td>
-		<td align="center" colspan="2">AppServer</td>
+		<td align="center" colspan="2">AppInstance</td>
+		<td align="center" colspan="3">AppServer</td>
 		<td align="center" colspan="3">Vim</td> 	
 		<td align="center" colspan="2">Phym</td>			
 	</tr>
@@ -11,6 +11,7 @@
 		<td align="center">Context Name</td>
 		<td align="center">Status</td>		
 		<td align="center">Name</td>
+		<td align="center">HTTP Port</td>		
 		<td align="center">Status</td>
 		<td align="center">Ip</td>
 		<td align="center">Name</td>
@@ -66,10 +67,13 @@
 									#if($appServerFirst == 1)
 										#if($appServer.status == "STOPPED")
 											<td rowspan="$appServerRowCount" style="color:red">$appServer.name</td>
-											<td rowspan="$appServerRowCount" style="color:red">$appServer.status</td>										
+											<td rowspan="$appServerRowCount" style="color:red">$appServer.httpPort</td>
+											<td rowspan="$appServerRowCount" style="color:red">$appServer.status</td>																																
 										#else
 											<td rowspan="$appServerRowCount">$appServer.name</td>
-											<td rowspan="$appServerRowCount">$appServer.status</td>	
+											<td rowspan="$appServerRowCount">$appServer.httpPort</td>
+											<td rowspan="$appServerRowCount">$appServer.status</td>
+																						
 										#end																
 										#set ($appServerFirst = 0)
 									#end	

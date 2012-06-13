@@ -19,6 +19,14 @@ privileged aspect AppInstance_Roo_JavaBean {
         this.name = name;
     }
     
+    public String AppInstance.getLocation() {
+        return this.location;
+    }
+    
+    public void AppInstance.setLocation(String location) {
+        this.location = location;
+    }
+    
     public App AppInstance.getApp() {
         return this.app;
     }

@@ -20,12 +20,14 @@ import org.springframework.roo.addon.tostring.RooToString;
 public class AppInstance {
 
 	@NotNull
-	protected String name;	
+	private String name;	
+	
+	private String location;
 
-	protected transient String status;
+	private transient String status;
 
 	@ManyToOne
-	protected App app;
+	private App app;
 
 	@ManyToOne
 	private AppServer appServer;
@@ -33,6 +35,7 @@ public class AppInstance {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "appInstance")
 	private Set<AppInstanceSnap> appInstanceSnaps = new HashSet<AppInstanceSnap>();
 
+	
 	public String getStatus() {
 		return status;
 	}
@@ -40,5 +43,6 @@ public class AppInstance {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
 
 }

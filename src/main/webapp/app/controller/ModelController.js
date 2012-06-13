@@ -186,26 +186,50 @@ Ext.define('PaaSMonitor.controller.ModelController', {
             // "supercall"
         };
 
-        graph.isCellEditable = function(cell) {
-            return false;
-        };
-
-        graph.addListener(mxEvent.DOUBLE_CLICK, function(sender, evt) {
-            var cell = evt.getProperty('cell');
-            if(cell.isVertex()) {
-                var style = cell.style;
-                var children = getChildren(cell);
-                if(children.length === 0) {
-                    controller.expandChildren(this, cell);
-                    //这个地方的layout到底如何设置，还需要进一步完善
-                    hierarchicalLayout.execute(parent);
-                } else {
-                    controller.foldChildren(this, cell);
-                }
+        graph.getTooltip = function(state) {
+            if(state.cell.style == 'Phym'){
+                return state.cell.value.name;
             }
+            if(state.cell.style == 'Vim'){
+                return state.cell.value.osName;
+            }
+            /*
+            if(this.isHtmlLabel(state.cell)) {
+            return 'Type: ' + state.cell.value.type;
+            } else if(this.model.isEdge(state.cell)) {				
+            // var source = this.model.getTerminal(state.cell, true);
+            // var parent = this.model.getParent(source);
+            // return parent.value.name + '.' + source.value.name;
 
-        });
-        return editor;
+            //When hovering on a connection line
+            return state.cell.value;
+        }
+        */
+
+        return mxGraph.prototype.getTooltip.apply(this, arguments);
+        // "supercall"
+    };
+
+    graph.isCellEditable = function(cell) {
+        return false;
+    };
+
+    graph.addListener(mxEvent.DOUBLE_CLICK, function(sender, evt) {
+        var cell = evt.getProperty('cell');
+        if(cell.isVertex()) {
+            var style = cell.style;
+            var children = controller.getChildren(cell);
+            if(children.length === 0) {
+                controller.expandChildren(this, cell);
+                //这个地方的layout到底如何设置，还需要进一步完善
+                hierarchicalLayout.execute(parent);
+            } else {
+                controller.foldChildren(this, cell);
+            }
+        }
+
+    });
+    return editor;
     },
 
     parseModelData: function(graph, modelData) {
@@ -239,19 +263,22 @@ Ext.define('PaaSMonitor.controller.ModelController', {
 
     configureStylesheet: function(graph) {
         var createMoniteeStyleObject = this.createMoniteeStyleObject;
-        var phymImage = 'images/icons48/phym.png';
+        var image_path = 'resources/icons/monitees/';
+        var phymImage = image_path + 'phym.png';
         graph.getStylesheet().putCellStyle('Phym', createMoniteeStyleObject(phymImage));
-        vimStyle = createMoniteeStyleObject('images/icons48/bigvim.png');
+        vimStyle = createMoniteeStyleObject( image_path + 'vim.png');
         graph.getStylesheet().putCellStyle('Vim', vimStyle);
-        serviceStyle = createMoniteeStyleObject('images/icons48/service.png');
+        serviceStyle = createMoniteeStyleObject( image_path + 'service.png');
         graph.getStylesheet().putCellStyle('Service', serviceStyle);
-        appServerStyle = createMoniteeStyleObject('images/icons48/tomcatserver.png');
-        graph.getStylesheet().putCellStyle('AppServer', appServerStyle);
-        appStyle = createMoniteeStyleObject('images/icons48/app.png');
+        tomcatStyle = createMoniteeStyleObject( image_path + 'tomcat.png');
+        graph.getStylesheet().putCellStyle('tomcat', tomcatStyle);
+        apacheStyle = createMoniteeStyleObject( image_path + 'appServer.png');
+        graph.getStylesheet().putCellStyle('apache', apacheStyle);
+        appStyle = createMoniteeStyleObject( image_path + 'app.png');
         graph.getStylesheet().putCellStyle('App', appStyle);
-        appInstanceStyle = createMoniteeStyleObject('images/icons48/appInstance.png');
+        appInstanceStyle = createMoniteeStyleObject( image_path + 'appInstance.png');
         graph.getStylesheet().putCellStyle('AppInstance', appInstanceStyle);
-        paasUserStyle = createMoniteeStyleObject('images/icons48/paasUser.png');
+        paasUserStyle = createMoniteeStyleObject( image_path + 'paasUser.png');
         graph.getStylesheet().putCellStyle('PaasUser', paasUserStyle);
         style = graph.stylesheet.getDefaultEdgeStyle();
         style[mxConstants.STYLE_LABEL_BACKGROUNDCOLOR] = '#FFFFFF';
@@ -261,7 +288,7 @@ Ext.define('PaaSMonitor.controller.ModelController', {
     },
 
     foldChildren: function(graph, cell) {
-        var children = getChildren(cell);
+        var children = this.getChildren(cell);
         if(children.length != 0) {
             for(var i = 0; i < children.length; i++) {
                 this.foldChildren(graph, children[i]);
@@ -282,8 +309,11 @@ Ext.define('PaaSMonitor.controller.ModelController', {
         //leaf属性表示展开后叶子节点的类型，如果没有leaf参数，默认只展开一层
         var controller = this;
         var type = cell.style;
+        if(type == 'tomcat' || type == 'apache'){
+            type = 'AppServer';
+        }
         var parentObject = Ext.create('PaaSMonitor.model.' + type, cell.value);
-        var childType = getChildType(type);
+        var childType = this.getChildType(type);
         if(childType != null) {
             var childrenFieldName = lowerFirstLetter(childType) + 's';
             var childObjects = parentObject.get(childrenFieldName);
@@ -291,7 +321,12 @@ Ext.define('PaaSMonitor.controller.ModelController', {
             try {
                 for(var i = 0; i < childObjects.length; i++) {
                     var childObject = Ext.create('PaaSMonitor.model.' + childType, childObjects[i]);
-                    var child = graph.insertVertex(parent, childObject.name, childObject.data, 0, 0, 48, 48, childType);
+                    if(childType == 'AppServer'){
+                        var child = graph.insertVertex(parent, childObject.get('name'), childObject.data, 0, 0, 48, 48, childObject.get('type'));
+                    }else{
+                        var child = graph.insertVertex(parent, childObject.get('name'), childObject.data, 0, 0, 48, 48, childType);
+                    }        
+
                     var parent = graph.getDefaultParent();
                     var server_to_instance = graph.insertEdge(parent, null, '', cell, child);
                     if(leaf != null && childType != leaf) {
@@ -604,7 +639,7 @@ Ext.define('PaaSMonitor.controller.ModelController', {
         var appServerObject = new AppServer('Application Server');
         var appServer = new mxCell(appServerObject, new mxGeometry(0, 0, 200, 54), 'appServer');
         appServer.setVertex(true);
-        this.addSidebarIcon(graph, sidebar, appServer, 'images/icons48/tomcatserver.png');
+        this.addSidebarIcon(graph, sidebar, appServer, 'images/icons48/appserver.png');
         // addConfigs(appServerObject, appServer, attribute);
 
         var appObject = new App('Application');
@@ -857,6 +892,27 @@ Ext.define('PaaSMonitor.controller.ModelController', {
         });
         mxUtils.write(button, label);
         toolbar.appendChild(button);
+    },
+
+    getChildType: function(parent) {
+        if(parent == 'Phym')
+        return 'Vim';
+        if(parent == 'Vim')
+        return 'AppServer';
+        if(parent == 'AppServer')
+        return 'AppInstance';
+    },
+
+    getChildren: function(parent) {
+        var style = parent.style;
+        var edges = parent.edges;
+        var children = new Array();
+        for(var j = 0; j < edges.length; j++) {
+            if(edges[j].source.style == style) {
+                children.push(edges[j].target);
+            }
+        }
+        return children;
     }
 
 });

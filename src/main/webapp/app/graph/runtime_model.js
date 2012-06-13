@@ -29,26 +29,9 @@ function constructToolbar(toolbar, graph) {
  }
  */
 
-function getChildren(parent) {
-	var style = parent.style;
-	var edges = parent.edges;
-	var children = new Array();
-	for(var j = 0; j < edges.length; j++) {
-		if(edges[j].source.style == style) {
-			children.push(edges[j].target);
-		}
-	}
-	return children;
-}
 
-function getChildType(parent) {
-	if(parent == 'Phym')
-		return 'Vim';
-	if(parent == 'Vim')
-		return 'AppServer';
-	if(parent == 'AppServer')
-		return 'AppInstance';
-}
+
+
 
 function getParentCell(cell) {
 	var style = cell.style;
@@ -60,18 +43,6 @@ function getParentCell(cell) {
 	}
 }
 
-//将字符串s的首字母变成大写
-function upperFirstLetter(str) {
-	first = str.substring(0, 1).toUpperCase();
-	rest = str.substring(1, str.length);
-	return first + rest;
-}
-
-function lowerFirstLetter(str) {
-	first = str.substring(0, 1).toLowerCase();
-	rest = str.substring(1, str.length);
-	return first + rest;
-}
 
 
 

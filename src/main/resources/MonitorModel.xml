@@ -70,7 +70,7 @@
 				</ConditionGroup>							
 			</RuntimeModels>
 		</Attribute>
-		<Attribute name="docBase"  type="java.lang.String" inherited="false">			
+		<Attribute name="location"  type="java.lang.String" inherited="true">			
 			<RuntimeModels>
 				<ConditionGroup evaluator="serverType">		
 					<RuntimeModel>

@@ -38,9 +38,9 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
         setApp(obj, index);
         setAppServer(obj, index);
         setDescription(obj, index);
-        setDocBase(obj, index);
         setErrorCount(obj, index);
         setErrorLogDir(obj, index);
+        setLocation(obj, index);
         setName(obj, index);
         setObjectName(obj, index);
         setStatus(obj, index);
@@ -62,11 +62,6 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
         obj.setDescription(description);
     }
     
-    public void AppInstanceDataOnDemand.setDocBase(JmxAppInstance obj, int index) {
-        String docBase = "docBase_" + index;
-        obj.setDocBase(docBase);
-    }
-    
     public void AppInstanceDataOnDemand.setErrorCount(JmxAppInstance obj, int index) {
         int errorCount = index;
         obj.setErrorCount(errorCount);
@@ -75,6 +70,11 @@ privileged aspect AppInstanceDataOnDemand_Roo_DataOnDemand {
     public void AppInstanceDataOnDemand.setErrorLogDir(JmxAppInstance obj, int index) {
         String errorLogDir = "errorLogDir_" + index;
         obj.setErrorLogDir(errorLogDir);
+    }
+    
+    public void AppInstanceDataOnDemand.setLocation(JmxAppInstance obj, int index) {
+        String location = "location_" + index;
+        obj.setLocation(location);
     }
     
     public void AppInstanceDataOnDemand.setName(JmxAppInstance obj, int index) {

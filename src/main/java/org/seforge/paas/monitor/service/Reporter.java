@@ -45,7 +45,7 @@ public class Reporter {
 				phymService.checkPowerState(phym);
 				for (Vim vim : phym.getVims()) {
 					if (vim.getPowerState().equals(MoniteeState.POWEREDON)) {
-						for (JmxAppServer appServer : vim.getJmxAppServers()) {
+						for (AppServer appServer : vim.getAppServers()) {
 							try {
 								appServerService.checkInstancesStatus(appServer);
 							} catch (Exception e) {

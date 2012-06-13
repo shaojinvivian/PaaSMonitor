@@ -61,6 +61,8 @@ public class AppServer {
     }
 	
 	public void checkStatus(){}
+	public void init() throws Exception{}
+	
 	
 	public static void main(String[] args){
 		String json = "{\"id\":0,\"version\":0,\"httpPort\":\"8999\",\"jmxPort\":\"\",\"type\":\"tomcat\",\"vim\":null,\"isMonitee\":true,\"name\":\"\",\"ip\":\"192.168.4.165\",\"status\":null}";

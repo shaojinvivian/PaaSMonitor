@@ -17,14 +17,6 @@ privileged aspect JmxAppInstance_Roo_JavaBean {
         this.description = description;
     }
     
-    public String JmxAppInstance.getDocBase() {
-        return this.docBase;
-    }
-    
-    public void JmxAppInstance.setDocBase(String docBase) {
-        this.docBase = docBase;
-    }
-    
     public String JmxAppInstance.getObjectName() {
         return this.objectName;
     }

@@ -24,9 +24,7 @@ import org.springframework.roo.addon.json.RooJson;
 @RooJpaActiveRecord
 public class JmxAppInstance extends AppInstance{    
 
-    private String description;
-
-    private String docBase;
+    private String description;   
     
     private String objectName;   
     
