@@ -38,27 +38,10 @@ Ext.define('PaaSMonitor.controller.MenuController', {
     },
 
     switchView: function(selModel, selected) {
-        var index = selected[0].data.id;
-        this.getContentPanel().layout.setActiveItem(index);
-        if(index == 3){
-            this.loadRuntimeModel();
+        if(selected.length > 0){
+            var index = selected[0].data.id;
+            this.getContentPanel().layout.setActiveItem(index);
         }
-    },
-
-    loadRuntimeModel: function() {
-        Ext.Ajax.request({
-            url: 'model/getmodel',   
-            timeout: 90000,
-            success: function(response){
-                var json = response.responseText;
-                var phyms = Ext.decode(json);
-                generateModel(document.getElementById('runtimemodel_graph_container'),document.getElementById('runtimemodel_toolbar_container'),phyms);
-            },
-            failure: function(response){
-            }
-        });
-
-
     }
 
 });

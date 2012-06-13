@@ -80,6 +80,7 @@ public class VimController {
             Vim record = Vim.fromJsonToVim(json);
             Phym phym = Phym.findPhym(record.getPhym().getId());
             record.setPhym(phym);
+            record.setAppServers(null);
             record.persist();
             returnStatus = HttpStatus.CREATED;
             response.setMessage("Vim created.");

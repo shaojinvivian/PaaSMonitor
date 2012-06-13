@@ -27,6 +27,12 @@ Ext.define('PaaSMonitor.model.Vim', {
             name: 'ip'
         },
         {
+            name: 'osName'
+        },
+        {
+            name: 'hostName'
+        },
+        {
             name: 'powerState',
             type: 'string'
         },
@@ -37,6 +43,9 @@ Ext.define('PaaSMonitor.model.Vim', {
         },
         {
             name: 'phym'
+        },
+        {
+            name: 'appServers'
         }
     ],
 

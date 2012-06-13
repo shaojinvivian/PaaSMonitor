@@ -16,4 +16,28 @@ privileged aspect AppServerSnap_Roo_JavaBean {
         this.appServer = appServer;
     }
     
+    public String AppServerSnap.getStatus() {
+        return this.status;
+    }
+    
+    public void AppServerSnap.setStatus(String status) {
+        this.status = status;
+    }
+    
+    public Long AppServerSnap.getUptime() {
+        return this.uptime;
+    }
+    
+    public void AppServerSnap.setUptime(Long uptime) {
+        this.uptime = uptime;
+    }
+    
+    public String AppServerSnap.getReadableUptime() {
+        return this.readableUptime;
+    }
+    
+    public void AppServerSnap.setReadableUptime(String readableUptime) {
+        this.readableUptime = readableUptime;
+    }
+    
 }

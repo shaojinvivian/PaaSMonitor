@@ -9,10 +9,11 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJavaBean
 @RooToString
 @RooJpaActiveRecord
-public class AppServerSnap {
-	
-	
-	
+public class AppServerSnap {	
 	@ManyToOne
     private AppServer appServer;
+	
+	private String status;
+	private Long uptime;
+	private String readableUptime;
 }

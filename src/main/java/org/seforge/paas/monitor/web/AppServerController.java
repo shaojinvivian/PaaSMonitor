@@ -92,6 +92,7 @@ public class AppServerController {
 				record.setId(null);
 				record.setVersion(null);
 				record.setStatus(null);
+				record.setAppInstances(null);
 				List<Vim> vims = Vim.findVimsByIp(record.getIp()).getResultList();
 				if (vims.size() > 0) {
 					Vim vim = vims.get(0);

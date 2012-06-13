@@ -44,6 +44,11 @@ Ext.define('PaaSMonitor.view.Monitee.VimGrid', {
                     dataIndex: 'powerState',
                     flex: 1,
                     text: 'Power State'
+                },
+                {
+                    xtype: 'gridcolumn',
+                    dataIndex: 'osName',
+                    text: 'Operating System'
                 }
             ],
             viewConfig: {

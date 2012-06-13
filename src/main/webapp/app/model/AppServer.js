@@ -34,6 +34,13 @@ Ext.define('PaaSMonitor.model.AppServer', {
         },
         {
             name: 'type'
+        },
+        {
+            name: 'appInstances'
+        },
+        {
+            mapping: 'appInstances',
+            name: 'children'
         }
     ],
 

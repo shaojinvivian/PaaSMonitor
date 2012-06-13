@@ -1,5 +1,6 @@
 package org.seforge.paas.monitor.service;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import org.seforge.paas.monitor.domain.Phym;
 import org.seforge.paas.monitor.domain.Vim;
@@ -10,7 +11,7 @@ import org.seforge.paas.monitor.reference.MoniteeState;
 
 import com.vmware.apputils.version.ExtendedAppUtil;
 import com.vmware.vim25.DynamicProperty;
-import com.vmware.vim25.ManagedObjectReference;
+import com.vmware.vim25.GuestInfo;
 import com.vmware.vim25.ObjectContent;
 import com.vmware.vim25.VirtualMachinePowerState;
 import com.vmware.vim25.VirtualMachineSummary;
@@ -47,40 +48,42 @@ public class PhymService{
 			String[][] phymTypeInfo = new String[][] {
 					new String[] { "HostSystem", "name" } };
 			String[][] vimTypeInfo = new String[][] {				
-					new String[] { "VirtualMachine", "name", "summary" } };
+					new String[] { "VirtualMachine", "name", "summary", "guest"} };
 			ObjectContent[] phymOcary = cb.getServiceUtil3()
 					.getContentsRecursively(null, null, phymTypeInfo, true);
 			ObjectContent[] vimOcary = cb.getServiceUtil3()
 					.getContentsRecursively(null, null, vimTypeInfo, true);
-			phym.setName((String) phymOcary[0].getPropSet(0).getVal());
-			phym.persist();
-			ObjectContent oc = null;
-			ManagedObjectReference mor = null;
-			DynamicProperty[] pcary = null;
-			DynamicProperty pc = null;
-			VirtualMachineSummary sum = null;
+			//如果没有访问HostSystem的权限，phymOcary可能会为null			
+			if(phymOcary == null){
+				phym.setName("UNknown");
+			}else{
+				phym.setName((String) phymOcary[0].getPropSet(0).getVal());
+			}		
+			phym.persist();			
+			HashMap propMap = null;			
 			HashSet set = new HashSet();
 			for (int i = 0; i < vimOcary.length; i++) {
-				oc = vimOcary[i];
-				pcary = oc.getPropSet();
+				ObjectContent oc = vimOcary[i];
+				propMap = propSetToHashMap(oc.getPropSet());
 				Vim vim = new Vim();
-				for (int j = 0; j < pcary.length; j++) {
-					pc = pcary[j];
-					if ("name".equals(pc.getName())) {
-						vim.setName((String) pc.getVal());
-					} else if ("summary".equals(pc.getName())) {
-						sum = (VirtualMachineSummary) pc.getVal();						
-						vim.setUuid(sum.getConfig().getUuid());
-						if (sum.getRuntime().getPowerState() == VirtualMachinePowerState.poweredOn) {
-							vim.setIp(sum.getGuest().getIpAddress());
-							vim.setPowerState(MoniteeState.POWEREDON);							
-						} else if (sum.getRuntime().getPowerState() == VirtualMachinePowerState.poweredOff) {
-							vim.setPowerState(MoniteeState.POWEREDOFF);
-						}
-						else
-							vim.setPowerState(MoniteeState.SUSPENDED);
-					}
-				}				
+				vim.setName((String)propMap.get("name"));			
+				VirtualMachineSummary sum = (VirtualMachineSummary) propMap.get("summary");						
+				vim.setUuid(sum.getConfig().getUuid());
+				if (sum.getRuntime().getPowerState() == VirtualMachinePowerState.poweredOn) {
+					vim.setIp(sum.getGuest().getIpAddress());
+					vim.setPowerState(MoniteeState.POWEREDON);							
+				} else if (sum.getRuntime().getPowerState() == VirtualMachinePowerState.poweredOff) {
+					vim.setPowerState(MoniteeState.POWEREDOFF);
+				}
+				else
+					vim.setPowerState(MoniteeState.SUSPENDED);	
+				GuestInfo guest = (GuestInfo)propMap.get("guest");
+				vim.setOsName(guest.getGuestFullName());
+				vim.setHostName(guest.getHostName());				
+				/*ManagedObjectReference mor =((VirtualMachineRuntimeInfo)propMap.get("runtime")).getHost();
+				String name = (String)cb.getServiceUtil3().getDynamicProperty(mor, "name");
+				HostRuntimeInfo info = (HostRuntimeInfo)cb.getServiceUtil3().getDynamicProperty(mor, "runtime");
+				*/
 				vim.setPhym(phym);
 				set.add(vim);
 			}
@@ -103,6 +106,24 @@ public class PhymService{
 			vim.setPowerState(MoniteeState.POWEREDON);
 		}
 		
+	}
+	
+	public HashMap<String, Object> propSetToHashMap(DynamicProperty[] set){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		for(int i=0; i<set.length; i++){
+			map.put(set[i].getName(),set[i].getVal());
+		}
+		return map;
+	}
+	
+	public static void main(String args[]){
+		Phym phym = new Phym();
+		phym.setIp("192.168.4.22");
+		phym.setUsername("mass");
+		phym.setPassword("seforge520");
+		
+		PhymService service  = new PhymService();
+		service.addVims(phym);
 	}
 
 }

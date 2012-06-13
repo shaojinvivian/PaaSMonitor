@@ -576,7 +576,7 @@ public class ModelService {
 		}
 
 		// 把每个AppServer下的Instance添加到模型中
-
+		/*
 		ArrayList<PaasUser> users = new ArrayList<PaasUser>(
 				PaasUser.findAllPaasUsers());
 		int totalUserCount = users.size();
@@ -621,6 +621,7 @@ public class ModelService {
 				userLineGeo.addAttribute("as", "geometry");
 			}
 		}
+		*/
 		return document;
 	}
 

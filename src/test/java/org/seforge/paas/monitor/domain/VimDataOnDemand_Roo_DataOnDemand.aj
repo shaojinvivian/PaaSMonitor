@@ -30,12 +30,19 @@ privileged aspect VimDataOnDemand_Roo_DataOnDemand {
     
     public Vim VimDataOnDemand.getNewTransientVim(int index) {
         Vim obj = new Vim();
+        setHostName(obj, index);
         setIp(obj, index);
         setName(obj, index);
+        setOsName(obj, index);
         setPhym(obj, index);
         setPowerState(obj, index);
         setUuid(obj, index);
         return obj;
+    }
+    
+    public void VimDataOnDemand.setHostName(Vim obj, int index) {
+        String hostName = "hostName_" + index;
+        obj.setHostName(hostName);
     }
     
     public void VimDataOnDemand.setIp(Vim obj, int index) {
@@ -49,6 +56,11 @@ privileged aspect VimDataOnDemand_Roo_DataOnDemand {
     public void VimDataOnDemand.setName(Vim obj, int index) {
         String name = "name_" + index;
         obj.setName(name);
+    }
+    
+    public void VimDataOnDemand.setOsName(Vim obj, int index) {
+        String osName = "osName_" + index;
+        obj.setOsName(osName);
     }
     
     public void VimDataOnDemand.setPhym(Vim obj, int index) {

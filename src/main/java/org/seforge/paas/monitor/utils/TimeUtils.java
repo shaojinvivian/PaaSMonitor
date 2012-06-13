@@ -21,4 +21,21 @@ public class TimeUtils {
 	    }
 	    return res;
 	  }	
+	public static String secondToShortDHMS(long duration) {
+	    String res = "";
+	    long days  = TimeUnit.SECONDS.toDays(duration);
+	    long hours = TimeUnit.SECONDS.toHours(duration)
+	                   - TimeUnit.DAYS.toHours(TimeUnit.SECONDS.toDays(duration));
+	    long minutes = TimeUnit.SECONDS.toMinutes(duration)
+	                     - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(duration));
+	    long seconds = TimeUnit.SECONDS.toSeconds(duration)
+	                   - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(duration));
+	    if (days == 0) {
+	      res = String.format("%02d hours %02d minutes %02d seconds", hours, minutes, seconds);
+	    }
+	    else {
+	      res = String.format("%d days %02d hours %02d minutes %02d seconds", days, hours, minutes, seconds);
+	    }
+	    return res;
+	  }	
 }

@@ -20,7 +20,6 @@ Ext.define('PaaSMonitor.view.ModelViewPanel', {
     layout: {
         type: 'border'
     },
-    title: 'View Model',
 
     initComponent: function() {
         var me = this;
@@ -30,6 +29,7 @@ Ext.define('PaaSMonitor.view.ModelViewPanel', {
                 {
                     xtype: 'panel',
                     contentEl: 'runtimemodel_graph_container',
+                    id: 'model_graph_panel',
                     autoScroll: true,
                     title: 'Runtime Model',
                     region: 'center'
@@ -38,13 +38,13 @@ Ext.define('PaaSMonitor.view.ModelViewPanel', {
                     xtype: 'panel',
                     contentEl: 'runtimemodel_status_container',
                     height: 60,
-                    title: 'Status',
                     region: 'south'
                 },
                 {
                     xtype: 'panel',
                     contentEl: 'runtimemodel_outline_container',
                     width: 150,
+                    collapsible: true,
                     title: 'Outline',
                     region: 'east'
                 },
@@ -52,7 +52,8 @@ Ext.define('PaaSMonitor.view.ModelViewPanel', {
                     xtype: 'panel',
                     contentEl: 'runtimemodel_toolbar_container',
                     height: 60,
-                    title: 'Toolbar',
+                    collapsible: true,
+                    title: 'View Model',
                     region: 'north'
                 }
             ]

@@ -14,13 +14,13 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- properties that defined in profile -->		 
 		
-		<!-- 
+		 <!--
 		<database.url>jdbc:mysql://192.168.4.191:3306/paasmonitor</database.url>
 		<database.driverClassName>com.mysql.jdbc.Driver</database.driverClassName>
 		<database.username>paasmonitor</database.username>
 		<database.password>paasmonitor</database.password>
 		<hibernate.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</hibernate.dialect>
-		<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
+		<hibernate.hbm2ddl.auto>create</hibernate.hbm2ddl.auto>
 		<mail.default.to>mass@sei.pku.edu.cn</mail.default.to>	
 		-->	
 		
@@ -29,8 +29,8 @@
 		<database.username>sa</database.username>
 		<database.password/>
 		<hibernate.dialect>org.hibernate.dialect.HSQLDialect</hibernate.dialect>
-		<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
-		<mail.default.to>shaojinvivian@gmail.com</mail.default.to>
+		<hibernate.hbm2ddl.auto>create</hibernate.hbm2ddl.auto>
+		<mail.default.to>shaojinvivian@gmail.com</mail.default.to>		
 	</properties>
 	 
 	<!--  

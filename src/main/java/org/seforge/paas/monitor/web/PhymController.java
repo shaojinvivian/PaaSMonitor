@@ -78,8 +78,8 @@ public class PhymController {
         try {
             Phym record = Phym.fromJsonToPhym(json);
             record.setId(null);
-            record.setVersion(null);           
-            record.persist();
+            record.setVersion(null);   
+            record.setVims(null);
             phymService.addVims(record);
             returnStatus = HttpStatus.CREATED;
             response.setMessage(record.getName());
@@ -87,11 +87,12 @@ public class PhymController {
             response.setTotal(record.getVims().size());
             response.setData(record.getVims());
         } catch (Exception e) {
+        	e.printStackTrace();
             response.setMessage(e.getMessage());
             response.setSuccess(false);
             response.setTotal(0L);
         }
-        return new ResponseEntity<String>(new JSONSerializer().include("data.vims").include("data.vims.phym").exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
+        return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").transform(new DateTransformer("MM/dd/yy"), Date.class).serialize(response), returnStatus);
     }
 
     @RequestMapping(method = RequestMethod.PUT, headers = "Accept=application/json")

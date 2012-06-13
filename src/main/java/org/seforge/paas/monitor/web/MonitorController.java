@@ -1,14 +1,19 @@
 package org.seforge.paas.monitor.web;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.seforge.paas.monitor.domain.Apache;
+import org.seforge.paas.monitor.domain.ApacheSnap;
+import org.seforge.paas.monitor.domain.AppServer;
 import org.seforge.paas.monitor.domain.JmxAppInstance;
 import org.seforge.paas.monitor.domain.AppInstanceSnap;
 import org.seforge.paas.monitor.domain.JmxAppServer;
 import org.seforge.paas.monitor.extjs.JsonObjectResponse;
+import org.seforge.paas.monitor.reference.MoniteeState;
 import org.seforge.paas.monitor.service.MonitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -80,6 +85,54 @@ public class MonitorController {
         return new ResponseEntity<String>(new JSONSerializer().exclude("*.class").transform(new DateTransformer("MM/dd/yy-HH:mm:ss"), Date.class).serialize(response), returnStatus);
     }
 
+    
+	@RequestMapping(value = "/apachesnap", method = RequestMethod.GET)
+	public ResponseEntity<String> getApacheSnap(@RequestParam("ip") String ip,
+			@RequestParam("httpPort") String httpPort) {
+		JsonObjectResponse response = new JsonObjectResponse();
+		HttpStatus returnStatus;
+		Apache appServer;
+		List appServers = AppServer.findAppServersByIpAndHttpPort(ip, httpPort)
+				.getResultList();
+
+		// If cannot find this appserver in the database
+		if(appServers.size()>0 && appServers.get(0) instanceof Apache){
+			appServer = (Apache) appServers.get(0);
+		}else{
+			appServer = new Apache();
+			appServer.setIp(ip);
+			appServer.setHttpPort(httpPort);
+			try {
+				appServer.checkName();
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			appServer.persist();
+		}		
+		
+		try {			
+			ApacheSnap snap = appServer.takeCurrentSnap();			
+			snap.setStatus(MoniteeState.STARTED);
+			response.setMessage("AppInstanceSnap obtained.");
+			response.setSuccess(true);
+			response.setTotal(1L);
+			response.setData(snap);
+			returnStatus = HttpStatus.OK;
+		} catch (Exception e) {
+			response.setMessage(e.getMessage());
+			response.setSuccess(false);
+			response.setTotal(0L);
+			returnStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+
+		return new ResponseEntity<String>(
+				new JSONSerializer()
+						.exclude("*.class")
+						.transform(new DateTransformer("MM/dd/yy-HH:mm:ss"),
+								Date.class).serialize(response), returnStatus);
+	}
     
     @RequestMapping(value = "/control", method = RequestMethod.GET)
     public ResponseEntity<String>  control(@RequestParam("ip") String ip,

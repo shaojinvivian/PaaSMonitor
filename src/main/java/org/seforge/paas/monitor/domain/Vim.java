@@ -30,6 +30,14 @@ public class Vim {
     @Column(unique = true)
     @Size(max = 15)
     private String ip;
+    
+    private String hostName;
+    
+    private String osName;
+    
+    private String uuid;
+
+    private transient String powerState;
 
     @ManyToOne
     private Phym phym;
@@ -38,11 +46,7 @@ public class Vim {
     private Set<AppServer> appServers = new HashSet<AppServer>();
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vim")
-    private Set<PlatformService> platformServices = new HashSet<PlatformService>();    
-
-    private String uuid;
-
-    private transient String powerState;
+    private Set<PlatformService> platformServices = new HashSet<PlatformService>(); 
 
 	public String getPowerState() {
 		return powerState;
@@ -51,7 +55,6 @@ public class Vim {
 	public void setPowerState(String powerState) {
 		this.powerState = powerState;
 	}
-	
 	
 	public Set<JmxAppServer> getJmxAppServers(){
 		Set<JmxAppServer> jmxAppServers = new HashSet<JmxAppServer>();

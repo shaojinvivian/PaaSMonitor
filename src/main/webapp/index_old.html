@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="shortcut icon" href="favicon.ico" />
+		<link rel="stylesheet" type="text/css" href="extjs/resources/css/ext-all.css" />
+		<link rel="stylesheet" type="text/css" href="styles/CheckHeader.css" />
+		<link rel="stylesheet" type="text/css" href="styles/diagram.css" />
+
+		<script type="text/javascript" src="extjs/ext-debug.js"><!-- required for FF3 and Opera -->
+		</script>
+		<!-- Sets the basepath for the library if not in same directory -->
+		<script type="text/javascript">
+			mxBasePath = 'mxgraph/src';
+		</script>
+
+		<!-- Loads and initializes the library -->
+		<script type="text/javascript" src="mxgraph/mxclient-ff.js"><!-- required for FF3 and Opera --></script>
+		<script type="text/javascript" src="app.js"><!-- required for FF3 and Opera --></script>
+		<script type="text/javascript" src="loader.js"><!-- required for FF3 and Opera --></script>
+		<script type="text/javascript" src="app/graph/definition.js"><!-- required for FF3 and Opera --></script>
+		<script type="text/javascript" src="app/graph/metamodel.js"><!-- required for FF3 and Opera --></script>
+
+		<title>Insert title here</title>
+	</head>
+	<body>
+
+<div id="loading-mask" style=""></div>
+	<div id="loading">
+		<div class="loading-indicator">
+			<img src="images/extanim32.gif" width="32" height="32"
+				style="margin-right: 8px; float: left; vertical-align: top;" />PaaSMonitor
+			- <a href="http://www.seforge.org">seforge.org</a> <br /> <span
+				id="loading-msg">Loading...Please wait...</span>
+		</div>
+	</div>
+
+	<div id="north-header" class="x-hide-display">
+		<!--
+		<center>
+			<a href="${home}" name="${fn:escapeXml(home_label)}"
+				title="${fn:escapeXml(home_label)}"> <img src="${banner}" />
+			</a>
+		</center>
+	-->
+	</div>
+
+	<div id="west-menu" class="x-hide-display"></div>
+
+	<div id="center" class="x-hide-display"></div>
+
+
+	<div id="south-footer" class="x-hide-display"></div>
+	
+	<div id="start-div">
+		<h3>
+			PaaS Monitor
+		</h3>
+		<p>
+			Welcome to PaaS Monitor!
+		</p>
+	</div>
+	
+	
+	<!-- Creates a container for the splash screen -->
+	<div id="splash">
+		<center id="splash" style="padding-top: 230px;">
+			<img src="images/loading.gif" />
+		</center>
+	</div>
+
+	<!-- Creates a container for the sidebar -->
+	<div id="toolbarContainer" ></div>
+	
+	<!-- Creates a container for the toolboox -->
+	<div id="sidebarContainer" ></div>
+
+	<!-- Creates a container for the graph -->
+	<div id="graphContainer" ></div>	
+
+	<!-- Creates a container for the outline -->
+	<div id="outlineContainer" ></div>
+
+	<!-- Creates a container for the sidebar -->
+	<div id="statusContainer" ></div>
+	
+	<div id="diagramContainer" ></div>
+	<div id="diagramOutlineContainer" ></div>
+	</body>
+</html>

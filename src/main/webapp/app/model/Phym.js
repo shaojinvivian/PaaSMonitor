@@ -33,6 +33,9 @@ Ext.define('PaaSMonitor.model.Phym', {
         },
         {
             name: 'password'
+        },
+        {
+            name: 'vims'
         }
     ],
 

@@ -27,6 +27,30 @@ privileged aspect Vim_Roo_JavaBean {
         this.ip = ip;
     }
     
+    public String Vim.getHostName() {
+        return this.hostName;
+    }
+    
+    public void Vim.setHostName(String hostName) {
+        this.hostName = hostName;
+    }
+    
+    public String Vim.getOsName() {
+        return this.osName;
+    }
+    
+    public void Vim.setOsName(String osName) {
+        this.osName = osName;
+    }
+    
+    public String Vim.getUuid() {
+        return this.uuid;
+    }
+    
+    public void Vim.setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+    
     public Phym Vim.getPhym() {
         return this.phym;
     }
@@ -49,14 +73,6 @@ privileged aspect Vim_Roo_JavaBean {
     
     public void Vim.setPlatformServices(Set<PlatformService> platformServices) {
         this.platformServices = platformServices;
-    }
-    
-    public String Vim.getUuid() {
-        return this.uuid;
-    }
-    
-    public void Vim.setUuid(String uuid) {
-        this.uuid = uuid;
     }
     
 }
